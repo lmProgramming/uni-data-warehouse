@@ -54,6 +54,8 @@ Warto również dodać ograniczenia wobec atrybutów encji. Warto również doda
 
 Reguły te są logiczne i wynikają z podanego wcześniej konceptualnego modelu danych.
 
+Dodatkowo zmieniłem typ atrybutów dotyczących kosztu na "decimal", a także zmieniłem atrybut "data" w "robi zakupy" na prywatny.
+
 \subsection{Finalna postać reguł, ograniczeń i diagramu klas UML}
 
 Finalna postać reguł i ograniczeń:
@@ -74,6 +76,15 @@ Finalna postać reguł i ograniczeń:
     \item Reg/13 - Ilość nabytego produktu musi być większa od zera
     \item Reg/14 - Cena nabytego produktu nie może być mniejsza od zera
 \end{itemize}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{images/improved.png}
+\caption{Finalny model danych "Usługi"}
+\label{fig:final_model}
+\end{figure}
+
+\subsection{Skrypt DDL SQL}
 
 \section{Zadanie 2}
 Tutaj znajduje się cel laboratorium.
