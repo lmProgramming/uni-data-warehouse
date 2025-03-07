@@ -1,4 +1,7 @@
-USE UslugiDB;
+CREATE DATABASE Uslugi;
+
+GO
+    USE Uslugi;
 
 DROP TABLE IF EXISTS Nabycie;
 
@@ -47,7 +50,8 @@ CREATE TABLE Zakup (
     FOREIGN KEY (klient_id) REFERENCES Klient(id) ON DELETE
     SET
         NULL,
-        FOREIGN KEY (sklep_id) REFERENCES Sklep(id) ON DELETE CASCADE
+        FOREIGN KEY (sklep_id) REFERENCES Sklep(id) ON DELETE CASCADE,
+        CONSTRAINT unique_zakup UNIQUE (data, czas, klient_id, sklep_id)
 );
 
 CREATE TABLE Nabycie (
