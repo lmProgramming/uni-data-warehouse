@@ -221,10 +221,100 @@ INSERT INTO Nabycie (id, cena, ilosc_kupiona, zakup_id, oferta_id) VALUES (5, -2
 
 INSERT INTO Zakup (id, data, czas, klient_id, sklep_id) VALUES (4, '2025-03-07', '10:30:00', 1, 1);
 
-Wszystkie operacje zadziałały, oprócz tych, które naruszały ograniczenia.
+Wszystkie operacje zadziałały, oprócz tych, które naruszały ograniczenia. Błędy w konsoli jasno opisują, które konkretnie ograniczenie zostało złamane.
 
 \section{Zadanie 2}
-Tutaj znajduje się cel laboratorium.
+
+\subsection{Polecenie}
+
+Do wykonania zadania użyłem bazy danych "AdventureWorks2014" (\url{https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks2014.bak})
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/useful_tables.png}
+    \caption{Wykorzystane w rozwiązaniu tabele}
+    \end{figure}
+
+Kwerendy do wykonania:
+
+\begin{enumerate}
+    \item Ile jest produktów w bazie? Ile kategorii i podkategorii?
+    \item Wypisz produkty, które nie mają zdefiniowanego koloru.
+    \item Podaj roczną kwotę transakcji (SalesOrderHeader.TotalDue) w poszczególnych latach.
+    \item Ilu jest klientów, a ilu sprzedawców w sklepie? Ilu w poszczególnych regionach?
+    \item Ile było wykonanych transakcji w poszczególnych latach?
+    \item Podaj produkty, które nie zostały kupione przez żadnego klienta. Zestawienie pogrupuj według kategorii i podkategorii.
+    \item Oblicz minimalną i maksymalną kwotę rabatu udzielonego na produkty w poszczególnych podkategoriach.
+    \item Podaj produkty, których cena jest wyższa od średniej ceny produktów w sklepie.
+    \item Ile średnio produktów w każdej kategorii sprzedaje się w poszczególnych miesiącach?
+    \item Ile średnio czasu klient czeka na dostawę zamówionych produktów? Przygotuj zestawienie w zależności od kodu regionu (SalesTerritory.CountryRegionCode).
+\end{enumerate}
+
+\subsection{Kwerendy}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/01.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/02.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/03.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/04.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/05.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/06.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/07.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/08.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/09.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/10.png}
+    \caption{Wynik kwerendy}
+    \end{figure}
+
+\section{Wnioski}
+
+\subsection{Wnioski z zadania 2}
 
 \begin{thebibliography}{9}
 \bibitem{przyklad}
