@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{hyperref}
+\usepackage{float}
 
 \title{Sprawozdanie z laboratorium Hurtownie Danych}
 \author{Mikołaj Kubś, 272662}
@@ -18,9 +19,9 @@
 Analiza konceptualnego modelu danych "Usługi", który jest niekompletny,
 ale klasy i relacje między nimi reprezentują rozpatrywany wycinek rzeczywistości. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{images/image1.png}
+\includegraphics[width=0.8\textwidth]{images/old.png}
 \caption{Konceptualny model danych "Usługi"}
 \label{fig:uslugi}
 \end{figure}
@@ -42,7 +43,7 @@ Uznałem, że reguła "Reg/04 - Sklep musi oferować co najmniej jeden produkt" 
 
 Brakuje aktualnie informacji, jaka jest liczba dostępnego produktu w danym sklepie. Można wyciągnąć tą daną do nowej tabeli asocjacyjnej, do której można by dodatkowo dodać cenę produktu dla konkretnego sklepu, co zwiększa elastyczność na przyszłość i jest szeroko stosowaną praktyką. Tak więc sklep może mieć oferować wiele produktów, każdy z własną cenę i ilością. Ponieważ tabela asocjacyjna "oferuje" ma cenę, można by usunąć cenę z tabeli asocjacyjnej "nabywa". Uznałem jednak, że ją zostawię, ponieważ cena oferty może się zmienić po zakupie produktu przez klienta.
 
-Można dodać parę atrybutów do niektórych encji. Do klienta dodam imię i nazwisko.
+Można dodać parę atrybutów do niektórych encji. Do klienta dodam imię i nazwisko, a do produktu nazwę.
 
 Warto również dodać ograniczenia wobec atrybutów encji. Warto również dodać reguły klaryfikujące, że:
 
@@ -56,6 +57,7 @@ Reguły te są logiczne i wynikają z podanego wcześniej konceptualnego modelu 
 
 Dodatkowo zmieniłem typ atrybutów dotyczących kosztu na "decimal", a także zmieniłem atrybut "data" w "robi zakupy" na prywatny.
 
+\newpage
 \subsection{Finalna postać reguł, ograniczeń i diagramu klas UML}
 
 Finalna postać reguł i ograniczeń:
@@ -77,7 +79,7 @@ Finalna postać reguł i ograniczeń:
     \item Reg/14 - Cena nabytego produktu nie może być mniejsza od zera
 \end{itemize}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{images/improved.png}
 \caption{Finalny model danych "Usługi"}
