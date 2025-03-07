@@ -41,19 +41,21 @@ Ponieważ reguły są niekompletne i nie w pełni poprawne, zdecydowałem się w
 
 Uznałem, że reguła "Reg/04 - Sklep musi oferować co najmniej jeden produkt" wprowadza niepotrzebną komplikację. Na przykład, według tej zasady, gdy sklep sprzedałby cały swój inwentarz, nie mógłby dalej istnieć w bazie danych.
 
-Brakuje aktualnie informacji, jaka jest liczba dostępnego produktu w danym sklepie. Można wyciągnąć tą daną do nowej tabeli asocjacyjnej, do której można by dodatkowo dodać cenę produktu dla konkretnego sklepu, co zwiększa elastyczność na przyszłość i jest szeroko stosowaną praktyką. Tak więc sklep może mieć oferować wiele produktów, każdy z własną cenę i ilością. Ponieważ tabela asocjacyjna "oferuje" ma cenę, można by usunąć cenę z tabeli asocjacyjnej "nabywa". Uznałem jednak, że ją zostawię, ponieważ cena oferty może się zmienić po zakupie produktu przez klienta.
+Brakuje aktualnie informacji, jaka jest liczba dostępnego produktu w danym sklepie. Można wyciągnąć tą daną do nowej tabeli asocjacyjnej, do której można by dodatkowo dodać cenę produktu dla konkretnego sklepu, co zwiększa elastyczność na przyszłość i jest szeroko stosowaną praktyką w rzeczywistych sklepach. Tak więc sklep może oferować wiele produktów, każdy z własną cenę i ilością. 
+Ponieważ tabela asocjacyjna "oferuje" ma cenę, można by usunąć cenę z tabeli asocjacyjnej "nabywa". Uznałem jednak, że ją zostawię, ponieważ cena oferty może się zmienić po zakupie produktu przez klienta. 
+Sklepy mają często informację, że coś sprzedają, nawet jeśli nie ma tego chwilowo w magazynie, tak więc ustaliłem, że ilość oferowanego produktu to co najmniej 0, a nie koniecznie więcej niż zero, co wymuszałoby usunięcie oferty w przypadku braków w magazynie.
 
-Można dodać parę atrybutów do niektórych encji. Do klienta dodam imię i nazwisko, a do produktu nazwę.
+Można dodać parę atrybutów do encji. Do klienta dodam imię i nazwisko, a do produktu i do sklepu nazwę.
 
-Warto również dodać ograniczenia wobec atrybutów encji. Warto również dodać reguły klaryfikujące, że:
+Warto również dodać standardowe ograniczenia wobec atrybutów encji. Zdecydowałem, że cena nie może być mniejsza od 0, ale może się mu równać - czasem są zaskakujące promocje w sklepach. Dodatkowo uznałem, że każdy produkt ma unikalną nazwę.
+
+Oprócz tego dodałem reguły wynikające z diagramu klas, klaryfikujące, że:
 
 \begin{enumerate}
-    \item klient może robić zakupy w różnych sklepach
-    \item ten sam produkt może być oferowany w wielu sklepach
-    \item klient robiący zakupy musi zakupić przynajmniej 1 produkt
+    \item Klient może robić zakupy w różnych sklepach
+    \item Ten sam produkt może być oferowany w wielu sklepach
+    \item Klient robiący zakupy musi zakupić przynajmniej 1 produkt
 \end{enumerate}
-
-Reguły te są logiczne i wynikają z podanego wcześniej konceptualnego modelu danych.
 
 Dodatkowo zmieniłem typ atrybutów dotyczących kosztu na "decimal", a także zmieniłem atrybut "data" w "robi zakupy" na prywatny.
 
@@ -74,9 +76,11 @@ Finalna postać reguł i ograniczeń:
     \item Reg/09 - Klient robiąc zakupy musi nabyć co najmniej 1 produkt
     \item Reg/10 - Imię klienta nie może być puste
     \item Reg/11 - Nazwisko klienta nie może być puste
-    \item Reg/12 - Cena oferowanego produktu nie może być mniejsza od zera
-    \item Reg/13 - Ilość nabytego produktu musi być większa od zera
-    \item Reg/14 - Cena nabytego produktu nie może być mniejsza od zera
+    \item Reg/12 - Ilosc oferowanego produktu nie może być mniejsza od zera
+    \item Reg/13 - Cena oferowanego produktu nie może być mniejsza od zera
+    \item Reg/14 - Ilość nabytego produktu musi być większa od zera
+    \item Reg/15 - Cena nabytego produktu nie może być mniejsza od zera
+    \item Reg/16 - Nazwa produktu nie może się powtarzać
 \end{itemize}
 
 \begin{figure}[H]
