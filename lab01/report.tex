@@ -300,61 +300,61 @@ Kwerendy do wykonania:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/01.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 1}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/02.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 2}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/03.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 3}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/04.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 4}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/05.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 5}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/06.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 6}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/07.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 7}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/08.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 8}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/09.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 9}
     \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/10.png}
-    \caption{Wynik kwerendy}
+    \caption{Wynik kwerendy 10}
     \end{figure}
 
 \section{Wnioski}
@@ -366,10 +366,28 @@ Zadanie okazało się znacznie bardziej skomplikowane, niż mogło by się wydaw
 W przykładowych danych, którymi zasiałem bazę, widać już pewne usprawnienie - prawdopodobnie w przyszłości można by wyciągnąć kategorię sklepu do osobnej tabeli, aby, na przykład, mieć pewność, że wszystkie sklepy konkretnej marki będą łatwo dostępne. Wtedy każdy z tych sklepów byłby np. kategorii "Biedronka". Można by przekształcić też kategorię w kierunku opisu innych właściwości sklepu, np. czy jest internetowy, czy stacjonarny.
 
 Podsumowując, liczba reguł znacznie wzrosła, ale bez jasnych wytycznych klienta warto ograniczyć się w ich ilości, żeby zezwalać na więcej możliwości w przyszłości. Oczywiście, jedyną pewną rzeczą w oprogramowaniu jest ciągła zmiana, ale nowoczesne narzędzia bazodanowe są w stanie bardzo wspomóc migracje do nowych wytycznych.
-Tak więc nie trzeba "bać" się różnych pomysłów w początkowej fazie projektowania, byleby je dobrze i ciągle konsultować z klientem.
+Tak więc nie trzeba przesadnie "bać" się różnych pomysłów w początkowej fazie projektowania, byleby je dobrze i ciągle konsultować z klientem.
 
 \subsection{Wnioski z zadania 2}
 
+Pewne jest to, że te 10 kwerend to było zdecydowanie za mało, by dowiedzieć się wszystkiego o stanie omawianej firmy. To też za mało, żeby próbować zrozumieć czynniki wpływające na taką, a nie inną, sytuację. Ale mimo tego, można i tak wywnioskować ciekawe informacje.
 
+Oferta sklepu wydaje się dość różnorodna i logicznie podzielona na kategorie i podkategorie. Sklep z każdym rokiem wydaje się zarabiać coraz więcej (mogłoby się wydawać, że w roku 2014 jest spadek, ale zapisy w bazie danych kończą się w połowie roku). 
+
+Liczba klientów jest dość spora, zwłaszcza, jak na liczbę sprzedawców. Korelacja między liczbą klientów a liczbą sprzedawców w danym regionie wydaje się istnieć (więcej klientów -> więcej sprzedawców). Wyjątkiem jest Kanada - w innych regionach jest tylko 1 sprzedawca dla tylu klientów. Rozkład klientów na pewno nie jest równomiernie podzielony na regiony - region Southeast i Northeast wydają się radzić sobie z nimi najgorzej (być może z dalszych badań udałoby się odkryć przyczynę).
+
+Liczba transakcji zdecydowanie wzrasta z każdym rokiem. Zarobki wzrastają jednak wolniej, co oznacza, że średnia wartość transakcji spadła w późniejszych latach.
+
+Aż połowa produktów nigdy nie została sprzedana. Być może oferta jest zbyt różnorodna, być może zostały wprowadzone bardzo niedawno - bez dalszych badań nie wiadomo.
+
+Sklep nie zawsze udziela rabatów. Maksymalne wartości rabatów wydają się umiarkowane. Przydałoby się poznać średnią wartość rabatu, bo maksimum i minimum daje nam za mało informacji.
+
+Próg średniej ceny przekracza ponad 1/4 produktów. Wydaje się to być standardową sytuacją.
+
+Zauważalny jest wzrost sprzedaży w miesiącach letnich, co było do przewidzenia dla sklepu rowerowego.
+
+Średni czas oczekiwania klienta w zależności od regionu jest podejrzany. W aż 5 z 6 regionów średni czas wynosi dokładnie 7 dni.
+
+Podsumowując, udało się odkryć część informacji dotyczących sklepu. Bez dalszych badań można jedynie przypuszczać, co mogło być powodem takich, a nie innych, wyników.
 
 \end{document}
