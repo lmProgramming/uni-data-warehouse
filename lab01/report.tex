@@ -86,6 +86,8 @@ Oprócz tego dodałem reguły wynikające z diagramu klas, klaryfikujące, że:
 
 Dodatkowo zmieniłem typ atrybutów dotyczących kosztu na "decimal", a także zmieniłem atrybut "data" w "robi zakupy" na prywatny.
 
+Na koniec dodałem regułę klaryfikującą, że wiele zakupów klienta nie może być zapisane do bazy danych w tym samym czasie.
+
 \newpage
 \subsection{Finalna postać reguł, ograniczeń i diagramu klas UML}
 
@@ -108,6 +110,7 @@ Finalna postać reguł i ograniczeń:
     \item Reg/14 - Ilość nabytego produktu musi być większa od zera
     \item Reg/15 - Cena nabytego produktu nie może być mniejsza od zera
     \item Reg/16 - Nazwa produktu nie może się powtarzać
+    \item Reg/17 - Klient nie może robić zakupów więcej niż raz o tym samym czasie i dacie.
 \end{itemize}
 
 \begin{figure}[H]
@@ -358,11 +361,15 @@ Kwerendy do wykonania:
 
 \subsection{Wnioski z zadania 1}
 
+Zadanie okazało się znacznie bardziej skomplikowane, niż mogło by się wydawać na pierwszy rzut oka. Im więcej czasu spędzi się nad takim z pozoru prostym diagramem, tym więcej można dodać reguł do uściślenia zasad. Bez jasnych wytycznych klienta można też było przyjąć zupełnie inne założenia wobec bazy danych. Aktualna wersja bazy danych jest dość abstrakcyjna - nie jest jasne, czy dotyczy tylko sklepów internetowych, czy stacjonarnych, czy obu naraz. Moim zamysłem było nie ograniczać za bardzo możliwości, tak więc aktualną tabelę można by wykorzystać do obu rodzajów sklepów.
+
+W przykładowych danych, którymi zasiałem bazę, widać już pewne usprawnienie - prawdopodobnie w przyszłości można by wyciągnąć kategorię sklepu do osobnej tabeli, aby, na przykład, mieć pewność, że wszystkie sklepy konkretnej marki będą łatwo dostępne. Wtedy każdy z tych sklepów byłby np. kategorii "Biedronka". Można by przekształcić też kategorię w kierunku opisu innych właściwości sklepu, np. czy jest internetowy, czy stacjonarny.
+
+Podsumowując, liczba reguł znacznie wzrosła, ale bez jasnych wytycznych klienta warto ograniczyć się w ich ilości, żeby zezwalać na więcej możliwości w przyszłości. Oczywiście, jedyną pewną rzeczą w oprogramowaniu jest ciągła zmiana, ale nowoczesne narzędzia bazodanowe są w stanie bardzo wspomóc migracje do nowych wytycznych.
+Tak więc nie trzeba "bać" się różnych pomysłów w początkowej fazie projektowania, byleby je dobrze i ciągle konsultować z klientem.
+
 \subsection{Wnioski z zadania 2}
 
-\begin{thebibliography}{9}
-\bibitem{przyklad}
-Autor, \textit{Tytuł}, Wydawnictwo, Rok.
-\end{thebibliography}
+
 
 \end{document}
