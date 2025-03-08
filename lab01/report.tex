@@ -1,6 +1,8 @@
 \documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{polski}
+\usepackage{color}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -8,7 +10,29 @@
 \usepackage{float}
 \usepackage{listings}
 
-\lstset{upquote=true}
+\lstset{
+  basicstyle=\ttfamily,
+  columns=flexible,
+  keepspaces=true,
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'{c}}}1
+           {ę}{{\k{e}}}1
+           {ł}{{\l{}}}1
+           {ń}{{\'{n}}}1
+           {ó}{{\'{o}}}1
+           {ś}{{\'{s}}}1
+           {ź}{{\'{z}}}1
+           {ż}{{\dot{z}}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'{C}}}1
+           {Ę}{{\k{E}}}1
+           {Ł}{{\L{}}}1
+           {Ń}{{\'{N}}}1
+           {Ó}{{\'{O}}}1
+           {Ś}{{\'{S}}}1
+           {Ź}{{\'{Z}}}1
+           {Ż}{{\dot{Z}}}1
+}
 
 \title{Sprawozdanie z laboratorium Hurtownie Danych}
 \author{Mikołaj Kubś, 272662}
@@ -101,7 +125,7 @@ Finalna postać reguł i ograniczeń:
     basicstyle=\ttfamily,
     numbers=left,
     numberstyle=\tiny,
-    commentstyle=\color{gray}
+    commentstyle=\color{green}
  ]
 
  CREATE DATABASE Uslugi;
@@ -167,6 +191,13 @@ Finalna postać reguł i ograniczeń:
 
 \subsection{Inicjalizacja bazy danych w systemie MS SQL}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/uslugi_db.png}
+\caption{Schemat bazy danych "Usługi"}
+\label{fig:uslugi_db}
+\end{figure}
+
 \subsection{Testy działania bazy danych}
 
 \begin{figure}[H]
@@ -175,6 +206,15 @@ Finalna postać reguł i ograniczeń:
     \caption{Widok konsoli po wykonaniu poniższego kodu}
     \label{fig:tests}
     \end{figure}
+
+\begin{lstlisting}[
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{green}
+    ]
 
 INSERT INTO Klient (id, imie, nazwisko) VALUES
 (1, 'Jan', 'Kowalski'),
@@ -221,11 +261,13 @@ INSERT INTO Nabycie (id, cena, ilosc_kupiona, zakup_id, oferta_id) VALUES (5, -2
 
 INSERT INTO Zakup (id, data, czas, klient_id, sklep_id) VALUES (4, '2025-03-07', '10:30:00', 1, 1);
 
-Wszystkie operacje zadziałały, oprócz tych, które naruszały ograniczenia. Błędy w konsoli jasno opisują, które konkretnie ograniczenie zostało złamane.
+\end{lstlisting}
+
+Wszystkie operacje zadziałały, oprócz tych, które naruszały ograniczenia. Błędy w konsoli jasno opisują, które konkretnie ograniczenie zostało złamane. Tymi kwerendami sprawdzone zostały wszystkie ograniczenia.
 
 \section{Zadanie 2}
 
-\subsection{Polecenie}
+\subsection{Opis zadania}
 
 Do wykonania zadania użyłem bazy danych "AdventureWorks2014" (\url{https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks2014.bak})
 
@@ -313,6 +355,8 @@ Kwerendy do wykonania:
     \end{figure}
 
 \section{Wnioski}
+
+\subsection{Wnioski z zadania 1}
 
 \subsection{Wnioski z zadania 2}
 
