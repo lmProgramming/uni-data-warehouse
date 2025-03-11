@@ -83,3 +83,72 @@ FROM Sales.SalesOrderHeader
 JOIN Sales.SalesOrderDetail ON SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
 GROUP BY YEAR(OrderDate), DATENAME(month, OrderDate), MONTH(OrderDate), DATEPART(dw, OrderDate)
 ORDER BY YEAR(OrderDate), MONTH(OrderDate), DATEPART(dw, OrderDate)
+
+-- 5
+
+-- Przygotować zestawienie, w którym dla wybranych klientów przygotujemy kartę lojal-
+-- nościową:
+-- a. srebrną, jeśli klient wykonał co najmniej 2 transakcje w sklepie;
+-- b. złotą, jeśli wykonał co najmniej 4 transakcje w sklepie, w tym co najmniej 2
+-- transakcje, których łączna kwota przekraczała 250% średniej wartości zamó-
+-- wień w bazie;
+-- c. platynową, jeśli klient spełniał warunki otrzymania karty złotej oraz w co naj-
+-- mniej jednej transakcji kupił jednocześnie produkty ze wszystkich kategorii
+
+WITH AvgOrderValue AS (
+    SELECT AVG(TotalOrderValue) AS AvgValue
+    FROM (
+        SELECT SalesOrderID, SUM(LineTotal) AS TotalOrderValue
+        FROM Sales.SalesOrderDetail
+        GROUP BY SalesOrderID
+    ) AS OrderValues
+),
+OrderCount AS (
+	SELECT CustomerID, COUNT(DISTINCT SalesOrderID) AS TransactionCount
+	FROM Sales.SalesOrderHeader
+	GROUP BY CustomerID
+),
+HighValueOrders AS (
+	SELECT CustomerID, COUNT(*) AS HighValueOrderCount
+	FROM (
+        SELECT SalesOrderID, SUM(LineTotal) AS TotalOrderValue
+        FROM Sales.SalesOrderDetail
+        GROUP BY SalesOrderID
+    ) AS OrderValues
+	JOIN Sales.SalesOrderHeader ON SalesOrderHeader.SalesOrderID = OrderValues.SalesOrderID
+    CROSS JOIN AvgOrderValue A 
+	WHERE TotalOrderValue > 2.5 * A.AvgValue
+	GROUP BY CustomerID
+),
+UniqueCategories AS (
+	SELECT C.CustomerID, COUNT(DISTINCT PC.ProductCategoryID) AS UniqueCategories
+	FROM Sales.Customer C
+    JOIN Sales.SalesOrderHeader SOH ON SOH.CustomerID = C.CustomerID
+    JOIN Sales.SalesOrderDetail SOD ON SOD.SalesOrderID = SOH.SalesOrderID
+	JOIN Production.Product PR ON PR.ProductID = SOD.ProductID
+    JOIN Production.ProductSubcategory PSC ON PSC.ProductSubcategoryID = PR.ProductSubcategoryID
+    JOIN Production.ProductCategory PC ON PC.ProductCategoryID = PSC.ProductCategoryID
+	GROUP BY C.CustomerID
+)
+SELECT 
+    C.CustomerID, 
+    COALESCE(HighValueOrders.HighValueOrderCount, 0) AS HighValueOrderCount,
+	COALESCE(OrderCount.TransactionCount, 0) AS TransactionCount,
+    COALESCE(UniqueCategoriesTransactions.UniqueCategories, 0) AS UniqueCategories,
+	CASE 
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
+         AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
+         AND COALESCE(UniqueCategoriesTransactions.UniqueCategories, 0) = (SELECT COUNT(*) FROM Production.ProductCategory) 
+            THEN 'Platynowa'
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
+         AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
+            THEN 'Złota'
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 2 
+            THEN 'Srebrna'
+        ELSE 'Brak karty'
+    END AS LoyaltyCard
+FROM Sales.Customer C
+LEFT JOIN HighValueOrders ON HighValueOrders.CustomerID = C.CustomerID
+LEFT JOIN OrderCount ON OrderCount.CustomerID = C.CustomerID
+LEFT JOIN UniqueCategories ON UniqueCategories.CustomerID = C.CustomerID
+ORDER BY OrderCount.TransactionCount DESC;
