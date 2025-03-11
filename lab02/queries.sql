@@ -103,26 +103,26 @@ WITH AvgOrderValue AS (
         GROUP BY SalesOrderID
     ) AS OrderValues
 ),
-CustomerOrders AS (
-    SELECT 
-        SOH.CustomerID, 
-        COUNT(DISTINCT SOH.SalesOrderID) AS TransactionCount, 
-        SUM(SOD.LineTotal) AS TotalTransactionValue, 
-        SUM(CASE WHEN OrderValues.TotalOrderValue > 2.5 * A.AvgValue THEN 1 ELSE 0 END) AS HighValueOrderCount
-    FROM Sales.SalesOrderHeader SOH
-    JOIN Sales.SalesOrderDetail SOD ON SOD.SalesOrderID = SOH.SalesOrderID
-    JOIN (
+OrderCount AS (
+    SELECT CustomerID, COUNT(DISTINCT SalesOrderID) AS TransactionCount,
+           SUM(TotalDue) AS TotalTransactionValue
+    FROM Sales.SalesOrderHeader
+    GROUP BY CustomerID
+),
+HighValueOrders AS (
+    SELECT CustomerID, COUNT(*) AS HighValueOrderCount
+    FROM (
         SELECT SalesOrderID, SUM(LineTotal) AS TotalOrderValue
         FROM Sales.SalesOrderDetail
         GROUP BY SalesOrderID
-    ) AS OrderValues ON SOH.SalesOrderID = OrderValues.SalesOrderID
+    ) AS OrderValues
+    JOIN Sales.SalesOrderHeader ON SalesOrderHeader.SalesOrderID = OrderValues.SalesOrderID
     CROSS JOIN AvgOrderValue A 
-    GROUP BY SOH.CustomerID
+    WHERE TotalOrderValue > 2.5 * A.AvgValue
+    GROUP BY CustomerID
 ),
 UniqueCategories AS (
-    SELECT 
-        C.CustomerID, 
-        COUNT(DISTINCT PC.ProductCategoryID) AS CategoryCount
+    SELECT C.CustomerID, COUNT(DISTINCT PC.ProductCategoryID) AS UniqueCategories
     FROM Sales.Customer C
     JOIN Sales.SalesOrderHeader SOH ON SOH.CustomerID = C.CustomerID
     JOIN Sales.SalesOrderDetail SOD ON SOD.SalesOrderID = SOH.SalesOrderID
@@ -132,24 +132,25 @@ UniqueCategories AS (
     GROUP BY C.CustomerID
 )
 SELECT 
-    P.FirstName AS "Imię",
-    P.LastName AS "Nazwisko",
-    COALESCE(CO.TransactionCount, 0) AS "Liczba transakcji",
-    COALESCE(CO.TotalTransactionValue, 0) AS "Łączna kwota transakcji",
+    P.FirstName AS Imie, 
+    P.LastName AS Nazwisko, 
+    COALESCE(OrderCount.TransactionCount, 0) AS "Liczba transakcji",
+    COALESCE(OrderCount.TotalTransactionValue, 0) AS "Łączna kwota transakcji",
     CASE 
-        WHEN CO.TransactionCount >= 4 
-         AND CO.HighValueOrderCount >= 2 
-         AND COALESCE(UC.CategoryCount, 0) = (SELECT COUNT(*) FROM Production.ProductCategory) 
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
+         AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
+         AND COALESCE(UniqueCategories.UniqueCategories, 0) = (SELECT COUNT(*) FROM Production.ProductCategory) 
             THEN 'Platynowa'
-        WHEN CO.TransactionCount >= 4 
-         AND CO.HighValueOrderCount >= 2 
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
+         AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
             THEN 'Złota'
-        WHEN CO.TransactionCount >= 2 
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 2 
             THEN 'Srebrna'
         ELSE 'Brak karty'
     END AS "Kolor karty"
 FROM Sales.Customer C
-LEFT JOIN CustomerOrders CO ON CO.CustomerID = C.CustomerID
-LEFT JOIN UniqueCategories UC ON UC.CustomerID = C.CustomerID
-JOIN Person.Person P ON P.BusinessEntityID = C.CustomerID
-ORDER BY CO.TransactionCount DESC;
+JOIN Person.Person P ON P.BusinessEntityID = C.PersonID
+LEFT JOIN HighValueOrders ON HighValueOrders.CustomerID = C.CustomerID
+LEFT JOIN OrderCount ON OrderCount.CustomerID = C.CustomerID
+LEFT JOIN UniqueCategories ON UniqueCategories.CustomerID = C.CustomerID
+ORDER BY OrderCount.TotalTransactionValue DESC;
