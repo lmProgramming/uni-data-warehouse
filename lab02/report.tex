@@ -257,60 +257,65 @@ WITH AvgOrderValue AS (
         GROUP BY SalesOrderID
     ) AS OrderValues
 ),
-CustomerOrders AS (
-    SELECT 
-        SOH.CustomerID, 
-        COUNT(DISTINCT SOH.SalesOrderID) AS TransactionCount, 
-        SUM(SOD.LineTotal) AS TotalTransactionValue, 
-        SUM(CASE WHEN OrderValues.TotalOrderValue > 2.5 * A.AvgValue
-            THEN 1 ELSE 0 END)AS HighValueOrderCount
-    FROM Sales.SalesOrderHeader SOH
-    JOIN Sales.SalesOrderDetail SOD ON SOD.SalesOrderID = SOH.SalesOrderID
-    JOIN (
+OrderCount AS (
+    SELECT CustomerID, COUNT(DISTINCT SalesOrderID) AS TransactionCount,
+            SUM(TotalDue) AS TotalTransactionValue
+    FROM Sales.SalesOrderHeader
+    GROUP BY CustomerID
+),
+HighValueOrders AS (
+    SELECT CustomerID, COUNT(*) AS HighValueOrderCount
+    FROM (
         SELECT SalesOrderID, SUM(LineTotal) AS TotalOrderValue
         FROM Sales.SalesOrderDetail
         GROUP BY SalesOrderID
-    ) AS OrderValues ON SOH.SalesOrderID = OrderValues.SalesOrderID
+    ) AS OrderValues
+    JOIN Sales.SalesOrderHeader 
+        ON SalesOrderHeader.SalesOrderID = OrderValues.SalesOrderID
     CROSS JOIN AvgOrderValue A 
-    GROUP BY SOH.CustomerID
+    WHERE TotalOrderValue > 2.5 * A.AvgValue
+    GROUP BY CustomerID
 ),
 UniqueCategories AS (
     SELECT 
         C.CustomerID, 
-        COUNT(DISTINCT PC.ProductCategoryID) AS CategoryCount
+        COUNT(DISTINCT PC.ProductCategoryID) AS UniqueCategories
     FROM Sales.Customer C
-    JOIN Sales.SalesOrderHeader SOH ON SOH.CustomerID = C.CustomerID
-    JOIN Sales.SalesOrderDetail SOD ON SOD.SalesOrderID = SOH.SalesOrderID
+    JOIN Sales.SalesOrderHeader SOH 
+        ON SOH.CustomerID = C.CustomerID
+    JOIN Sales.SalesOrderDetail SOD 
+        ON SOD.SalesOrderID = SOH.SalesOrderID
     JOIN Production.Product PR ON PR.ProductID = SOD.ProductID
-    JOIN Production.ProductSubcategory PSC ON 
-        PSC.ProductSubcategoryID = PR.ProductSubcategoryID
+    JOIN Production.ProductSubcategory PSC 
+        ON PSC.ProductSubcategoryID = PR.ProductSubcategoryID
     JOIN Production.ProductCategory PC 
         ON PC.ProductCategoryID = PSC.ProductCategoryID
     GROUP BY C.CustomerID
 )
 SELECT 
-    P.FirstName AS "Imię",
-    P.LastName AS "Nazwisko",
-    COALESCE(CO.TransactionCount, 0) AS "Liczba transakcji",
-    COALESCE(CO.TotalTransactionValue, 0) AS "Łączna kwota transakcji",
+    P.FirstName AS Imie, 
+    P.LastName AS Nazwisko, 
+    COALESCE(OrderCount.TransactionCount, 0) AS "Liczba transakcji",
+    COALESCE(OrderCount.TotalTransactionValue, 0) AS "Łączna kwota transakcji",
     CASE 
-        WHEN CO.TransactionCount >= 4 
-            AND CO.HighValueOrderCount >= 2 
-            AND COALESCE(UC.CategoryCount, 0) = 
-                (SELECT COUNT(*) FROM Production.ProductCategory) 
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
+            AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
+            AND COALESCE(UniqueCategories.UniqueCategories, 0) = 
+            (SELECT COUNT(*) FROM Production.ProductCategory) 
             THEN 'Platynowa'
-        WHEN CO.TransactionCount >= 4 
-            AND CO.HighValueOrderCount >= 2 
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
+            AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
             THEN 'Złota'
-        WHEN CO.TransactionCount >= 2 
+        WHEN COALESCE(OrderCount.TransactionCount, 0) >= 2 
             THEN 'Srebrna'
         ELSE 'Brak karty'
     END AS "Kolor karty"
 FROM Sales.Customer C
-LEFT JOIN CustomerOrders CO ON CO.CustomerID = C.CustomerID
-LEFT JOIN UniqueCategories UC ON UC.CustomerID = C.CustomerID
-JOIN Person.Person P ON P.BusinessEntityID = C.CustomerID
-ORDER BY CO.TransactionCount DESC;    
+JOIN Person.Person P ON P.BusinessEntityID = C.PersonID
+LEFT JOIN HighValueOrders ON HighValueOrders.CustomerID = C.CustomerID
+LEFT JOIN OrderCount ON OrderCount.CustomerID = C.CustomerID
+LEFT JOIN UniqueCategories ON UniqueCategories.CustomerID = C.CustomerID
+ORDER BY OrderCount.TotalTransactionValue DESC;    
 \end{lstlisting}
 
 \begin{figure}[H]
@@ -330,32 +335,52 @@ Przedstaw wyniki zadania 1 w postaci tabel i wykresów przestawnych w programie 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/excel/01.png}
-    \caption{Wykres przestawny z wyników kwerendy 1}
+    \caption{Tabela przestawna na podstawie wyników kwerendy 1}
 \end{figure}
 
-\subsubsection{}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/excel/01.png}
-    \caption{Wynik wykonania kwerendy 5}
-\end{figure}
+Można zauważyć stabilny trend wzrostowy w liczbie klientów wraz z czasem. W lipcu 2013 roku do firmy przybyłoaż prawie 900 klientów, co było zdecydowanie największym wzrostem. Kolejną anomalią jest lipiec 2014 roku. Mimo posiadania danych z całego miesiąca, liczba różnych klientóww zmniejszyła się ponad dwukrotnie i osiągnęła najniższy poziom od czerwca 2013 roku. Dane za cały miesiąc były niskie. Nie było też żadnego dnia, w którym sklep miał ponad dwukrotność średniej klientów na miesiąc, jak to bywało w innych miesiącach.
 
 \subsubsection{}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/excel/02.png}
-    \caption{Tabela z wyników kwerendy 2}
+    \caption{Wykres na podstawie wyników kwerendy 2}
 \end{figure}
+
+Różnice między liczbą obsłużonych klientów między sprzedawcami są bardzo duże. Jest 4 sprzedawców, którzy pozytywnie wyróżniają się na tle reszty, i dwóch sprzedawców w odwrotnej sytuacji. Na tym wykresie również można zauważyć potwierdzony w innych kwerendach trend wzrostowy sklepu w liczbie klientów. Jak widać na wykresie, dla prawie każdego sprzedawcy liczba obsłużonych klientów w 2012 lub 2013 jest znacznie wyższa niż w 2011. 2014 jeszcze się nie skończył i jest nadzieja na dobry sezon wakacyjny, dzięki któremu poziom poprzednich 2 lat może być utrzymany. 
 
 \subsubsection{}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/excel/02.png}
-    \caption{Tabela z wyników kwerendy 2}
+    \includegraphics[width=0.8\textwidth]{images/excel/03.png}
+    \caption{Wykres na podstawie wyników kwerendy 3}
 \end{figure}
+
+Od razu zauważalna jest pewna niespójność w danych - mniej więcej co miesiąc (na samym początku lub końcu miesiąca) liczba sprzedanych różnych produktów i suma sprzedaży osiągają wielokrotność wyników w innych dniach. Poza tym widać trend wzrostowy, wraz z nagłym silnym wzrostem sprzedaży, który został zauważony w poprzednich analizach. Tak jak w poprzednich analizach, ostatni miesiąc ma o okolo połowę niższą sprzedaż niż poprzednie.
+
+\subsubsection{}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/excel/04.png}
+    \caption{Wykresy na podstawie wyników kwerendy 4}
+\end{figure}
+
+Wykres pokazuje, że nie ma bezpośredniej korelacji między liczbą różnych produktów a sumą sprzedaży. Na przykład niedziela charakteryzuje się podobną liczbą różnych produktów co piątek, ale wyraźnie wyższą wartością sprzedaży.
+
+Piątek wyróżnia się najniższą liczbą produktów i najniższą sprzedażą, podczas gdy poniedziałek i środa osiągają najwyższe wartości. W weekend sobota generuje wyższe przychody i większą liczbę sprzedanych produktów niż niedziela.
+
+\subsubsection{}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/excel/05.png}
+    \caption{Wykres na podstawie wyników kwerendy 5}
+\end{figure}
+
+Z wykresu drzewa można wyczytać, że największa suma wartości przypada na karty platynowe, które zajmują największą powierzchnię na wykresie. Karty srebrne są drugie pod względem sumy, natomiast karty złote i brak karty mają mniejsze wartości, przy czym "brak karty" ma najmniejszy udział. Wykres ten dobrze obrazuje proporcje między kategoriami, pokazując, że platynowe karty mają zdecydowaną dominację. Z tego wynika, że za większość obrotów sklepu odpowiadają stali klienci. Kupili oni coś przynajmniej 4 razy, przynajmniej raz bardzo różnorodne zakupy i przynajmniej 2 razy zakupy o wartości znacznie przewyższającej średnią. Złota karta odpowiada za stan przejściowy między srebrną a platynową, co sugeruje możliwość zmiany wielu klientów w tych najbardziej dochodowych.
 
 \subsection{}
 
