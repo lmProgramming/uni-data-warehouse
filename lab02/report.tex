@@ -68,6 +68,13 @@ GROUP BY YEAR(OrderDate), MONTH(OrderDate)
 ORDER BY YEAR(OrderDate), MONTH(OrderDate)
 \end{lstlisting}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/01_normal.png}
+    \caption{Wynik wykonania kwerendy 1}
+    \label{fig:1_normal}
+\end{figure}
+
 \subsubsection{Wersja z użyciem pivot}
 
 \begin{lstlisting}[
@@ -96,6 +103,13 @@ PIVOT (
 ) AS PivotTable
 ORDER BY OrderYear;
 \end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/01_pivot.png}
+    \caption{Wynik wykonania kwerendy 1 z pivot}
+    \label{fig:1_pivot}
+\end{figure}
 
 \subsection{}
 
@@ -130,6 +144,12 @@ PIVOT (
 ORDER BY FirstName
 \end{lstlisting}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/02.png}
+    \caption{Wynik wykonania kwerendy 2}
+\end{figure}
+
 \subsection{}
 
 Zdefiniować zapytanie wyznaczające sumę kwot sprzedaży towarów oraz liczbę różnych produktów w zamówieniach w poszczególnych latach, miesiącach, dniach.
@@ -155,6 +175,12 @@ JOIN Sales.SalesOrderDetail ON
 GROUP BY YEAR(OrderDate), MONTH(OrderDate), DAY(OrderDate)
 ORDER BY YEAR(OrderDate), MONTH(OrderDate), DAY(OrderDate)
 \end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/03.png}
+    \caption{Wynik wykonania kwerendy 3}
+\end{figure}
 
 \subsection{}
 
@@ -200,6 +226,12 @@ ORDER BY
     MONTH(OrderDate), 
     DATEPART(dw, OrderDate)
 \end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/04.png}
+    \caption{Wynik wykonania kwerendy 4}
+\end{figure}
 
 \subsection{}
 
@@ -280,5 +312,11 @@ LEFT JOIN UniqueCategories UC ON UC.CustomerID = C.CustomerID
 JOIN Person.Person P ON P.BusinessEntityID = C.CustomerID
 ORDER BY CO.TransactionCount DESC;    
 \end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/05.png}
+    \caption{Wynik wykonania kwerendy 5}
+\end{figure}
 
 \end{document}
