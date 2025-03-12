@@ -53,7 +53,7 @@
 
 \section{Cele biznesowe}
 
-Na podstawie danych zawartych w hurtowni AdventureWorksDW można realizować następujące cele biznesowe:
+Na podstawie danych zawartych w hurtowni AdventureWorksDW o podanym schemacie można realizować, między innymi, następujące cele biznesowe:
 
 \begin{enumerate}
     \item \textbf{Analiza sprzedaży} - monitorowanie trendów sprzedaży w różnych okresach i kategoriach produktów.
@@ -64,25 +64,32 @@ Na podstawie danych zawartych w hurtowni AdventureWorksDW można realizować nas
     \item \textbf{Ocena rentowności produktów} - identyfikacja najbardziej i najmniej dochodowych produktów.
     \item \textbf{Analiza terminowości dostaw} - ocena terminowości realizacji zamówień i identyfikacja problemów logistycznych.
     \item \textbf{Wspomaganie decyzji cenowych} - analiza wpływu cen na sprzedaż różnych produktów.
-    \item \textbf{Analiza walutowa} - ocena wpływu kursów walut na wyniki sprzedaży międzynarodowej.
-    \item \textbf{Optymalizacja kanałów sprzedaży} - identyfikacja najlepszych kanałów sprzedaży i optymalizacja strategii marketingowej.
+    \item \textbf{Analiza walutowa} - ocena wpływu waluty na wyniki sprzedaży międzynarodowej.
 \end{enumerate}
 
 \section{Możliwe analizy}
 
-Na podstawie danych z hurtowni AdventureWorksDW można przeprowadzić następujące analizy:
+Na podstawie danych z hurtowni AdventureWorksDW można przeprowadzić następujące dwuwymiarowe zestawienia, które będą wspomagały podejmowanie decyzji biznesowych:
 
 \begin{enumerate}
-    \item \textbf{Sprzedaż produktów w czasie} - analiza sprzedaży w różnych okresach (np. miesiąc, kwartał, rok).
-    \item \textbf{Skuteczność promocji} - porównanie sprzedaży produktów objętych promocją i tych, które nie były promowane.
-    \item \textbf{Sprzedaż w podziale na regiony} - analiza sprzedaży w różnych krajach/terytoriach.
-    \item \textbf{Segmentacja klientów według przychodów} - grupowanie klientów na podstawie wartości ich zamówień.
+    \item \textbf{Sprzedaż produktów w czasie} - porównanie sumy wartości sprzedaży w zależności od roku i miesiąca.
+    \item \textbf{Skuteczność promocji} - porównanie ilości zakupionych produktów w zależności od wartości rabatu.
+          Pozwoli to ocenić, które promocje są najbardziej efektywne w zwiększaniu sprzedaży.
+    \item \textbf{Sprzedaż w podziale na regiony według czasu} - porównanie sumy wartości sprzedaży w różnych krajach/terytoriach według czasu.
+          Umożliwi to identyfikację regionów z największym potencjałem wzrostu.
+    \item \textbf{Segmentacja klientów według przychodów} - podzielenie klientów na 10 kohort według ich łącznych wydatków i porównanie sumy sprzedaży dla każdej kohorty.
     \item \textbf{Wpływ ceny na sprzedaż} - analiza korelacji między ceną produktu a jego sprzedażą.
-    \item \textbf{Czas dostawy a zadowolenie klientów} - badanie zależności między czasem realizacji zamówienia a liczbą zwrotów lub reklamacji.
-    \item \textbf{Najlepiej sprzedające się produkty} - ranking produktów według liczby sprzedanych sztuk i wartości sprzedaży.
-    \item \textbf{Sprzedaż w podziale na kategorie produktów} - porównanie sprzedaży różnych typów produktów.
-    \item \textbf{Wpływ waluty na sprzedaż międzynarodową} - analiza sprzedaży w zależności od kursów walutowych.
-    \item \textbf{Liczba nowych klientów w czasie} - analiza wzrostu bazy klientów w określonych przedziałach czasowych.
+          Umożliwi to lepsze określenie optymalnej polityki cenowej.
+    \item \textbf{Czas dostawy a liczba produktów w transakcji} - badanie zależności między łączną liczbą produktów zakupionych w jednej transakcji a czasem realizacji zamówienia.
+          Pomoże to zidentyfikować problemy logistyczne.
+    \item \textbf{Najlepiej sprzedające się produkty} - ranking produktów według wartości sprzedaży, dodatkowo wyświetlenie sumy liczby sprzedanych sztuk.
+          Umożliwi to skoncentrowanie działań marketingowych na najlepiej sprzedających się produktach.
+    \item \textbf{Zależność między marżą a sprzedażą w różnych kategoriach} - porównanie stosunku różnicy między StandardCost a ListPrice (marża) a sumą wartości sprzedaży. Dodatkowo, żeby porównać każdą kategorię osobno, pogrupowane według kategorii.
+          Pomoże to określić, czy jest zależność między marżą a sprzedażą i ustalić lepsze marże na przyszłość.
+    \item \textbf{Wpływ waluty na sprzedaż międzynarodową} - analiza sumy wartości sprzedaży w zależności od waluty.
+          Umożliwi to lepsze zarządzanie strategią cenową na różnych rynkach.
+    \item \textbf{Zależność między sprzedażą produktu a minimalnym stanem w magazynach} - analiza zależności między średnią sumą sprzedaży danego produktu na dany miesiąc a zdefiniowaną minimalną ilością w magazynie.
+          Pomoże to ustalić, jaki powinien być optymalny poziom zapasów by uniknąć problemów z dostępnością produktów.
 \end{enumerate}
 
 \end{document}
