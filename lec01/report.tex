@@ -9,8 +9,35 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{listings}
+\usepackage[backend=biber]{biblatex}
 
-\title{Sprawozdanie z laboratorium Hurtownie Danych}
+\addbibresource{bibliografia.bib}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=flexible,
+  keepspaces=true,
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'{c}}}1
+           {ę}{{\k{e}}}1
+           {ł}{{\l{}}}1
+           {ń}{{\'{n}}}1
+           {ó}{{\'{o}}}1
+           {ś}{{\'{s}}}1
+           {ź}{{\'{z}}}1
+           {ż}{{\.{z}}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'{C}}}1
+           {Ę}{{\k{E}}}1
+           {Ł}{{\L{}}}1
+           {Ń}{{\'{N}}}1
+           {Ó}{{\'{O}}}1
+           {Ś}{{\'{S}}}1
+           {Ź}{{\'{Z}}}1
+           {Ż}{{\.{Z}}}1
+}
+
+\title{Zadanie - wykład 1}
 \author{Mikołaj Kubś, 272662}
 \date{\today}
 
@@ -18,10 +45,44 @@
 
 \maketitle
 
-\section{Zadanie 1}
-Analiza konceptualnego modelu danych "Usługi", który jest niekompletny,
-ale klasy i relacje między nimi reprezentują rozpatrywany wycinek rzeczywistości. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/task.png}
+    \caption{Opis zadania}
+\end{figure}
 
+\section{Cele biznesowe}
 
+Na podstawie danych zawartych w hurtowni AdventureWorksDW można realizować następujące cele biznesowe:
+
+\begin{enumerate}
+    \item \textbf{Analiza sprzedaży} - monitorowanie trendów sprzedaży w różnych okresach i kategoriach produktów.
+    \item \textbf{Segmentacja klientów} - identyfikacja najważniejszych grup klientów na podstawie geolokalizacji i historii zakupów.
+    \item \textbf{Optymalizacja promocji} - ocena skuteczności różnych promocji na podstawie wyników sprzedaży.
+    \item \textbf{Zarządzanie zapasami} - prognozowanie popytu na podstawie wcześniejszych zamówień i sezonowości.
+    \item \textbf{Analiza regionalna} - badanie wyników sprzedaży w różnych regionach w celu optymalizacji działań marketingowych.
+    \item \textbf{Ocena rentowności produktów} - identyfikacja najbardziej i najmniej dochodowych produktów.
+    \item \textbf{Analiza terminowości dostaw} - ocena terminowości realizacji zamówień i identyfikacja problemów logistycznych.
+    \item \textbf{Wspomaganie decyzji cenowych} - analiza wpływu cen na sprzedaż różnych produktów.
+    \item \textbf{Analiza walutowa} - ocena wpływu kursów walut na wyniki sprzedaży międzynarodowej.
+    \item \textbf{Optymalizacja kanałów sprzedaży} - identyfikacja najlepszych kanałów sprzedaży i optymalizacja strategii marketingowej.
+\end{enumerate}
+
+\section{Możliwe analizy}
+
+Na podstawie danych z hurtowni AdventureWorksDW można przeprowadzić następujące analizy:
+
+\begin{enumerate}
+    \item \textbf{Sprzedaż produktów w czasie} - analiza sprzedaży w różnych okresach (np. miesiąc, kwartał, rok).
+    \item \textbf{Skuteczność promocji} - porównanie sprzedaży produktów objętych promocją i tych, które nie były promowane.
+    \item \textbf{Sprzedaż w podziale na regiony} - analiza sprzedaży w różnych krajach/terytoriach.
+    \item \textbf{Segmentacja klientów według przychodów} - grupowanie klientów na podstawie wartości ich zamówień.
+    \item \textbf{Wpływ ceny na sprzedaż} - analiza korelacji między ceną produktu a jego sprzedażą.
+    \item \textbf{Czas dostawy a zadowolenie klientów} - badanie zależności między czasem realizacji zamówienia a liczbą zwrotów lub reklamacji.
+    \item \textbf{Najlepiej sprzedające się produkty} - ranking produktów według liczby sprzedanych sztuk i wartości sprzedaży.
+    \item \textbf{Sprzedaż w podziale na kategorie produktów} - porównanie sprzedaży różnych typów produktów.
+    \item \textbf{Wpływ waluty na sprzedaż międzynarodową} - analiza sprzedaży w zależności od kursów walutowych.
+    \item \textbf{Liczba nowych klientów w czasie} - analiza wzrostu bazy klientów w określonych przedziałach czasowych.
+\end{enumerate}
 
 \end{document}
