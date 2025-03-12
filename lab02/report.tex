@@ -9,6 +9,9 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{listings}
+\usepackage[backend=biber]{biblatex}
+
+\addbibresource{bibliografia.bib}
 
 \lstset{
   basicstyle=\ttfamily,
@@ -385,5 +388,69 @@ Z wykresu drzewa można wyczytać, że największa suma wartości przypada na ka
 \subsection{}
 
 Przygotuj 5 dodatkowych tabel/wykresów, które pokażą ciekawe zależności w bazie AdventureWorks przy użyciu Power BI lub Tableau. Przedstaw wnioski biznesowe wynikające z tych zestawień
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/power_bi/connection.png}
+    \caption{Połączenie z Power BI}
+\end{figure}
+
+\subsubsection{}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/power_bi/model.png}
+    \caption{Model danych w Power BI}
+\end{figure}
+
+Na wykresie jasno widać, w których państwach sprzedawane są artykuły sklepu. Dodatkowo można porównać wielkości wykresów kołowych, aby zobaczyć wysokość sprzedaży z poprzedniego roku. Wykres kołowy w USA jest podzielony dodatkowo na 5 terytorii, typu Northeast, Southeast itd. Jak łatwo można zauważyć, największa suma sprzedaży jest w Stanach Zjednoczonych i Kanadzie, a najmniejsza w Niemczech.
+
+\subsubsection{}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/power_bi/02.png}
+    \caption{2. wykres w Power BI}
+\end{figure}
+
+Sklep uzyskiwał największą sumę przychodów ze sprzedaży różnego rodzaju rowerów. Następne są różne komponenty, ale przychody z nich były znacznie mniejsze. Dzięki temu wykresowi jasno widać, z czego sklep historycznie czerpał jaką część przychodów.
+
+\subsubsection{}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/power_bi/03.png}
+    \caption{3. wykres w Power BI}
+\end{figure}
+
+Na tym wykresie można zauważyć ciekawe zależności. Mimo, iż sklep większość przychodów uzyskuje ze sprzedaży rowerów, średnia liczba kupionych tych samych rowerów nie jest najwyższa. Jak widać na wykresie, dla danego produktu w danej transakcji klienci kupują średnio najwięcej elementów ubioru lub akcesorii, takich jak rajstopy, kamizelki czy pompki. Być może można by ustalić kandydatów na oferty z obniżoną ceną przy wielosztukowaniu na podstawie tego wykresu.
+
+\subsubsection{}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/power_bi/04.png}
+    \caption{4. wykres w Power BI}
+\end{figure}
+
+Według strony dataedo.com \cite{adventureworks} EmailPromotion oznacza:
+
+"0 = Contact does not wish to receive e-mail promotions, 1 = Contact does wish to receive e-mail promotions from AdventureWorks, 2 = Contact does wish to receive e-mail promotions from AdventureWorks and selected partners."
+
+Brakuje korelacji między EmailPromotion a średnią sprzedażą dla danego klienta, co sugeruje, że promocje e-mail nie są specjalnie efektywne. 
+
+\subsubsection{}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/power_bi/05.png}
+    \caption{5. wykres w Power BI}
+\end{figure}
+
+Brakuje zależności między średnią liczbą zamówionego produktu, a rabatem na niego przeznaczonym. Wykres co prawda na początku rośnie, ale potem szybko spada. Ostatecznie średnia liczba zamówionego produktu jest bardzo podobna dla zerowego rabatu, jak i dla maksymalnego rabatu. Być może wysokie rabaty mają klauzulę ograniczającą, na ile maksymalnie produktów jest rabat.
+
+\section{Wnioski}
+
+\printbibliography
 
 \end{document}
