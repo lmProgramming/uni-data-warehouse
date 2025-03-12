@@ -125,14 +125,20 @@ HighValueOrders AS (
     GROUP BY CustomerID
 ),
 UniqueCategories AS (
-    SELECT C.CustomerID, COUNT(DISTINCT PC.ProductCategoryID) AS UniqueCategories
-    FROM Sales.Customer C
-    JOIN Sales.SalesOrderHeader SOH ON SOH.CustomerID = C.CustomerID
+    SELECT SOH.CustomerID, SOH.SalesOrderID, COUNT(DISTINCT PC.ProductCategoryID) AS UniqueCategories
+    FROM Sales.SalesOrderHeader SOH
     JOIN Sales.SalesOrderDetail SOD ON SOD.SalesOrderID = SOH.SalesOrderID
     JOIN Production.Product PR ON PR.ProductID = SOD.ProductID
     JOIN Production.ProductSubcategory PSC ON PSC.ProductSubcategoryID = PR.ProductSubcategoryID
     JOIN Production.ProductCategory PC ON PC.ProductCategoryID = PSC.ProductCategoryID
-    GROUP BY C.CustomerID
+    GROUP BY SOH.CustomerID, SOH.SalesOrderID
+),
+PlatinumEligible AS (
+    SELECT CustomerID 
+    FROM UniqueCategories
+    CROSS JOIN (SELECT COUNT(*) AS TotalCategories FROM Production.ProductCategory) AS CatCount
+    WHERE UniqueCategories.UniqueCategories = CatCount.TotalCategories
+    GROUP BY CustomerID
 )
 SELECT 
     P.FirstName AS Imie, 
@@ -142,7 +148,7 @@ SELECT
     CASE 
         WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
          AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
-         AND COALESCE(UniqueCategories.UniqueCategories, 0) = (SELECT COUNT(*) FROM Production.ProductCategory) 
+         AND C.CustomerID IN (SELECT CustomerID FROM PlatinumEligible) 
             THEN 'Platynowa'
         WHEN COALESCE(OrderCount.TransactionCount, 0) >= 4 
          AND COALESCE(HighValueOrders.HighValueOrderCount, 0) >= 2 
@@ -155,5 +161,4 @@ FROM Sales.Customer C
 JOIN Person.Person P ON P.BusinessEntityID = C.PersonID
 LEFT JOIN HighValueOrders ON HighValueOrders.CustomerID = C.CustomerID
 LEFT JOIN OrderCount ON OrderCount.CustomerID = C.CustomerID
-LEFT JOIN UniqueCategories ON UniqueCategories.CustomerID = C.CustomerID
 ORDER BY OrderCount.TotalTransactionValue DESC;
