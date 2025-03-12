@@ -63,9 +63,9 @@ Utworzyć zestawienie, które dla poszczególnych miesięcy i lat przedstawi inf
     tabsize=2
     ]
 SELECT 
-YEAR(OrderDate), 
-MONTH(OrderDate), 
-COUNT(DISTINCT CustomerID) 
+YEAR(OrderDate) AS "Rok", 
+MONTH(OrderDate) AS "Miesiąc", 
+COUNT(DISTINCT CustomerID) AS "Liczba różnych klientów"
 FROM Sales.SalesOrderHeader
 GROUP BY YEAR(OrderDate), MONTH(OrderDate)
 ORDER BY YEAR(OrderDate), MONTH(OrderDate)
@@ -86,7 +86,7 @@ ORDER BY YEAR(OrderDate), MONTH(OrderDate)
     basicstyle=\ttfamily,
     numbers=left,
     numberstyle=\tiny,
-    commentstyle=\color{green}
+    commentstyle=\color{green},
     tabsize=2
     ]
 WITH UniqueCustomers AS (
@@ -163,7 +163,7 @@ Zdefiniować zapytanie wyznaczające sumę kwot sprzedaży towarów oraz liczbę
     basicstyle=\ttfamily,
     numbers=left,
     numberstyle=\tiny,
-    commentstyle=\color{green}
+    commentstyle=\color{green},
     tabsize=2
     ]
 SELECT 
@@ -196,7 +196,7 @@ Uwaga: Pamiętaj o wybraniu właściwego atrybutu funkcji datepart tak, aby zgad
     basicstyle=\ttfamily,
     numbers=left,
     numberstyle=\tiny,
-    commentstyle=\color{green}
+    commentstyle=\color{green},
     tabsize=2
     ]
 SET DATEFIRST 1;
@@ -249,7 +249,7 @@ c. platynową, jeśli klient spełniał warunki otrzymania karty złotej oraz w 
     basicstyle=\ttfamily,
     numbers=left,
     numberstyle=\tiny,
-    commentstyle=\color{green}
+    commentstyle=\color{green},
     tabsize=2
     ]
 WITH AvgOrderValue AS (
@@ -341,7 +341,7 @@ Przedstaw wyniki zadania 1 w postaci tabel i wykresów przestawnych w programie 
     \caption{Tabela przestawna na podstawie wyników kwerendy 1}
 \end{figure}
 
-Można zauważyć stabilny trend wzrostowy w liczbie klientów wraz z czasem. W lipcu 2013 roku do firmy przybyłoaż prawie 900 klientów, co było zdecydowanie największym wzrostem. Kolejną anomalią jest lipiec 2014 roku. Mimo posiadania danych z całego miesiąca, liczba różnych klientóww zmniejszyła się ponad dwukrotnie i osiągnęła najniższy poziom od czerwca 2013 roku. Dane za cały miesiąc były niskie. Nie było też żadnego dnia, w którym sklep miał ponad dwukrotność średniej klientów na miesiąc, jak to bywało w innych miesiącach.
+Można zauważyć stabilny trend wzrostowy w liczbie klientów wraz z czasem. W lipcu 2013 roku do firmy przybyło aż prawie 900 klientów, co było zdecydowanie największym wzrostem. Kolejną anomalią jest lipiec 2014 roku. Mimo posiadania danych z całego miesiąca, liczba różnych klientów zmniejszyła się ponad dwukrotnie i osiągnęła najniższy poziom od czerwca 2013 roku. Dane za cały miesiąc były niskie. Nie było też żadnego dnia, w którym sklep miał ponad dwukrotność średniej klientów na miesiąc, jak to bywało w innych miesiącach.
 
 \subsubsection{}
 
@@ -361,7 +361,7 @@ Różnice między liczbą obsłużonych klientów między sprzedawcami są bardz
     \caption{Wykres na podstawie wyników kwerendy 3}
 \end{figure}
 
-Od razu zauważalna jest pewna niespójność w danych - mniej więcej co miesiąc (na samym początku lub końcu miesiąca) liczba sprzedanych różnych produktów i suma sprzedaży osiągają wielokrotność wyników w innych dniach. Poza tym widać trend wzrostowy, wraz z nagłym silnym wzrostem sprzedaży, który został zauważony w poprzednich analizach. Tak jak w poprzednich analizach, ostatni miesiąc ma o okolo połowę niższą sprzedaż niż poprzednie.
+Od razu zauważalna jest pewna niespójność w danych - mniej więcej co miesiąc (na samym początku lub końcu miesiąca) liczba sprzedanych różnych produktów i suma sprzedaży osiągają wielokrotność wyników w innych dniach. Poza tym widać trend wzrostowy, wraz z nagłym silnym wzrostem sprzedaży, który został zauważony w poprzednich analizach. Tak jak w poprzednich analizach, ostatni miesiąc ma o około połowę niższą sprzedaż niż poprzednie.
 
 \subsubsection{}
 

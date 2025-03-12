@@ -4,7 +4,10 @@
 
 -- normal version
 
-SELECT YEAR(OrderDate), MONTH(OrderDate), COUNT(DISTINCT CustomerID) 
+SELECT 
+YEAR(OrderDate) AS "Rok", 
+MONTH(OrderDate) AS "Miesiąc", 
+COUNT(DISTINCT CustomerID) AS "Liczba różnych klientów"
 FROM Sales.SalesOrderHeader
 GROUP BY YEAR(OrderDate), MONTH(OrderDate)
 ORDER BY YEAR(OrderDate), MONTH(OrderDate)
