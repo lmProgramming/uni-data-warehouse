@@ -129,7 +129,6 @@ ORDER BY TotalQuantitySold DESC;
 
 Obie kwerendy zwracają identyczny zestaw wyników - 20 najlepiej sprzedających się produktów wraz z ich kategoriami. Użycie CTE nie wpływa na wynik końcowy, ale wpływa na sposób, w jaki dane są przetwarzane wewnętrznie.
 
-
 \subsection{Porównanie różnic \textit{Execution Plan} dla obu kwerend}
 
 \begin{figure}[H]
@@ -154,8 +153,7 @@ Dla kwerendy 1, sortowanie i limit zostało połączone w jeden krok, co zajęł
   \caption{Zrzut ekranu pliku XML zawierającego Execution Plan obu kwerend}
 \end{figure}
 
-"Koszt" kwerendy to nie tylko jej zużycie pamięci, a również CPU i operacje na dysku. Ale kwerenda 2 faktycznie zużywa nie tylko mniej zasobów niż kwerenda 1, ale też stricte mniej pamięci. Jak widać na powyższym obrazku, wszystkie statystyki odnośnie wymagań pamięci są mniejsze dla kwerendy z CTE. Kwerenda 2 dostała 1632 KB (GrantedMemory), a kwerenda 1 2856 KB. Oznacza to, że kwerenda bez CTE dostała 1,75 razy więcej pamięci niż zoptymalizowana kwerenda.
-
+"Koszt" kwerendy to nie tylko jej zużycie pamięci, a również CPU i operacje na dysku. Ale kwerenda 2 faktycznie zużywa nie tylko mniej zasobów niż kwerenda 1, ale też stricte mniej pamięci. Jak widać na powyższym obrazku, wszystkie statystyki odnośnie wymagań pamięci są mniejsze dla kwerendy z CTE. Kwerenda druga dostała 1632 KB (GrantedMemory), a kwerenda pierwsza 2856 KB. Oznacza to, że kwerenda bez CTE dostała 1,75 razy więcej pamięci niż zoptymalizowana kwerenda.
 
 \section{Wnioski}
 
