@@ -37,7 +37,7 @@
            {Ż}{{\.{Z}}}1
 }
 
-\title{Zadanie - wykład 1}
+\title{Zadanie - wykład 2}
 \author{Mikołaj Kubś, 272662}
 \date{\today}
 
@@ -46,9 +46,97 @@
 \maketitle
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{images/task.png}
-    \caption{Opis zadania}
+  \centering
+  \includegraphics[width=1\textwidth]{images/task.png}
+  \caption{Opis zadania}
 \end{figure}
+
+\section{Kod kwerend}
+
+\subsection{Kwerenda bez CTE}
+
+\begin{lstlisting}[
+  language=SQL,
+  showspaces=false,
+  basicstyle=\ttfamily,
+  numbers=left,
+  numberstyle=\tiny,
+  commentstyle=\color{green},
+  tabsize=2
+  ]
+SELECT TOP 20 
+  p.Name AS "Nazwa produktu", 
+  pc.Name AS "Nazwa kategorii", 
+  SUM(sod.OrderQty) AS "Suma liczby sprzedanych"
+FROM Sales.SalesOrderDetail sod
+JOIN Production.Product p ON sod.ProductID = p.ProductID
+JOIN Production.ProductSubcategory ps 
+  ON p.ProductSubcategoryID = ps.ProductSubcategoryID
+JOIN Production.ProductCategory pc 
+  ON ps.ProductCategoryID = pc.ProductCategoryID
+GROUP BY p.Name, pc.Name
+ORDER BY "Suma liczby sprzedanych" DESC;
+\end{lstlisting}
+
+\subsection{Kwerenda z CTE}
+
+\begin{lstlisting}[
+  language=SQL,
+  showspaces=false,
+  basicstyle=\ttfamily,
+  numbers=left,
+  numberstyle=\tiny,
+  commentstyle=\color{green},
+  tabsize=2
+  ]
+WITH ProductSales AS (
+    SELECT 
+        p.Name AS ProductName, 
+        SUM(sod.OrderQty) AS TotalQuantitySold,
+		p.ProductSubcategoryID
+    FROM Sales.SalesOrderDetail sod
+    JOIN Production.Product p ON sod.ProductID = p.ProductID
+    GROUP BY p.Name, p.ProductSubcategoryID
+),
+ProductCategories AS (
+	SELECT
+		p.ProductName,
+		pc.Name AS CategoryName,
+		p.TotalQuantitySold
+	FROM ProductSales p		
+    JOIN Production.ProductSubcategory ps 
+      ON p.ProductSubcategoryID = ps.ProductSubcategoryID
+    JOIN Production.ProductCategory pc 
+      ON ps.ProductCategoryID = pc.ProductCategoryID
+)
+SELECT TOP 20
+	ProductCategories.ProductName AS "Nazwa produktu",
+	ProductCategories.CategoryName AS "Nazwa kategorii", 
+	ProductCategories.TotalQuantitySold AS "Suma liczby sprzedanych"
+FROM ProductCategories
+ORDER BY TotalQuantitySold DESC;
+\end{lstlisting}
+
+\section{Wyniki}
+
+\subsection{Analiza kwerendy 1}
+
+\subsection{Porównanie różnic \textit{Execution Plan} dla obu kwerend}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/query_1_plan.png}
+  \caption{Execution Plan kwerendy bez CTE}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/query_2_plan.png}
+  \caption{Execution Plan kwerendy z CTE}
+\end{figure}
+
+Przy dokładniejszej analizie widać sporo różnic pomiędzy kwerendami. Najważniejszą jest informacja, że "koszt" kwerendy z CTE wynosił 43\%, a kwerendy bez CTE 57\%. Tak więc "koszt" kwerendy z CTE wynosił około 75\% kosztu kwerendy bez CTE. Jest to całkiem znacząca różnica, a dla bardziej skomplikowanych kosztowo lub często wykonywanych kwerend każda optymalizacja jest istotna.
+
+Dla kwerendy 1, sortowanie i limit zostało połączone w jeden krok, co zajęło nieznacznie więcej czasu niż osobne ich wykonanie w kwerendzie 2. Największą przewagą kwerendy 2 względem 1 jest to, że limit 20 był wzięty pod uwagę wcześniej, co pozwoliło na optymalizację szukania na przykład odpowiednich kategorii i subkategorii. Dane zostały zagregowane wcześniej, co sprawiło, że mniej wierszy trzeba było potem joinować.
 
 \end{document}
