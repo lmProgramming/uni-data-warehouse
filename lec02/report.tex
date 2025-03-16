@@ -119,7 +119,16 @@ ORDER BY TotalQuantitySold DESC;
 
 \section{Wyniki}
 
-\subsection{Analiza kwerendy 1}
+\subsection{Porównanie wyników zwróconych przez obie kwerendy}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/results.png}
+  \caption{Wyniki wykonania obu kwerend}
+\end{figure}
+
+Obie kwerendy zwracają identyczny zestaw wyników - 20 najlepiej sprzedających się produktów wraz z ich kategoriami. Użycie CTE nie wpływa na wynik końcowy, ale wpływa na sposób, w jaki dane są przetwarzane wewnętrznie.
+
 
 \subsection{Porównanie różnic \textit{Execution Plan} dla obu kwerend}
 
@@ -138,5 +147,18 @@ ORDER BY TotalQuantitySold DESC;
 Przy dokładniejszej analizie widać sporo różnic pomiędzy kwerendami. Najważniejszą jest informacja, że "koszt" kwerendy z CTE wynosił 43\%, a kwerendy bez CTE 57\%. Tak więc "koszt" kwerendy z CTE wynosił około 75\% kosztu kwerendy bez CTE. Jest to całkiem znacząca różnica, a dla bardziej skomplikowanych kosztowo lub często wykonywanych kwerend każda optymalizacja jest istotna.
 
 Dla kwerendy 1, sortowanie i limit zostało połączone w jeden krok, co zajęło nieznacznie więcej czasu niż osobne ich wykonanie w kwerendzie 2. Największą przewagą kwerendy 2 względem 1 jest to, że limit 20 był wzięty pod uwagę wcześniej, co pozwoliło na optymalizację szukania na przykład odpowiednich kategorii i subkategorii. Dane zostały zagregowane wcześniej, co sprawiło, że mniej wierszy trzeba było potem joinować.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/memory_combined.png}
+  \caption{Zrzut ekranu pliku XML zawierającego Execution Plan obu kwerend}
+\end{figure}
+
+"Koszt" kwerendy to nie tylko jej zużycie pamięci, a również CPU i operacje na dysku. Ale kwerenda 2 faktycznie zużywa nie tylko mniej zasobów niż kwerenda 1, ale też stricte mniej pamięci. Jak widać na powyższym obrazku, wszystkie statystyki odnośnie wymagań pamięci są mniejsze dla kwerendy z CTE. Kwerenda 2 dostała 1632 KB (GrantedMemory), a kwerenda 1 2856 KB. Oznacza to, że kwerenda bez CTE dostała 1,75 razy więcej pamięci niż zoptymalizowana kwerenda.
+
+
+\section{Wnioski}
+
+Analiza wykazała, że zastosowanie CTE pozwoliło na znaczące zmniejszenie zużycia pamięci (o około 43\%) oraz ogólnego kosztu zapytania. Dodatkowo podejście z CTE ułatwia dalszą i prostszą rozbudowę kwerendy oraz poprawia jej czytelność. Jednak dla bardzo prostych zapytań może nie być konieczne, a jego efektywność zależy od konkretnego przypadku i struktury danych.
 
 \end{document}
