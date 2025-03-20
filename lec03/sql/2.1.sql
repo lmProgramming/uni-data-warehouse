@@ -2,6 +2,7 @@
 -- w kolejnych miesi¹cach roku w ka¿dej z grup? Ilu klientów w poszczególnych grupach wykona³o
 -- zakup dok³adnie jeden raz?
 
+
 WITH CustomerOrders AS (
 	SELECT 
 		C.CustomerID,
@@ -23,13 +24,18 @@ WITH CustomerOrders AS (
 			'declare default element namespace "http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
 			 (//BirthDate)[1]'
 		) = 1
+),
+CustomersWithOneTransaction AS (
+	SELECT 
+		CustomerID,
+		AgeGroup
+	FROM CustomerOrders
+	GROUP BY CustomerID, AgeGroup
+	HAVING COUNT(*) = 1
 )
-
 SELECT
-	AgeGroup AS "Grupa wiekowa", 
-	OrderYear AS "Rok",
-	OrderMonth AS "Miesi¹c",
-	COUNT(DISTINCT CustomerID) AS "Liczba unikalnych klientów"
-FROM CustomerOrders
-GROUP BY AgeGroup, OrderYear, OrderMonth
-ORDER BY OrderYear, OrderMonth, AgeGroup;
+	AgeGroup AS "Grupa wiekowa",
+	COUNT(DISTINCT CustomerID) AS Value
+FROM CustomersWithOneTransaction
+GROUP BY AgeGroup
+ORDER BY AgeGroup
