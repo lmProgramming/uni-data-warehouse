@@ -1,0 +1,3 @@
+-- Przygotuj zestawienie, w którym przeanalizujesz, ilu jest ró¿nych klientów dla ka¿dej p³ci
+-- w kolejnych miesi¹cach (05.2011 – 06.2024)? Jak procentowo rozk³ada siê ich udzia³
+-- w ca³kowitej wartoœci sprzeda¿y (Sales.SalesOrderHeader.TotalDue)?

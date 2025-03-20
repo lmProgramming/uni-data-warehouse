@@ -1,0 +1,3 @@
+-- Przygotuj zestawienie produktów, których sprzedaje siê miesiêcznie min. 20 sztuk. Dla ka¿dego
+-- produktu podaj jego kategoriê.
+-- Przeanalizuj uzyskane wyniki.

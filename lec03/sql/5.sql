@@ -1,0 +1,2 @@
+-- Przeanalizuj udzia³ sprzedanych produktów w poszczególnych podkategoriach w stosunku do ca³ych
+-- kategorii (zarówno pod wzglêdem liczbowym jak i wartoœciowym).

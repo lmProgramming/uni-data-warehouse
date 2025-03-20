@@ -1,0 +1,2 @@
+-- Przygotuj zestawienie, w którym mo¿liwa bêdzie analiza regionalna z uwzglêdnieniem lokalnej
+-- waluty (kwoty sprzeda¿y w zale¿noœci od waluty i regionu).
