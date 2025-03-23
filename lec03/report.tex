@@ -17,6 +17,8 @@
   basicstyle=\ttfamily,
   columns=flexible,
   keepspaces=true,
+  showstringspaces=false,
+  escapeinside={(*@}{@*)},
   literate={ą}{{\k{a}}}1
            {ć}{{\'{c}}}1
            {ę}{{\k{e}}}1
@@ -35,6 +37,17 @@
            {Ś}{{\'{S}}}1
            {Ź}{{\'{Z}}}1
            {Ż}{{\.{Z}}}1
+           {"}{{\textquotedbl}}1
+           {'}{{\textquotesingle}}1
+           {`}{{\textasciigrave}}1
+           {~}{{\textasciitilde}}1
+           {^}{{\textasciicircum}}1
+           {_}{{\textunderscore}}1
+           {|}{{\textbar}}1
+           {\{}{{\textbraceleft}}1
+           {\}}{{\textbraceright}}1
+           {[}{{[}}1
+           {]}{{]}}1
 }
 
 \title{Zadanie - wykład 3}
@@ -46,22 +59,22 @@
 \maketitle
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=1\textwidth]{images/task1.png}
-  \caption{Opis zadań 1-3}
+	\centering
+	\includegraphics[width=1\textwidth]{images/task1.png}
+	\caption{Opis zadań 1-3}
 \end{figure}
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=1\textwidth]{images/task2.png}
-  \caption{Opis zadań 4-6}
+	\centering
+	\includegraphics[width=1\textwidth]{images/task2.png}
+	\caption{Opis zadań 4-6}
 \end{figure}
 
 \section{Kod kwerend 1-3}
 
-\subsubsection{1.}
+\subsection{Kwerenda 1}
 
-Jaka była łączna suma transakcji (SalesOrderHeader.SubTotal) w poszczególnych latach dla kolejnych dni tygodnia?
+"Jaka była łączna suma transakcji (SalesOrderHeader.SubTotal) w poszczególnych latach dla kolejnych dni tygodnia?"
 
 \begin{lstlisting}[
   language=SQL,
@@ -88,17 +101,17 @@ ORDER BY DATEPART(YEAR, OrderDate), DATEPART(DW, OrderDate)
 \end{lstlisting}
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=1.0\textwidth]{images/1.png}
-  \caption{Wyniki 1. kwerendy}
+	\centering
+	\includegraphics[width=1.0\textwidth]{images/1.png}
+	\caption{Wyniki 1. kwerendy}
 \end{figure}
 
 W tym podpunkcie użycie CTE nie przyniosłoby korzyści.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=0.4\textwidth]{images/1_excel.png}
-  \caption{Tabela przestawna dla 1. kwerendy}
+	\centering
+	\includegraphics[width=0.4\textwidth]{images/1_excel.png}
+	\caption{Tabela przestawna dla 1. kwerendy}
 \end{figure}
 
 Dla łatwiejszej analizy dodano tabelę przestawną.
@@ -114,5 +127,244 @@ W 2013 roku przychody były bardziej wyrównany, gdzie piątek (najsłabszy dzie
 W 2014 roku wtorek osiągnął bardzo niski wynik, prawie 40 razy niższy od najlepszego (czwartku).
 
 Wnioskiem jest to, że różne dni w różnych latach odbiegają od normy dla danego roku. Jednak nie w każdym roku różnice były aż tak widoczne.
+
+\subsection{Kwerenda 2}
+
+"Zaproponuj podział klientów na 3 rozłączne grupy wiekowe. Ilu różnych klientów dokonało zakupów w kolejnych miesiącach roku w każdej z grup? Ilu klientów w poszczególnych grupach wykonało zakup dokładnie jeden raz?"
+
+Zdecydowano się na podział klientów na 3 rozłączne grupy wiekowe o możliwie najrówniejszej liczbie członków. Do zrealizowania tego użyto funkcji "NTILE". Grupa 1 to najmłodsi, a 3 to najstarsi.
+
+Zadanie dotyczy tak naprawdę dwóch kwerend.
+
+\subsubsection{Ilu różnych klientów dokonało zakupów w kolejnych miesiącach roku w każdej z grup?}
+
+Wersja z CTE:
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+WITH CustomerOrders AS (
+	SELECT 
+		Customer.CustomerID,
+		NTILE(3) OVER (ORDER BY YEAR(GETDATE()) - YEAR(
+			Person.Demographics.value(
+				'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+(//BirthDate)[1]', 
+				'DATE'
+			)
+		)) AS AgeGroup,
+		YEAR(SalesOrderHeader.OrderDate) AS OrderYear
+		MONTH(SalesOrderHeader.OrderDate) AS OrderMonth,
+	FROM Sales.Customer AS Customer
+	JOIN Person.Person AS Person ON Person.BusinessEntityID = Customer.PersonID
+	JOIN 
+		Sales.SalesOrderHeader AS SalesOrderHeader ON
+			SalesOrderHeader.CustomerID = Customer.CustomerID
+	WHERE
+		Person.Demographics.exist(
+			'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+(//BirthDate)[1]') = 1
+)
+SELECT
+	OrderYear AS "Rok",
+	OrderMonth AS "Miesiąc",
+	AgeGroup AS "Grupa wiekowa", 
+	COUNT(DISTINCT CustomerID) AS "Liczba unikalnych klientów"
+FROM CustomerOrders
+GROUP BY AgeGroup, OrderYear, OrderMonth
+ORDER BY OrderYear, OrderMonth, AgeGroup
+\end{lstlisting}}
+
+Wersja bez CTE:
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT
+    AgeGroup AS "Grupa wiekowa",
+    OrderYear AS "Rok",
+    OrderMonth AS "Miesiąc",
+    COUNT(DISTINCT CustomerID) AS "Liczba unikalnych klientów"
+FROM (
+    SELECT 
+        Customer.CustomerID,
+        NTILE(3) OVER (ORDER BY YEAR(GETDATE()) - YEAR(
+            Person.Demographics.value(
+                'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+                (//BirthDate)[1]', 
+                'DATE'
+            )
+        )) AS AgeGroup,
+        YEAR(SalesOrderHeader.OrderDate) AS OrderYear,
+        MONTH(SalesOrderHeader.OrderDate) AS OrderMonth
+    FROM Sales.Customer AS Customer
+    INNER JOIN Person.Person AS Person 
+        ON Customer.PersonID = Person.BusinessEntityID
+    INNER JOIN Sales.SalesOrderHeader AS SalesOrderHeader 
+        ON Customer.CustomerID = SalesOrderHeader.CustomerID
+    WHERE Person.Demographics.exist(
+        'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+        (//BirthDate)[1]') = 1
+) AS CustomerOrderData
+GROUP BY AgeGroup, OrderYear, OrderMonth
+ORDER BY OrderYear, OrderMonth, AgeGroup
+\end{lstlisting}}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{images/2.png}
+	\caption{Wyniki 2. kwerendy}
+\end{figure}
+
+Wersja "bez" CTE i z nim są bardzo podobne. Nie da się przenieść bezpośrednio NTILE'a i reszty logiki do jednego zapytania bez wcześniejszego wyliczenia grup wiekowych, ponieważ nie da się pogrupować po funkcji okienkowej. Nielogiczne byłoby naraz grupowanie i wybieranie. Jednym ze sposobów rozwiązania tego problemu mogłoby być wyliczenie wcześniej górnej granicy wieku dla 1. i 2. grupy, a następnie przypisanie klientów i grupowanie w jednym zapytanie - nadal trzeba jednak coś wyliczyć wcześniej.
+
+W większości miesięcy liczba unikalnych klientów jest względnie podobna do siebie dla każdej grupy. Zdarza się, że najliczniejsza grupa jest 2-3 razy liczniejsza od tej najmniej licznej w danym miesiącu. Często się potem w tym samym roku zdarza odwrotna sytuacja. W 2012 roku najmłodsza grupa jest najliczniejsza, a w 2014 najmniej liczna o dość podobną liczbę osób.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{images/2_execution_plan.png}
+	\caption{Porównanie execution plan}
+\end{figure}
+
+Obie kwerendy działają tak samo z wcześniej opisanych powodów.
+
+\subsubsection{Ilu klientów w poszczególnych grupach wykonało zakup dokładnie jeden raz?}
+
+Wersja z CTE:
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+WITH OrdersWithCustomerDetails AS (
+    SELECT 
+        Customer.CustomerID,
+        NTILE(3) OVER (ORDER BY YEAR(GETDATE()) - YEAR(
+            Person.Demographics.value(
+                'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+                (//BirthDate)[1]', 
+                'DATE'
+            )
+        )) AS AgeGroup,
+        SalesOrderHeader.SalesOrderID,
+        YEAR(SalesOrderHeader.OrderDate) AS OrderYear,
+        MONTH(SalesOrderHeader.OrderDate) AS OrderMonth
+    FROM Sales.Customer AS Customer
+    INNER JOIN Person.Person AS Person
+        ON Customer.PersonID = Person.BusinessEntityID
+    INNER JOIN Sales.SalesOrderHeader AS SalesOrderHeader
+        ON Customer.CustomerID = SalesOrderHeader.CustomerID
+    WHERE Person.Demographics.exist(
+        'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+        (//BirthDate)[1]') = 1
+),
+CustomersWithSingleOrder AS (
+    SELECT
+        CustomerID,
+        AgeGroup
+    FROM OrdersWithCustomerDetails
+    GROUP BY CustomerID, AgeGroup
+    HAVING COUNT(SalesOrderID) = 1
+)
+SELECT
+    AgeGroup AS "Grupa wiekowa",
+    COUNT(CustomerID) AS "Liczba klientów z pojedynczym zamówieniem"
+FROM CustomersWithSingleOrder
+GROUP BY AgeGroup
+ORDER BY AgeGroup
+\end{lstlisting}}
+
+Wersja bez CTE:
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT
+    CustomerAgeGroup AS "Grupa wiekowa",
+    COUNT(*) AS "Liczba klientów z jednym zamówieniem"
+FROM (
+    SELECT 
+        CustomerID,
+        CustomerAgeGroup
+    FROM (
+        SELECT 
+            SalesCustomer.CustomerID,
+            NTILE(3) OVER (ORDER BY YEAR(GETDATE()) - YEAR(
+                PersonTable.Demographics.value(
+                    'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+                    (//BirthDate)[1]', 
+                    'DATE'
+                )
+            )) AS CustomerAgeGroup,
+            SalesOrderHeader.SalesOrderID
+        FROM Sales.Customer AS SalesCustomer
+        INNER JOIN Person.Person AS PersonTable 
+            ON SalesCustomer.PersonID = PersonTable.BusinessEntityID
+        INNER JOIN Sales.SalesOrderHeader AS SalesOrderHeader 
+            ON SalesCustomer.CustomerID = SalesOrderHeader.CustomerID
+        WHERE PersonTable.Demographics.exist(
+            'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+            (//BirthDate)[1]'
+        ) = 1
+    ) AS OrdersPerCustomer
+    GROUP BY CustomerID, CustomerAgeGroup
+    HAVING COUNT(SalesOrderID) = 1
+) AS SingleOrderCustomers
+GROUP BY CustomerAgeGroup
+ORDER BY CustomerAgeGroup
+\end{lstlisting}}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{images/2.1.png}
+	\caption{Wyniki 2. kwerendy, część 2.}
+\end{figure}
+
+Wersja "bez" CTE i z CTE są bardzo podobne, z powodów opisanych wcześniej, dla pierwszej kwerendy w zadaniu 2. Dużym błędem byłoby tutaj wyliczenie najpierw klientów z jedną transakcją, a potem grupowanie ich NTILE'm na podstawie wyniku - NTILE wtedy analizowałby tylko wycinek całej populacji
+
+Liczba klientów z jedną transakcją jest względnie podobna dla każdej grupy klientów. Najwięcej najstarszych klientów kupiło coś tylko raz. Najmniej młodych dokonało zakupu tylko raz.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{images/2_execution_plan.png}
+	\caption{Porównanie execution plan}
+\end{figure}
+
+Obie kwerendy działają tak samo z wcześniej opisanych powodów.
 
 \end{document}

@@ -1,28 +1,31 @@
 SELECT
-	AgeGroup AS "Grupa wiekowa",
-	OrderYear AS "Rok",
-	OrderMonth AS "Miesi¹c",
-	COUNT(DISTINCT CustomerID) AS "Liczba unikalnych klientów"
+    OrderYear AS "Rok",
+    OrderMonth AS "Miesi¹c",
+    AgeGroup AS "Grupa wiekowa",
+    COUNT(DISTINCT CustomerID) AS "Liczba unikalnych klientów"
 FROM (
-	SELECT 
-		C.CustomerID,
-		NTILE(3) OVER(ORDER BY YEAR(GETDATE()) - YEAR(
-			P.Demographics.value(
-				'declare default element namespace "http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
-				 (//BirthDate)[1]', 
-				'DATE'
-			)
-		)) AS AgeGroup,
-		YEAR(SOH.OrderDate) AS OrderYear,
-		MONTH(SOH.OrderDate) AS OrderMonth
-	FROM Sales.Customer AS C
-	JOIN Person.Person AS P ON P.BusinessEntityID = C.PersonID
-	JOIN Sales.SalesOrderHeader AS SOH ON SOH.CustomerID = C.CustomerID
-	WHERE
-		P.Demographics.exist(
-			'declare default element namespace "http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
-			 (//BirthDate)[1]'
-		) = 1
-) AS Sub
+    SELECT 
+        Customer.CustomerID,
+        NTILE(3) OVER (ORDER BY YEAR(GETDATE()) - YEAR(
+            Person.Demographics.value(
+                'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+                (//BirthDate)[1]', 
+                'DATE'
+            )
+        )) AS AgeGroup,
+        YEAR(SalesOrderHeader.OrderDate) AS OrderYear,
+        MONTH(SalesOrderHeader.OrderDate) AS OrderMonth
+    FROM Sales.Customer AS Customer
+    INNER JOIN Person.Person AS Person 
+        ON Customer.PersonID = Person.BusinessEntityID
+    INNER JOIN Sales.SalesOrderHeader AS SalesOrderHeader 
+        ON Customer.CustomerID = SalesOrderHeader.CustomerID
+    WHERE Person.Demographics.exist(
+        'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey";
+        (//BirthDate)[1]'
+    ) = 1
+) AS CustomerOrderData
 GROUP BY AgeGroup, OrderYear, OrderMonth
 ORDER BY OrderYear, OrderMonth, AgeGroup;
