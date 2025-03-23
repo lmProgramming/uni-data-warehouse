@@ -230,7 +230,7 @@ ORDER BY OrderYear, OrderMonth, AgeGroup
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/2.png}
+	\includegraphics[width=1.0\textwidth]{images/2.png}
 	\caption{Wyniki 2. kwerendy}
 \end{figure}
 
@@ -240,7 +240,7 @@ W większości miesięcy liczba unikalnych klientów jest względnie podobna do 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/2_execution_plan.png}
+	\includegraphics[width=1.0\textwidth]{images/2_execution_plan.png}
 	\caption{Porównanie execution plan}
 \end{figure}
 
@@ -361,7 +361,7 @@ Liczba klientów z jedną transakcją jest względnie podobna dla każdej grupy 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/2_execution_plan.png}
+	\includegraphics[width=1.0\textwidth]{images/2_execution_plan.png}
 	\caption{Porównanie execution plan}
 \end{figure}
 
@@ -521,5 +521,112 @@ Trzeba pamiętać, że kwerenda z tak sztywnymi zasadami mogła wykluczyć wiele
 Wersja z CTE jest tylko nieznacznie szybsza - 46\% do 54\%.
 
 \section{Kod kwerend 4-6}
+
+\subsection{Kwerenda 4}
+
+"Przygotuj zestawienie, w którym przeanalizujesz, ilu jest różnych klientów dla każdej płci w kolejnych miesiącach (05.2011 - 06.2024)?
+
+Jak procentowo rozkłada się ich udział w całkowitej wartości sprzedaży (Sales.SalesOrderHeader.TotalDue)?"
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+WITH CustomersGender AS (
+	SELECT Customer.CustomerID, 
+		Demographics.value(
+			'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey"; 
+			(//Gender)[1]', 
+			'CHAR(1)'
+		) AS Gender
+	FROM Sales.Customer AS Customer
+	INNER JOIN Person.Person AS Person ON Person.BusinessEntityID = Customer.PersonID
+	WHERE Demographics.exist(
+		'declare default element namespace 
+"http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/IndividualSurvey"; 
+		(//Gender)[1]'
+	) = 1
+),
+SalesData AS (
+	SELECT 
+		YEAR(SalesOrderHeader.OrderDate) AS Year, 
+		MONTH(SalesOrderHeader.OrderDate) AS Month, 
+		CustomersGender.Gender,
+		SUM(SalesOrderHeader.TotalDue) AS TotalDue,
+		COUNT(DISTINCT CustomersGender.CustomerID) AS NumberOfClients
+	FROM Sales.SalesOrderHeader AS SalesOrderHeader
+	INNER JOIN CustomersGender ON 
+		CustomersGender.CustomerID = SalesOrderHeader.CustomerID
+	WHERE SalesOrderHeader.OrderDate BETWEEN 
+		'2011-05-01' AND '2024-06-30'
+	GROUP BY 
+		YEAR(SalesOrderHeader.OrderDate), 
+		MONTH(SalesOrderHeader.OrderDate), 
+		CustomersGender.Gender
+),
+TotalSalesPerPeriod AS (
+	SELECT Year, Month, SUM(TotalDue) AS TotalDueAll
+	FROM SalesData
+	GROUP BY Year, Month
+)
+SELECT 
+	SalesData.Year AS "Rok",
+	SalesData.Month AS "Miesiąc",
+	SUM(CASE WHEN SalesData.Gender = 'M' THEN 
+		SalesData.TotalDue ELSE 0 END) AS "Wartość sprzedaży M",
+	SUM(CASE WHEN SalesData.Gender = 'F' THEN 
+		SalesData.TotalDue ELSE 0 END) AS "Wartość sprzedaży K",
+	SUM(CASE WHEN SalesData.Gender = 'M' THEN 
+		SalesData.NumberOfClients ELSE 0 END) AS "Liczba klientów",
+	SUM(CASE WHEN SalesData.Gender = 'F' THEN 
+		SalesData.NumberOfClients ELSE 0 END) AS "Liczba klientek",
+	ROUND(CAST(SUM(CASE WHEN SalesData.Gender = 'M' THEN 
+		SalesData.TotalDue ELSE 0 END) AS FLOAT) / TotalSalesPerPeriod.TotalDueAll, 2) 
+		AS "Udział M",
+	ROUND(CAST(SUM(CASE WHEN SalesData.Gender = 'F' THEN 
+		SalesData.TotalDue ELSE 0 END) AS FLOAT) / TotalSalesPerPeriod.TotalDueAll, 2)
+		AS "Udział K"
+FROM SalesData
+INNER JOIN TotalSalesPerPeriod ON 
+	SalesData.Year = TotalSalesPerPeriod.Year AND 
+	SalesData.Month = TotalSalesPerPeriod.Month
+GROUP BY SalesData.Year, SalesData.Month, TotalSalesPerPeriod.TotalDueAll
+ORDER BY "Rok", "Miesiąc"
+\end{lstlisting}}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{images/4.png}
+	\caption{Wyniki 4. kwerendy}
+\end{figure}
+
+Zarówno liczba klientów/klientek, jak ich sumy wydatków, są zbliżone sobie. Jedynie w pierwszym miesiącu z racji niewielkiej liczby klientów ogólnie widać przewagę kobiet. Wniosek jest taki, że płeć nie ma wielkiego wpływu na wydatki czy na liczbę klientów danej płci.
+
+\subsection{Kwerenda 5}
+
+{\small
+	\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+\end{lstlisting}}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{images/3.png}
+	\caption{Wyniki 3. kwerendy}
+\end{figure}
 
 \end{document}
