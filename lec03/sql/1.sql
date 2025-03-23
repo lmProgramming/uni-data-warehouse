@@ -1,11 +1,12 @@
--- Jaka by³a ³¹czna suma transakcji (SalesOrderHeader.SubTotal) w poszczególnych latach dla
+-- Jaka byÅ‚a Å‚Ä…czna suma transakcji (SalesOrderHeader.SubTotal) w poszczegÃ³lnych latach dla
 -- kolejnych dni tygodnia?
 
 SET DATEFIRST 1;
+SET LANGUAGE Polish;
 
 SELECT 
 	SUM(SubTotal) AS "Suma",
-	DATENAME(DW, OrderDate) AS "Dzieñ tygodnia",
+	DATENAME(DW, OrderDate) AS "DzieÅ„ tygodnia",
 	DATEPART(YEAR, OrderDate) AS "Rok"
 FROM Sales.SalesOrderHeader
 GROUP BY DATENAME(DW, OrderDate), DATEPART(YEAR, OrderDate), DATEPART(DW, OrderDate)

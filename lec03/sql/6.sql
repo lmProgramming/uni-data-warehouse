@@ -1,2 +1,15 @@
--- Przygotuj zestawienie, w którym mo¿liwa bêdzie analiza regionalna z uwzglêdnieniem lokalnej
--- waluty (kwoty sprzeda¿y w zale¿noœci od waluty i regionu).
+-- Przygotuj zestawienie, w ktÃ³rym moÅ¼liwa bÄ™dzie analiza regionalna z uwzglÄ™dnieniem lokalnej
+-- waluty (kwoty sprzedaÅ¼y w zaleÅ¼noÅ›ci od waluty i regionu).
+
+SELECT SUM(TotalDue) AS "Total order cost (USD)", ISNULL(c.ToCurrencyCode, 'USD') AS "Currency", t.Name, AVG(TotalDue) AS "Average order cost (USD)"
+FROM Sales.SalesOrderHeader s
+LEFT JOIN (
+	SELECT ToCurrencyCode, CurrencyRateID
+	FROM Sales.CurrencyRate
+) c on s.CurrencyRateID = c.CurrencyRateID
+LEFT JOIN (
+	SELECT TerritoryID, Name, CountryRegionCode, "Group"
+	FROM Sales.SalesTerritory
+) t on s.TerritoryID = t.TerritoryID
+GROUP BY t.Name, c.ToCurrencyCode
+ORDER BY 1 DESC;

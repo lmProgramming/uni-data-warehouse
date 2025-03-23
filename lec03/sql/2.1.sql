@@ -35,7 +35,7 @@ CustomersWithOneTransaction AS (
 )
 SELECT
 	AgeGroup AS "Grupa wiekowa",
-	COUNT(DISTINCT CustomerID) AS Value
+	COUNT(DISTINCT CustomerID) AS "Liczba klientów z 1 zamówieniem"
 FROM CustomersWithOneTransaction
 GROUP BY AgeGroup
 ORDER BY AgeGroup
