@@ -611,8 +611,67 @@ Zarówno liczba klientów/klientek, jak ich sumy wydatków, są zbliżone sobie.
 
 \subsection{Kwerenda 5}
 
+"Przeanalizuj udział sprzedanych produktów w poszczególnych podkategoriach w stosunku do całych kategorii (zarówno pod względem liczbowym jak i wartościowym)."
+
 {\small
-	\begin{lstlisting}[
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT 
+	ProductCategory.Name AS Kategoria,
+	ProductSubcategory.Name AS Podkategoria,
+	SUM(SalesOrderDetail.OrderQty) AS "Liczba sprzedanych produktów",
+	SUM(SalesOrderDetail.LineTotal) AS "Wartość sprzedaży",
+	ROUND(
+		CAST(SUM(SalesOrderDetail.OrderQty) AS FLOAT) 
+		/ SUM(SUM(SalesOrderDetail.OrderQty)) OVER(PARTITION BY ProductCategory.Name) 
+		* 100, 2
+	) AS "Udział liczbowy (%)",
+	ROUND(
+		CAST(SUM(SalesOrderDetail.LineTotal) AS FLOAT) 
+		/ SUM(SUM(SalesOrderDetail.LineTotal)) OVER(PARTITION BY ProductCategory.Name) 
+		* 100, 2
+	) AS "Udział wartościowy (%)"
+FROM Production.Product
+INNER JOIN Production.ProductSubcategory 
+	ON Product.ProductSubcategoryID = ProductSubcategory.ProductSubcategoryID
+INNER JOIN Production.ProductCategory 
+	ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
+INNER JOIN Sales.SalesOrderDetail 
+	ON Product.ProductID = SalesOrderDetail.ProductID
+GROUP BY ProductCategory.Name, ProductSubcategory.Name
+\end{lstlisting}}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{images/5.png}
+	\caption{Wyniki 5. kwerendy}
+\end{figure}
+
+Pierwszym faktem jest to, że liczba sprzedanych produktów nie wyznacza całkowicie wartości sprzedaży. Na przykład, jeden z najliczniej sprzedających się artykułów ubioru są czapki (caps), gdzie liczba sprzedaży odpowiada za 11.28\% kategorii, ale przychód odpowiada za tylko 2.42\%.
+
+Wśród akcesoriów uzyskuje się najwiekszy przychód przy mniejszej liczby sprzedanych egzemplarzy z Bike racks, Bike stands czy z Hydration Packs. Pomimo dużej ilości sprzedanych Bottles and Cages, przychód nie jest tak wielki.
+
+W kategorii rowerów największy udział zarówno pod względem liczby sprzedanych produktów, jak i wartości sprzedaży mają Road Bikes. Mountain Bikes, mimo mniejszej liczby sprzedanych sztuk, generują wysoki przychód, co wskazuje na ich wyższą cenę jednostkową. Touring Bikes sprzedają się najrzadziej, jednak ich udział w wartości sprzedaży jest stosunkowo stabilny.
+
+W kategorii odzieży najwięcej sprzedaje się Jerseys oraz Gloves. Jerseys generują największy przychód, co wynika z ich popularności oraz prawdopodobnie wyższej ceny. Z kolei Socks czy Caps, mimo wysokiej liczby sprzedanych egzemplarzy, mają niewielki udział wartościowy, co świadczy o ich niskiej cenie jednostkowej.
+
+Wśród komponentów dominują Mountain Frames i Road Frames, które mają największy udział wartościowy przy średniej liczbie sprzedanych sztuk, co sugeruje wysoką cenę tych produktów. Z kolei Pedals, Handlebars czy Wheels sprzedają się częściej, jednak ich udział wartościowy pozostaje stosunkowo niski. Najmniejszy udział w przychodzie mają Chains, mimo, że sprzedano ich prawie 800 sztuk.
+
+Warto podkreślić, że wysoki udział liczbowy a niski udział wartościowy nie oznacza nieudanego produktu - wręcz przeciwnie, oznacza to, że są to produkty popularne. Dochodowość zależy od marży.
+
+\subsection{Kwerenda 5}
+
+"Przeanalizuj udział sprzedanych produktów w poszczególnych podkategoriach w stosunku do całych kategorii (zarówno pod względem liczbowym jak i wartościowym)."
+
+{\small
+\begin{lstlisting}[
 	language=SQL,
 	showspaces=false,
 	basicstyle=\ttfamily,
