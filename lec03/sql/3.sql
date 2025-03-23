@@ -13,8 +13,8 @@ MonthlySalesWithMin AS (
         Product.Name AS ProductName,
         YEAR(SalesOrderHeader.OrderDate) AS SalesYear,
         MONTH(SalesOrderHeader.OrderDate) AS SalesMonth,
-        COUNT(*) AS MonthlyCount,
-        MIN(COUNT(*)) OVER (PARTITION BY Product.ProductID) AS MinMonthlyCount
+        SUM(SalesDetail.OrderQty) AS MonthlyQty,
+        MIN(SUM(SalesDetail.OrderQty)) OVER (PARTITION BY Product.ProductID) AS MinMonthlyQty
     FROM Sales.SalesOrderDetail AS SalesDetail
     JOIN Production.Product AS Product 
         ON SalesDetail.ProductID = Product.ProductID
@@ -28,24 +28,23 @@ MonthlySalesWithMin AS (
         MONTH(SalesOrderHeader.OrderDate)
 )
 SELECT 
-    MonthlySalesWithMin.ProductName,
-    ProductCategories.CategoryName,
-    MonthlySalesWithMin.SalesYear,
-    MonthlySalesWithMin.SalesMonth,
-    MonthlySalesWithMin.MonthlyCount
+    MonthlySalesWithMin.ProductName AS "Nazwa produktu",
+    ProductCategories.CategoryName AS "Nazwa kategorii",
+    MonthlySalesWithMin.SalesYear AS "Rok",
+    MonthlySalesWithMin.SalesMonth AS "Miesiąc",
+    MonthlySalesWithMin.MonthlyQty AS "Liczba zakupionych produktów"
 FROM MonthlySalesWithMin
 LEFT JOIN ProductCategories 
     ON MonthlySalesWithMin.ProductSubcategoryID = ProductCategories.ProductSubcategoryID
-WHERE MonthlySalesWithMin.MinMonthlyCount >= 20
+WHERE MonthlySalesWithMin.MinMonthlyQty >= 20
 ORDER BY MonthlySalesWithMin.ProductName, MonthlySalesWithMin.SalesYear, MonthlySalesWithMin.SalesMonth;
 
-
 SELECT 
-    Sales.ProductName,
-    Sales.CategoryName,
-    Sales.SalesYear,
-    Sales.SalesMonth,
-    Sales.MonthlyCount
+    Sales.ProductName AS "Nazwa produktu",
+    Sales.CategoryName AS "Nazwa kategorii",
+    Sales.SalesYear AS "Rok",
+    Sales.SalesMonth AS "Miesiąc",
+    Sales.MonthlyQty AS "Liczba zakupionych produktów"
 FROM (
     SELECT 
         Product.ProductID,
@@ -53,7 +52,7 @@ FROM (
         ProductCategory.Name AS CategoryName,
         YEAR(SalesOrderHeader.OrderDate) AS SalesYear,
         MONTH(SalesOrderHeader.OrderDate) AS SalesMonth,
-        COUNT(*) AS MonthlyCount
+        SUM(SalesDetail.OrderQty) AS MonthlyQty
     FROM Sales.SalesOrderDetail AS SalesDetail
     JOIN Production.Product AS Product 
         ON SalesDetail.ProductID = Product.ProductID
@@ -75,7 +74,7 @@ INNER JOIN (
     FROM (
         SELECT 
             Product.ProductID,
-            COUNT(*) AS MonthlyCount
+            SUM(SalesDetail.OrderQty) AS MonthlyQty
         FROM Sales.SalesOrderDetail AS SalesDetail
         JOIN Production.Product AS Product 
             ON SalesDetail.ProductID = Product.ProductID
@@ -87,6 +86,7 @@ INNER JOIN (
             MONTH(SalesOrderHeader.OrderDate)
     ) AS Monthly
     GROUP BY ProductID
+    HAVING MIN(MonthlyQty) >= 20
 ) AS FilteredProducts
     ON Sales.ProductID = FilteredProducts.ProductID
 ORDER BY Sales.ProductName, Sales.SalesYear, Sales.SalesMonth;

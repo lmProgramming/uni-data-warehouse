@@ -384,68 +384,50 @@ Kwerenda z CTE:
 	tabsize=2
 ]
 WITH ProductCategories AS (
-    SELECT 
-        ProductSubcategory.ProductSubcategoryID,
-        ProductCategory.Name AS CategoryName
-    FROM Production.ProductSubcategory
-    JOIN Production.ProductCategory 
-        ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
+	SELECT 
+		ProductSubcategory.ProductSubcategoryID,
+		ProductCategory.Name AS CategoryName
+	FROM Production.ProductSubcategory
+	JOIN Production.ProductCategory 
+		ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
 ),
-MonthlySales AS (
-    SELECT 
-        Product.ProductID,
-        Product.ProductSubcategoryID,
-        Product.Name AS ProductName,
-        YEAR(SalesOrderHeader.OrderDate) AS SalesYear,
-        MONTH(SalesOrderHeader.OrderDate) AS SalesMonth,
-        COUNT(*) AS MonthlyCount
-    FROM Sales.SalesOrderDetail AS SalesDetail
-    JOIN Production.Product AS Product 
-        ON SalesDetail.ProductID = Product.ProductID
-    JOIN Sales.SalesOrderHeader AS SalesOrderHeader
-        ON SalesDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
-    GROUP BY 
-        Product.ProductID, 
-        Product.ProductSubcategoryID,
-        Product.Name, 
-        YEAR(SalesOrderHeader.OrderDate), 
-        MONTH(SalesOrderHeader.OrderDate)
-),
-SalesWithCategory AS (
-    SELECT 
-        MonthlySales.ProductID,
-        MonthlySales.ProductName,
-        ProductCategories.CategoryName,
-        MonthlySales.SalesYear,
-        MonthlySales.SalesMonth,
-        MonthlySales.MonthlyCount
-    FROM MonthlySales
-    LEFT JOIN ProductCategories 
-        ON MonthlySales.ProductSubcategoryID = 
-				ProductCategories.ProductSubcategoryID
-),
-ProductsWithMinSales AS (
-    SELECT 
-        ProductID,
-        ProductName,
-        CategoryName
-    FROM SalesWithCategory
-    GROUP BY ProductID, ProductName, CategoryName
-    HAVING MIN(MonthlyCount) >= 20
+MonthlySalesWithMin AS (
+	SELECT 
+		Product.ProductID,
+		Product.ProductSubcategoryID,
+		Product.Name AS ProductName,
+		YEAR(SalesOrderHeader.OrderDate) AS SalesYear,
+		MONTH(SalesOrderHeader.OrderDate) AS SalesMonth,
+		SUM(SalesDetail.OrderQty) AS MonthlyQty,
+		MIN(SUM(SalesDetail.OrderQty)) OVER (PARTITION BY Product.ProductID) 
+			AS MinMonthlyQty
+	FROM Sales.SalesOrderDetail AS SalesDetail
+	JOIN Production.Product AS Product 
+		ON SalesDetail.ProductID = Product.ProductID
+	JOIN Sales.SalesOrderHeader AS SalesOrderHeader
+		ON SalesDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
+	GROUP BY 
+		Product.ProductID, 
+		Product.ProductSubcategoryID,
+		Product.Name, 
+		YEAR(SalesOrderHeader.OrderDate), 
+		MONTH(SalesOrderHeader.OrderDate)
 )
 SELECT 
-    SalesWithCategory.ProductName,
-    SalesWithCategory.CategoryName,
-    SalesWithCategory.SalesYear,
-    SalesWithCategory.SalesMonth,
-    SalesWithCategory.MonthlyCount
-FROM SalesWithCategory
-JOIN ProductsWithMinSales 
-    ON SalesWithCategory.ProductID = ProductsWithMinSales.ProductID
+	MonthlySalesWithMin.ProductName AS "Nazwa produktu",
+	ProductCategories.CategoryName AS "Nazwa kategorii",
+	MonthlySalesWithMin.SalesYear AS "Rok",
+	MonthlySalesWithMin.SalesMonth AS "Miesiąc",
+	MonthlySalesWithMin.MonthlyQty AS "Liczba zakupionych produktów"
+FROM MonthlySalesWithMin
+LEFT JOIN ProductCategories 
+	ON MonthlySalesWithMin.ProductSubcategoryID = 
+		ProductCategories.ProductSubcategoryID
+WHERE MonthlySalesWithMin.MinMonthlyQty >= 20
 ORDER BY 
-	SalesWithCategory.ProductName, 
-	SalesWithCategory.SalesYear, 
-	SalesWithCategory.SalesMonth;
+	MonthlySalesWithMin.ProductName, 
+	MonthlySalesWithMin.SalesYear, 
+	MonthlySalesWithMin.SalesMonth
 \end{lstlisting}}
 
 Kwerenda bez CTE:
@@ -461,54 +443,56 @@ Kwerenda bez CTE:
 	tabsize=2
 ]
 SELECT 
-    Sales.ProductName,
-    Sales.CategoryName,
-    Sales.SalesYear,
-    Sales.SalesMonth,
-    Sales.MonthlyCount
+	Sales.ProductName AS "Nazwa produktu",
+	Sales.CategoryName AS "Nazwa kategorii",
+	Sales.SalesYear AS "Rok",
+	Sales.SalesMonth AS "Miesiąc",
+	Sales.MonthlyQty AS "Liczba zakupionych produktów"
 FROM (
-    SELECT 
-        Product.ProductID,
-        Product.Name AS ProductName,
-        ProductCategory.Name AS CategoryName,
-        YEAR(SalesOrderHeader.OrderDate) AS SalesYear,
-        MONTH(SalesOrderHeader.OrderDate) AS SalesMonth,
-        COUNT(*) AS MonthlyCount
-    FROM Sales.SalesOrderDetail AS SalesDetail
-    JOIN Production.Product AS Product 
-        ON SalesDetail.ProductID = Product.ProductID
-    JOIN Sales.SalesOrderHeader AS SalesOrderHeader
-        ON SalesDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
-    LEFT JOIN Production.ProductSubcategory AS ProductSubcategory
-        ON Product.ProductSubcategoryID = ProductSubcategory.ProductSubcategoryID
-    LEFT JOIN Production.ProductCategory AS ProductCategory
-        ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
-    GROUP BY 
-        Product.ProductID, 
-        Product.Name,
-        ProductCategory.Name,
-        YEAR(SalesOrderHeader.OrderDate), 
-        MONTH(SalesOrderHeader.OrderDate)
+	SELECT 
+		Product.ProductID,
+		Product.Name AS ProductName,
+		ProductCategory.Name AS CategoryName,
+		YEAR(SalesOrderHeader.OrderDate) AS SalesYear,
+		MONTH(SalesOrderHeader.OrderDate) AS SalesMonth,
+		SUM(SalesDetail.OrderQty) AS MonthlyQty
+	FROM Sales.SalesOrderDetail AS SalesDetail
+	JOIN Production.Product AS Product 
+		ON SalesDetail.ProductID = Product.ProductID
+	JOIN Sales.SalesOrderHeader AS SalesOrderHeader
+		ON SalesDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
+	LEFT JOIN Production.ProductSubcategory AS ProductSubcategory
+		ON Product.ProductSubcategoryID = ProductSubcategory.ProductSubcategoryID
+	LEFT JOIN Production.ProductCategory AS ProductCategory
+		ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
+	GROUP BY 
+		Product.ProductID, 
+		Product.Name,
+		ProductCategory.Name,
+		YEAR(SalesOrderHeader.OrderDate), 
+		MONTH(SalesOrderHeader.OrderDate)
 ) AS Sales
-WHERE Sales.ProductID IN (
-    SELECT ProductID
-    FROM (
-        SELECT 
-            Product.ProductID,
-            COUNT(*) AS MonthlyCount
-        FROM Sales.SalesOrderDetail AS SalesDetail
-        JOIN Production.Product AS Product 
-            ON SalesDetail.ProductID = Product.ProductID
-        JOIN Sales.SalesOrderHeader AS SalesOrderHeader
-            ON SalesDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
-        GROUP BY 
-            Product.ProductID,
-            YEAR(SalesOrderHeader.OrderDate), 
-            MONTH(SalesOrderHeader.OrderDate)
-    ) AS Monthly
-    GROUP BY ProductID
-    HAVING MIN(MonthlyCount) >= 20
-)
+INNER JOIN (
+	SELECT ProductID
+	FROM (
+		SELECT 
+			Product.ProductID,
+			SUM(SalesDetail.OrderQty) AS MonthlyQty
+		FROM Sales.SalesOrderDetail AS SalesDetail
+		JOIN Production.Product AS Product 
+			ON SalesDetail.ProductID = Product.ProductID
+		JOIN Sales.SalesOrderHeader AS SalesOrderHeader
+			ON SalesDetail.SalesOrderID = 
+				SalesOrderHeader.SalesOrderID
+		GROUP BY 
+			Product.ProductID,
+			YEAR(SalesOrderHeader.OrderDate), 
+			MONTH(SalesOrderHeader.OrderDate)
+	) AS Monthly
+	GROUP BY ProductID
+	HAVING MIN(MonthlyQty) >= 20
+) AS FilteredProducts
+    ON Sales.ProductID = FilteredProducts.ProductID
 ORDER BY Sales.ProductName, Sales.SalesYear, Sales.SalesMonth;
 \end{lstlisting}}
 
@@ -518,9 +502,15 @@ ORDER BY Sales.ProductName, Sales.SalesYear, Sales.SalesMonth;
 	\caption{Wyniki 3. kwerendy}
 \end{figure}
 
-Nie ma wielu produktów, które konsekwentnie sprzedają się miesięcznie w liczbie ponad 20 sztuk. Takich produktów jest 8 - 6 z kategorii akcesorium, a 2 z kategorii rowery. Wszystkie te produkty zostały po raz pierwszy zakupione w maju 2013 roku. Jak wiadomo z innych analiz, w połowie 2013 roku sprzedaż sklepu znacznie się zwiększyła, co prawdopodobnie wywołało taki stan rzeczy. Były inne produkty, np. "AWC Logo Cap", które utrzymywały wysoką sprzedaż przez 4 lata - niestety wystarczyły dwa gorsze miesiące i nie znalazł się wśród wyników.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.25\textwidth]{images/3_excel.png}
+	\caption{Tabela przestawna}
+\end{figure}
 
-Wniosek jest taki, że kwerenda z tak sztywnymi zasadami może wykluczyć inne produkty-sukcesy.
+Są 52 produkty, które konsekwentnie sprzedają się w liczbie co najmniej 20 sztuk miesięcznie. Z podziałem na kategorie, to rowery i komponenty są najbardziej konsekwentnie kupowane, potem ubrania i akcesoria.
+
+Trzeba pamiętać, że kwerenda z tak sztywnymi zasadami mogła wykluczyć wiele dobrze sprzedających się produktów, które mogły sprzedać się w niskiej liczbie w co najmniej jednym miesiącu z wielu.
 
 \begin{figure}[H]
 	\centering
@@ -528,6 +518,8 @@ Wniosek jest taki, że kwerenda z tak sztywnymi zasadami może wykluczyć inne p
 	\caption{Porównanie exeuction plan}
 \end{figure}
 
-Wersja z CTE jest tylko nieznacznie szybsza - 52\% do 48\%.
+Wersja z CTE jest tylko nieznacznie szybsza - 46\% do 54\%.
+
+\section{Kod kwerend 4-6}
 
 \end{document}
