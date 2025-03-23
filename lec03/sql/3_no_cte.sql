@@ -1,45 +1,3 @@
-WITH ProductCategories AS (
-    SELECT 
-        ProductSubcategory.ProductSubcategoryID,
-        ProductCategory.Name AS CategoryName
-    FROM Production.ProductSubcategory
-    JOIN Production.ProductCategory 
-        ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
-),
-MonthlySalesWithMin AS (
-    SELECT 
-        Product.ProductID,
-        Product.ProductSubcategoryID,
-        Product.Name AS ProductName,
-        YEAR(SalesOrderHeader.OrderDate) AS SalesYear,
-        MONTH(SalesOrderHeader.OrderDate) AS SalesMonth,
-        COUNT(*) AS MonthlyCount,
-        MIN(COUNT(*)) OVER (PARTITION BY Product.ProductID) AS MinMonthlyCount
-    FROM Sales.SalesOrderDetail AS SalesDetail
-    JOIN Production.Product AS Product 
-        ON SalesDetail.ProductID = Product.ProductID
-    JOIN Sales.SalesOrderHeader AS SalesOrderHeader
-        ON SalesDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
-    GROUP BY 
-        Product.ProductID, 
-        Product.ProductSubcategoryID,
-        Product.Name, 
-        YEAR(SalesOrderHeader.OrderDate), 
-        MONTH(SalesOrderHeader.OrderDate)
-)
-SELECT 
-    MonthlySalesWithMin.ProductName,
-    ProductCategories.CategoryName,
-    MonthlySalesWithMin.SalesYear,
-    MonthlySalesWithMin.SalesMonth,
-    MonthlySalesWithMin.MonthlyCount
-FROM MonthlySalesWithMin
-LEFT JOIN ProductCategories 
-    ON MonthlySalesWithMin.ProductSubcategoryID = ProductCategories.ProductSubcategoryID
-WHERE MonthlySalesWithMin.MinMonthlyCount >= 20
-ORDER BY MonthlySalesWithMin.ProductName, MonthlySalesWithMin.SalesYear, MonthlySalesWithMin.SalesMonth;
-
-
 SELECT 
     Sales.ProductName,
     Sales.CategoryName,
@@ -87,6 +45,7 @@ INNER JOIN (
             MONTH(SalesOrderHeader.OrderDate)
     ) AS Monthly
     GROUP BY ProductID
+    HAVING MIN(MonthlyCount) >= 20
 ) AS FilteredProducts
     ON Sales.ProductID = FilteredProducts.ProductID
 ORDER BY Sales.ProductName, Sales.SalesYear, Sales.SalesMonth;
