@@ -666,9 +666,9 @@ Wśród komponentów dominują Mountain Frames i Road Frames, które mają najwi
 
 Warto podkreślić, że wysoki udział liczbowy a niski udział wartościowy nie oznacza nieudanego produktu - wręcz przeciwnie, oznacza to, że są to produkty popularne. Dochodowość zależy od marży.
 
-\subsection{Kwerenda 5}
+\subsection{Kwerenda 6}
 
-"Przeanalizuj udział sprzedanych produktów w poszczególnych podkategoriach w stosunku do całych kategorii (zarówno pod względem liczbowym jak i wartościowym)."
+"Przygotuj zestawienie, w którym możliwa będzie analiza regionalna z uwzględnieniem lokalnej waluty (kwoty sprzedaży w zależności od waluty i regionu)."
 
 {\small
 \begin{lstlisting}[
@@ -680,12 +680,31 @@ Warto podkreślić, że wysoki udział liczbowy a niski udział wartościowy nie
 	commentstyle=\color{green},
 	tabsize=2
 ]
+SELECT 
+	Territory.Name AS Region,
+	ISNULL(CAST(Currency.CurrencyCode AS VARCHAR(20)), 'Brak waluty') AS Waluta,
+	CountryRegionCode AS "Kod regionu",
+	SUM(SalesOrderHeader.TotalDue) AS "Wartość sprzedaży",
+	COUNT(SalesOrderHeader.SalesOrderID) AS "Liczba zamówień"
+FROM Sales.SalesTerritory AS Territory
+LEFT JOIN Sales.SalesOrderHeader 
+	ON Territory.TerritoryID = SalesOrderHeader.TerritoryID
+LEFT JOIN Sales.CurrencyRate AS CurrencyRate
+	ON SalesOrderHeader.CurrencyRateID = CurrencyRate.CurrencyRateID
+LEFT JOIN Sales.Currency AS Currency
+	ON CurrencyRate.ToCurrencyCode = Currency.CurrencyCode
+GROUP BY Territory.Name, Currency.CurrencyCode, CountryRegionCode
+ORDER BY CountryRegionCode, Territory.Name, SUM(SalesOrderHeader.TotalDue) DESC
 \end{lstlisting}}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1.0\textwidth]{images/3.png}
-	\caption{Wyniki 3. kwerendy}
+	\includegraphics[width=1.0\textwidth]{images/6.png}
+	\caption{Wyniki 6. kwerendy}
 \end{figure}
+
+Łatwo zauważyć, że w regionach USA dominuje "Brak waluty" - może to oznaczać, że domyślną i niezapisywaną walutą w bazie danych są dolary amerykańskie. Drugą możliwością jest to, że "Brak waluty" oznacza użycie waluty domyślnej dla danego państwa. "Brak waluty" występuje nie tylko w USA, ale również w innych państwach. Poza USA dominuje jeszcze w Niemczech i we Francji.
+
+Tylko we Francji i w Niemczech poza lokalną walutą i "Brak waluty" inne waluty mają znaczące wartości sprzedaży i/lub liczby zamówień. DEM to stara waluta niemiecka (marki niemieckie), nieaktualna już od 2002 roku - ciekawe, że jej wartość sprzedaży jest tak wysoka. Identyczna sytuacja jest we Francji z FRF - stara waluta nieaktualna od 2002 roku z zaskakująco dużą wartością sprzedaży.
 
 \end{document}
