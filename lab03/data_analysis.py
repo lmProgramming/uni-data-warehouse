@@ -4,39 +4,21 @@ from os import path
 
 dir_path: str = path.dirname(path.realpath(__file__))
 
-print(dir_path)
 df: pd.DataFrame = pd.read_csv(path.join(dir_path, "dane_lista3.csv"))
 
 profile = ProfileReport(df, explorative=True)
 
 profile.to_file(path.join(dir_path, "python_results.html"))
 
-print(df.columns)
-for i in df.columns:
-    print(df[i].dtype)
-print(df.dtypes)
-
 df['Transaction ID'] = df['Transaction ID'].astype('str')
-
 df['Item'] = df['Item'].astype('str')
-
 df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
-
 df['Price Per Unit'] = pd.to_numeric(df['Price Per Unit'], errors='coerce')
-
 df['Total Spent'] = pd.to_numeric(df['Total Spent'], errors='coerce')
-
 df['Payment Method'] = df['Payment Method'].astype('str')
-
 df['Location'] = df['Location'].astype('str')
-
 df['Transaction Date'] = pd.to_datetime(
     df['Transaction Date'], errors='coerce')
-
-print("Updated dtypes:")
-print(df.dtypes)
-
-print(df)
 
 profile = ProfileReport(df, explorative=True)
 
