@@ -1,17 +1,17 @@
 SELECT 
-    pc.Name AS "Nazwa kategorii",
-    YEAR(soh.OrderDate) AS Rok,
-	SUM(sod.LineTotal) AS "Suma sprzeda퓓",
-    ROUND(SUM(sod.LineTotal) / SUM(SUM(sod.LineTotal)) OVER (PARTITION BY pc.Name) * 100, 2) AS "Procent sprzeda퓓 dla kategorii"
+    ISNULL(ProductCategory.Name, 'Total') AS "Nazwa kategorii",
+    YEAR(SalesOrderHeader.OrderDate) AS Rok,
+	SUM(SalesOrderDetail.LineTotal) AS "Suma sprzeda퓓",
+    CAST(ROUND(SUM(SalesOrderDetail.LineTotal) / SUM(SUM(SalesOrderDetail.LineTotal)) OVER (PARTITION BY ProductCategory.Name) * 100, 2) AS DECIMAL(10,2)) AS "Procent sprzeda퓓 dla kategorii"
 FROM 
-    Sales.SalesOrderDetail sod
-    JOIN Sales.SalesOrderHeader soh ON sod.SalesOrderID = soh.SalesOrderID
-    JOIN Production.Product p ON sod.ProductID = p.ProductID
-    JOIN Production.ProductSubcategory ps ON p.ProductSubcategoryID = ps.ProductSubcategoryID
-    JOIN Production.ProductCategory pc ON ps.ProductCategoryID = pc.ProductCategoryID
+    Sales.SalesOrderDetail
+    JOIN Sales.SalesOrderHeader ON SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
+    JOIN Production.Product ON SalesOrderDetail.ProductID = Product.ProductID
+    JOIN Production.ProductSubcategory ON Product.ProductSubcategoryID = ProductSubcategory.ProductSubcategoryID
+    JOIN Production.ProductCategory ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
 GROUP BY 
-    YEAR(soh.OrderDate),
-    CUBE(pc.Name)
+    YEAR(SalesOrderHeader.OrderDate),
+    CUBE(ProductCategory.Name)
 ORDER BY 
-    COALESCE(pc.Name, 'Total') DESC,
-    YEAR(soh.OrderDate);
+    COALESCE(ProductCategory.Name, 'Total') DESC,
+    YEAR(SalesOrderHeader.OrderDate);

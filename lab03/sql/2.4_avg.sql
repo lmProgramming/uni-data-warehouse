@@ -1,7 +1,3 @@
--- Przygotuj ranking produktów w zale¿noœci od œredniej liczby sprzedanych sztuk. Wy-
--- ró¿nij 3 (prawie równoliczne) grupy produktów: sprzedaj¹cych siê najlepiej, œrednio
--- i najs³abiej.
-
 WITH ProductsRanked AS 
 (
 	SELECT 
