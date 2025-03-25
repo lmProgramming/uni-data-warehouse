@@ -59,7 +59,7 @@
 \maketitle
 
 {\small
-\begin{lstlisting}[
+  \begin{lstlisting}[
 	language=SQL,
 	showspaces=false,
 	basicstyle=\ttfamily,
@@ -188,8 +188,8 @@ ORDER BY FullName, OrderYear
 Przygotować zestawienie przedstawiające łączną kwotę zniżek z podziałem na katego-
 rie, produkty oraz lata.
 
-{\small
-\begin{lstlisting}[
+  {\small
+    \begin{lstlisting}[
 	language=SQL,
 	showspaces=false,
 	basicstyle=\ttfamily,
@@ -233,8 +233,8 @@ sprzedaży produktów tej kategorii w poszczególnych latach w stosunku do łąc
 kwoty sprzedaży dla tej kategorii. W zadaniu wykorzystaj funkcje okna.
 Wykonaj podobne zestawienia dla pozostałych kategorii.
 
-{\small
-\begin{lstlisting}[
+  {\small
+    \begin{lstlisting}[
 	language=SQL,
 	showspaces=false,
 	basicstyle=\ttfamily,
@@ -280,8 +280,8 @@ Przygotuj zestawienie dla sprzedawców z podziałem na lata i miesiące prezentu
 liczbę obsłużonych przez nich zamówień w ciągu roku, w ciągu roku narastająco oraz
 sumarycznie w obecnym i poprzednim miesiącu. W zadaniu wykorzystaj funkcje okna.
 
-{\small
-\begin{lstlisting}[
+  {\small
+    \begin{lstlisting}[
 	language=SQL,
 	showspaces=false,
 	basicstyle=\ttfamily,
@@ -375,7 +375,7 @@ ORDER BY COUNT(*) DESC
 DENSE\_RANK:
 
 {\small
-\begin{lstlisting}[
+  \begin{lstlisting}[
 	language=SQL,
 	showspaces=false,
 	basicstyle=\ttfamily,
@@ -525,7 +525,7 @@ Tak jak też wywnioskowano wcześniej, jest to jedyna kolumna nadająca się na 
   \caption{Profil kolumny \textit{Item}}
 \end{figure}
 
-Kolumna jest kategoryczna i przypisuje transakcjom kategorię kupionego towaru. W 3.3\% wierszy brakuje wartości. Dodatkowo w 3.4\% to \textit{UNKNOWN}. 
+Kolumna jest kategoryczna i przypisuje transakcjom kategorię kupionego towaru. W 3.3\% wierszy brakuje wartości. Dodatkowo w 3.4\% to \textit{UNKNOWN}.
 
 \subsection{Quantity}
 
@@ -599,16 +599,24 @@ Jak widać, występuje pozytywna korelacja miedzy Price Per Unit a Total Spent.
 
 \section{Wnioski}
 
-\subsection{Wnioski z zadań 1}
+\subsection{Wnioski z zadania 1}
 
 Klienci bardzo różnią się miedzy sobą. Niektórzy wydają tylko w jednym roku niskie sumy, inni wydają na przestrzeni lat duże pieniądze. Ostatecznie sprowadza się to do wysokich przychodów firmy, rosnących między 2011-2013. Jest szansa na utrzymanie tego trendu w 2014 roku.
 
 Wiele produktów nigdy nie miało rabatu. Najwięcej rabatów udzielono w 2013 roku, ale ta wartość i tak jest niska, biorąc pod uwagę przychody firmy.
-TODO TUTAJ
+Zdecydowanie najwięcej rabatów udzielono na rowery - reszta kategorii nie osiągnęła sumarycznie nawet 10\% sumy rabatów dla rowerów.
 
-\subsection{Wnioski z zadań 2}
+\subsection{Wnioski z zadania 2}
 
+Podobnie jak wcześniej widać trendy firmy - przychodów rosnących między 2011-2013. W 2014 roku najbardziej spadła sprzedaż komponentów, a najmniej akcesoriów.
 
+Tak jak w poprzednim raporcie zauważono, nie każdy sprzedawca obsługuje tyle samo transakcji co inny w danym roku. Na przykład, Syed Abbas w 2013 roku obsłużył 12 transakcji, a w 2014 tylko 4. Dla porównania Michael Blythe obsłużył w 2011 65 transakcji, w 2012 - 148, 2013 - 175 a w 2014 - 62.
+
+W tym przypadku DENSE\_RANK wygląda lepiej niż RANK. Oba ostatecznie funkcjonują tak samo, ale wielu klientów ma tą samą liczbę transakcji (na przykład 2). Powoduje to okazjonalne duże skoki w miejscach rankingowych. W DENSE\_RANK to zjawisko nie występuje. Zdecydowana większość klientów wykonała mało transakcji, ale 746 (na 19119) klientów wykonało ich co najmniej 10. 214 klientów wykonało co najmniej 100 transakcji, a rekordzistą jest Reuben D'sa z 530 transakcjami.
+
+Do zadania 2.4 należało oczywiście użyć funkcji NTILE. Warto byłoby zobaczyć porównaniu między rankingiem opartym na średniej liczbie sprzedanych sztuk a sumą liczby sprzedanych sztuk/sumą przychodów. Ranking w aktualnej postaci dotyczy tego, ile w tej samej transakcji zakupiono średnio dany produkt. Nie oznacza to, że ten produkt jest faktycznie najbardziej opłacalny dla sklepu.
+
+\subsection{Wnioski z zadania 3}
 
 \printbibliography
 
