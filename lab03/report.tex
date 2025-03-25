@@ -1,7 +1,7 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{polski}
+\usepackage[polish]{babel}
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -57,18 +57,6 @@
 \begin{document}
 
 \maketitle
-
-{\small
-  \begin{lstlisting}[
-	language=SQL,
-	showspaces=false,
-	basicstyle=\ttfamily,
-	numbers=left,
-	numberstyle=\tiny,
-	commentstyle=\color{green},
-	tabsize=2
-]
-\end{lstlisting}}
 
 \section{Zadanie 1 - funkcje grupujące}
 
@@ -617,6 +605,16 @@ W tym przypadku DENSE\_RANK wygląda lepiej niż RANK. Oba ostatecznie funkcjonu
 Do zadania 2.4 należało oczywiście użyć funkcji NTILE. Warto byłoby zobaczyć porównaniu między rankingiem opartym na średniej liczbie sprzedanych sztuk a sumą liczby sprzedanych sztuk/sumą przychodów. Ranking w aktualnej postaci dotyczy tego, ile w tej samej transakcji zakupiono średnio dany produkt. Nie oznacza to, że ten produkt jest faktycznie najbardziej opłacalny dla sklepu.
 
 \subsection{Wnioski z zadania 3}
+
+Jakość danych jest niska i wynika to prawdopodobnie z braku odpowiedniej walidacji w systemie zbierającym dane. Raczej niepoprawne jest przechowywanie w bazie danych transakcji, gdzie wystąpił błąd przy odczycie metody płatności. Możliwe, że dane nie były wpisywane automatycznie, tylko wymagały za każdym razem manualnego wpisu. Występują poważne literówki i błędy, takie jak literówki w kategorii karty, ujemna wartość Quantity czy rok 2026 w Transaction Date.
+
+Największym problemem jest jednak liczba danych, jakiej brakuje - w zależności od kolumny waha się do nawet 40\%. W tylko jednej kolumnie jakość danych jest prawie idealna - Transaction ID ma tylko 3 duplikaty i wszędzie ma wartości. Wykluczając Transaction ID, przedział brakujących wartości wynosi od 3,4\% do 39,61\%.
+
+Najwięcej problemów mają kolumny Location i Payment Method. W Location brakuje 39,61\% danych, a w Payment Method, wliczając ERROR i UNKNOWN 31,78\%. Poza tym, w Payment Method wystąpiła 2 razy literówka.
+
+Te problemy mocno utrudniłyby przeniesienie podanych danych do porządnej bazy danych z zapisem wszystkich wierszy. Dane te jednak można jak najbardziej przeanalizować, a nawet naprawić oczywiste błędy. Literówki w kategoriach karty można łatwo poprawić, usunąć wiersz z ujemną Quantity i poprawić rok 2026 na 2023. Można nawet próbować domyślić się niektórych brakujących wartości - jeśli brakuje tylko 1 wierzchołka w trójkącie Quantity, Price Per Unit i Total Spent, da się go wywnioskować. Bez dodatkowej wiedzy nie będzie można jednak przywrócić innych brakujących danych.
+
+Nowoczesne narzędzia do analizy danych potrafią bardzo mocno i szybko wspomóc proces analityka i inżyniera danych.
 
 \printbibliography
 
