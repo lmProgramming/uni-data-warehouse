@@ -1,8 +1,8 @@
 SELECT 
-    ProductCategory.Name AS Category, 
-    ISNULL(Product.Name, '1. total') AS Product, 
-    ISNULL(CAST(YEAR(OrderDate) AS VARCHAR), 'total') AS Year, 
-    SUM(UnitPrice * OrderQty - LineTotal) AS TotalDiscount 
+    ProductCategory.Name AS Kategoria, 
+    ISNULL(Product.Name, '1. total') AS "Nazwa produktu", 
+    ISNULL(CAST(YEAR(OrderDate) AS VARCHAR), 'total') AS Rok, 
+    SUM(UnitPrice * OrderQty - LineTotal) AS "Suma rabatu" 
 FROM Sales.SalesOrderDetail
 JOIN Sales.SalesOrderHeader ON SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
 JOIN Production.Product ON SalesOrderDetail.ProductID = Product.ProductID
@@ -12,4 +12,4 @@ GROUP BY
     CUBE(Product.Name, YEAR(OrderDate)),
 	ProductCategory.Name
 ORDER BY 
-    Category, Product, Year
+    Kategoria, "Nazwa produktu", Rok
