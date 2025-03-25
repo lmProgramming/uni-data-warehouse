@@ -17,6 +17,8 @@
   basicstyle=\ttfamily,
   columns=flexible,
   keepspaces=true,
+  showstringspaces=false,
+  escapeinside={(*@}{@*)},
   literate={ą}{{\k{a}}}1
            {ć}{{\'{c}}}1
            {ę}{{\k{e}}}1
@@ -35,6 +37,17 @@
            {Ś}{{\'{S}}}1
            {Ź}{{\'{Z}}}1
            {Ż}{{\.{Z}}}1
+           {"}{{\textquotedbl}}1
+           {'}{{\textquotesingle}}1
+           {`}{{\textasciigrave}}1
+           {~}{{\textasciitilde}}1
+           {^}{{\textasciicircum}}1
+           {_}{{\textunderscore}}1
+           {|}{{\textbar}}1
+           {\{}{{\textbraceleft}}1
+           {\}}{{\textbraceright}}1
+           {[}{{[}}1
+           {]}{{]}}1
 }
 
 \title{3. sprawozdanie z laboratorium Hurtownie Danych}
@@ -45,7 +58,19 @@
 
 \maketitle
 
-\section{Zadanie 1. Ekstrakcja danych}
+\section{Zadanie 1 - funkcje grupujące}
+
+\section{Zadanie 2 - funkcje okienkowe}
+
+\section{Zadanie 3 - profilowanie danych}
+
+Po próbach analizy w SSIS uzyskano tylko część rezultatów.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/excel/03.png}
+  \caption{Wykres na podstawie wyników kwerendy 3}
+\end{figure}
 
 \printbibliography
 
