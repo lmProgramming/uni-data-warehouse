@@ -74,6 +74,10 @@
 
 \subsection{}
 
+Przygotować zestawienie przedstawiające, ile pieniędzy wydali klienci na zamówienia
+na przestrzeni poszczególnych lat.
+Wykonaj zestawienie przy użyciu poleceń rollup, cube, grouping sets.
+
 CUBE:
 
 {\small
@@ -181,6 +185,9 @@ ORDER BY FullName, OrderYear
 
 \subsection{}
 
+Przygotować zestawienie przedstawiające łączną kwotę zniżek z podziałem na katego-
+rie, produkty oraz lata.
+
 {\small
 \begin{lstlisting}[
 	language=SQL,
@@ -220,6 +227,11 @@ ORDER BY
 \section{Zadanie 2 - funkcje okienkowe}
 
 \subsection{}
+
+Dla kategorii ‘Bikes’ przygotuj zestawienie prezentujące procentowy udział kwot
+sprzedaży produktów tej kategorii w poszczególnych latach w stosunku do łącznej
+kwoty sprzedaży dla tej kategorii. W zadaniu wykorzystaj funkcje okna.
+Wykonaj podobne zestawienia dla pozostałych kategorii.
 
 {\small
 \begin{lstlisting}[
@@ -263,6 +275,10 @@ ORDER BY
 \end{figure}
 
 \subsection{}
+
+Przygotuj zestawienie dla sprzedawców z podziałem na lata i miesiące prezentujące
+liczbę obsłużonych przez nich zamówień w ciągu roku, w ciągu roku narastająco oraz
+sumarycznie w obecnym i poprzednim miesiącu. W zadaniu wykorzystaj funkcje okna.
 
 {\small
 \begin{lstlisting}[
@@ -319,6 +335,8 @@ ORDER BY
 \end{figure}
 
 \subsection{}
+
+Przygotuj ranking klientów w zależności od liczby zakupionych produktów. Porównaj rozwiązania uzyskane przez funkcje rank i dense\_rank.
 
 RANK:
 
@@ -389,6 +407,8 @@ ORDER BY COUNT(*) DESC
 \end{figure}
 
 \subsection{}
+
+Przygotuj ranking produktów w zależności od średniej liczby sprzedanych sztuk. Wyróżnij 3 (prawie równoliczne) grupy produktów: sprzedających się najlepiej, średnio i najsłabiej.
 
 {\small
 \begin{lstlisting}[
@@ -579,7 +599,16 @@ Jak widać, występuje pozytywna korelacja miedzy Price Per Unit a Total Spent.
 
 \section{Wnioski}
 
-\subsection{Wnioski z zadań 1 i 2}
+\subsection{Wnioski z zadań 1}
+
+Klienci bardzo różnią się miedzy sobą. Niektórzy wydają tylko w jednym roku niskie sumy, inni wydają na przestrzeni lat duże pieniądze. Ostatecznie sprowadza się to do wysokich przychodów firmy, rosnących między 2011-2013. Jest szansa na utrzymanie tego trendu w 2014 roku.
+
+Wiele produktów nigdy nie miało rabatu. Najwięcej rabatów udzielono w 2013 roku, ale ta wartość i tak jest niska, biorąc pod uwagę przychody firmy.
+TODO TUTAJ
+
+\subsection{Wnioski z zadań 2}
+
+
 
 \printbibliography
 
