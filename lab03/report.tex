@@ -58,7 +58,152 @@
 
 \maketitle
 
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+\end{lstlisting}}
+
 \section{Zadanie 1 - funkcje grupujące}
+
+\subsection{}
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT
+    CASE 
+        WHEN GROUPING(Person.BusinessEntityID) = 1 THEN '1. total sum'
+        ELSE CONCAT(MIN(Person.FirstName), ' ', MIN(Person.LastName))
+    END AS FullName,
+    YEAR(OrderDate) AS OrderYear,
+    SUM(TotalDue) AS TotalSales
+FROM Sales.SalesOrderHeader
+JOIN Sales.Customer ON Customer.CustomerID = SalesOrderHeader.CustomerID
+JOIN Person.Person ON Person.BusinessEntityID = Customer.PersonID
+GROUP BY 
+    CUBE(Person.BusinessEntityID, YEAR(OrderDate))
+ORDER BY 
+    FullName, OrderYear
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/1.1_cube.png}
+  \caption{Wynik kwerendy}
+\end{figure}
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT
+    CASE 
+        WHEN GROUPING(YEAR(OrderDate)) = 1 AND GROUPING(Person.BusinessEntityID) = 1 THEN '1. total sum'
+        WHEN GROUPING(YEAR(OrderDate)) = 1 THEN CONCAT(MIN(Person.FirstName), ' ', MIN(Person.LastName), ' (total)')
+        ELSE MIN(CONCAT(Person.FirstName, ' ', Person.LastName))
+    END AS FullName,
+    YEAR(OrderDate) AS OrderYear,
+    SUM(TotalDue) AS TotalSales
+FROM Sales.SalesOrderHeader
+JOIN Sales.Customer ON Customer.CustomerID = SalesOrderHeader.CustomerID
+JOIN Person.Person ON Person.BusinessEntityID = Customer.PersonID
+GROUP BY 
+    ROLLUP(Person.BusinessEntityID, YEAR(OrderDate))
+ORDER BY 
+    FullName, OrderYear
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/1.1_rollup.png}
+  \caption{Wynik kwerendy}
+\end{figure}
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT
+    MIN(CONCAT(Person.FirstName, ' ', Person.LastName)) AS FullName,	
+    YEAR(OrderDate) AS OrderYear,
+    SUM(TotalDue) AS TotalDue
+FROM Sales.SalesOrderHeader
+JOIN Sales.Customer ON Customer.CustomerID = SalesOrderHeader.CustomerID
+JOIN Person.Person ON Person.BusinessEntityID = Customer.PersonID
+GROUP BY GROUPING SETS
+    (
+		(Person.BusinessEntityID),
+        (YEAR(OrderDate), Person.BusinessEntityID)
+    )
+ORDER BY FullName, OrderYear
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/1.1_grouping.png}
+  \caption{Wynik kwerendy}
+\end{figure}
+
+\subsection{}
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT 
+    ProductCategory.Name AS Kategoria, 
+    ISNULL(Product.Name, '1. total') AS "Nazwa produktu", 
+    ISNULL(CAST(YEAR(OrderDate) AS VARCHAR), 'total') AS Rok, 
+    SUM(UnitPrice * OrderQty - LineTotal) AS "Suma rabatu" 
+FROM Sales.SalesOrderDetail
+JOIN Sales.SalesOrderHeader ON SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
+JOIN Production.Product ON SalesOrderDetail.ProductID = Product.ProductID
+LEFT JOIN Production.ProductSubcategory ON Product.ProductSubcategoryID = ProductSubcategory.ProductSubcategoryID
+LEFT JOIN Production.ProductCategory ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
+GROUP BY 
+    CUBE(Product.Name, YEAR(OrderDate)),
+	ProductCategory.Name
+ORDER BY 
+    Kategoria, "Nazwa produktu", Rok
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/1.2.png}
+  \caption{Wynik kwerendy}
+\end{figure}
 
 \section{Zadanie 2 - funkcje okienkowe}
 
