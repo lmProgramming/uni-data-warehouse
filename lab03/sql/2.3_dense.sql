@@ -1,6 +1,6 @@
 SELECT 
 	Customer.CustomerID AS "ID",
-	Person.FirstName AS "Imiê",
+	Person.FirstName AS "Imi?",
 	Person.LastName AS "Nazwisko",
 	COUNT(*) AS "Liczba transakcji",
 	DENSE_RANK() OVER(ORDER BY COUNT(*) DESC) AS "Ranking"

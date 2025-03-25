@@ -74,6 +74,8 @@
 
 \subsection{}
 
+CUBE:
+
 {\small
 \begin{lstlisting}[
 	language=SQL,
@@ -103,8 +105,10 @@ ORDER BY
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\textwidth]{images/1.1_cube.png}
-  \caption{Wynik kwerendy}
+  \caption{Wynik kwerendy 1.1: CUBE}
 \end{figure}
+
+ROLLUP:
 
 {\small
 \begin{lstlisting}[
@@ -139,8 +143,10 @@ ORDER BY
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\textwidth]{images/1.1_rollup.png}
-  \caption{Wynik kwerendy}
+  \caption{Wynik kwerendy 1.1: ROLLUP}
 \end{figure}
+
+GROUPING SETS:
 
 {\small
 \begin{lstlisting}[
@@ -170,7 +176,7 @@ ORDER BY FullName, OrderYear
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\textwidth]{images/1.1_grouping.png}
-  \caption{Wynik kwerendy}
+  \caption{Wynik kwerendy 1.1: GROUPING SETS}
 \end{figure}
 
 \subsection{}
@@ -208,10 +214,232 @@ ORDER BY
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\textwidth]{images/1.2.png}
-  \caption{Wynik kwerendy}
+  \caption{Wynik kwerendy 1.2}
 \end{figure}
 
 \section{Zadanie 2 - funkcje okienkowe}
+
+\subsection{}
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT 
+    ISNULL(ProductCategory.Name, 'Total') AS "Nazwa kategorii",
+    YEAR(SalesOrderHeader.OrderDate) AS Rok,
+	  SUM(SalesOrderDetail.LineTotal) AS "Suma sprzedazy",
+    CAST(ROUND(SUM(SalesOrderDetail.LineTotal) / SUM(SUM(SalesOrderDetail.LineTotal)) 
+    OVER (PARTITION BY ProductCategory.Name) * 100, 2) AS DECIMAL(10,2)) 
+    AS "Procent sprzedazy dla kategorii"
+FROM 
+    Sales.SalesOrderDetail
+    JOIN Sales.SalesOrderHeader ON 
+      SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
+    JOIN Production.Product ON 
+      SalesOrderDetail.ProductID = Product.ProductID
+    JOIN Production.ProductSubcategory ON 
+      Product.ProductSubcategoryID = ProductSubcategory.ProductSubcategoryID
+    JOIN Production.ProductCategory ON 
+      ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
+GROUP BY 
+    YEAR(SalesOrderHeader.OrderDate),
+    CUBE(ProductCategory.Name)
+ORDER BY 
+    COALESCE(ProductCategory.Name, 'Total') DESC,
+    YEAR(SalesOrderHeader.OrderDate);
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/2.1.png}
+  \caption{Wynik kwerendy 2.1}
+\end{figure}
+
+\subsection{}
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT 
+    Person.FirstName + ' ' + Person.LastName AS [Imie i nazwisko],
+    YEAR(SalesOrderHeader.OrderDate) AS [Rok],
+    MONTH(SalesOrderHeader.OrderDate) AS [Miesiac],
+    COUNT(*) AS [W miesiacu],
+    SUM(COUNT(*)) OVER 
+      (PARTITION BY
+        Person.BusinessEntityID, 
+        YEAR(SalesOrderHeader.OrderDate)) 
+    AS [W roku],
+    SUM(COUNT(*)) OVER 
+      (PARTITION BY 
+        Person.BusinessEntityID, 
+        YEAR(SalesOrderHeader.OrderDate)                 
+      ORDER BY MONTH(SalesOrderHeader.OrderDate)) 
+    AS [W roku narastajaco],
+    COUNT(*) + LAG(COUNT(*), 1, 0) OVER 
+      (PARTITION BY Person.BusinessEntityID 
+      ORDER BY YEAR(SalesOrderHeader.OrderDate), MONTH(SalesOrderHeader.OrderDate)) 
+    AS [Obecny i poprzedni miesiac]
+FROM 
+    Sales.SalesOrderHeader
+    JOIN Sales.SalesPerson ON 
+      SalesOrderHeader.SalesPersonID = SalesPerson.BusinessEntityID
+    JOIN Person.Person ON 
+      SalesPerson.BusinessEntityID = Person.BusinessEntityID
+GROUP BY 
+    Person.BusinessEntityID,
+    Person.FirstName,
+    Person.LastName,
+    YEAR(SalesOrderHeader.OrderDate),
+    MONTH(SalesOrderHeader.OrderDate)
+ORDER BY 
+    [Imie i nazwisko],
+    [Rok],
+    [Miesiac];
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/2.2.png}
+  \caption{Wynik kwerendy 2.2}
+\end{figure}
+
+\subsection{}
+
+RANK:
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT 
+	Customer.CustomerID AS "ID",
+	Person.FirstName AS "Imie",
+	Person.LastName AS "Nazwisko",
+	COUNT(*) AS "Liczba transakcji",
+	RANK() OVER(ORDER BY COUNT(*) DESC) AS "Ranking"
+FROM Sales.Customer
+RIGHT JOIN Sales.SalesOrderHeader ON 
+  SalesOrderHeader.CustomerID = Customer.CustomerID
+RIGHT JOIN Sales.SalesOrderDetail ON 
+  SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
+JOIN Person.Person ON Person.BusinessEntityID = Customer.PersonID
+GROUP BY Customer.CustomerID, Person.FirstName, Person.LastName
+ORDER BY COUNT(*) DESC
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/2.3.png}
+  \caption{Wynik kwerendy 2.3: RANK}
+\end{figure}
+
+DENSE\_RANK:
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+SELECT 
+	Customer.CustomerID AS "ID",
+	Person.FirstName AS "Imie",
+	Person.LastName AS "Nazwisko",
+	COUNT(*) AS "Liczba transakcji",
+	DENSE_RANK() OVER(ORDER BY COUNT(*) DESC) AS "Ranking"
+FROM Sales.Customer
+RIGHT JOIN Sales.SalesOrderHeader ON 
+  SalesOrderHeader.CustomerID = Customer.CustomerID
+RIGHT JOIN Sales.SalesOrderDetail ON 
+  SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
+JOIN Person.Person ON Person.BusinessEntityID = Customer.PersonID
+GROUP BY Customer.CustomerID, Person.FirstName, Person.LastName
+ORDER BY COUNT(*) DESC
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/2.3_dense.png}
+  \caption{Wynik kwerendy 2.3: DENSE\_RANK}
+\end{figure}
+
+\subsection{}
+
+{\small
+\begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+WITH ProductsRanked AS 
+(
+	SELECT 
+		Product.ProductID AS "ID produktu",
+		Product.Name AS "Nazwa produktu",
+		SUM(SalesOrderDetail.OrderQty) AS "Suma liczby sprzedanych sztuk",
+		AVG(CAST(SalesOrderDetail.OrderQty AS DECIMAL(10,2))) 
+    AS "Srednia liczba sprzedanych sztuk",
+		NTILE(3) OVER (ORDER BY AVG(CAST(SalesOrderDetail.OrderQty AS FLOAT)) DESC) 
+    AS "Numer grupy"
+	FROM Production.Product
+	JOIN Sales.SalesOrderDetail 
+    ON SalesOrderDetail.ProductID = Product.ProductID
+	GROUP BY Product.ProductID, Product.Name
+)
+SELECT 
+	ProductsRanked.[ID produktu],
+	ProductsRanked.[Nazwa produktu],
+	ProductsRanked.[Suma liczby sprzedanych sztuk],
+	ProductsRanked.[Srednia liczba sprzedanych sztuk],
+	CASE 
+    WHEN "Numer grupy" = 1 THEN 'Najlepiej sprzedajace sie'
+    WHEN "Numer grupy" = 2 THEN 'Srednio sprzedajace sie'
+    WHEN "Numer grupy" = 3 THEN 'Najslabiej sprzedajace sie'
+  END AS SalesCategory
+FROM ProductsRanked
+ORDER BY ProductsRanked.[Srednia liczba sprzedanych sztuk] DESC
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/2.4.png}
+  \caption{Wynik kwerendy 2.4}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/2.4_avg_selling.png}
+  \caption{Widok przejścia do części średnio sprzedającej się}
+\end{figure}
 
 \section{Zadanie 3 - profilowanie danych}
 
