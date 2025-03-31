@@ -472,6 +472,10 @@ import pandas as pd
 from ydata_profiling import ProfileReport
 from os import path
 
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.colheader_justify', 'left')
+
 dir_path: str = path.dirname(path.realpath(__file__))
 
 df: pd.DataFrame = pd.read_csv(path.join(dir_path, "dane_lista3.csv"))
@@ -493,6 +497,15 @@ df['Transaction Date'] = pd.to_datetime(
 profile = ProfileReport(df, explorative=True)
 
 profile.to_file(path.join(dir_path, "python_results_good_data_types.html"))
+
+df["Wrong Total"] = (
+    df["Quantity"].notnull() &
+    df["Price Per Unit"].notnull() &
+    df["Total Spent"].notnull() &
+    (df["Quantity"] * df["Price Per Unit"] != df["Total Spent"])
+)
+print(f"Liczba źle policzonych Total Spent: {df['Wrong Total'].sum()}")
+print(df[df["Wrong Total"]])  
 \end{lstlisting}
 
 \subsection{Transaction ID}
@@ -543,7 +556,7 @@ Kolumna w większości składa się z liczb całkowitych, ale 11.3\% wartości t
   \caption{Profil kolumny \textit{Total Spent}}
 \end{figure}
 
-Brakuje 5.02\% wartości. Przedział to liczby od 1 do 25 (ale tylko 17 z nich jest w danych). Większość wartości to liczby całkowite, ale występują też wielokrotności 1,5, sugerując, że cena 1,5 w Price Per Unit nie jest żadną anomalią. Najczęściej występuje wartość 6. Większość wartości jest bliżej początku rozkładu niż końca.
+Brakuje 5.02\% wartości. Przedział to liczby od 1 do 25 (ale tylko 17 z nich jest w danych). Większość wartości to liczby całkowite, ale występują też wielokrotności 1,5, sugerując, że cena 1,5 w Price Per Unit nie jest żadną anomalią. Najczęściej występuje wartość 6. Większość wartości jest bliżej początku rozkładu niż końca. Po dodatkowej analizie okazało się, że w 1 przypadku Total Spent został źle policzony.
 
 \subsection{Payment Method}
 

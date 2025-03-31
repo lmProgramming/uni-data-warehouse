@@ -2,6 +2,10 @@ import pandas as pd
 from ydata_profiling import ProfileReport
 from os import path
 
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.colheader_justify', 'left')
+
 dir_path: str = path.dirname(path.realpath(__file__))
 
 df: pd.DataFrame = pd.read_csv(path.join(dir_path, "dane_lista3.csv"))
@@ -23,3 +27,12 @@ df['Transaction Date'] = pd.to_datetime(
 profile = ProfileReport(df, explorative=True)
 
 profile.to_file(path.join(dir_path, "python_results_good_data_types.html"))
+
+df["Wrong Total"] = (
+    df["Quantity"].notnull() &
+    df["Price Per Unit"].notnull() &
+    df["Total Spent"].notnull() &
+    (df["Quantity"] * df["Price Per Unit"] != df["Total Spent"])
+)
+print(f"Liczba źle policzonych Total Spent: {df['Wrong Total'].sum()}")
+print(df[df["Wrong Total"]])
