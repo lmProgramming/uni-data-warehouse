@@ -6,10 +6,63 @@
     <Name>Lab04.database</Name>
     <FullPath>Lab04.database</FullPath>
   </Database>
+  <Cubes>
+    <ProjectItem>
+      <Name>SalesCubeView.cube</Name>
+      <FullPath>SalesCubeView.cube</FullPath>
+      <Dependencies>
+        <ProjectItem>
+          <Name>SalesCubeView.partitions</Name>
+          <FullPath>SalesCubeView.partitions</FullPath>
+        </ProjectItem>
+      </Dependencies>
+    </ProjectItem>
+  </Cubes>
+  <Dimensions>
+    <ProjectItem>
+      <Name>DIM SALESPERSON.dim</Name>
+      <FullPath>DIM SALESPERSON.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>DIM CUSTOMER.dim</Name>
+      <FullPath>DIM CUSTOMER.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>DIM PRODUCT.dim</Name>
+      <FullPath>DIM PRODUCT.dim</FullPath>
+    </ProjectItem>
+  </Dimensions>
+  <DataSources>
+    <ProjectItem>
+      <Name>AdventureWorks2014.ds</Name>
+      <FullPath>AdventureWorks2014.ds</FullPath>
+    </ProjectItem>
+  </DataSources>
+  <DataSourceViews>
+    <ProjectItem>
+      <Name>Adventure Works2014View.dsv</Name>
+      <FullPath>Adventure Works2014View.dsv</FullPath>
+    </ProjectItem>
+  </DataSourceViews>
   <Configurations>
     <Configuration>
       <Name>Development</Name>
-      <Options />
+      <Options>
+        <ConnectionMappings>
+          <ConfigurationSetting>
+            <Id>AdventureWorks2014</Id>
+            <Name>AdventureWorks2014</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=DESKTOP-2GLE46P;Integrated Security=SSPI;Initial Catalog=AdventureWorks2014</Value>
+          </ConfigurationSetting>
+        </ConnectionMappings>
+        <ConnectionSecurityMappings>
+          <ConfigurationSetting>
+            <Id>AdventureWorks2014</Id>
+            <Name>AdventureWorks2014</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+        </ConnectionSecurityMappings>
+      </Options>
     </Configuration>
   </Configurations>
 </Project>

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "Lab04", "Lab04.dwproj", "{DEBD0F0D-FD16-07AB-3C16-3BA60E50F634}"
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "FirstCube", "FirstCube.dwproj", "{DEBD0F0D-FD16-07AB-3C16-3BA60E50F634}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
