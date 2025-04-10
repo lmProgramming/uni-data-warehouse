@@ -64,6 +64,14 @@ dodać tytuły i nazwy osi
 
 19xxx klientów
 
+19119 klientów (pominięto 701 bez PersonID? to pewnie sklepy ale nie mają tranzakcji)
+
+504 produktów (warto pominąć te bez IsPurchased)
+
+17 sprzedawców
+
+121 317 rekordów salesorderdetail
+
 ## ddl dql
 
 ogarnąć te skróty - a do sprawozdania można dodać
