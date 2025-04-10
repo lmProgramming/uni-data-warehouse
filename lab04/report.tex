@@ -58,12 +58,12 @@
 
 \maketitle
 
-\section{Wprowadzenie}
-
-DDL (Data Definition Language) - tworzenie struktur danych i schema z użyciem poleceń CREATE, ALTER, DROP
-DML (Data Manipulation Language) - manipulacja danymi w tabelach z użyciem poleceń INSERT, UPDATE, DELETE
-DCL (Data Control Language) - zarządzanie uprawnieniami, za pomocą poleceń GRANT, DENY, REVOKE
-DQL (Data Query Language) - pozyskiwanie danych z bazy, za pomocą polecenia SELECT
+\begin{enumerate}
+  \item DDL (Data Definition Language) - tworzenie struktur danych i schema z użyciem poleceń CREATE, ALTER, DROP
+  \item DML (Data Manipulation Language) - manipulacja danymi w tabelach z użyciem poleceń INSERT, UPDATE, DELETE
+  \item DCL (Data Control Language) - zarządzanie uprawnieniami, za pomocą poleceń GRANT, DENY, REVOKE
+  \item DQL (Data Query Language) - pozyskiwanie danych z bazy, za pomocą polecenia SELECT
+\end{enumerate}
 
 \section{Zadanie 1 - przygotowanie schematu}
 
@@ -79,6 +79,235 @@ DQL (Data Query Language) - pozyskiwanie danych z bazy, za pomocą polecenia SEL
 ]
 CREATE SCHEMA Kubs
 \end{lstlisting}}
+
+Utworzenie dedykowanego schematu pozwala na logiczne odseparowanie obiektów stworzonych na potrzeby laboratorium od pozostałych struktur bazy danych.
+
+\section{Zadanie 2 - Tworzenie tabel wymiarów i tabeli faktów}
+
+ {\small
+  \begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+
+CREATE TABLE Kubs.DIM_CUSTOMER (
+    CustomerID INT NOT NULL,
+    FirstName NVARCHAR(50) NULL,
+    LastName NVARCHAR(50) NULL,
+    Title NVARCHAR(8) NULL,
+    City NVARCHAR(30) NULL,
+    TerritoryName NVARCHAR(50) NULL,
+    CountryRegionCode NVARCHAR(3) NULL,
+    [Group] NVARCHAR(50) NULL
+);
+
+CREATE TABLE Kubs.DIM_PRODUCT (
+    ProductID INT NOT NULL,
+    Name NVARCHAR(50) NOT NULL,
+    ListPrice MONEY NULL,
+    Color NVARCHAR(15) NULL,
+    SubCategoryName NVARCHAR(50) NULL,
+    CategoryName NVARCHAR(50) NULL,
+    Weight DECIMAL(8, 2) NULL,
+    Size NVARCHAR(5) NULL,
+    IsPurchased BIT NULL DEFAULT 0
+);
+
+CREATE TABLE Kubs.DIM_SALESPERSON (
+    SalesPersonID INT NOT NULL,
+    FirstName NVARCHAR(50) NULL,
+    LastName NVARCHAR(50) NULL,
+    Title NVARCHAR(8) NULL,
+    Gender NCHAR(1) NULL,
+    CountryRegionCode NVARCHAR(3) NULL,
+    [Group] NVARCHAR(50) NULL
+);
+
+CREATE TABLE Kubs.FACT_SALES (
+    ProductID INT NOT NULL,
+    CustomerID INT NOT NULL,
+    SalesPersonID INT NULL,      
+    OrderDate INT NOT NULL,        
+    ShipDate INT NULL,             
+    OrderQty SMALLINT NOT NULL, 
+    UnitPrice MONEY NOT NULL,
+    UnitPriceDiscount DECIMAL(8, 4) NOT NULL DEFAULT 0,
+    LineTotal DECIMAL(19, 4) NOT NULL
+);
+\end{lstlisting}}
+
+Zgodnie z poleceniem, kolumny OrderDate oraz ShipDate będą przechowywać dane typu całkowitego.
+W tabeli faktów sprzedawca nie jest wymagany.
+W tabeli wymiaru dla produktu kategoria i podkategoria również mogą być NULL.
+Tabele DIM\_\* pełnią oczywiście role wymiarów, a FACT\_SALES jest tabelą faktów zawierającą miary dotyczące transakcji sprzedaży.
+
+Wartości NULL w niektórych kolumnach wynikają z opcjonalności tych danych w oryginalnym źródle danych lub mogą być nieobecne (również z powodu braku połączenia z inną tabelą, np. produkt bez podkategorii nie może mieć kategorii).
+
+
+\section{Zadanie 3 - wypełnianie danych}
+
+ {\small
+  \begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+INSERT INTO Kubs.DIM_CUSTOMER (
+    CustomerID,
+    FirstName,
+    LastName,
+    Title,
+    City,
+    TerritoryName,
+    CountryRegionCode,
+    [Group]
+)
+SELECT DISTINCT
+    c.CustomerID,
+    p.FirstName,
+    p.LastName,
+    p.Title,
+    a.City,
+    st.Name AS TerritoryName,
+    st.CountryRegionCode,
+    st.[Group]
+FROM Sales.Customer AS c
+LEFT JOIN Person.Person AS p ON c.PersonID = p.BusinessEntityID
+LEFT JOIN Sales.SalesTerritory AS st 
+    ON c.TerritoryID = st.TerritoryID
+LEFT JOIN Person.BusinessEntityAddress bea 
+    ON p.BusinessEntityID = bea.BusinessEntityID 
+LEFT JOIN Person.Address AS a ON bea.AddressID = a.AddressID
+WHERE c.PersonID IS NOT NULL; 
+
+INSERT INTO Kubs.DIM_PRODUCT (
+    ProductID,
+    Name,
+    ListPrice,
+    Color,
+    SubCategoryName,
+    CategoryName,
+    Weight,
+    Size,
+    IsPurchased
+)
+SELECT DISTINCT
+    p.ProductID,
+    p.Name,
+    p.ListPrice,
+    p.Color,
+    psc.Name AS SubCategoryName,
+    pc.Name AS CategoryName,
+    p.Weight,
+    p.Size,
+    1 AS IsPurchased
+FROM Production.Product AS p
+INNER JOIN Sales.SalesOrderDetail AS sod 
+    ON p.ProductID = sod.ProductID
+LEFT JOIN Production.ProductSubcategory AS psc 
+    ON p.ProductSubcategoryID = psc.ProductSubcategoryID
+LEFT JOIN Production.ProductCategory AS pc 
+    ON psc.ProductCategoryID = pc.ProductCategoryID;
+
+INSERT INTO Kubs.DIM_SALESPERSON (
+    SalesPersonID,
+    FirstName,
+    LastName,
+    Title,
+    Gender,
+    CountryRegionCode,
+    [Group]
+)
+SELECT
+    sp.BusinessEntityID AS SalesPersonID,
+    p.FirstName,
+    p.LastName,
+    p.Title,
+    e.Gender,
+    st.CountryRegionCode,
+    st.[Group]
+FROM Sales.SalesPerson AS sp
+INNER JOIN Person.Person AS p 
+    ON sp.BusinessEntityID = p.BusinessEntityID
+INNER JOIN HumanResources.Employee AS e 
+    ON sp.BusinessEntityID = e.BusinessEntityID
+LEFT JOIN Sales.SalesTerritory AS st 
+    ON sp.TerritoryID = st.TerritoryID;
+
+INSERT INTO Kubs.FACT_SALES (
+    ProductID,
+    CustomerID,
+    SalesPersonID,
+    OrderDate,
+    ShipDate,
+    OrderQty,
+    UnitPrice,
+    UnitPriceDiscount,
+    LineTotal
+)
+SELECT
+    sod.ProductID,
+    soh.CustomerID,
+    soh.SalesPersonID,
+    DATEPART(YEAR, soh.OrderDate) * 10000 + 
+    DATEPART(MONTH, soh.OrderDate) * 100 + 
+    DATEPART(DAY, soh.OrderDate) AS OrderDate,
+    DATEPART(YEAR, soh.ShipDate) * 10000 + 
+    DATEPART(MONTH, soh.ShipDate) * 100 + 
+    DATEPART(DAY, soh.ShipDate) AS ShipDate,
+    sod.OrderQty,
+    sod.UnitPrice,
+    sod.UnitPriceDiscount,
+    sod.LineTotal
+FROM Sales.SalesOrderDetail AS sod
+INNER JOIN Sales.SalesOrderHeader AS soh 
+    ON sod.SalesOrderID = soh.SalesOrderID;
+\end{lstlisting}}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/3_customers.png}
+  \caption{Pierwsze 3 wiersze DIM\_CUSTOMER i liczba wierszy - 19130}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/3_products.png}
+  \caption{Pierwsze 3 wiersze DIM\_PRODUCT i liczba wierszy - 266}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/3_sale_people.png}
+  \caption{Pierwsze 3 wiersze DIM\_SALESPERSON i liczba wierszy - 17}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/3_sales.png}
+  \caption{Pierwsze 3 wiersze FACT\_SALES i liczba wierszy - 121317}
+\end{figure}
+
+Zgodnie z poleceniem wypełniono tabele danymi z bazy danych AdventureWorks2014. Ponieważ analizy będą dotyczyć sprzedaży produktów, pominięto wszystkie produkty, które nigdy nie zostały kupione. Okazało się, że wszystkie produkty, które nie miały kategorii lub podkategorii, nigdy nie były kupione.
+
+Liczby wierszy:
+
+DIM\_CUSTOMER - 19130
+
+DIM\_PRODUCT - 266
+
+DIM\_SALESPERSON - 17
+
+FACT\_SALES - 121317
 
 \printbibliography
 
