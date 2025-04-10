@@ -34,6 +34,11 @@ INNER JOIN Sales.SalesOrderDetail AS sod ON p.ProductID = sod.ProductID
 LEFT JOIN Production.ProductSubcategory AS psc ON p.ProductSubcategoryID = psc.ProductSubcategoryID
 LEFT JOIN Production.ProductCategory AS pc ON psc.ProductCategoryID = pc.ProductCategoryID;
 
+SELECT CustomerID, COUNT(*)
+FROM Kubs.DIM_CUSTOMER
+GROUP BY CustomerID
+HAVING COUNT(*) > 1;
+
 SELECT * FROM Kubs.DIM_CUSTOMER;
 SELECT * FROM Kubs.DIM_PRODUCT;
 SELECT * FROM Kubs.DIM_SALESPERSON;

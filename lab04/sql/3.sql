@@ -13,21 +13,22 @@ INSERT INTO Kubs.DIM_CUSTOMER (
     CountryRegionCode,
     [Group]
 )
-SELECT DISTINCT
+SELECT
     c.CustomerID,
-    p.FirstName,
-    p.LastName,
-    p.Title,
-    a.City,
-    st.Name AS TerritoryName,
-    st.CountryRegionCode,
-    st.[Group]
+    MIN(p.FirstName) AS FirstName,
+    MIN(p.LastName) AS LastName,
+    MIN(p.Title) AS Title,
+    MIN(a.City) AS City,
+    MIN(st.Name) AS TerritoryName,
+    MIN(st.CountryRegionCode) AS CountryRegionCode,
+    MIN(st.[Group]) AS [Group]
 FROM Sales.Customer AS c
 LEFT JOIN Person.Person AS p ON c.PersonID = p.BusinessEntityID
 LEFT JOIN Sales.SalesTerritory AS st ON c.TerritoryID = st.TerritoryID
-LEFT JOIN Person.BusinessEntityAddress bea ON p.BusinessEntityID = bea.BusinessEntityID 
+LEFT JOIN Person.BusinessEntityAddress bea ON p.BusinessEntityID = bea.BusinessEntityID
 LEFT JOIN Person.Address AS a ON bea.AddressID = a.AddressID
-WHERE c.PersonID IS NOT NULL; 
+WHERE c.PersonID IS NOT NULL
+GROUP BY c.CustomerID;
 
 INSERT INTO Kubs.DIM_PRODUCT (
     ProductID,

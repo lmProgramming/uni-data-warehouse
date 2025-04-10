@@ -59,10 +59,10 @@
 \maketitle
 
 \begin{enumerate}
-  \item DDL (Data Definition Language) - tworzenie struktur danych i schema z użyciem poleceń CREATE, ALTER, DROP
-  \item DML (Data Manipulation Language) - manipulacja danymi w tabelach z użyciem poleceń INSERT, UPDATE, DELETE
-  \item DCL (Data Control Language) - zarządzanie uprawnieniami, za pomocą poleceń GRANT, DENY, REVOKE
-  \item DQL (Data Query Language) - pozyskiwanie danych z bazy, za pomocą polecenia SELECT
+    \item DDL (Data Definition Language) - tworzenie struktur danych i schema z użyciem poleceń CREATE, ALTER, DROP
+    \item DML (Data Manipulation Language) - manipulacja danymi w tabelach z użyciem poleceń INSERT, UPDATE, DELETE
+    \item DCL (Data Control Language) - zarządzanie uprawnieniami, za pomocą poleceń GRANT, DENY, REVOKE
+    \item DQL (Data Query Language) - pozyskiwanie danych z bazy, za pomocą polecenia SELECT
 \end{enumerate}
 
 \section{Zadanie 1 - przygotowanie schematu}
@@ -274,40 +274,159 @@ INNER JOIN Sales.SalesOrderHeader AS soh
 \end{lstlisting}}
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=1.0\textwidth]{images/3_customers.png}
-  \caption{Pierwsze 3 wiersze DIM\_CUSTOMER i liczba wierszy - 19130}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_customers.png}
+    \caption{Pierwsze 3 wiersze DIM\_CUSTOMER i liczba wierszy - 19119}
 \end{figure}
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=1.0\textwidth]{images/3_products.png}
-  \caption{Pierwsze 3 wiersze DIM\_PRODUCT i liczba wierszy - 266}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_products.png}
+    \caption{Pierwsze 3 wiersze DIM\_PRODUCT i liczba wierszy - 266}
 \end{figure}
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=1.0\textwidth]{images/3_sale_people.png}
-  \caption{Pierwsze 3 wiersze DIM\_SALESPERSON i liczba wierszy - 17}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_sale_people.png}
+    \caption{Pierwsze 3 wiersze DIM\_SALESPERSON i liczba wierszy - 17}
 \end{figure}
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=1.0\textwidth]{images/3_sales.png}
-  \caption{Pierwsze 3 wiersze FACT\_SALES i liczba wierszy - 121317}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_sales.png}
+    \caption{Pierwsze 3 wiersze FACT\_SALES i liczba wierszy - 121317}
 \end{figure}
 
 Zgodnie z poleceniem wypełniono tabele danymi z bazy danych AdventureWorks2014. Ponieważ analizy będą dotyczyć sprzedaży produktów, pominięto wszystkie produkty, które nigdy nie zostały kupione. Okazało się, że wszystkie produkty, które nie miały kategorii lub podkategorii, nigdy nie były kupione.
 
 Liczby wierszy:
 
-DIM\_CUSTOMER - 19130
+DIM\_CUSTOMER - 19119
 
 DIM\_PRODUCT - 266
 
 DIM\_SALESPERSON - 17
 
 FACT\_SALES - 121317
+
+\section{Zadanie 4 - Więzy integralności}
+
+\subsection{Definiowanie kluczy głównych i obcych}
+
+Poniższy kod SQL dodaje klucze główne do tabel wymiarów oraz klucze obce do tabeli faktów, łącząc ją z wymiarami.
+
+    {\small
+        \begin{lstlisting}[
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{green},
+    tabsize=2
+]
+ALTER TABLE Kubs.DIM_CUSTOMER
+ADD CONSTRAINT PK_DIM_CUSTOMER PRIMARY KEY (CustomerID);
+
+ALTER TABLE Kubs.DIM_PRODUCT
+ADD CONSTRAINT PK_DIM_PRODUCT PRIMARY KEY (ProductID);
+
+ALTER TABLE Kubs.DIM_SALESPERSON
+ADD CONSTRAINT PK_DIM_SALESPERSON PRIMARY KEY (SalesPersonID);
+
+ALTER TABLE Kubs.FACT_SALES
+ADD CONSTRAINT FK_FACT_SALES_DIM_CUSTOMER
+FOREIGN KEY (CustomerID) REFERENCES Kubs.DIM_CUSTOMER(CustomerID);
+
+ALTER TABLE Kubs.FACT_SALES
+ADD CONSTRAINT FK_FACT_SALES_DIM_PRODUCT
+FOREIGN KEY (ProductID) REFERENCES Kubs.DIM_PRODUCT(ProductID);
+
+ALTER TABLE Kubs.FACT_SALES
+ADD CONSTRAINT FK_FACT_SALES_DIM_SALESPERSON
+FOREIGN KEY (SalesPersonID) 
+    REFERENCES Kubs.DIM_SALESPERSON(SalesPersonID);
+\end{lstlisting}
+    }
+
+\subsection{Testowanie więzów integralności}
+
+Poniższe instrukcje \texttt{INSERT INTO} mają na celu sprawdzenie działania zdefiniowanych kluczy głównych i obcych. Oczekujemy, że próby wstawienia niepoprawnych danych zakończą się błędami przechwyconymi w blokach \texttt{CATCH}.
+
+{\small
+\begin{lstlisting}[
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{green},
+    tabsize=2
+]
+PRINT 'Test 1: Próba naruszenia PK w DIM_CUSTOMER';
+BEGIN TRY
+    INSERT INTO Kubs.DIM_CUSTOMER (CustomerID, FirstName, LastName)
+    VALUES (11000, 'Test', 'DuplicatePK');
+
+    PRINT 'BŁĄD - duplikat PK';
+END TRY
+BEGIN CATCH
+    PRINT 'SUKCES';
+    PRINT ERROR_MESSAGE();
+END CATCH
+GO
+
+PRINT 'Test 2: Próba naruszenia FK (nieistniejący ProductID) w FACT_SALES';
+BEGIN TRY
+    INSERT INTO Kubs.FACT_SALES (
+        ProductID, CustomerID, SalesPersonID, OrderDate, ShipDate,
+        OrderQty, UnitPrice, UnitPriceDiscount, LineTotal
+    ) VALUES (
+        -999,
+        11000,
+        NULL,
+        20250101, 20250102, 1, 10.0, 0, 10.0
+    );
+
+    PRINT 'BŁĄD: Nieistniejące ProductID';
+END TRY
+BEGIN CATCH
+    PRINT 'SUKCES';
+    PRINT ERROR_MESSAGE();
+END CATCH
+GO
+
+PRINT 'Test 3: Próba naruszenia FK (nieistniejący CustomerID) w FACT_SALES';
+BEGIN TRY
+    INSERT INTO Kubs.FACT_SALES (
+        ProductID, CustomerID, SalesPersonID, OrderDate, ShipDate,
+        OrderQty, UnitPrice, UnitPriceDiscount, LineTotal
+    ) VALUES (
+        776,
+        -999,
+        NULL,
+        20240103, 20240104, 2, 20.0, 0, 40.0
+    );
+
+    PRINT 'BŁĄD: nieistniejący CustomerID';
+END TRY
+BEGIN CATCH
+    PRINT 'SUKCES';
+    PRINT ERROR_MESSAGE();
+END CATCH
+GO
+
+PRINT 'Koniec testów'
+\end{lstlisting}
+}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/4_2.png}
+    \caption{Wykonanie testów więzów integralności}
+\end{figure}
+
+Testowe instrukcje zakończyły się przechwyceniem błędów związanych z naruszeniem więzów integralności.
 
 \printbibliography
 
