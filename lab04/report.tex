@@ -303,7 +303,7 @@ Zgodnie z poleceniem wypełniono tabele danymi z bazy danych AdventureWorks2014.
 
 Ponieważ analizy będą dotyczyć sprzedaży produktów, pominięto wszystkie produkty, które nigdy nie zostały kupione. Okazało się, że wszystkie produkty, które nie miały kategorii lub podkategorii, nigdy nie były kupione.
 
-Potem okazało się, że jest parę wierszy dla klientów z tym samym CustomerID. W takim wypadku wstawiono tylko jeden wiersz.
+Potem okazało się, że jest parę wierszy dla klientów z tym samym CustomerID. W takim wypadku wstawiono tylko jeden wiersz przez użycie GROUP BY z MIN().
 
 Liczby wierszy:
 
@@ -532,7 +532,8 @@ Rejon Pacyfiku to jedyna grupa z tylko jednym kodem państwa i tylko jednym tery
     \caption{Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i średniej udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.}
 \end{figure}
 
-Na wykresie w oczy od razu rzuca się, że największa liczba sprzedanych jednostek nie jest przypisana do konkretnego sprzedawcy - jest ona większa od sumy dla dwóch najlepszych sprzedawców pod kątem liczby sztuk sprzedanych. Nigdy nie występuje wtedy również zniżka. Być może może to oznaczać, że ten "sprzedawca" to system komputerowy, który nigdy nie oferuje zniżek - ale jest popularny jako szybka metoda pozyskania sprzętu rowerowego. Pewne jest to, że zniżka może wystąpić tylko wtedy, kiedy za transakcją stoi konkretny sprzedawca.
+Na wykresie w oczy od razu rzuca się, że największa liczba sprzedanych jednostek nie jest przypisana do konkretnego sprzedawcy - jest ona większa od sumy dla dwóch najlepszych sprzedawców pod kątem liczby sztuk sprzedanych. Nigdy nie występuje wtedy również zniżka.
+Może to oznaczać, że ten "sprzedawca" to system komputerowy, który nigdy nie oferuje zniżek - ale jest popularny jako szybka metoda pozyskania sprzętu rowerowego. Jest to jednak tylko przypuszczenie i jedna z możliwości. Pewne jest to, że zniżka może wystąpić tylko wtedy, kiedy za transakcją stoi konkretny sprzedawca.
 
 Sprzedawcy osiągają bardzo różne poziomy sprzedaży jednostek produktów. Linda Mitchell, Jillian Carson i Jae Pak to trzech najlepszych pod tym kątem sprzedawców, osiągających bardzo podobne wyniki. Stosują jednak różne poziomy zniżek, gdzie jeden sprzedawca ma jeden z wyższych poziomów, inny drugi najniższym, a jeszcze jeden standardowy. Oznacza to, zwłaszcza w kontekście całego wykresu, że nie ma korelacji między średnią zniżką a liczbą sprzedanych sztuk.
 
