@@ -429,7 +429,7 @@ PRINT 'Koniec testów'
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/4.png}
-    \caption{Wykonanie testów więzów integralności}
+    \caption{Wynik wykonania testów więzów integralności}
 \end{figure}
 
 Testowe instrukcje zakończyły się przechwyceniem błędów związanych z naruszeniem więzów integralności.
@@ -501,12 +501,16 @@ Kolejnym krokiem było przetworzenie kostki. Kliknięto prawym przyciskiem na ko
 
 Do analizy danych zawartych w kostce wykorzystano program MS Excel. Połączono się z przetworzoną kostką Analysis Services, wybierając opcję w GUI Visual Studio wewnątrz SalesCubeView -> Browser -> Analyze in Excel.
 
+Do wykonania 2. analizy trzeba było zaimportować całą kostkę do Excela (Data -> Get Data -> From Database -> From SQL Server Analysis Services Database (Import)), ponieważ nie dało się łatwo stworzyć miary obliczanej jako średnia.
+
 Przeprowadzono przykładowe analizy, tworząc tabele przestawne i wykresy na ich podstawie:
 \begin{itemize}
     \item Analiza sumy sprzedaży (\texttt{Line Total}) według hierarchii geograficznej klientów (Grupa -> Kod Państwa -> Nazwa Terytorium).
-    \item Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i sumę udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.
+    \item Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i średniej udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.
     \item Analiza sumy sprzedaży (\texttt{Line Total}) w zależności od koloru produktu (\texttt{Color}).
 \end{itemize}
+
+\subsection{Wyniki analiz i wnioski}
 
 \begin{figure}[H]
     \centering
@@ -514,17 +518,35 @@ Przeprowadzono przykładowe analizy, tworząc tabele przestawne i wykresy na ich
     \caption{Analiza sumy sprzedaży (\texttt{Line Total}) według hierarchii geograficznej klientów (Grupa -> Kod Państwa -> Nazwa Terytorium).}
 \end{figure}
 
+Sklep sprzedaje swoje produkty w Ameryce Północnej, Europie i na Pacyfiku. Poza USA, każde państwo ma tylko jedne terytorium.
+
+Zdecydowanie największa sprzedaż jest generowana w Ameryce Północnej, głównie w USA. Wśród terytoriów zdecydowanie największą sprzedaż osiągnęło Southwest, z Kanadą i Northwest będącymi na drugim i trzecim miejscu. Tak więc wszystkie 3 najlepsze terytoria znajdują się w Ameryce Północnej.
+
+Europa generuje mniejszą sprzedaż niż Ameryka Północna. Wielka Brytania i Francja mają podobny, znaczący udział, podczas gdy Niemcy generują nieco mniej.
+
+Rejon Pacyfiku to jedyna grupa z tylko jednym kodem państwa i tylko jednym terytorium - Australią. Liczy się on najmniej ze wszystkich grup, choć sama Australia generuje spore przychody - około 11 milionów. Dzięki temu jest ona 4. najlepszym terytorium spośród 10.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/7_2.png}
-    \caption{Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i sumę udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.}
+    \caption{Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i średniej udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.}
 \end{figure}
+
+Na wykresie w oczy od razu rzuca się, że największa liczba sprzedanych jednostek nie jest przypisana do konkretnego sprzedawcy - jest ona większa od sumy dla dwóch najlepszych sprzedawców pod kątem liczby sztuk sprzedanych. Nigdy nie występuje wtedy również zniżka. Być może może to oznaczać, że ten "sprzedawca" to system komputerowy, który nigdy nie oferuje zniżek - ale jest popularny jako szybka metoda pozyskania sprzętu rowerowego. Pewne jest to, że zniżka może wystąpić tylko wtedy, kiedy za transakcją stoi konkretny sprzedawca.
+
+Sprzedawcy osiągają bardzo różne poziomy sprzedaży jednostek produktów. Linda Mitchell, Jillian Carson i Jae Pak to trzech najlepszych pod tym kątem sprzedawców, osiągających bardzo podobne wyniki. Stosują jednak różne poziomy zniżek, gdzie jeden sprzedawca ma jeden z wyższych poziomów, inny drugi najniższym, a jeszcze jeden standardowy. Oznacza to, zwłaszcza w kontekście całego wykresu, że nie ma korelacji między średnią zniżką a liczbą sprzedanych sztuk.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/7_3.png}
     \caption{Analiza sumy sprzedaży (\texttt{Line Total}) w zależności od koloru produktu (\texttt{Color})}
 \end{figure}
+
+Dzięki dobraniu kolorów do wartości od razu można zauważyć, że kolor czarny zdecydowanie dominuje nad resztą, osiągając sprzedaż aż ponad 38 milionów. Kolor czerwony, szary i żółty osiągają podobne, wysokie wyniki - od ok. 18.6 do ok. 21.6 milionów w sprzedaży. Niebieski to ostatni kolor, który jest bardziej znaczący.
+
+Pozostałe kolory miały udział w sprzedaży wynoszący mniej niż 2 miliony. Największym z tych "kolorów" jest jego brak - produkty nie posiadające w bazie informacji o kolorze zostały sprzedane za 1.1 milion. Kolory multi, szaro-czarny i biały odpowiadają za mniej niż 800 milionów, z kolorem białym na samym końcu, ledwo widocznym.
+
+Z danych wynika, że klienci mają różne gusta wobec kolorów, ale generalnie preferują jeden z 5 - czarny, czerwony, szary, żółty lub niebieski. Pozostałe opcje mają mniejsze znaczenie. Może to oznaczać, że koszt zamawiania produktów w mniej popularnych kolorach mógłby przewyższyć potencjalne zyski. Warto się upewnić, żeby produkty były dostępne w tych 5 popularnych kolorach.
 
 \printbibliography
 
