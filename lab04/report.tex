@@ -171,23 +171,25 @@ INSERT INTO Kubs.DIM_CUSTOMER (
     CountryRegionCode,
     [Group]
 )
-SELECT DISTINCT
+SELECT
     c.CustomerID,
-    p.FirstName,
-    p.LastName,
-    p.Title,
-    a.City,
-    st.Name AS TerritoryName,
-    st.CountryRegionCode,
-    st.[Group]
+    MIN(p.FirstName) AS FirstName,
+    MIN(p.LastName) AS LastName,
+    MIN(p.Title) AS Title,
+    MIN(a.City) AS City,
+    MIN(st.Name) AS TerritoryName,
+    MIN(st.CountryRegionCode) AS CountryRegionCode,
+    MIN(st.[Group]) AS [Group]
 FROM Sales.Customer AS c
-LEFT JOIN Person.Person AS p ON c.PersonID = p.BusinessEntityID
+LEFT JOIN Person.Person AS p 
+    ON c.PersonID = p.BusinessEntityID
 LEFT JOIN Sales.SalesTerritory AS st 
     ON c.TerritoryID = st.TerritoryID
 LEFT JOIN Person.BusinessEntityAddress bea 
-    ON p.BusinessEntityID = bea.BusinessEntityID 
+    ON p.BusinessEntityID = bea.BusinessEntityID
 LEFT JOIN Person.Address AS a ON bea.AddressID = a.AddressID
-WHERE c.PersonID IS NOT NULL; 
+WHERE c.PersonID IS NOT NULL
+GROUP BY c.CustomerID;
 
 INSERT INTO Kubs.DIM_PRODUCT (
     ProductID,
@@ -262,7 +264,7 @@ SELECT
     DATEPART(MONTH, soh.OrderDate) * 100 + 
     DATEPART(DAY, soh.OrderDate) AS OrderDate,
     DATEPART(YEAR, soh.ShipDate) * 10000 + 
-    DATEPART(MONTH, soh.ShipDate) * 100 + 
+    DATEPART(MONTH, soh.ShipDate) * 100 +
     DATEPART(DAY, soh.ShipDate) AS ShipDate,
     sod.OrderQty,
     sod.UnitPrice,
@@ -297,7 +299,11 @@ INNER JOIN Sales.SalesOrderHeader AS soh
     \caption{Pierwsze 3 wiersze FACT\_SALES i liczba wierszy - 121317}
 \end{figure}
 
-Zgodnie z poleceniem wypełniono tabele danymi z bazy danych AdventureWorks2014. Ponieważ analizy będą dotyczyć sprzedaży produktów, pominięto wszystkie produkty, które nigdy nie zostały kupione. Okazało się, że wszystkie produkty, które nie miały kategorii lub podkategorii, nigdy nie były kupione.
+Zgodnie z poleceniem wypełniono tabele danymi z bazy danych AdventureWorks2014.
+
+Ponieważ analizy będą dotyczyć sprzedaży produktów, pominięto wszystkie produkty, które nigdy nie zostały kupione. Okazało się, że wszystkie produkty, które nie miały kategorii lub podkategorii, nigdy nie były kupione.
+
+Potem okazało się, że jest parę wierszy dla klientów z tym samym CustomerID. W takim wypadku wstawiono tylko jeden wiersz.
 
 Liczby wierszy:
 
@@ -422,11 +428,103 @@ PRINT 'Koniec testów'
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/4_2.png}
+    \includegraphics[width=1.0\textwidth]{images/4.png}
     \caption{Wykonanie testów więzów integralności}
 \end{figure}
 
 Testowe instrukcje zakończyły się przechwyceniem błędów związanych z naruszeniem więzów integralności.
+
+\section{Zadanie 5 - tworzenie kostki}
+
+W środowisku Visual Studio utworzono nowy projekt typu "Analysis Services Multidimensional and Data Mining Project" o nazwie "FirstCube".
+
+Następnie skonfigurowano źródło danych (\texttt{Data Source}), wskazując na bazę \texttt{AdventureWorks} i wykorzystując uwierzytelnianie systemu Windows. Informacje o personifikacji (\texttt{Impersonation Information}) ustawiono na użycie konta usługi (\texttt{Use the service account}), co wymagało nadania odpowiednich uprawnień (\texttt{db\_datareader}) temu kontu w bazie SQL Server.
+Pozwoliło to w zadaniu 6. na poprawne wykonanie \texttt{Process...}
+{\small
+    \begin{lstlisting}[
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{green},
+    tabsize=2
+    ]
+    ALTER ROLE db_datareader ADD MEMBER [NT Service\MSSQLServerOLAPService];
+    \end{lstlisting}
+}
+
+Utworzono widok źródła danych (\texttt{Data Source View}), dodając tabele wymiarów oraz tabelę faktów.
+
+Za pomocą kreatora utworzono nową kostkę o nazwie \texttt{SalesCubeView}, bazując na istniejących tabelach z widoku źródła danych:
+\begin{itemize}
+    \item Tabela \texttt{FACT\_SALES} została wskazana jako tabela faktów (grupa miar).
+    \item Wybrano miary: \texttt{OrderQty}, \texttt{UnitPriceDiscount} oraz \texttt{LineTotal}. Pozostałe kolumny tabeli faktów (\texttt{ProductID}, \texttt{CustomerID}, \texttt{SalesPersonID}, \texttt{OrderDate}, \texttt{ShipDate}) nie są miarami, ponieważ pełnią rolę kluczy obcych do wymiarów lub przechowują informacje opisowe (daty), których agregacja numeryczna (np. suma dat) nie ma sensu biznesowego. Miary reprezentują wartości ilościowe lub pieniężne, które można agregować (sumować, liczyć, uśredniać itp.).
+    \item Tabele \texttt{DIM\_CUSTOMER}, \texttt{DIM\_PRODUCT}, \texttt{DIM\_SALESPERSON} zostały wybrane jako wymiary kostki.
+\end{itemize}
+
+Po utworzeniu kostki dokonano edycji wymiarów, dodając do nich odpowiednie atrybuty.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/5.png}
+    \caption{Struktura kostki w edytorze Visual Studio}
+\end{figure}
+
+\section{Zadanie 6 - Uruchomienie kostki}
+
+Jako serwer docelowy (\texttt{Target Server}) ustawiono \texttt{localhost} i podano nazwę docelowej bazy danych SSAS Lab04.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/6_deployment_properties.png}
+    \caption{Ustawienia konfiguracji wdrożenia}
+\end{figure}
+
+Następnie wdrożono projekt za pomocą opcji \texttt{Build -> Deploy Solution}. Wdrożenie zakończyło się sukcesem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/6_deployment_success.png}
+    \caption{Udany deployment}
+\end{figure}
+
+Kolejnym krokiem było przetworzenie kostki. Kliknięto prawym przyciskiem na kostkę w \texttt{Solution Explorer} i wybrano opcję \texttt{Process...} (jedną z 4). Proces przetwarzania również zakończył się powodzeniem (choć dopiero po nadaniu poprawnych uprawnień).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/6_success.png}
+    \caption{Potwierdzenie pomyślnego przetworzenia kostki}
+\end{figure}
+
+\section{Zadanie 7 - Proste raporty}
+
+Do analizy danych zawartych w kostce wykorzystano program MS Excel. Połączono się z przetworzoną kostką Analysis Services, wybierając opcję w GUI Visual Studio wewnątrz SalesCubeView -> Browser -> Analyze in Excel.
+
+Przeprowadzono przykładowe analizy, tworząc tabele przestawne i wykresy na ich podstawie:
+\begin{itemize}
+    \item Analiza sumy sprzedaży (\texttt{Line Total}) według hierarchii geograficznej klientów (Grupa -> Kod Państwa -> Nazwa Terytorium).
+    \item Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i sumę udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.
+    \item Analiza sumy sprzedaży (\texttt{Line Total}) w zależności od koloru produktu (\texttt{Color}).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/7_1.png}
+    \caption{Analiza sumy sprzedaży (\texttt{Line Total}) według hierarchii geograficznej klientów (Grupa -> Kod Państwa -> Nazwa Terytorium).}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/7_2.png}
+    \caption{Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i sumę udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/7_3.png}
+    \caption{Analiza sumy sprzedaży (\texttt{Line Total}) w zależności od koloru produktu (\texttt{Color})}
+\end{figure}
 
 \printbibliography
 
