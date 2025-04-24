@@ -6,18 +6,18 @@ CREATE TABLE Kubs.Helper_Months (
 INSERT INTO
     Kubs.Helper_Months (MonthNum, MonthName_PL)
 VALUES
-    (1, N'Styczen'),
-    (2, N'Luty'),
-    (3, N'Marzec'),
-    (4, N'Kwiecien'),
-    (5, N'Maj'),
-    (6, N'Czerwiec'),
-    (7, N'Lipiec'),
-    (8, N'Sierpien'),
-    (9, N'Wrzesien'),
-    (10, N'Pazdziernik'),
-    (11, N'Listopad'),
-    (12, N'Grudzien');
+    (1, 'Styczen'),
+    (2, 'Luty'),
+    (3, 'Marzec'),
+    (4, 'Kwiecien'),
+    (5, 'Maj'),
+    (6, 'Czerwiec'),
+    (7, 'Lipiec'),
+    (8, 'Sierpien'),
+    (9, 'Wrzesien'),
+    (10, 'Pazdziernik'),
+    (11, 'Listopad'),
+    (12, 'Grudzien');
 
 CREATE TABLE Kubs.Helper_Weekdays (
     WeekdayNum INT PRIMARY KEY,
@@ -27,10 +27,10 @@ CREATE TABLE Kubs.Helper_Weekdays (
 INSERT INTO
     Kubs.Helper_Weekdays (WeekdayNum, WeekdayName_PL)
 VALUES
-    (1, N 'Niedziela'),
-    (2, N'Poniedzialek'),
-    (3, N'Wtorek'),
-    (4, N'Sroda'),
-    (5, N'Czwartek'),
-    (6, N'Piatek'),
-    (7, N'Sobota');
+    (1, 'Niedziela'),
+    (2, 'Poniedzialek'),
+    (3, 'Wtorek'),
+    (4, 'Sroda'),
+    (5, 'Czwartek'),
+    (6, 'Piatek'),
+    (7, 'Sobota');

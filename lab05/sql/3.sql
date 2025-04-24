@@ -1,3 +1,77 @@
+CREATE TABLE Kubs.DIM_CUSTOMER (
+    CustomerID INT NOT NULL,
+    FirstName NVARCHAR(50) NULL,
+    LastName NVARCHAR(50) NULL,
+    Title NVARCHAR(8) NULL,
+    City NVARCHAR(30) NULL,
+    TerritoryName NVARCHAR(50) NULL,
+    CountryRegionCode NVARCHAR(3) NULL,
+    [Group] NVARCHAR(50) NULL
+);
+
+CREATE TABLE Kubs.DIM_PRODUCT (
+    ProductID INT NOT NULL,
+    Name NVARCHAR(50) NOT NULL,
+    ListPrice MONEY NULL,
+    Color NVARCHAR(15) NULL,
+    SubCategoryName NVARCHAR(50) NULL,
+    CategoryName NVARCHAR(50) NULL,
+    Weight DECIMAL(8, 2) NULL,
+    Size NVARCHAR(5) NULL,
+);
+
+CREATE TABLE Kubs.DIM_SALESPERSON (
+    SalesPersonID INT NOT NULL,
+    FirstName NVARCHAR(50) NULL,
+    LastName NVARCHAR(50) NULL,
+    Title NVARCHAR(8) NULL,
+    Gender NCHAR(1) NULL,
+    CountryRegionCode NVARCHAR(3) NULL,
+    [Group] NVARCHAR(50) NULL
+);
+
+CREATE TABLE Kubs.FACT_SALES (
+    ProductID INT NOT NULL,
+    CustomerID INT NOT NULL,
+    SalesPersonID INT NULL,
+    OrderDate INT NOT NULL,
+    ShipDate INT NULL,
+    OrderQty SMALLINT NOT NULL,
+    UnitPrice MONEY NOT NULL,
+    UnitPriceDiscount DECIMAL(8, 4) NOT NULL DEFAULT 0,
+    LineTotal DECIMAL(19, 4) NOT NULL
+);
+
+ALTER TABLE
+    Kubs.DIM_CUSTOMER
+ADD
+    CONSTRAINT PK_DIM_CUSTOMER PRIMARY KEY (CustomerID);
+
+ALTER TABLE
+    Kubs.DIM_PRODUCT
+ADD
+    CONSTRAINT PK_DIM_PRODUCT PRIMARY KEY (ProductID);
+
+ALTER TABLE
+    Kubs.DIM_SALESPERSON
+ADD
+    CONSTRAINT PK_DIM_SALESPERSON PRIMARY KEY (SalesPersonID);
+
+ALTER TABLE
+    Kubs.FACT_SALES
+ADD
+    CONSTRAINT FK_FACT_SALES_DIM_CUSTOMER FOREIGN KEY (CustomerID) REFERENCES Kubs.DIM_CUSTOMER(CustomerID);
+
+ALTER TABLE
+    Kubs.FACT_SALES
+ADD
+    CONSTRAINT FK_FACT_SALES_DIM_PRODUCT FOREIGN KEY (ProductID) REFERENCES Kubs.DIM_PRODUCT(ProductID);
+
+ALTER TABLE
+    Kubs.FACT_SALES
+ADD
+    CONSTRAINT FK_FACT_SALES_DIM_SALESPERSON FOREIGN KEY (SalesPersonID) REFERENCES Kubs.DIM_SALESPERSON(SalesPersonID);
+
 INSERT INTO
     Kubs.DIM_CUSTOMER (
         CustomerID,
@@ -38,8 +112,7 @@ INSERT INTO
         SubCategoryName,
         CategoryName,
         Weight,
-        Size,
-        IsPurchased
+        Size
     )
 SELECT
     DISTINCT p.ProductID,
@@ -49,8 +122,7 @@ SELECT
     ISNULL(psc.Name, 'Unknown') AS SubCategoryName,
     pc.Name AS CategoryName,
     p.Weight,
-    p.Size,
-    1 AS IsPurchased
+    p.Size
 FROM
     Production.Product AS p
     INNER JOIN Sales.SalesOrderDetail AS sod ON p.ProductID = sod.ProductID
