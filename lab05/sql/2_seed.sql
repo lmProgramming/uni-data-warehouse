@@ -39,7 +39,3 @@ FROM
     SourceDates sd
     LEFT JOIN Kubs.Helper_Months hm ON DATEPART(month, sd.CalendarDate) = hm.MonthNum
     LEFT JOIN Kubs.Helper_Weekdays hwd ON DATEPART(weekday, sd.CalendarDate) = hwd.WeekdayNum;
-
--- Add FK constraints from FACT_SALES to DIM_TIME (will be done in Reference step)
--- ALTER TABLE Kubs.FACT_SALES ADD CONSTRAINT FK_FACT_SALES_DIM_TIME_OrderDate FOREIGN KEY (OrderDate) REFERENCES Kubs.DIM_TIME(PK_TIME);
--- ALTER TABLE Kubs.FACT_SALES ADD CONSTRAINT FK_FACT_SALES_DIM_TIME_ShipDate FOREIGN KEY (ShipDate) REFERENCES Kubs.DIM_TIME(PK_TIME);
