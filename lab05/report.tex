@@ -1,0 +1,554 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage[backend=biber]{biblatex}
+
+\addbibresource{bibliografia.bib}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=flexible,
+  keepspaces=true,
+  showstringspaces=false,
+  escapeinside={(*@}{@*)},
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'{c}}}1
+           {ę}{{\k{e}}}1
+           {ł}{{\l{}}}1
+           {ń}{{\'{n}}}1
+           {ó}{{\'{o}}}1
+           {ś}{{\'{s}}}1
+           {ź}{{\'{z}}}1
+           {ż}{{\.{z}}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'{C}}}1
+           {Ę}{{\k{E}}}1
+           {Ł}{{\L{}}}1
+           {Ń}{{\'{N}}}1
+           {Ó}{{\'{O}}}1
+           {Ś}{{\'{S}}}1
+           {Ź}{{\'{Z}}}1
+           {Ż}{{\.{Z}}}1
+           {"}{{\textquotedbl}}1
+           {'}{{\textquotesingle}}1
+           {`}{{\textasciigrave}}1
+           {~}{{\textasciitilde}}1
+           {^}{{\textasciicircum}}1
+           {_}{{\textunderscore}}1
+           {|}{{\textbar}}1
+           {\{}{{\textbraceleft}}1
+           {\}}{{\textbraceright}}1
+           {[}{{[}}1
+           {]}{{]}}1
+}
+
+\title{4. sprawozdanie z laboratorium Hurtownie Danych}
+\author{Mikołaj Kubś, 272662}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item DDL (Data Definition Language) - tworzenie struktur danych i schema z użyciem poleceń CREATE, ALTER, DROP
+    \item DML (Data Manipulation Language) - manipulacja danymi w tabelach z użyciem poleceń INSERT, UPDATE, DELETE
+    \item DCL (Data Control Language) - zarządzanie uprawnieniami, za pomocą poleceń GRANT, DENY, REVOKE
+    \item DQL (Data Query Language) - pozyskiwanie danych z bazy, za pomocą polecenia SELECT
+\end{enumerate}
+
+\section{Zadanie 1 - przygotowanie schematu}
+
+ {\small
+  \begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+CREATE SCHEMA Kubs
+\end{lstlisting}}
+
+Utworzenie dedykowanego schematu pozwala na logiczne odseparowanie obiektów stworzonych na potrzeby laboratorium od pozostałych struktur bazy danych.
+
+\section{Zadanie 2 - Tworzenie tabel wymiarów i tabeli faktów}
+
+ {\small
+  \begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+
+CREATE TABLE Kubs.DIM_CUSTOMER (
+    CustomerID INT NOT NULL,
+    FirstName NVARCHAR(50) NULL,
+    LastName NVARCHAR(50) NULL,
+    Title NVARCHAR(8) NULL,
+    City NVARCHAR(30) NULL,
+    TerritoryName NVARCHAR(50) NULL,
+    CountryRegionCode NVARCHAR(3) NULL,
+    [Group] NVARCHAR(50) NULL
+);
+
+CREATE TABLE Kubs.DIM_PRODUCT (
+    ProductID INT NOT NULL,
+    Name NVARCHAR(50) NOT NULL,
+    ListPrice MONEY NULL,
+    Color NVARCHAR(15) NULL,
+    SubCategoryName NVARCHAR(50) NULL,
+    CategoryName NVARCHAR(50) NULL,
+    Weight DECIMAL(8, 2) NULL,
+    Size NVARCHAR(5) NULL,
+    IsPurchased BIT NULL DEFAULT 0
+);
+
+CREATE TABLE Kubs.DIM_SALESPERSON (
+    SalesPersonID INT NOT NULL,
+    FirstName NVARCHAR(50) NULL,
+    LastName NVARCHAR(50) NULL,
+    Title NVARCHAR(8) NULL,
+    Gender NCHAR(1) NULL,
+    CountryRegionCode NVARCHAR(3) NULL,
+    [Group] NVARCHAR(50) NULL
+);
+
+CREATE TABLE Kubs.FACT_SALES (
+    ProductID INT NOT NULL,
+    CustomerID INT NOT NULL,
+    SalesPersonID INT NULL,      
+    OrderDate INT NOT NULL,        
+    ShipDate INT NULL,             
+    OrderQty SMALLINT NOT NULL, 
+    UnitPrice MONEY NOT NULL,
+    UnitPriceDiscount DECIMAL(8, 4) NOT NULL DEFAULT 0,
+    LineTotal DECIMAL(19, 4) NOT NULL
+);
+\end{lstlisting}}
+
+Zgodnie z poleceniem, kolumny OrderDate oraz ShipDate będą przechowywać dane typu całkowitego.
+W tabeli faktów sprzedawca nie jest wymagany.
+W tabeli wymiaru dla produktu kategoria i podkategoria również mogą być NULL.
+Tabele DIM\_\* pełnią oczywiście role wymiarów, a FACT\_SALES jest tabelą faktów zawierającą miary dotyczące transakcji sprzedaży.
+
+Wartości NULL w niektórych kolumnach wynikają z opcjonalności tych danych w oryginalnym źródle danych lub mogą być nieobecne (również z powodu braku połączenia z inną tabelą, np. produkt bez podkategorii nie może mieć kategorii).
+
+
+\section{Zadanie 3 - wypełnianie danych}
+
+ {\small
+  \begin{lstlisting}[
+	language=SQL,
+	showspaces=false,
+	basicstyle=\ttfamily,
+	numbers=left,
+	numberstyle=\tiny,
+	commentstyle=\color{green},
+	tabsize=2
+]
+INSERT INTO Kubs.DIM_CUSTOMER (
+    CustomerID,
+    FirstName,
+    LastName,
+    Title,
+    City,
+    TerritoryName,
+    CountryRegionCode,
+    [Group]
+)
+SELECT
+    c.CustomerID,
+    MIN(p.FirstName) AS FirstName,
+    MIN(p.LastName) AS LastName,
+    MIN(p.Title) AS Title,
+    MIN(a.City) AS City,
+    MIN(st.Name) AS TerritoryName,
+    MIN(st.CountryRegionCode) AS CountryRegionCode,
+    MIN(st.[Group]) AS [Group]
+FROM Sales.Customer AS c
+LEFT JOIN Person.Person AS p 
+    ON c.PersonID = p.BusinessEntityID
+LEFT JOIN Sales.SalesTerritory AS st 
+    ON c.TerritoryID = st.TerritoryID
+LEFT JOIN Person.BusinessEntityAddress bea 
+    ON p.BusinessEntityID = bea.BusinessEntityID
+LEFT JOIN Person.Address AS a ON bea.AddressID = a.AddressID
+WHERE c.PersonID IS NOT NULL
+GROUP BY c.CustomerID;
+
+INSERT INTO Kubs.DIM_PRODUCT (
+    ProductID,
+    Name,
+    ListPrice,
+    Color,
+    SubCategoryName,
+    CategoryName,
+    Weight,
+    Size,
+    IsPurchased
+)
+SELECT DISTINCT
+    p.ProductID,
+    p.Name,
+    p.ListPrice,
+    p.Color,
+    psc.Name AS SubCategoryName,
+    pc.Name AS CategoryName,
+    p.Weight,
+    p.Size,
+    1 AS IsPurchased
+FROM Production.Product AS p
+INNER JOIN Sales.SalesOrderDetail AS sod 
+    ON p.ProductID = sod.ProductID
+LEFT JOIN Production.ProductSubcategory AS psc 
+    ON p.ProductSubcategoryID = psc.ProductSubcategoryID
+LEFT JOIN Production.ProductCategory AS pc 
+    ON psc.ProductCategoryID = pc.ProductCategoryID;
+
+INSERT INTO Kubs.DIM_SALESPERSON (
+    SalesPersonID,
+    FirstName,
+    LastName,
+    Title,
+    Gender,
+    CountryRegionCode,
+    [Group]
+)
+SELECT
+    sp.BusinessEntityID AS SalesPersonID,
+    p.FirstName,
+    p.LastName,
+    p.Title,
+    e.Gender,
+    st.CountryRegionCode,
+    st.[Group]
+FROM Sales.SalesPerson AS sp
+INNER JOIN Person.Person AS p 
+    ON sp.BusinessEntityID = p.BusinessEntityID
+INNER JOIN HumanResources.Employee AS e 
+    ON sp.BusinessEntityID = e.BusinessEntityID
+LEFT JOIN Sales.SalesTerritory AS st 
+    ON sp.TerritoryID = st.TerritoryID;
+
+INSERT INTO Kubs.FACT_SALES (
+    ProductID,
+    CustomerID,
+    SalesPersonID,
+    OrderDate,
+    ShipDate,
+    OrderQty,
+    UnitPrice,
+    UnitPriceDiscount,
+    LineTotal
+)
+SELECT
+    sod.ProductID,
+    soh.CustomerID,
+    soh.SalesPersonID,
+    DATEPART(YEAR, soh.OrderDate) * 10000 + 
+    DATEPART(MONTH, soh.OrderDate) * 100 + 
+    DATEPART(DAY, soh.OrderDate) AS OrderDate,
+    DATEPART(YEAR, soh.ShipDate) * 10000 + 
+    DATEPART(MONTH, soh.ShipDate) * 100 +
+    DATEPART(DAY, soh.ShipDate) AS ShipDate,
+    sod.OrderQty,
+    sod.UnitPrice,
+    sod.UnitPriceDiscount,
+    sod.LineTotal
+FROM Sales.SalesOrderDetail AS sod
+INNER JOIN Sales.SalesOrderHeader AS soh 
+    ON sod.SalesOrderID = soh.SalesOrderID;
+\end{lstlisting}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_customers.png}
+    \caption{Pierwsze 3 wiersze DIM\_CUSTOMER i liczba wierszy - 19119}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_products.png}
+    \caption{Pierwsze 3 wiersze DIM\_PRODUCT i liczba wierszy - 266}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_sale_people.png}
+    \caption{Pierwsze 3 wiersze DIM\_SALESPERSON i liczba wierszy - 17}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/3_sales.png}
+    \caption{Pierwsze 3 wiersze FACT\_SALES i liczba wierszy - 121317}
+\end{figure}
+
+Zgodnie z poleceniem wypełniono tabele danymi z bazy danych AdventureWorks2014.
+
+Ponieważ analizy będą dotyczyć sprzedaży produktów, pominięto wszystkie produkty, które nigdy nie zostały kupione. Okazało się, że wszystkie produkty, które nie miały kategorii lub podkategorii, nigdy nie były kupione.
+
+Potem okazało się, że jest parę wierszy dla klientów z tym samym CustomerID. W takim wypadku wstawiono tylko jeden wiersz przez użycie GROUP BY z MIN().
+
+Liczby wierszy:
+
+DIM\_CUSTOMER - 19119
+
+DIM\_PRODUCT - 266
+
+DIM\_SALESPERSON - 17
+
+FACT\_SALES - 121317
+
+\section{Zadanie 4 - Więzy integralności}
+
+\subsection{Definiowanie kluczy głównych i obcych}
+
+Poniższy kod SQL dodaje klucze główne do tabel wymiarów oraz klucze obce do tabeli faktów, łącząc ją z wymiarami.
+
+    {\small
+        \begin{lstlisting}[
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{green},
+    tabsize=2
+]
+ALTER TABLE Kubs.DIM_CUSTOMER
+ADD CONSTRAINT PK_DIM_CUSTOMER PRIMARY KEY (CustomerID);
+
+ALTER TABLE Kubs.DIM_PRODUCT
+ADD CONSTRAINT PK_DIM_PRODUCT PRIMARY KEY (ProductID);
+
+ALTER TABLE Kubs.DIM_SALESPERSON
+ADD CONSTRAINT PK_DIM_SALESPERSON PRIMARY KEY (SalesPersonID);
+
+ALTER TABLE Kubs.FACT_SALES
+ADD CONSTRAINT FK_FACT_SALES_DIM_CUSTOMER
+FOREIGN KEY (CustomerID) REFERENCES Kubs.DIM_CUSTOMER(CustomerID);
+
+ALTER TABLE Kubs.FACT_SALES
+ADD CONSTRAINT FK_FACT_SALES_DIM_PRODUCT
+FOREIGN KEY (ProductID) REFERENCES Kubs.DIM_PRODUCT(ProductID);
+
+ALTER TABLE Kubs.FACT_SALES
+ADD CONSTRAINT FK_FACT_SALES_DIM_SALESPERSON
+FOREIGN KEY (SalesPersonID) 
+    REFERENCES Kubs.DIM_SALESPERSON(SalesPersonID);
+\end{lstlisting}
+    }
+
+\subsection{Testowanie więzów integralności}
+
+Poniższe instrukcje \texttt{INSERT INTO} mają na celu sprawdzenie działania zdefiniowanych kluczy głównych i obcych. Oczekujemy, że próby wstawienia niepoprawnych danych zakończą się błędami przechwyconymi w blokach \texttt{CATCH}.
+
+{\small
+\begin{lstlisting}[
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{green},
+    tabsize=2
+]
+PRINT 'Test 1: Próba naruszenia PK w DIM_CUSTOMER';
+BEGIN TRY
+    INSERT INTO Kubs.DIM_CUSTOMER (CustomerID, FirstName, LastName)
+    VALUES (11000, 'Test', 'DuplicatePK');
+
+    PRINT 'BŁĄD - duplikat PK';
+END TRY
+BEGIN CATCH
+    PRINT 'SUKCES';
+    PRINT ERROR_MESSAGE();
+END CATCH
+GO
+
+PRINT 'Test 2: Próba naruszenia FK (nieistniejący ProductID) w FACT_SALES';
+BEGIN TRY
+    INSERT INTO Kubs.FACT_SALES (
+        ProductID, CustomerID, SalesPersonID, OrderDate, ShipDate,
+        OrderQty, UnitPrice, UnitPriceDiscount, LineTotal
+    ) VALUES (
+        -999,
+        11000,
+        NULL,
+        20250101, 20250102, 1, 10.0, 0, 10.0
+    );
+
+    PRINT 'BŁĄD: Nieistniejące ProductID';
+END TRY
+BEGIN CATCH
+    PRINT 'SUKCES';
+    PRINT ERROR_MESSAGE();
+END CATCH
+GO
+
+PRINT 'Test 3: Próba naruszenia FK (nieistniejący CustomerID) w FACT_SALES';
+BEGIN TRY
+    INSERT INTO Kubs.FACT_SALES (
+        ProductID, CustomerID, SalesPersonID, OrderDate, ShipDate,
+        OrderQty, UnitPrice, UnitPriceDiscount, LineTotal
+    ) VALUES (
+        776,
+        -999,
+        NULL,
+        20240103, 20240104, 2, 20.0, 0, 40.0
+    );
+
+    PRINT 'BŁĄD: nieistniejący CustomerID';
+END TRY
+BEGIN CATCH
+    PRINT 'SUKCES';
+    PRINT ERROR_MESSAGE();
+END CATCH
+GO
+
+PRINT 'Koniec testów'
+\end{lstlisting}
+}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/4.png}
+    \caption{Wynik wykonania testów więzów integralności}
+\end{figure}
+
+Testowe instrukcje zakończyły się przechwyceniem błędów związanych z naruszeniem więzów integralności.
+
+\section{Zadanie 5 - tworzenie kostki}
+
+W środowisku Visual Studio utworzono nowy projekt typu "Analysis Services Multidimensional and Data Mining Project" o nazwie "FirstCube".
+
+Następnie skonfigurowano źródło danych (\texttt{Data Source}), wskazując na bazę \texttt{AdventureWorks} i wykorzystując uwierzytelnianie systemu Windows. Informacje o personifikacji (\texttt{Impersonation Information}) ustawiono na użycie konta usługi (\texttt{Use the service account}), co wymagało nadania odpowiednich uprawnień (\texttt{db\_datareader}) temu kontu w bazie SQL Server.
+Pozwoliło to w zadaniu 6. na poprawne wykonanie \texttt{Process...}
+{\small
+    \begin{lstlisting}[
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    commentstyle=\color{green},
+    tabsize=2
+    ]
+    ALTER ROLE db_datareader ADD MEMBER [NT Service\MSSQLServerOLAPService];
+    \end{lstlisting}
+}
+
+Utworzono widok źródła danych (\texttt{Data Source View}), dodając tabele wymiarów oraz tabelę faktów.
+
+Za pomocą kreatora utworzono nową kostkę o nazwie \texttt{SalesCubeView}, bazując na istniejących tabelach z widoku źródła danych:
+\begin{itemize}
+    \item Tabela \texttt{FACT\_SALES} została wskazana jako tabela faktów (grupa miar).
+    \item Wybrano miary: \texttt{OrderQty}, \texttt{UnitPriceDiscount} oraz \texttt{LineTotal}. Pozostałe kolumny tabeli faktów (\texttt{ProductID}, \texttt{CustomerID}, \texttt{SalesPersonID}, \texttt{OrderDate}, \texttt{ShipDate}) nie są miarami, ponieważ pełnią rolę kluczy obcych do wymiarów lub przechowują informacje opisowe (daty), których agregacja numeryczna (np. suma dat) nie ma sensu biznesowego. Miary reprezentują wartości ilościowe lub pieniężne, które można agregować (sumować, liczyć, uśredniać itp.).
+    \item Tabele \texttt{DIM\_CUSTOMER}, \texttt{DIM\_PRODUCT}, \texttt{DIM\_SALESPERSON} zostały wybrane jako wymiary kostki.
+\end{itemize}
+
+Po utworzeniu kostki dokonano edycji wymiarów, dodając do nich odpowiednie atrybuty.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/5.png}
+    \caption{Struktura kostki w edytorze Visual Studio}
+\end{figure}
+
+\section{Zadanie 6 - Uruchomienie kostki}
+
+Jako serwer docelowy (\texttt{Target Server}) ustawiono \texttt{localhost} i podano nazwę docelowej bazy danych SSAS Lab04.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/6_deployment_properties.png}
+    \caption{Ustawienia konfiguracji wdrożenia}
+\end{figure}
+
+Następnie wdrożono projekt za pomocą opcji \texttt{Build -> Deploy Solution}. Wdrożenie zakończyło się sukcesem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/6_deployment_success.png}
+    \caption{Udany deployment}
+\end{figure}
+
+Kolejnym krokiem było przetworzenie kostki. Kliknięto prawym przyciskiem na kostkę w \texttt{Solution Explorer} i wybrano opcję \texttt{Process...} (jedną z 4). Proces przetwarzania również zakończył się powodzeniem (choć dopiero po nadaniu poprawnych uprawnień).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/6_success.png}
+    \caption{Potwierdzenie pomyślnego przetworzenia kostki}
+\end{figure}
+
+\section{Zadanie 7 - Proste raporty}
+
+Do analizy danych zawartych w kostce wykorzystano program MS Excel. Połączono się z przetworzoną kostką Analysis Services, wybierając opcję w GUI Visual Studio wewnątrz SalesCubeView -> Browser -> Analyze in Excel.
+
+Do wykonania 2. analizy trzeba było zaimportować całą kostkę do Excela (Data -> Get Data -> From Database -> From SQL Server Analysis Services Database (Import)), ponieważ nie dało się łatwo stworzyć miary obliczanej jako średnia.
+
+Przeprowadzono przykładowe analizy, tworząc tabele przestawne i wykresy na ich podstawie:
+\begin{itemize}
+    \item Analiza sumy sprzedaży (\texttt{Line Total}) według hierarchii geograficznej klientów (Grupa -> Kod Państwa -> Nazwa Terytorium).
+    \item Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i średniej udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.
+    \item Analiza sumy sprzedaży (\texttt{Line Total}) w zależności od koloru produktu (\texttt{Color}).
+\end{itemize}
+
+\subsection{Wyniki analiz i wnioski}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/7_1.png}
+    \caption{Analiza sumy sprzedaży (\texttt{Line Total}) według hierarchii geograficznej klientów (Grupa -> Kod Państwa -> Nazwa Terytorium).}
+\end{figure}
+
+Sklep sprzedaje swoje produkty w Ameryce Północnej, Europie i na Pacyfiku. Poza USA, każde państwo ma tylko jedne terytorium.
+
+Zdecydowanie największa sprzedaż jest generowana w Ameryce Północnej, głównie w USA. Wśród terytoriów zdecydowanie największą sprzedaż osiągnęło Southwest, z Kanadą i Northwest będącymi na drugim i trzecim miejscu. Tak więc wszystkie 3 najlepsze terytoria znajdują się w Ameryce Północnej.
+
+Europa generuje mniejszą sprzedaż niż Ameryka Północna. Wielka Brytania i Francja mają podobny, znaczący udział, podczas gdy Niemcy generują nieco mniej.
+
+Rejon Pacyfiku to jedyna grupa z tylko jednym kodem państwa i tylko jednym terytorium - Australią. Liczy się on najmniej ze wszystkich grup, choć sama Australia generuje spore przychody - około 11 milionów. Dzięki temu jest ona 4. najlepszym terytorium spośród 10.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/7_2.png}
+    \caption{Analiza liczby sprzedanych sztuk (\texttt{Order Qty}) i średniej udzielonych zniżek (\texttt{Unit Price Discount}) według sprzedawców.}
+\end{figure}
+
+Na wykresie w oczy od razu rzuca się, że największa liczba sprzedanych jednostek nie jest przypisana do konkretnego sprzedawcy - jest ona większa od sumy dla dwóch najlepszych sprzedawców pod kątem liczby sztuk sprzedanych. Nigdy nie występuje wtedy również zniżka.
+Może to oznaczać, że ten "sprzedawca" to system komputerowy, który nigdy nie oferuje zniżek - ale jest popularny jako szybka metoda pozyskania sprzętu rowerowego. Jest to jednak tylko przypuszczenie i jedna z możliwości. Pewne jest to, że zniżka może wystąpić tylko wtedy, kiedy za transakcją stoi konkretny sprzedawca.
+
+Sprzedawcy osiągają bardzo różne poziomy sprzedaży jednostek produktów. Linda Mitchell, Jillian Carson i Jae Pak to trzech najlepszych pod tym kątem sprzedawców, osiągających bardzo podobne wyniki. Stosują jednak różne poziomy zniżek, gdzie jeden sprzedawca ma jeden z wyższych poziomów, inny drugi najniższym, a jeszcze jeden standardowy. Oznacza to, zwłaszcza w kontekście całego wykresu, że nie ma korelacji między średnią zniżką a liczbą sprzedanych sztuk.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/7_3.png}
+    \caption{Analiza sumy sprzedaży (\texttt{Line Total}) w zależności od koloru produktu (\texttt{Color})}
+\end{figure}
+
+Dzięki dobraniu kolorów do wartości od razu można zauważyć, że kolor czarny zdecydowanie dominuje nad resztą, osiągając sprzedaż aż ponad 38 milionów. Kolor czerwony, szary i żółty osiągają podobne, wysokie wyniki - od ok. 18.6 do ok. 21.6 milionów w sprzedaży. Niebieski to ostatni kolor z 5 najbardziej znaczących.
+
+Pozostałe kolory miały udział w sprzedaży wynoszący mniej niż 2 miliony. Największym z tych "kolorów" jest jego brak - produkty nie posiadające w bazie informacji o kolorze zostały sprzedane za 1.1 milion. Kolory multi, szaro-czarny i biały odpowiadają za mniej niż 800 milionów, z kolorem białym na samym końcu, ledwo widocznym.
+
+Z danych wynika, że klienci mają różne gusta wobec kolorów, ale generalnie preferują jeden z 5 - czarny, czerwony, szary, żółty lub niebieski. Pozostałe opcje mają mniejsze znaczenie. Może to oznaczać, że koszt zamawiania produktów w mniej popularnych kolorach mógłby przewyższyć potencjalne zyski. Warto się upewnić, żeby większość lub wszystkie produkty oferowane przez sklep były dostępne w tych 5 popularnych kolorach.
+
+\printbibliography
+
+\end{document}
