@@ -16,8 +16,8 @@ SELECT
     MIN(p.Title) AS Title,
     MIN(a.City) AS City,
     MIN(st.Name) AS TerritoryName,
-    MIN(st.CountryRegionCode) AS CountryRegionCode,
-    MIN(st.[Group]) AS [Group]
+    ISNULL(MIN(st.CountryRegionCode), '000') AS CountryRegionCode,
+    ISNULL(MIN(st.[Group]), 'Unknown') AS [Group]
 FROM
     Sales.Customer AS c
     LEFT JOIN Person.Person AS p ON c.PersonID = p.BusinessEntityID
@@ -45,8 +45,8 @@ SELECT
     DISTINCT p.ProductID,
     p.Name,
     p.ListPrice,
-    p.Color,
-    psc.Name AS SubCategoryName,
+    ISNULL(p.Color, 'Unknown') AS Color,
+    ISNULL(psc.Name, 'Unknown') AS SubCategoryName,
     pc.Name AS CategoryName,
     p.Weight,
     p.Size,
@@ -73,8 +73,8 @@ SELECT
     p.LastName,
     p.Title,
     e.Gender,
-    st.CountryRegionCode,
-    st.[Group]
+    ISNULL(st.CountryRegionCode, '000') AS CountryRegionCode,
+    ISNULL(st.[Group], 'Unknown') AS [Group]
 FROM
     Sales.SalesPerson AS sp
     INNER JOIN Person.Person AS p ON sp.BusinessEntityID = p.BusinessEntityID
