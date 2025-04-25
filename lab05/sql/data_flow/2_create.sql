@@ -27,6 +27,8 @@ CREATE TABLE Kubs.Helper_Titles (
     StandardTitle NVARCHAR(20) NOT NULL
 );
 
+CREATE TABLE Kubs.Helper_ProductNames (CleanName NVARCHAR(100) PRIMARY KEY);
+
 -- 3_tables
 CREATE TABLE Kubs.DIM_CUSTOMER (
     CustomerID INT NOT NULL,

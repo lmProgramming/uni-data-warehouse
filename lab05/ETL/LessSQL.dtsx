@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="153"
-  DTS:VersionGUID="{B8852C58-2EEB-4A47-A478-F168A8CDDEBE}">
+  DTS:VersionBuild="159"
+  DTS:VersionGUID="{F283AFE1-EB40-477F-B702-5C8A988C4A46}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2089,7 +2089,7 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="ColorTemp"
-                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ColorTemp]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Cleanse Data.Inputs[Derived Column Input].Columns[SubcategoryName]"
                       cachedDataType="wstr"
@@ -2122,7 +2122,7 @@ where [refTable].[TerritoryID] = ?</property>
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Expression"
-                          name="Expression">[ISNULL](#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ColorTemp]}) ? "Unknown" : #{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ColorTemp]}</property>
+                          name="Expression">[ISNULL](#{Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]}) ? "Unknown" : #{Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]}</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -2259,14 +2259,14 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedDataType="i4"
                       cachedName="ProductID"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
-                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductID]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[Size]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="Size"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[Size]"
-                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Size]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Size]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[Weight]"
                       cachedDataType="numeric"
@@ -2274,22 +2274,15 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedPrecision="8"
                       cachedScale="2"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[Weight]"
-                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Weight]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Weight]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[ListPrice]"
                       cachedDataType="cy"
                       cachedName="ListPrice"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[ListPrice]"
-                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ListPrice]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ListPrice]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[Name]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="Name"
-                      externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
-                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Name]" />
-                    <inputColumn
-                      refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[Name1]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="Name"
@@ -2309,6 +2302,13 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedName="SubCategoryNameCleaned"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[SubCategoryName]"
                       lineageId="Package\DIM_PRODUCT\Cleanse Data.Outputs[Derived Column Output].Columns[SubCategoryNameCleaned]" />
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[CleanName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="CleanName"
+                      externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[CleanName]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2374,6 +2374,565 @@ where [refTable].[TerritoryID] = ?</property>
                       lineageId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DIM_PRODUCT\Fuzzy Lookup"
+              componentClassID="Microsoft.FuzzyLookup"
+              contactInfo="Fuzzy Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;5"
+              description="Performs data cleaning tasks such as standardizing data, correcting data, and providing missing values.  Uses fuzzy matching to return one or more close matches from a reference table. For example, lookup customer data by address, even if your input address data does not exactly match your reference address data."
+              name="Fuzzy Lookup"
+              version="5">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates whether to reuse an existing fuzzy-match index table or build a new one. The new index table can be temporary, persisted, or persisted and maintained."
+                  name="MatchIndexOptions"
+                  typeConverter="tcMatchIndexOptions">1</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the maximum amount of memory (MB) that this instance of the Fuzzy Lookup transformation can use.  If 0 is given, then the transform will dynamically adjust it's memory usage based upon it's requirements and available system memory."
+                  expressionType="Notify"
+                  name="MaxMemoryUsage" />
+                <property
+                  dataType="System.Null"
+                  description="Specifies the name of the fuzzy-match index table to be reused or the table name in which a newly generated fuzzy-match index table will be written."
+                  name="MatchIndexName"
+                  state="escaped" />
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the reference table or view against which to match incoming records."
+                  name="ReferenceTableName"
+                  state="escaped">_x005B_Kubs_x005D_._x005B_Helper_ProductNames_x005D_</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates whether to drop an existing fuzzy-match index table if transformation is configured to generate a new table and a table with the same name already exists."
+                  name="DropExistingMatchIndex">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Whether a copy of the reference table should be made for fuzzy match index construction and subsequent matching.  It is strongly recommended that a copy always be made, otherwise unpredictable output may result if the contents of the reference table change during package execution (or between executions if reusing a fuzzy match index).  If this property is set to false, the reference table must additionally have a clustered index built upon an integer identity column."
+                  name="CopyReferenceTable">1</property>
+                <property
+                  dataType="System.UInt32"
+                  description="Specifies the maximum number of fuzzy matches to return for an input record."
+                  name="MaxOutputMatchesPerInput">1</property>
+                <property
+                  dataType="System.Single"
+                  description="Specifies the minimum similarity score required for the match results that the transformation returns."
+                  name="MinSimilarity">0.65</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the set of white-space and punctuation characters used to separate fuzzy match fields into the words used for matching and scoring a fuzzy lookup."
+                  name="Delimiters"
+                  state="escaped">_x0020__x0009__x000D__x000A__x002C_._x003B_:-_x0022__x0027__x0026__x002F__x005C__x0040__x0021__x003F__x0028__x0029__x003C__x003E__x005B__x005D__x007B__x007D__x007C__x0023__x002A__x005E__x0025_</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the metadata of the reference table in XML format."
+                  name="ReferenceMetadataXml"
+                  state="escaped">_x003C_referenceMetadata_x003E__x003C_referenceColumns_x003E__x003C_referenceColumn_x0020_name_x003D__x0022_CleanName_x0022__x0020_dataType_x003D__x0022_DT_WSTR_x0022__x0020_length_x003D__x0022_100_x0022__x0020_precision_x003D__x0022_0_x0022__x0020_scale_x003D__x0022_0_x0022__x0020_codePage_x003D__x0022_0_x0022__x002F__x003E__x003C__x002F_referenceColumns_x003E__x003C__x002F_referenceMetadata_x003E__x000D__x000A_</property>
+                <property
+                  dataType="System.Boolean"
+                  description="If true, each input record will be directly compared against EVERY record in the reference table.  This may produce slightly better results, but will be extremely slow unless the number of records in the reference table is very small.  Note that the entire reference table will be loaded into main memory if this option is enabled.  This option is primarily intended for debugging purposes and should be used with care."
+                  name="Exhaustive">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="If true, Fuzzy Lookup will partially load the error-tolerant index and the reference table into main memory before execution begins.  This can greatly enhance performance if many input rows are to be processed."
+                  name="WarmCaches">true</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DIM_PRODUCT\Fuzzy Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-2GLE46P.AdventureWorks2014]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-2GLE46P.AdventureWorks2014]"
+                  description="Microsoft SQL Server connection and database in which the fuzzy lookup reference table is located and where the fuzzy match index table will be stored and accessed."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input]"
+                  name="Fuzzy Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductID]">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Name of the reference table column with which the input column should be matched."
+                          name="JoinToReferenceColumn"
+                          state="escaped" />
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the match is a fuzzy or an exact match."
+                          name="JoinType"
+                          typeConverter="tcJoinType">2</property>
+                        <property
+                          dataType="System.Single"
+                          description="Specifies the minimum textual similarity required between input and fuzzy matched records on values in this particular join column.  Must be a floating point value between 0.0 and 1.0."
+                          name="MinSimilarity">0</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the comparison options for character data. The options are those supported by the FoldString function."
+                          name="FuzzyComparisonFlags"
+                          typeConverter="tcComparisonFlags">1</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Flags to FoldString that should be used when comparing whether two strings are equivalent."
+                          name="FuzzyComparisonFlagsEx"
+                          typeConverter="tcComparisonFlagsEx">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Name"
+                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Name]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Name of the reference table column with which the input column should be matched."
+                          name="JoinToReferenceColumn"
+                          state="escaped">CleanName</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the match is a fuzzy or an exact match."
+                          name="JoinType"
+                          typeConverter="tcJoinType">2</property>
+                        <property
+                          dataType="System.Single"
+                          description="Specifies the minimum textual similarity required between input and fuzzy matched records on values in this particular join column.  Must be a floating point value between 0.0 and 1.0."
+                          name="MinSimilarity">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data. The options are those supported by the FoldString function."
+                          name="FuzzyComparisonFlags"
+                          typeConverter="tcComparisonFlags">1</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Flags to FoldString that should be used when comparing whether two strings are equivalent."
+                          name="FuzzyComparisonFlagsEx"
+                          typeConverter="tcComparisonFlagsEx">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ColorTemp]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="ColorTemp"
+                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ColorTemp]">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Name of the reference table column with which the input column should be matched."
+                          name="JoinToReferenceColumn"
+                          state="escaped" />
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the match is a fuzzy or an exact match."
+                          name="JoinType"
+                          typeConverter="tcJoinType">2</property>
+                        <property
+                          dataType="System.Single"
+                          description="Specifies the minimum textual similarity required between input and fuzzy matched records on values in this particular join column.  Must be a floating point value between 0.0 and 1.0."
+                          name="MinSimilarity">0</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the comparison options for character data. The options are those supported by the FoldString function."
+                          name="FuzzyComparisonFlags"
+                          typeConverter="tcComparisonFlags">1</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Flags to FoldString that should be used when comparing whether two strings are equivalent."
+                          name="FuzzyComparisonFlagsEx"
+                          typeConverter="tcComparisonFlagsEx">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[Size]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="Size"
+                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Size]">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Name of the reference table column with which the input column should be matched."
+                          name="JoinToReferenceColumn"
+                          state="escaped" />
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the match is a fuzzy or an exact match."
+                          name="JoinType"
+                          typeConverter="tcJoinType">2</property>
+                        <property
+                          dataType="System.Single"
+                          description="Specifies the minimum textual similarity required between input and fuzzy matched records on values in this particular join column.  Must be a floating point value between 0.0 and 1.0."
+                          name="MinSimilarity">0</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the comparison options for character data. The options are those supported by the FoldString function."
+                          name="FuzzyComparisonFlags"
+                          typeConverter="tcComparisonFlags">1</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Flags to FoldString that should be used when comparing whether two strings are equivalent."
+                          name="FuzzyComparisonFlagsEx"
+                          typeConverter="tcComparisonFlagsEx">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[Weight]"
+                      cachedDataType="numeric"
+                      cachedName="Weight"
+                      cachedPrecision="8"
+                      cachedScale="2"
+                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Weight]">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Name of the reference table column with which the input column should be matched."
+                          name="JoinToReferenceColumn"
+                          state="escaped" />
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the match is a fuzzy or an exact match."
+                          name="JoinType"
+                          typeConverter="tcJoinType">2</property>
+                        <property
+                          dataType="System.Single"
+                          description="Specifies the minimum textual similarity required between input and fuzzy matched records on values in this particular join column.  Must be a floating point value between 0.0 and 1.0."
+                          name="MinSimilarity">0</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the comparison options for character data. The options are those supported by the FoldString function."
+                          name="FuzzyComparisonFlags"
+                          typeConverter="tcComparisonFlags">1</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Flags to FoldString that should be used when comparing whether two strings are equivalent."
+                          name="FuzzyComparisonFlagsEx"
+                          typeConverter="tcComparisonFlagsEx">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ListPrice]"
+                      cachedDataType="cy"
+                      cachedName="ListPrice"
+                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ListPrice]">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Name of the reference table column with which the input column should be matched."
+                          name="JoinToReferenceColumn"
+                          state="escaped" />
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the match is a fuzzy or an exact match."
+                          name="JoinType"
+                          typeConverter="tcJoinType">2</property>
+                        <property
+                          dataType="System.Single"
+                          description="Specifies the minimum textual similarity required between input and fuzzy matched records on values in this particular join column.  Must be a floating point value between 0.0 and 1.0."
+                          name="MinSimilarity">0</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the comparison options for character data. The options are those supported by the FoldString function."
+                          name="FuzzyComparisonFlags"
+                          typeConverter="tcComparisonFlags">1</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Flags to FoldString that should be used when comparing whether two strings are equivalent."
+                          name="FuzzyComparisonFlagsEx"
+                          typeConverter="tcComparisonFlagsEx">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ProductSubcategoryID]"
+                      cachedDataType="i4"
+                      cachedName="ProductSubcategoryID"
+                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductSubcategoryID]">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Name of the reference table column with which the input column should be matched."
+                          name="JoinToReferenceColumn"
+                          state="escaped" />
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the match is a fuzzy or an exact match."
+                          name="JoinType"
+                          typeConverter="tcJoinType">2</property>
+                        <property
+                          dataType="System.Single"
+                          description="Specifies the minimum textual similarity required between input and fuzzy matched records on values in this particular join column.  Must be a floating point value between 0.0 and 1.0."
+                          name="MinSimilarity">0</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the comparison options for character data. The options are those supported by the FoldString function."
+                          name="FuzzyComparisonFlags"
+                          typeConverter="tcComparisonFlags">1</property>
+                        <property
+                          dataType="System.UInt32"
+                          description="Flags to FoldString that should be used when comparing whether two strings are equivalent."
+                          name="FuzzyComparisonFlagsEx"
+                          typeConverter="tcComparisonFlagsEx">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output]"
+                  name="Fuzzy Lookup Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductID]"
+                      name="ProductID">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Name]"
+                      name="Name">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Name]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]"
+                      name="ColorTemp">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ColorTemp]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Size]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Size]"
+                      name="Size">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Size]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Weight]"
+                      dataType="numeric"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Weight]"
+                      name="Weight"
+                      precision="8"
+                      scale="2">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Weight]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ListPrice]"
+                      dataType="cy"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ListPrice]"
+                      name="ListPrice">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ListPrice]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]"
+                      dataType="i4"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]"
+                      name="ProductSubcategoryID">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductSubcategoryID]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[CleanName]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[CleanName]"
+                      name="CleanName">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped">CleanName</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Null"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID" />
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity]"
+                      dataType="r4"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity]"
+                      name="_Similarity">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Confidence]"
+                      dataType="r4"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Confidence]"
+                      name="_Confidence">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">2</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity_Name]"
+                      dataType="r4"
+                      description="Column-level similarity score for fuzzy join on column &quot;Name&quot;."
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity_Name]"
+                      name="_Similarity_Name">
+                      <properties>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the reference table column that is copied to the output for each match result."
+                          name="CopyFromReferenceColumn"
+                          state="escaped" />
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column from which to copy to this output column for each match."
+                          name="SourceInputColumnLineageID">#{Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[Name]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies whether the column is used to indicate confidence or similarity."
+                          name="ColumnType"
+                          typeConverter="tcColumnType">3</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -2765,7 +3324,7 @@ where [refTable].[ProductSubcategoryID] = ?</property>
                       refId="Package\DIM_PRODUCT\Lookup Subcategory.Inputs[Lookup Input].Columns[ProductSubcategoryID]"
                       cachedDataType="i4"
                       cachedName="ProductSubcategoryID"
-                      lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductSubcategoryID]">
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -3169,20 +3728,25 @@ where [refTable].[ProductSubcategoryID] = ?</property>
               name="Derived Column Output"
               startId="Package\DIM_PRODUCT\Cleanse Data.Outputs[Derived Column Output]" />
             <path
-              refId="Package\DIM_PRODUCT.Paths[Lookup Match Output]"
+              refId="Package\DIM_PRODUCT.Paths[Fuzzy Lookup Output]"
               endId="Package\DIM_PRODUCT\Lookup Subcategory.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\DIM_PRODUCT\Lookup Is Sold.Outputs[Lookup Match Output]" />
+              name="Fuzzy Lookup Output"
+              startId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output]" />
             <path
-              refId="Package\DIM_PRODUCT.Paths[Lookup Match Output1]"
-              endId="Package\DIM_PRODUCT\Lookup Category.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\DIM_PRODUCT\Lookup Subcategory.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\DIM_PRODUCT.Paths[Lookup Match Output2]"
+              refId="Package\DIM_PRODUCT.Paths[Lookup Match Output]"
               endId="Package\DIM_PRODUCT\Cleanse Data.Inputs[Derived Column Input]"
               name="Lookup Match Output"
               startId="Package\DIM_PRODUCT\Lookup Category.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DIM_PRODUCT.Paths[Lookup Match Output1]"
+              endId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DIM_PRODUCT\Lookup Is Sold.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\DIM_PRODUCT.Paths[Lookup Match Output2]"
+              endId="Package\DIM_PRODUCT\Lookup Category.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\DIM_PRODUCT\Lookup Subcategory.Outputs[Lookup Match Output]" />
             <path
               refId="Package\DIM_PRODUCT.Paths[OLE DB Source Output]"
               endId="Package\DIM_PRODUCT\Lookup Is Sold.Inputs[Lookup Input]"
@@ -8836,15 +9400,15 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="176,42"
           Id="Package\DIM_PRODUCT\Dest DIM_PRODUCT"
-          TopLeft="181,470" />
+          TopLeft="176,543" />
         <NodeLayout
           Size="158,42"
           Id="Package\DIM_PRODUCT\Lookup Category"
-          TopLeft="197,286" />
+          TopLeft="192,359" />
         <NodeLayout
           Size="175,42"
           Id="Package\DIM_PRODUCT\Lookup Subcategory"
-          TopLeft="190,205" />
+          TopLeft="197,289" />
         <NodeLayout
           Size="149,42"
           Id="Package\DIM_PRODUCT\Lookup Is Sold"
@@ -8856,7 +9420,7 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="141,42"
           Id="Package\DIM_PRODUCT\Cleanse Data"
-          TopLeft="206,377" />
+          TopLeft="201,450" />
         <EdgeLayout
           Id="Package\DIM_PRODUCT.Paths[OLE DB Source Output]"
           TopLeft="274.5,49">
@@ -8876,14 +9440,12 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\DIM_PRODUCT.Paths[Lookup Match Output2]"
-          TopLeft="276.25,328">
+          Id="Package\DIM_PRODUCT.Paths[Lookup Match Output]"
+          TopLeft="271.25,401">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8906,32 +9468,58 @@ FROM Sales.SalesOrderHeader</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\DIM_PRODUCT.Paths[Lookup Match Output1]"
-          TopLeft="276.75,247">
+          Id="Package\DIM_PRODUCT.Paths[Derived Column Output]"
+          TopLeft="267.75,492">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,39"
+              EndConnector="0,51"
               Start="0,0"
-              End="0,31.5">
+              End="0,43.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5" />
+                    End="0,43.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="143,42"
+          Id="Package\DIM_PRODUCT\Fuzzy Lookup"
+          TopLeft="211,193" />
+        <EdgeLayout
+          Id="Package\DIM_PRODUCT.Paths[Lookup Match Output1]"
+          TopLeft="279.5,151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,9.9453125,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,11.4453125,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\DIM_PRODUCT.Paths[Lookup Match Output]"
-          TopLeft="277,151">
+          Id="Package\DIM_PRODUCT.Paths[Fuzzy Lookup Output]"
+          TopLeft="283.5,235">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8949,31 +9537,43 @@ FROM Sales.SalesOrderHeader</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,17.4453125,96.3827734375,11.609375"
+              BoundingBox="-8,15.25,16,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\DIM_PRODUCT.Paths[Derived Column Output]"
-          TopLeft="272.75,419">
+          Id="Package\DIM_PRODUCT.Paths[Lookup Match Output2]"
+          TopLeft="284.5,331">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,51"
+              EndConnector="-13.5,28"
               Start="0,0"
-              End="0,43.5">
+              End="-13.5,20.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,43.5" />
+                    End="0,10" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10"
+                    Point2="0,14"
+                    Point3="-4,14" />
+                  <mssgle:LineSegment
+                    End="-9.5,14" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9.5,14"
+                    Point2="-13.5,14"
+                    Point3="-13.5,18" />
+                  <mssgle:LineSegment
+                    End="-13.5,20.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
+              BoundingBox="-54.94138671875,19,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -10080,6 +10680,19 @@ FROM Sales.SalesOrderHeader</property>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DIM_PRODUCT\Fuzzy Lookup">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

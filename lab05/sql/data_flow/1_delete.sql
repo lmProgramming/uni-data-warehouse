@@ -52,3 +52,5 @@ DROP TABLE IF EXISTS Kubs.Helper_Months;
 DROP TABLE IF EXISTS Kubs.Helper_Weekdays;
 
 DROP TABLE IF EXISTS Kubs.Helper_Titles;
+
+DROP TABLE IF EXISTS Kubs.Helper_ProductNames;
