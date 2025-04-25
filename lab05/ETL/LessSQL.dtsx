@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="171"
-  DTS:VersionGUID="{FC0FA2FB-8C57-47D4-BD36-46150DD63A5D}">
+  DTS:VersionBuild="177"
+  DTS:VersionGUID="{96DF4C47-629A-4411-9CED-81AFA114E2D6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -539,58 +539,57 @@
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[CustomerID]"
                       cachedDataType="i4"
                       cachedName="CustomerID"
-                      cachedSortKeyPosition="1"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CustomerID]" />
+                      lineageId="Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output].Columns[CustomerID]" />
                     <inputColumn
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[FirstName]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="FirstName"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[FirstName]" />
+                      lineageId="Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[FirstName]" />
                     <inputColumn
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[LastName]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="LastName"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[LastName]" />
+                      lineageId="Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[LastName]" />
                     <inputColumn
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[TerritoryName]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="TerritoryName"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[TerritoryName]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[TerritoryName]" />
+                      lineageId="Package\DIM_CUSTOMER\Lookup Territory Details.Outputs[Lookup Match Output].Columns[TerritoryName]" />
                     <inputColumn
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[CityCleaned]"
                       cachedDataType="wstr"
                       cachedLength="30"
                       cachedName="CityCleaned"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[City]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CityCleaned]" />
+                      lineageId="Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[CityCleaned]" />
                     <inputColumn
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[CountryRegionCodeCleaned]"
                       cachedDataType="wstr"
                       cachedLength="3"
                       cachedName="CountryRegionCodeCleaned"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[CountryRegionCode]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CountryRegionCodeCleaned]" />
+                      lineageId="Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[CountryRegionCodeCleaned]" />
                     <inputColumn
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[GroupCleaned]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="GroupCleaned"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[Group]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[GroupCleaned]" />
+                      lineageId="Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[GroupCleaned]" />
                     <inputColumn
                       refId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].Columns[StandardTitle]"
                       cachedDataType="wstr"
                       cachedLength="8"
                       cachedName="StandardTitle"
                       externalMetadataColumnId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input].ExternalColumns[Title]"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[StandardTitle]" />
+                      lineageId="Package\DIM_CUSTOMER\Lookup Standard Titles.Outputs[Lookup Match Output].Columns[StandardTitle]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1515,507 +1514,11 @@ where [refTable].[TerritoryID] = ?</property>
                 </output>
               </outputs>
             </component>
-            <component
-              refId="Package\DIM_CUSTOMER\Sort"
-              componentClassID="Microsoft.Sort"
-              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
-              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
-              name="Sort"
-              version="1">
-              <properties>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
-                  name="EliminateDuplicates">true</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the maximum number of threads to use for sorting."
-                  expressionType="Notify"
-                  name="MaximumThreads">-1</property>
-              </properties>
-              <inputs>
-                <input
-                  refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input]"
-                  name="Sort Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[CustomerID]"
-                      cachedDataType="i4"
-                      cachedName="CustomerID"
-                      lineageId="Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output].Columns[CustomerID]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">1</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[PersonID]"
-                      cachedDataType="i4"
-                      cachedName="PersonID"
-                      lineageId="Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output].Columns[PersonID]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[TerritoryID]"
-                      cachedDataType="i4"
-                      cachedName="TerritoryID"
-                      lineageId="Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output].Columns[TerritoryID]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[FirstName]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="FirstName"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[FirstName]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[LastName]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="LastName"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[LastName]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[Title]"
-                      cachedDataType="wstr"
-                      cachedLength="8"
-                      cachedName="Title"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[Title]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[TerritoryName]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="TerritoryName"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Territory Details.Outputs[Lookup Match Output].Columns[TerritoryName]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[CountryRegionCode]"
-                      cachedDataType="wstr"
-                      cachedLength="3"
-                      cachedName="CountryRegionCode"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Territory Details.Outputs[Lookup Match Output].Columns[CountryRegionCode]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[Group]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="Group"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Territory Details.Outputs[Lookup Match Output].Columns[Group]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[AddressID]"
-                      cachedDataType="i4"
-                      cachedName="AddressID"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Business Address Link.Outputs[Lookup Match Output].Columns[AddressID]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[City]"
-                      cachedDataType="wstr"
-                      cachedLength="30"
-                      cachedName="City"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Address City.Outputs[Lookup Match Output].Columns[City]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[CountryRegionCodeCleaned]"
-                      cachedDataType="wstr"
-                      cachedLength="3"
-                      cachedName="CountryRegionCodeCleaned"
-                      lineageId="Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[CountryRegionCodeCleaned]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[GroupCleaned]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="GroupCleaned"
-                      lineageId="Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[GroupCleaned]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[CityCleaned]"
-                      cachedDataType="wstr"
-                      cachedLength="30"
-                      cachedName="CityCleaned"
-                      lineageId="Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[CityCleaned]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input].Columns[StandardTitle]"
-                      cachedDataType="wstr"
-                      cachedLength="8"
-                      cachedName="StandardTitle"
-                      lineageId="Package\DIM_CUSTOMER\Lookup Standard Titles.Outputs[Lookup Match Output].Columns[StandardTitle]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output]"
-                  isSorted="true"
-                  name="Sort Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CustomerID]"
-                      dataType="i4"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CustomerID]"
-                      name="CustomerID"
-                      sortKeyPosition="1">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output].Columns[CustomerID]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[PersonID]"
-                      dataType="i4"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[PersonID]"
-                      name="PersonID">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output].Columns[PersonID]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[TerritoryID]"
-                      dataType="i4"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[TerritoryID]"
-                      name="TerritoryID">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output].Columns[TerritoryID]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[FirstName]"
-                      dataType="wstr"
-                      length="50"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[FirstName]"
-                      name="FirstName">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[FirstName]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[LastName]"
-                      dataType="wstr"
-                      length="50"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[LastName]"
-                      name="LastName">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[LastName]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[Title]"
-                      dataType="wstr"
-                      length="8"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[Title]"
-                      name="Title">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Person Details.Outputs[Lookup Match Output].Columns[Title]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[TerritoryName]"
-                      dataType="wstr"
-                      length="50"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[TerritoryName]"
-                      name="TerritoryName">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Territory Details.Outputs[Lookup Match Output].Columns[TerritoryName]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CountryRegionCode]"
-                      dataType="wstr"
-                      length="3"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CountryRegionCode]"
-                      name="CountryRegionCode">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Territory Details.Outputs[Lookup Match Output].Columns[CountryRegionCode]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[Group]"
-                      dataType="wstr"
-                      length="50"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[Group]"
-                      name="Group">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Territory Details.Outputs[Lookup Match Output].Columns[Group]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[AddressID]"
-                      dataType="i4"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[AddressID]"
-                      name="AddressID">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Business Address Link.Outputs[Lookup Match Output].Columns[AddressID]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[City]"
-                      dataType="wstr"
-                      length="30"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[City]"
-                      name="City">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Address City.Outputs[Lookup Match Output].Columns[City]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CountryRegionCodeCleaned]"
-                      dataType="wstr"
-                      length="3"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CountryRegionCodeCleaned]"
-                      name="CountryRegionCodeCleaned">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[CountryRegionCodeCleaned]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[GroupCleaned]"
-                      dataType="wstr"
-                      length="50"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[GroupCleaned]"
-                      name="GroupCleaned">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[GroupCleaned]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CityCleaned]"
-                      dataType="wstr"
-                      length="30"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[CityCleaned]"
-                      name="CityCleaned">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output].Columns[CityCleaned]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[StandardTitle]"
-                      dataType="wstr"
-                      length="8"
-                      lineageId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output].Columns[StandardTitle]"
-                      name="StandardTitle">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_CUSTOMER\Lookup Standard Titles.Outputs[Lookup Match Output].Columns[StandardTitle]}</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
           </components>
           <paths>
             <path
               refId="Package\DIM_CUSTOMER.Paths[Derived Column Output]"
-              endId="Package\DIM_CUSTOMER\Sort.Inputs[Sort Input]"
+              endId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
               startId="Package\DIM_CUSTOMER\Cleanse Customer Details.Outputs[Derived Column Output]" />
             <path
@@ -2048,11 +1551,6 @@ where [refTable].[TerritoryID] = ?</property>
               endId="Package\DIM_CUSTOMER\Lookup Person Details.Inputs[Lookup Input]"
               name="OLE DB Source Output"
               startId="Package\DIM_CUSTOMER\Customers.Outputs[OLE DB Source Output]" />
-            <path
-              refId="Package\DIM_CUSTOMER.Paths[Sort Output]"
-              endId="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER.Inputs[OLE DB Destination Input]"
-              name="Sort Output"
-              startId="Package\DIM_CUSTOMER\Sort.Outputs[Sort Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -2089,7 +1587,7 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="ColorTemp"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Cleanse Data.Inputs[Derived Column Input].Columns[SubcategoryName]"
                       cachedDataType="wstr"
@@ -2122,7 +1620,7 @@ where [refTable].[TerritoryID] = ?</property>
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Expression"
-                          name="Expression">[ISNULL](#{Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]}) ? "Unknown" : #{Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]}</property>
+                          name="Expression">[ISNULL](#{Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]}) ? "Unknown" : #{Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]}</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -2259,14 +1757,14 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedDataType="i4"
                       cachedName="ProductID"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductID]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ProductID]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[Size]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="Size"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[Size]"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Size]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Size]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[Weight]"
                       cachedDataType="numeric"
@@ -2274,13 +1772,13 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedPrecision="8"
                       cachedScale="2"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[Weight]"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Weight]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Weight]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[ListPrice]"
                       cachedDataType="cy"
                       cachedName="ListPrice"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[ListPrice]"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ListPrice]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ListPrice]" />
                     <inputColumn
                       refId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].Columns[Name]"
                       cachedDataType="wstr"
@@ -2308,7 +1806,7 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedLength="50"
                       cachedName="CleanName"
                       externalMetadataColumnId="Package\DIM_PRODUCT\Dest DIM_PRODUCT.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[CleanName]" />
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[CleanName]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2380,11 +1878,11 @@ where [refTable].[TerritoryID] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\DIM_PRODUCT\Fuzzy Lookup"
+              refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names"
               componentClassID="Microsoft.FuzzyLookup"
               contactInfo="Fuzzy Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;5"
               description="Performs data cleaning tasks such as standardizing data, correcting data, and providing missing values.  Uses fuzzy matching to return one or more close matches from a reference table. For example, lookup customer data by address, even if your input address data does not exactly match your reference address data."
-              name="Fuzzy Lookup"
+              name="Fuzzy Lookup Product Names"
               version="5">
               <properties>
                 <property
@@ -2444,7 +1942,7 @@ where [refTable].[TerritoryID] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\DIM_PRODUCT\Fuzzy Lookup.Connections[OleDbConnection]"
+                  refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[DESKTOP-2GLE46P.AdventureWorks2014]"
                   connectionManagerRefId="Package.ConnectionManagers[DESKTOP-2GLE46P.AdventureWorks2014]"
                   description="Microsoft SQL Server connection and database in which the fuzzy lookup reference table is located and where the fuzzy match index table will be stored and accessed."
@@ -2452,11 +1950,11 @@ where [refTable].[TerritoryID] = ?</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input]"
+                  refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input]"
                   name="Fuzzy Lookup Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ProductID]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input].Columns[ProductID]"
                       cachedDataType="i4"
                       cachedName="ProductID"
                       lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductID]">
@@ -2488,7 +1986,7 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[Name]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input].Columns[Name]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="Name"
@@ -2521,7 +2019,7 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ColorTemp]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input].Columns[ColorTemp]"
                       cachedDataType="wstr"
                       cachedLength="15"
                       cachedName="ColorTemp"
@@ -2554,7 +2052,7 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[Size]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input].Columns[Size]"
                       cachedDataType="wstr"
                       cachedLength="5"
                       cachedName="Size"
@@ -2587,7 +2085,7 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[Weight]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input].Columns[Weight]"
                       cachedDataType="numeric"
                       cachedName="Weight"
                       cachedPrecision="8"
@@ -2621,7 +2119,7 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ListPrice]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input].Columns[ListPrice]"
                       cachedDataType="cy"
                       cachedName="ListPrice"
                       lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ListPrice]">
@@ -2653,7 +2151,7 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input].Columns[ProductSubcategoryID]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input].Columns[ProductSubcategoryID]"
                       cachedDataType="i4"
                       cachedName="ProductSubcategoryID"
                       lineageId="Package\DIM_PRODUCT\Product.Outputs[OLE DB Source Output].Columns[ProductSubcategoryID]">
@@ -2690,13 +2188,13 @@ where [refTable].[TerritoryID] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output]"
+                  refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output]"
                   name="Fuzzy Lookup Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductID]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ProductID]"
                       dataType="i4"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductID]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ProductID]"
                       name="ProductID">
                       <properties>
                         <property
@@ -2717,10 +2215,10 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Name]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Name]"
                       dataType="wstr"
                       length="50"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Name]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Name]"
                       name="Name">
                       <properties>
                         <property
@@ -2741,10 +2239,10 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]"
                       dataType="wstr"
                       length="15"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ColorTemp]"
                       name="ColorTemp">
                       <properties>
                         <property
@@ -2765,10 +2263,10 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Size]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Size]"
                       dataType="wstr"
                       length="5"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Size]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Size]"
                       name="Size">
                       <properties>
                         <property
@@ -2789,9 +2287,9 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Weight]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Weight]"
                       dataType="numeric"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[Weight]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[Weight]"
                       name="Weight"
                       precision="8"
                       scale="2">
@@ -2814,9 +2312,9 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ListPrice]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ListPrice]"
                       dataType="cy"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ListPrice]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ListPrice]"
                       name="ListPrice">
                       <properties>
                         <property
@@ -2837,9 +2335,9 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]"
                       dataType="i4"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]"
                       name="ProductSubcategoryID">
                       <properties>
                         <property
@@ -2860,10 +2358,10 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[CleanName]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[CleanName]"
                       dataType="wstr"
                       length="50"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[CleanName]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[CleanName]"
                       name="CleanName">
                       <properties>
                         <property
@@ -2884,9 +2382,9 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[_Similarity]"
                       dataType="r4"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[_Similarity]"
                       name="_Similarity">
                       <properties>
                         <property
@@ -2897,9 +2395,9 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Confidence]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[_Confidence]"
                       dataType="r4"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Confidence]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[_Confidence]"
                       name="_Confidence">
                       <properties>
                         <property
@@ -2910,10 +2408,10 @@ where [refTable].[TerritoryID] = ?</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity_Name]"
+                      refId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[_Similarity_Name]"
                       dataType="r4"
                       description="Column-level similarity score for fuzzy join on column &quot;Name&quot;."
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[_Similarity_Name]"
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[_Similarity_Name]"
                       name="_Similarity_Name">
                       <properties>
                         <property
@@ -3324,7 +2822,7 @@ where [refTable].[ProductSubcategoryID] = ?</property>
                       refId="Package\DIM_PRODUCT\Lookup Subcategory.Inputs[Lookup Input].Columns[ProductSubcategoryID]"
                       cachedDataType="i4"
                       cachedName="ProductSubcategoryID"
-                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]">
+                      lineageId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output].Columns[ProductSubcategoryID]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -3731,7 +3229,7 @@ where [refTable].[ProductSubcategoryID] = ?</property>
               refId="Package\DIM_PRODUCT.Paths[Fuzzy Lookup Output]"
               endId="Package\DIM_PRODUCT\Lookup Subcategory.Inputs[Lookup Input]"
               name="Fuzzy Lookup Output"
-              startId="Package\DIM_PRODUCT\Fuzzy Lookup.Outputs[Fuzzy Lookup Output]" />
+              startId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Outputs[Fuzzy Lookup Output]" />
             <path
               refId="Package\DIM_PRODUCT.Paths[Lookup Match Output]"
               endId="Package\DIM_PRODUCT\Cleanse Data.Inputs[Derived Column Input]"
@@ -3739,7 +3237,7 @@ where [refTable].[ProductSubcategoryID] = ?</property>
               startId="Package\DIM_PRODUCT\Lookup Category.Outputs[Lookup Match Output]" />
             <path
               refId="Package\DIM_PRODUCT.Paths[Lookup Match Output1]"
-              endId="Package\DIM_PRODUCT\Fuzzy Lookup.Inputs[Fuzzy Lookup Input]"
+              endId="Package\DIM_PRODUCT\Fuzzy Lookup Product Names.Inputs[Fuzzy Lookup Input]"
               name="Lookup Match Output"
               startId="Package\DIM_PRODUCT\Lookup Is Sold.Outputs[Lookup Match Output]" />
             <path
@@ -4967,17 +4465,17 @@ where [refTable].[TerritoryID] = ?</property>
                       refId="Package\DIM_TIME\Derive PK_Time.Inputs[Derived Column Input].Columns[Rok]"
                       cachedDataType="i4"
                       cachedName="Rok"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Rok]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Rok]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Derive PK_Time.Inputs[Derived Column Input].Columns[Dzien_miesiaca]"
                       cachedDataType="i4"
                       cachedName="Dzien_miesiaca"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_miesiaca]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_miesiaca]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Derive PK_Time.Inputs[Derived Column Input].Columns[Miesiac]"
                       cachedDataType="i4"
                       cachedName="Miesiac"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -5003,7 +4501,7 @@ where [refTable].[TerritoryID] = ?</property>
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Expression"
-                          name="Expression">#{Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Rok]} * 10000 + #{Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac]} * 100 + #{Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_miesiaca]}</property>
+                          name="Expression">#{Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Rok]} * 10000 + #{Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac]} * 100 + #{Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_miesiaca]}</property>
                         <property
                           containsID="true"
                           dataType="System.String"
@@ -5287,44 +4785,44 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedLength="20"
                       cachedName="Dzien_tyg_slownie"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[Dzien_tyg_slownie]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_tyg_slownie]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_tyg_slownie]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].Columns[Kwartal]"
                       cachedDataType="i4"
                       cachedName="Kwartal"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[Kwartal]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Kwartal]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Kwartal]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].Columns[Rok]"
                       cachedDataType="i4"
                       cachedName="Rok"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[Rok]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Rok]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Rok]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].Columns[Miesiac_slownie]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="Miesiac_slownie"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[Miesiac_slownie]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac_slownie]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac_slownie]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].Columns[Dzien_miesiaca]"
                       cachedDataType="i4"
                       cachedName="Dzien_miesiaca"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[Dzien_miesiaca]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_miesiaca]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_miesiaca]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].Columns[Miesiac]"
                       cachedDataType="i4"
                       cachedName="Miesiac"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[Miesiac]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].Columns[Date]"
                       cachedDataType="dbTimeStamp"
                       cachedName="Date"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[FullDate]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Date]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Date]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].Columns[PK_Time]"
                       cachedDataType="i4"
@@ -5337,7 +4835,7 @@ where [refTable].[TerritoryID] = ?</property>
                       cachedName="Dzien_tygodnia"
                       cachedSortKeyPosition="1"
                       externalMetadataColumnId="Package\DIM_TIME\Dest DIM_TIME.Inputs[OLE DB Destination Input].ExternalColumns[Dzien_tyg]"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_tygodnia]" />
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_tygodnia]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -5876,11 +5374,11 @@ FROM Sales.SalesOrderHeader</property>
               </outputs>
             </component>
             <component
-              refId="Package\DIM_TIME\Merge Join"
+              refId="Package\DIM_TIME\Merge Join With Months"
               componentClassID="Microsoft.MergeJoin"
               contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
-              name="Merge Join"
+              name="Merge Join With Months"
               version="1">
               <properties>
                 <property
@@ -5903,38 +5401,38 @@ FROM Sales.SalesOrderHeader</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input]"
+                  refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input]"
                   hasSideEffects="true"
                   name="Merge Join Left Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[MonthNum]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[MonthNum]"
                       cachedDataType="i4"
                       cachedName="MonthNum"
                       cachedSortKeyPosition="1"
                       lineageId="Package\DIM_TIME\Sort By MonthNum.Outputs[Sort Output].Columns[MonthNum]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Date]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Date]"
                       cachedDataType="dbTimeStamp"
                       cachedName="Date"
                       lineageId="Package\DIM_TIME\Sort By MonthNum.Outputs[Sort Output].Columns[Date]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Kwartal]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Kwartal]"
                       cachedDataType="i4"
                       cachedName="Kwartal"
                       lineageId="Package\DIM_TIME\Sort By MonthNum.Outputs[Sort Output].Columns[Kwartal]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Rok]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Rok]"
                       cachedDataType="i4"
                       cachedName="Rok"
                       lineageId="Package\DIM_TIME\Sort By MonthNum.Outputs[Sort Output].Columns[Rok]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]"
                       cachedDataType="i4"
                       cachedName="Dzien_tygodnia"
                       lineageId="Package\DIM_TIME\Sort By MonthNum.Outputs[Sort Output].Columns[Dzien_tygodnia]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]"
                       cachedDataType="i4"
                       cachedName="Dzien_miesiaca"
                       lineageId="Package\DIM_TIME\Sort By MonthNum.Outputs[Sort Output].Columns[Dzien_miesiaca]" />
@@ -5942,18 +5440,18 @@ FROM Sales.SalesOrderHeader</property>
                   <externalMetadataColumns />
                 </input>
                 <input
-                  refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Right Input]"
+                  refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Right Input]"
                   hasSideEffects="true"
                   name="Merge Join Right Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Right Input].Columns[MonthNum]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Right Input].Columns[MonthNum]"
                       cachedDataType="i4"
                       cachedName="MonthNum"
                       cachedSortKeyPosition="1"
                       lineageId="Package\DIM_TIME\Sort Months.Outputs[Sort Output].Columns[MonthNum]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Right Input].Columns[MonthName_PL]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Right Input].Columns[MonthName_PL]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="MonthName_PL"
@@ -5964,93 +5462,93 @@ FROM Sales.SalesOrderHeader</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output]"
+                  refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output]"
                   isSorted="true"
                   name="Merge Join Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Date]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]"
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Date]"
                       name="Date">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Date]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Date]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Kwartal]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]"
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Kwartal]"
                       name="Kwartal">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Kwartal]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Kwartal]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Rok]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]"
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Rok]"
                       name="Rok">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Rok]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Rok]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
                       name="Dzien_tygodnia">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthName_PL]"
                       dataType="wstr"
                       length="20"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]"
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthName_PL]"
                       name="MonthName_PL">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join.Inputs[Merge Join Right Input].Columns[MonthName_PL]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Right Input].Columns[MonthName_PL]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
                       name="Dzien_miesiaca">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]"
+                      refId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthNum]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]"
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthNum]"
                       name="MonthNum"
                       sortKeyPosition="1">
                       <properties>
@@ -6058,7 +5556,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input].Columns[MonthNum]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input].Columns[MonthNum]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -6067,11 +5565,11 @@ FROM Sales.SalesOrderHeader</property>
               </outputs>
             </component>
             <component
-              refId="Package\DIM_TIME\Merge Join 1"
+              refId="Package\DIM_TIME\Merge Join With Weekdays"
               componentClassID="Microsoft.MergeJoin"
               contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
-              name="Merge Join 1"
+              name="Merge Join With Weekdays"
               version="1">
               <properties>
                 <property
@@ -6094,44 +5592,44 @@ FROM Sales.SalesOrderHeader</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input]"
+                  refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input]"
                   hasSideEffects="true"
                   name="Merge Join Left Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]"
                       cachedDataType="i4"
                       cachedName="Dzien_tygodnia"
                       cachedSortKeyPosition="1"
                       lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_tygodnia]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Date]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Date]"
                       cachedDataType="dbTimeStamp"
                       cachedName="Date"
                       lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Date]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Kwartal]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Kwartal]"
                       cachedDataType="i4"
                       cachedName="Kwartal"
                       lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Kwartal]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Rok]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Rok]"
                       cachedDataType="i4"
                       cachedName="Rok"
                       lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Rok]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[MonthName_PL]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[MonthName_PL]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="MonthName_PL"
                       lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthName_PL]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]"
                       cachedDataType="i4"
                       cachedName="Dzien_miesiaca"
                       lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_miesiaca]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[MonthNum]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[MonthNum]"
                       cachedDataType="i4"
                       cachedName="MonthNum"
                       lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthNum]" />
@@ -6139,18 +5637,18 @@ FROM Sales.SalesOrderHeader</property>
                   <externalMetadataColumns />
                 </input>
                 <input
-                  refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Right Input]"
+                  refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Right Input]"
                   hasSideEffects="true"
                   name="Merge Join Right Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Right Input].Columns[WeekdayNum]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Right Input].Columns[WeekdayNum]"
                       cachedDataType="i4"
                       cachedName="WeekdayNum"
                       cachedSortKeyPosition="1"
                       lineageId="Package\DIM_TIME\Sort Weekdays.Outputs[Sort Output].Columns[WeekdayNum]" />
                     <inputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Right Input].Columns[WeekdayName_PL]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Right Input].Columns[WeekdayName_PL]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="WeekdayName_PL"
@@ -6161,107 +5659,107 @@ FROM Sales.SalesOrderHeader</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output]"
+                  refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output]"
                   isSorted="true"
                   name="Merge Join Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_tyg_slownie]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_tyg_slownie]"
                       dataType="wstr"
                       length="20"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_tyg_slownie]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_tyg_slownie]"
                       name="Dzien_tyg_slownie">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Right Input].Columns[WeekdayName_PL]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Right Input].Columns[WeekdayName_PL]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Date]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Date]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Date]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Date]"
                       name="Date">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Date]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Date]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Kwartal]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Kwartal]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Kwartal]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Kwartal]"
                       name="Kwartal">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Kwartal]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Kwartal]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Rok]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Rok]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Rok]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Rok]"
                       name="Rok">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Rok]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Rok]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac_slownie]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac_slownie]"
                       dataType="wstr"
                       length="20"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac_slownie]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac_slownie]"
                       name="Miesiac_slownie">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[MonthName_PL]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[MonthName_PL]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_miesiaca]"
                       name="Dzien_miesiaca">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Miesiac]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Miesiac]"
                       name="Miesiac">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[MonthNum]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[MonthNum]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
+                      refId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
                       dataType="i4"
-                      lineageId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
+                      lineageId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output].Columns[Dzien_tygodnia]"
                       name="Dzien_tygodnia"
                       sortKeyPosition="1">
                       <properties>
@@ -6269,7 +5767,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="The input column associated with this output column"
-                          name="InputColumnID">#{Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]}</property>
+                          name="InputColumnID">#{Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input].Columns[Dzien_tygodnia]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -6586,7 +6084,7 @@ FROM Sales.SalesOrderHeader</property>
                       refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Date]"
                       cachedDataType="dbTimeStamp"
                       cachedName="Date"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]">
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Date]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -6602,7 +6100,7 @@ FROM Sales.SalesOrderHeader</property>
                       refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Kwartal]"
                       cachedDataType="i4"
                       cachedName="Kwartal"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]">
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Kwartal]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -6618,7 +6116,7 @@ FROM Sales.SalesOrderHeader</property>
                       refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Rok]"
                       cachedDataType="i4"
                       cachedName="Rok"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]">
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Rok]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -6634,7 +6132,7 @@ FROM Sales.SalesOrderHeader</property>
                       refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Dzien_tygodnia]"
                       cachedDataType="i4"
                       cachedName="Dzien_tygodnia"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]">
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_tygodnia]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -6651,7 +6149,7 @@ FROM Sales.SalesOrderHeader</property>
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="MonthName_PL"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]">
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthName_PL]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -6667,7 +6165,7 @@ FROM Sales.SalesOrderHeader</property>
                       refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Dzien_miesiaca]"
                       cachedDataType="i4"
                       cachedName="Dzien_miesiaca"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]">
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_miesiaca]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -6684,7 +6182,7 @@ FROM Sales.SalesOrderHeader</property>
                       cachedDataType="i4"
                       cachedName="MonthNum"
                       cachedSortKeyPosition="1"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]">
+                      lineageId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthNum]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -6716,7 +6214,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]}</property>
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Date]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -6729,7 +6227,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]}</property>
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Kwartal]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -6742,7 +6240,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]}</property>
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Rok]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -6756,7 +6254,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]}</property>
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_tygodnia]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -6770,7 +6268,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]}</property>
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthName_PL]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -6783,7 +6281,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]}</property>
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[Dzien_miesiaca]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -6796,7 +6294,7 @@ FROM Sales.SalesOrderHeader</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]}</property>
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output].Columns[MonthNum]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -7090,12 +6588,12 @@ FROM Sales.SalesOrderHeader</property>
               refId="Package\DIM_TIME.Paths[Merge Join Output]"
               endId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input]"
               name="Merge Join Output"
-              startId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output]" />
+              startId="Package\DIM_TIME\Merge Join With Months.Outputs[Merge Join Output]" />
             <path
               refId="Package\DIM_TIME.Paths[Merge Join Output1]"
               endId="Package\DIM_TIME\Derive PK_Time.Inputs[Derived Column Input]"
               name="Merge Join Output"
-              startId="Package\DIM_TIME\Merge Join 1.Outputs[Merge Join Output]" />
+              startId="Package\DIM_TIME\Merge Join With Weekdays.Outputs[Merge Join Output]" />
             <path
               refId="Package\DIM_TIME.Paths[OLE DB Source Output]"
               endId="Package\DIM_TIME\Union All.Inputs[Union All Input 1]"
@@ -7123,22 +6621,22 @@ FROM Sales.SalesOrderHeader</property>
               startId="Package\DIM_TIME\Sort And Remove Duplicates.Outputs[Sort Output]" />
             <path
               refId="Package\DIM_TIME.Paths[Sort Output1]"
-              endId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Left Input]"
+              endId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Left Input]"
               name="Sort Output"
               startId="Package\DIM_TIME\Sort By MonthNum.Outputs[Sort Output]" />
             <path
               refId="Package\DIM_TIME.Paths[Sort Output2]"
-              endId="Package\DIM_TIME\Merge Join.Inputs[Merge Join Right Input]"
+              endId="Package\DIM_TIME\Merge Join With Months.Inputs[Merge Join Right Input]"
               name="Sort Output"
               startId="Package\DIM_TIME\Sort Months.Outputs[Sort Output]" />
             <path
               refId="Package\DIM_TIME.Paths[Sort Output3]"
-              endId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Right Input]"
+              endId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Right Input]"
               name="Sort Output"
               startId="Package\DIM_TIME\Sort Weekdays.Outputs[Sort Output]" />
             <path
               refId="Package\DIM_TIME.Paths[Sort Output4]"
-              endId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input]"
+              endId="Package\DIM_TIME\Merge Join With Weekdays.Inputs[Merge Join Left Input]"
               name="Sort Output"
               startId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output]" />
             <path
@@ -7507,34 +7005,34 @@ FROM Sales.SalesOrderHeader</property>
                       cachedDataType="i4"
                       cachedName="SalesOrderID"
                       cachedSortKeyPosition="1"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[SalesOrderID]" />
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[SalesOrderID]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Left Input].Columns[OrderQty]"
                       cachedDataType="i2"
                       cachedName="OrderQty"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[OrderQty]" />
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[OrderQty]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Left Input].Columns[ProductID]"
                       cachedDataType="i4"
                       cachedName="ProductID"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[ProductID]" />
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[ProductID]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Left Input].Columns[UnitPrice]"
                       cachedDataType="cy"
                       cachedName="UnitPrice"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[UnitPrice]" />
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[UnitPrice]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Left Input].Columns[LineTotal]"
                       cachedDataType="numeric"
                       cachedName="LineTotal"
                       cachedPrecision="38"
                       cachedScale="6"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[LineTotal]" />
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[LineTotal]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Left Input].Columns[UnitPriceDiscount]"
                       cachedDataType="cy"
                       cachedName="UnitPriceDiscount"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[UnitPriceDiscount]" />
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[UnitPriceDiscount]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -7548,27 +7046,27 @@ FROM Sales.SalesOrderHeader</property>
                       cachedDataType="i4"
                       cachedName="SalesOrderID"
                       cachedSortKeyPosition="1"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[SalesOrderID]" />
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[SalesOrderID]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Right Input].Columns[CustomerID]"
                       cachedDataType="i4"
                       cachedName="CustomerID"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[CustomerID]" />
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[CustomerID]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Right Input].Columns[OrderDateTemp]"
                       cachedDataType="dbTimeStamp"
                       cachedName="OrderDateTemp"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[OrderDateTemp]" />
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[OrderDateTemp]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Right Input].Columns[ShipDateTemp]"
                       cachedDataType="dbTimeStamp"
                       cachedName="ShipDateTemp"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[ShipDateTemp]" />
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[ShipDateTemp]" />
                     <inputColumn
                       refId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Right Input].Columns[SalesPersonID]"
                       cachedDataType="i4"
                       cachedName="SalesPersonID"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[SalesPersonID]" />
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[SalesPersonID]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -8209,11 +7707,11 @@ FROM Sales.SalesOrderHeader</property>
               </outputs>
             </component>
             <component
-              refId="Package\FACT_SALES\Sort"
+              refId="Package\FACT_SALES\Sort Details By SalesOrderID"
               componentClassID="Microsoft.Sort"
               contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
-              name="Sort"
+              name="Sort Details By SalesOrderID"
               version="1">
               <properties>
                 <property
@@ -8228,11 +7726,11 @@ FROM Sales.SalesOrderHeader</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\FACT_SALES\Sort.Inputs[Sort Input]"
+                  refId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input]"
                   name="Sort Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort.Inputs[Sort Input].Columns[OrderQty]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input].Columns[OrderQty]"
                       cachedDataType="i2"
                       cachedName="OrderQty"
                       lineageId="Package\FACT_SALES\SalesOrderDetail.Outputs[OLE DB Source Output].Columns[OrderQty]">
@@ -8248,7 +7746,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort.Inputs[Sort Input].Columns[ProductID]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input].Columns[ProductID]"
                       cachedDataType="i4"
                       cachedName="ProductID"
                       lineageId="Package\FACT_SALES\SalesOrderDetail.Outputs[OLE DB Source Output].Columns[ProductID]">
@@ -8264,7 +7762,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort.Inputs[Sort Input].Columns[UnitPrice]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input].Columns[UnitPrice]"
                       cachedDataType="cy"
                       cachedName="UnitPrice"
                       lineageId="Package\FACT_SALES\SalesOrderDetail.Outputs[OLE DB Source Output].Columns[UnitPrice]">
@@ -8280,7 +7778,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort.Inputs[Sort Input].Columns[LineTotal]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input].Columns[LineTotal]"
                       cachedDataType="numeric"
                       cachedName="LineTotal"
                       cachedPrecision="38"
@@ -8298,7 +7796,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort.Inputs[Sort Input].Columns[UnitPriceDiscount]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input].Columns[UnitPriceDiscount]"
                       cachedDataType="cy"
                       cachedName="UnitPriceDiscount"
                       lineageId="Package\FACT_SALES\SalesOrderDetail.Outputs[OLE DB Source Output].Columns[UnitPriceDiscount]">
@@ -8314,7 +7812,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort.Inputs[Sort Input].Columns[SalesOrderID]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input].Columns[SalesOrderID]"
                       cachedDataType="i4"
                       cachedName="SalesOrderID"
                       lineageId="Package\FACT_SALES\SalesOrderDetail.Outputs[OLE DB Source Output].Columns[SalesOrderID]">
@@ -8335,14 +7833,14 @@ FROM Sales.SalesOrderHeader</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\FACT_SALES\Sort.Outputs[Sort Output]"
+                  refId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output]"
                   isSorted="true"
                   name="Sort Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[OrderQty]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[OrderQty]"
                       dataType="i2"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[OrderQty]"
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[OrderQty]"
                       name="OrderQty">
                       <properties>
                         <property
@@ -8353,9 +7851,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[ProductID]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[ProductID]"
                       dataType="i4"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[ProductID]"
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[ProductID]"
                       name="ProductID">
                       <properties>
                         <property
@@ -8366,9 +7864,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[UnitPrice]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[UnitPrice]"
                       dataType="cy"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[UnitPrice]"
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[UnitPrice]"
                       name="UnitPrice">
                       <properties>
                         <property
@@ -8379,9 +7877,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[LineTotal]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[LineTotal]"
                       dataType="numeric"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[LineTotal]"
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[LineTotal]"
                       name="LineTotal"
                       precision="38"
                       scale="6">
@@ -8394,9 +7892,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[UnitPriceDiscount]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[UnitPriceDiscount]"
                       dataType="cy"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[UnitPriceDiscount]"
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[UnitPriceDiscount]"
                       name="UnitPriceDiscount">
                       <properties>
                         <property
@@ -8407,9 +7905,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[SalesOrderID]"
+                      refId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[SalesOrderID]"
                       dataType="i4"
-                      lineageId="Package\FACT_SALES\Sort.Outputs[Sort Output].Columns[SalesOrderID]"
+                      lineageId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output].Columns[SalesOrderID]"
                       name="SalesOrderID"
                       sortKeyPosition="1">
                       <properties>
@@ -8426,11 +7924,11 @@ FROM Sales.SalesOrderHeader</property>
               </outputs>
             </component>
             <component
-              refId="Package\FACT_SALES\Sort 1"
+              refId="Package\FACT_SALES\Sort Headers By SalesOrderID"
               componentClassID="Microsoft.Sort"
               contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
-              name="Sort 1"
+              name="Sort Headers By SalesOrderID"
               version="1">
               <properties>
                 <property
@@ -8445,11 +7943,11 @@ FROM Sales.SalesOrderHeader</property>
               </properties>
               <inputs>
                 <input
-                  refId="Package\FACT_SALES\Sort 1.Inputs[Sort Input]"
+                  refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Inputs[Sort Input]"
                   name="Sort Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort 1.Inputs[Sort Input].Columns[SalesOrderID]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Inputs[Sort Input].Columns[SalesOrderID]"
                       cachedDataType="i4"
                       cachedName="SalesOrderID"
                       lineageId="Package\FACT_SALES\SalesOrderHeader.Outputs[OLE DB Source Output].Columns[SalesOrderID]">
@@ -8465,7 +7963,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort 1.Inputs[Sort Input].Columns[OrderDateTemp]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Inputs[Sort Input].Columns[OrderDateTemp]"
                       cachedDataType="dbTimeStamp"
                       cachedName="OrderDateTemp"
                       lineageId="Package\FACT_SALES\SalesOrderHeader.Outputs[OLE DB Source Output].Columns[OrderDateTemp]">
@@ -8481,7 +7979,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort 1.Inputs[Sort Input].Columns[ShipDateTemp]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Inputs[Sort Input].Columns[ShipDateTemp]"
                       cachedDataType="dbTimeStamp"
                       cachedName="ShipDateTemp"
                       lineageId="Package\FACT_SALES\SalesOrderHeader.Outputs[OLE DB Source Output].Columns[ShipDateTemp]">
@@ -8497,7 +7995,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort 1.Inputs[Sort Input].Columns[CustomerID]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Inputs[Sort Input].Columns[CustomerID]"
                       cachedDataType="i4"
                       cachedName="CustomerID"
                       lineageId="Package\FACT_SALES\SalesOrderHeader.Outputs[OLE DB Source Output].Columns[CustomerID]">
@@ -8513,7 +8011,7 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\FACT_SALES\Sort 1.Inputs[Sort Input].Columns[SalesPersonID]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Inputs[Sort Input].Columns[SalesPersonID]"
                       cachedDataType="i4"
                       cachedName="SalesPersonID"
                       lineageId="Package\FACT_SALES\SalesOrderHeader.Outputs[OLE DB Source Output].Columns[SalesPersonID]">
@@ -8534,14 +8032,14 @@ FROM Sales.SalesOrderHeader</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\FACT_SALES\Sort 1.Outputs[Sort Output]"
+                  refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output]"
                   isSorted="true"
                   name="Sort Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[SalesOrderID]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[SalesOrderID]"
                       dataType="i4"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[SalesOrderID]"
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[SalesOrderID]"
                       name="SalesOrderID"
                       sortKeyPosition="1">
                       <properties>
@@ -8553,9 +8051,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[OrderDateTemp]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[OrderDateTemp]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[OrderDateTemp]"
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[OrderDateTemp]"
                       name="OrderDateTemp">
                       <properties>
                         <property
@@ -8566,9 +8064,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[ShipDateTemp]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[ShipDateTemp]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[ShipDateTemp]"
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[ShipDateTemp]"
                       name="ShipDateTemp">
                       <properties>
                         <property
@@ -8579,9 +8077,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[CustomerID]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[CustomerID]"
                       dataType="i4"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[CustomerID]"
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[CustomerID]"
                       name="CustomerID">
                       <properties>
                         <property
@@ -8592,9 +8090,9 @@ FROM Sales.SalesOrderHeader</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[SalesPersonID]"
+                      refId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[SalesPersonID]"
                       dataType="i4"
-                      lineageId="Package\FACT_SALES\Sort 1.Outputs[Sort Output].Columns[SalesPersonID]"
+                      lineageId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output].Columns[SalesPersonID]"
                       name="SalesPersonID">
                       <properties>
                         <property
@@ -8623,24 +8121,24 @@ FROM Sales.SalesOrderHeader</property>
               startId="Package\FACT_SALES\Merge Join.Outputs[Merge Join Output]" />
             <path
               refId="Package\FACT_SALES.Paths[OLE DB Source Output]"
-              endId="Package\FACT_SALES\Sort.Inputs[Sort Input]"
+              endId="Package\FACT_SALES\Sort Details By SalesOrderID.Inputs[Sort Input]"
               name="OLE DB Source Output"
               startId="Package\FACT_SALES\SalesOrderDetail.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\FACT_SALES.Paths[OLE DB Source Output1]"
-              endId="Package\FACT_SALES\Sort 1.Inputs[Sort Input]"
+              endId="Package\FACT_SALES\Sort Headers By SalesOrderID.Inputs[Sort Input]"
               name="OLE DB Source Output"
               startId="Package\FACT_SALES\SalesOrderHeader.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\FACT_SALES.Paths[Sort Output]"
               endId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Left Input]"
               name="Sort Output"
-              startId="Package\FACT_SALES\Sort.Outputs[Sort Output]" />
+              startId="Package\FACT_SALES\Sort Details By SalesOrderID.Outputs[Sort Output]" />
             <path
               refId="Package\FACT_SALES.Paths[Sort Output1]"
               endId="Package\FACT_SALES\Merge Join.Inputs[Merge Join Right Input]"
               name="Sort Output"
-              startId="Package\FACT_SALES\Sort 1.Outputs[Sort Output]" />
+              startId="Package\FACT_SALES\Sort Headers By SalesOrderID.Outputs[Sort Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -9165,7 +8663,7 @@ FROM Sales.SalesOrderHeader</property>
     design-time-name="Package\DIM_CUSTOMER">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="192,42"
           Id="Package\DIM_CUSTOMER\Lookup Territory Details"
@@ -9173,7 +8671,7 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="183,42"
           Id="Package\DIM_CUSTOMER\Dest DIM_CUSTOMER"
-          TopLeft="490,420" />
+          TopLeft="324,419" />
         <NodeLayout
           Size="175,42"
           Id="Package\DIM_CUSTOMER\Lookup Address City"
@@ -9182,10 +8680,6 @@ FROM Sales.SalesOrderHeader</property>
           Size="183,42"
           Id="Package\DIM_CUSTOMER\Lookup Person Details"
           TopLeft="64,102" />
-        <NodeLayout
-          Size="98,42"
-          Id="Package\DIM_CUSTOMER\Sort"
-          TopLeft="390,338" />
         <NodeLayout
           Size="187,42"
           Id="Package\DIM_CUSTOMER\Lookup Standard Titles"
@@ -9202,40 +8696,6 @@ FROM Sales.SalesOrderHeader</property>
           Size="199,42"
           Id="Package\DIM_CUSTOMER\Cleanse Customer Details"
           TopLeft="55,421" />
-        <EdgeLayout
-          Id="Package\DIM_CUSTOMER.Paths[Sort Output]"
-          TopLeft="454,380">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="127.5,40"
-              Start="0,0"
-              End="127.5,32.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,12.3855421686747" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,12.3855421686747"
-                    Point2="0,16.3855421686747"
-                    Point3="4,16.3855421686747" />
-                  <mssgle:LineSegment
-                    End="123.5,16.3855421686747" />
-                  <mssgle:CubicBezierSegment
-                    Point1="123.5,16.3855421686747"
-                    Point2="127.5,16.3855421686747"
-                    Point3="127.5,20.3855421686747" />
-                  <mssgle:LineSegment
-                    End="127.5,32.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_CUSTOMER.Paths[OLE DB Source Output]"
           TopLeft="155,51">
@@ -9404,30 +8864,18 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_CUSTOMER.Paths[Derived Column Output]"
-          TopLeft="186.333333333333,421">
+          TopLeft="254,441">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="237.666666666667,-41"
+              EndConnector="70,0"
               Start="0,0"
-              End="237.666666666667,-33.5">
+              End="62.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-16.2939390923567" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-16.2939390923567"
-                    Point2="0,-20.2939390923567"
-                    Point3="4,-20.2939390923567" />
-                  <mssgle:LineSegment
-                    End="233.666666666667,-20.2939390923567" />
-                  <mssgle:CubicBezierSegment
-                    Point1="233.666666666667,-20.2939390923567"
-                    Point2="237.666666666667,-20.2939390923567"
-                    Point3="237.666666666667,-24.2939390923567" />
-                  <mssgle:LineSegment
-                    End="237.666666666667,-33.5" />
+                    End="62.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -9588,34 +9036,34 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="176,42"
           Id="Package\DIM_PRODUCT\Dest DIM_PRODUCT"
-          TopLeft="615,292" />
+          TopLeft="657,292" />
         <NodeLayout
           Size="149,42"
           Id="Package\DIM_PRODUCT\Lookup Is Sold"
-          TopLeft="16,110" />
+          TopLeft="62,112" />
         <NodeLayout
           Size="158,42"
           Id="Package\DIM_PRODUCT\Lookup Category"
-          TopLeft="236,289" />
+          TopLeft="278,289" />
         <NodeLayout
           Size="175,42"
           Id="Package\DIM_PRODUCT\Lookup Subcategory"
-          TopLeft="11,290" />
+          TopLeft="53,290" />
         <NodeLayout
-          Size="143,42"
-          Id="Package\DIM_PRODUCT\Fuzzy Lookup"
+          Size="217,42"
+          Id="Package\DIM_PRODUCT\Fuzzy Lookup Product Names"
           TopLeft="25,194" />
         <NodeLayout
           Size="141,42"
           Id="Package\DIM_PRODUCT\Cleanse Data"
-          TopLeft="433,291" />
+          TopLeft="475,291" />
         <NodeLayout
           Size="115,42"
           Id="Package\DIM_PRODUCT\Product"
-          TopLeft="29,8" />
+          TopLeft="75,10" />
         <EdgeLayout
           Id="Package\DIM_PRODUCT.Paths[OLE DB Source Output]"
-          TopLeft="88.5,50">
+          TopLeft="134.5,52">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9637,7 +9085,7 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_PRODUCT.Paths[Lookup Match Output2]"
-          TopLeft="186,310.5">
+          TopLeft="228,310.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9661,31 +9109,31 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_PRODUCT.Paths[Lookup Match Output1]"
-          TopLeft="93.5,152">
+          TopLeft="135,154">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,42"
+              EndConnector="0,40"
               Start="0,0"
-              End="0,34.5">
+              End="0,32.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,34.5" />
+                    End="0,32.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,11.4453125,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,10.4453125,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_PRODUCT.Paths[Lookup Match Output]"
-          TopLeft="394,311">
+          TopLeft="436,311">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9709,7 +9157,7 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_PRODUCT.Paths[Fuzzy Lookup Output]"
-          TopLeft="97.5,236">
+          TopLeft="137,236">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9731,7 +9179,7 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_PRODUCT.Paths[Derived Column Output]"
-          TopLeft="574,312.5">
+          TopLeft="616,312.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -9837,7 +9285,7 @@ FROM Sales.SalesOrderHeader</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\DIM_PRODUCT\Fuzzy Lookup">
+    design-time-name="Package\DIM_PRODUCT\Fuzzy Lookup Product Names">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -10137,7 +9585,7 @@ FROM Sales.SalesOrderHeader</property>
     design-time-name="Package\DIM_TIME">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="153,42"
           Id="Package\DIM_TIME\Dest DIM_TIME"
@@ -10155,9 +9603,9 @@ FROM Sales.SalesOrderHeader</property>
           Id="Package\DIM_TIME\Helper Months"
           TopLeft="416.111111111111,9.44444444444446" />
         <NodeLayout
-          Size="139,42"
-          Id="Package\DIM_TIME\Merge Join 1"
-          TopLeft="600.777777777779,380.88888888889" />
+          Size="206,42"
+          Id="Package\DIM_TIME\Merge Join With Weekdays"
+          TopLeft="570.777777777779,380.88888888889" />
         <NodeLayout
           Size="213,42"
           Id="Package\DIM_TIME\Sort And Remove Duplicates"
@@ -10191,9 +9639,9 @@ FROM Sales.SalesOrderHeader</property>
           Id="Package\DIM_TIME\Derive PK_Time"
           TopLeft="591.444444444446,451.666666666667" />
         <NodeLayout
-          Size="130,42"
-          Id="Package\DIM_TIME\Merge Join"
-          TopLeft="342.222222222222,311.222222222223" />
+          Size="193,42"
+          Id="Package\DIM_TIME\Merge Join With Months"
+          TopLeft="314.222222222222,308.222222222223" />
         <NodeLayout
           Size="168,42"
           Id="Package\DIM_TIME\Sort By MonthNum"
@@ -10217,9 +9665,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10228,94 +9674,86 @@ FROM Sales.SalesOrderHeader</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="107.444444444446,0"
+              EndConnector="77.444444444445,0"
               Start="0,0"
-              End="99.944444444446,0">
+              End="69.944444444445,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="99.944444444446,0" />
+                    End="69.944444444445,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output3]"
-          TopLeft="669.555555555557,196.333333333333">
+          TopLeft="671.305555555557,196.333333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,184.555555555556"
+              EndConnector="0,184.555555555557"
               Start="0,0"
-              End="0,177.055555555556">
+              End="0,177.055555555557">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,177.055555555556" />
+                    End="0,177.055555555557" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output2]"
-          TopLeft="410.5,193.222222222222">
+          TopLeft="412.25,193.222222222222">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,118.000000000001"
+              EndConnector="0,115.000000000001"
               Start="0,0"
-              End="0,110.500000000001">
+              End="0,107.500000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,110.500000000001" />
+                    End="0,107.500000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output1]"
-          TopLeft="284.555555555556,330.38888888889">
+          TopLeft="284.555555555556,328.888888888889">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="57.6666666666667,0"
+              EndConnector="29.666666666666,0"
               Start="0,0"
-              End="50.1666666666667,0">
+              End="22.166666666666,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="50.1666666666667,0" />
+                    End="22.166666666666,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10337,9 +9775,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10361,9 +9797,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10397,9 +9831,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10433,9 +9865,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10469,57 +9899,51 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Merge Join Output1]"
-          TopLeft="669.361111111112,422.88888888889">
+          TopLeft="671.111111111112,422.88888888889">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,28.7777777777778"
+              EndConnector="0,28.777777777777"
               Start="0,0"
-              End="0,21.2777777777778">
+              End="0,21.277777777777">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,21.2777777777778" />
+                    End="0,21.277777777777" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Merge Join Output]"
-          TopLeft="410.527777777778,353.222222222223">
+          TopLeft="412.277777777778,350.222222222223">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,31.888888888889"
+              EndConnector="0,34.888888888889"
               Start="0,0"
-              End="0,24.388888888889">
+              End="0,27.388888888889">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,24.388888888889" />
+                    End="0,27.388888888889" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10541,9 +9965,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10565,9 +9987,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -10632,23 +10052,23 @@ FROM Sales.SalesOrderHeader</property>
     design-time-name="Package\FACT_SALES">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="163,42"
           Id="Package\FACT_SALES\Dest FACT_SALES"
           TopLeft="293,390" />
         <NodeLayout
-          Size="107,42"
-          Id="Package\FACT_SALES\Sort 1"
-          TopLeft="443,130" />
+          Size="221,42"
+          Id="Package\FACT_SALES\Sort Headers By SalesOrderID"
+          TopLeft="386,126" />
         <NodeLayout
           Size="164,42"
           Id="Package\FACT_SALES\SalesOrderHeader"
           TopLeft="415,46" />
         <NodeLayout
-          Size="98,42"
-          Id="Package\FACT_SALES\Sort"
-          TopLeft="193,129" />
+          Size="214,42"
+          Id="Package\FACT_SALES\Sort Details By SalesOrderID"
+          TopLeft="125,125" />
         <NodeLayout
           Size="157,42"
           Id="Package\FACT_SALES\SalesOrderDetail"
@@ -10663,74 +10083,70 @@ FROM Sales.SalesOrderHeader</property>
           TopLeft="304,222" />
         <EdgeLayout
           Id="Package\FACT_SALES.Paths[Sort Output1]"
-          TopLeft="496.5,172">
+          TopLeft="496.5,168">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-107.166666666667,50"
+              EndConnector="-107.166666666667,54"
               Start="0,0"
-              End="-107.166666666667,42.5">
+              End="-107.166666666667,46.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.6352583586626" />
+                    End="0,28.0060790273556" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,25.6352583586626"
-                    Point2="0,29.6352583586626"
-                    Point3="-4,29.6352583586626" />
+                    Point1="0,28.0060790273556"
+                    Point2="0,32.0060790273556"
+                    Point3="-4,32.0060790273556" />
                   <mssgle:LineSegment
-                    End="-103.166666666667,29.6352583586626" />
+                    End="-103.166666666667,32.0060790273556" />
                   <mssgle:CubicBezierSegment
-                    Point1="-103.166666666667,29.6352583586626"
-                    Point2="-107.166666666667,29.6352583586626"
-                    Point3="-107.166666666667,33.6352583586626" />
+                    Point1="-103.166666666667,32.0060790273556"
+                    Point2="-107.166666666667,32.0060790273556"
+                    Point3="-107.166666666667,36.0060790273556" />
                   <mssgle:LineSegment
-                    End="-107.166666666667,42.5" />
+                    End="-107.166666666667,46.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\FACT_SALES.Paths[Sort Output]"
-          TopLeft="242,171">
+          TopLeft="232,167">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="106.666666666667,51"
+              EndConnector="116.666666666667,55"
               Start="0,0"
-              End="106.666666666667,43.5">
+              End="116.666666666667,47.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,26.2279635258359" />
+                    End="0,28.5987841945289" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,26.2279635258359"
-                    Point2="0,30.2279635258359"
-                    Point3="4,30.2279635258359" />
+                    Point1="0,28.5987841945289"
+                    Point2="0,32.5987841945289"
+                    Point3="4,32.5987841945289" />
                   <mssgle:LineSegment
-                    End="102.666666666667,30.2279635258359" />
+                    End="112.666666666667,32.5987841945289" />
                   <mssgle:CubicBezierSegment
-                    Point1="102.666666666667,30.2279635258359"
-                    Point2="106.666666666667,30.2279635258359"
-                    Point3="106.666666666667,34.2279635258359" />
+                    Point1="112.666666666667,32.5987841945289"
+                    Point2="116.666666666667,32.5987841945289"
+                    Point3="116.666666666667,36.5987841945289" />
                   <mssgle:LineSegment
-                    End="106.666666666667,43.5" />
+                    End="116.666666666667,47.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10739,46 +10155,42 @@ FROM Sales.SalesOrderHeader</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,42"
+              EndConnector="0,38"
               Start="0,0"
-              End="0,34.5">
+              End="0,30.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,34.5" />
+                    End="0,30.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\FACT_SALES.Paths[OLE DB Source Output]"
-          TopLeft="238.25,92">
+          TopLeft="233.25,92">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,37"
+              EndConnector="0,33"
               Start="0,0"
-              End="0,29.5">
+              End="0,25.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29.5" />
+                    End="0,25.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10800,9 +10212,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -10824,9 +10234,7 @@ FROM Sales.SalesOrderHeader</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

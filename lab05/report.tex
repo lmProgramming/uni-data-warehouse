@@ -1,6 +1,7 @@
 \documentclass[a4paper,12pt]{article}
-\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[T1]{fontenc}
 \usepackage[polish]{babel}
 \usepackage{xcolor}
 \usepackage{graphicx}
@@ -406,45 +407,78 @@ ADD
 
 \section{Zadanie 5 - ETL (prawie) bez SQLa (Data Flow)}
 
-Zadanie 5 polegało na refaktoryzacji procesu ETL z zadania 4, tak aby ładowanie danych do wymiaru czasu (`DIM\_TIME`) oraz co najmniej jednego innego wybranego wymiaru (np. `DIM\_PRODUCT`) odbywało się przy użyciu komponentów graficznych z zakładki `Data Flow` w SSIS, minimalizując użycie bezpośrednich zapytań SQL w tych krokach. Wykorzystano m.in.:
+Zadanie 5 polegało na refaktoryzacji procesu ETL z zadania 4, tak aby ładowanie danych do wymiaru czasu (`DIM\_TIME`) oraz co najmniej jednego innego wybranego wymiaru odbywało się przy użyciu komponentów graficznych z zakładki `Data Flow` w SSIS, minimalizując użycie bezpośrednich zapytań SQL w tych krokach. Wykorzystano m.in.:
 \begin{itemize}
     \item `OLE DB Source`: Do pobierania danych ze źródłowych tabel AdventureWorks.
     \item `Derived Column`: Do tworzenia nowych kolumn (np. `PK\_TIME`, `Rok`, `Kwartał`), implementacji czyszczenia danych (`ISNULL(Color, 'Unknown')`).
-          *   `Union All`: Do połączenia strumieni danych (np. OrderDate i ShipDate).
-          *   `Conditional Split`: Do filtrowania (np. usuwania NULLi).
-    \item `Lookup`: Do wzbogacania danych poprzez dołączanie informacji z innych tabel (np. nazw miesięcy/dni tygodnia z tabel pomocniczych, nazw kategorii/podkategorii produktów, danych osobowych, terytoriów). Użyto różnych trybów cache'owania.
+          *   `Union All`: Do połączenia danych (np. OrderDate i ShipDate).
+    \item `Lookup`: Do dołączania informacji z innych tabel.
           *   `Sort`: Do sortowania danych, a w szczególności do usuwania duplikatów (np. dla `DIM\_CUSTOMER` w celu zapewnienia unikalności `CustomerID`).
-          *   `Fuzzy Grouping` / `Fuzzy Lookup`: (Opcjonalnie, jeśli były używane do analizy lub czyszczenia np. nazw produktów).
-    \item `OLE DB Destination`: Do zapisywania przetworzonych danych do docelowych tabel w schemacie `Kubs`, często w trybie `Fast Load`.
+          *   `Fuzzy Grouping` / `Fuzzy Lookup`: fuzzy lookup do ujednolicenia nazw produktów.
+    \item `OLE DB Destination`: Do zapisywania przetworzonych danych do docelowych tabel `Kubs`.
 \end{itemize}
-Pozostałe kroki, jak usuwanie i tworzenie tabel oraz dodawanie ograniczeń, mogły pozostać realizowane przez `Execute SQL Task`.
 
-% --- POCZĄTEK MIEJSCA NA OBRAZKI ZADANIA 5 ---
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=\textwidth]{sciezka/do/obrazka_zad5_dft_dim_time.png} % Odkomentuj i podaj ścieżkę
-    \fbox{(*@\textit{Tutaj wstaw rysunek przedstawiający Data Flow Task dla DIM\_TIME}@*)}
+    \includegraphics[width=\textwidth]{images/5_time.png}
     \caption{Schemat Data Flow Task dla ładowania wymiaru czasu (DIM\_TIME).}
     \label{fig:zad5_dft_dim_time}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=\textwidth]{sciezka/do/obrazka_zad5_dft_inny_wymiar.png} % Odkomentuj i podaj ścieżkę
-    \fbox{(*@\textit{Tutaj wstaw rysunek przedstawiający Data Flow Task dla drugiego wybranego wymiaru (np. DIM\_PRODUCT lub DIM\_CUSTOMER)}@*)}
-    \caption{Schemat Data Flow Task dla ładowania wybranego innego wymiaru.}
+    \includegraphics[width=\textwidth]{images/5_customer.png}
+    \caption{Schemat Data Flow Task dla DIM\_CUSTOMER.}
     \label{fig:zad5_dft_other_dim}
 \end{figure}
 
-% (Opcjonalnie) Rysunek całego Control Flow dla Zadania 5
+W powyższym schemacie dzięki wyczyszczeniu danych przy użyciu kolejnej helper tablicy można było ujednolicić tytuły klientów.
+
+\begin{lstlisting}
+INSERT INTO
+    Kubs.Helper_Titles (SourceTitle, StandardTitle)
+VALUES
+    ('Mr.', 'Mr.'),
+    ('Ms', 'Ms.'),
+    ('Ms.', 'Ms.'),
+    ('Mrs.', 'Mrs.'),
+    ('Sra', 'Sr.'),
+    ('Sr.', 'Sr.');
+\end{lstlisting}
+
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=0.9\textwidth]{sciezka/do/obrazka_zad5_control_flow.png} % Odkomentuj i podaj ścieżkę
-    \fbox{(*@\textit{Tutaj wstaw rysunek przedstawiający Control Flow pakietu SSIS z Zadania 5 (z użyciem Data Flow Task)}@*)}
+    \includegraphics[width=\textwidth]{images/5_lookup_fix.png}
+    \caption{Ujednolicone tytuły klientów w DIM\_CUSTOMER.}
+    \label{fig:zad5_dft_other_dim_fixed}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/5_sales.png}
+    \caption{Schemat Data Flow Task dla FACT\_SALES.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/5_schema.png}
     \caption{Schemat Control Flow pakietu SSIS wykorzystującego Data Flow Task.}
     \label{fig:zad5_control_flow}
 \end{figure}
-% --- KONIEC MIEJSCA NA OBRAZKI ZADANIA 5 ---
+
+W celu lepszego zaznajomienia się z procesem wykonano również Data Flow Taski dla pozostałych wymiarów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/5_product.png}
+    \caption{Schemat Data Flow Task dla DIM\_PRODUCT.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/5_salesperson.png}
+    \caption{Schemat Data Flow Task dla DIM\_SALESPERSON.}
+\end{figure}
 
 \section{Wnioski}
 
