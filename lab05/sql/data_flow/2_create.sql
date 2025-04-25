@@ -22,6 +22,11 @@ CREATE TABLE Kubs.Helper_Weekdays (
     WeekdayName_PL NVARCHAR(20) NOT NULL
 );
 
+CREATE TABLE Kubs.Helper_Titles (
+    SourceTitle NVARCHAR(20) PRIMARY KEY,
+    StandardTitle NVARCHAR(20) NOT NULL
+);
+
 -- 3_tables
 CREATE TABLE Kubs.DIM_CUSTOMER (
     CustomerID INT NOT NULL,

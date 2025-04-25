@@ -24,3 +24,13 @@ VALUES
     (5, 'Czwartek'),
     (6, 'Piatek'),
     (7, 'Sobota');
+
+INSERT INTO
+    Kubs.Helper_Titles (SourceTitle, StandardTitle)
+VALUES
+    ('Mr.', 'Mr.'),
+    ('Ms', 'Ms.'),
+    ('Ms.', 'Ms.'),
+    ('Mrs.', 'Mrs.'),
+    ('Sra', 'Sr.'),
+    ('Sr.', 'Sr.');

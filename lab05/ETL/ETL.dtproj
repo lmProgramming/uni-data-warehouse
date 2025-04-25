@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">DESKTOP-2GLE46P</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAUf7wv3CzGEe29kXGfNMyjAAAAAACAAAAAAAQZgAAAAEAACAAAADIcYL9GSeoRSbUwdL7DlzUKfdnmL1vCnQyrYdTDO0PKwAAAAAOgAAAAAIAACAAAACKT2fo54q2KnuAcK74cw+5KLBIwj1uVXGTQy9bX8vPQZAAAAC/T8FIpBu7Z+P0R9M6FbvwVJckDZjGiQpH8S7VIMb1Xsf9bhz+DOLkkUQg/ciK1Tx3uZW8klvD+vSU6h2TXGgV4nYw8ZVh7ZLCo0RZR73l/9OTGurxeStgbAUhGE5Iv+pG2Em0sg+DXSEZvBL/qjzif3BtnfxyD6tvG2b2v+dMup1lSxG7Ysd/UpOD2qoDxOFAAAAAL/wbRYjXW7640ANI+tvlTVBziiWLVxVZemcghY4nF7znb9wBrYIxoUg5DH76tYm6htbGW2rJoThMhvIymu83Hw==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAUf7wv3CzGEe29kXGfNMyjAAAAAACAAAAAAAQZgAAAAEAACAAAAAUVh0zMTt3omfkDnwS4JRx3DY0tvKqVIpZuHpzYL3SrwAAAAAOgAAAAAIAACAAAAClshRGuW6UviWZGH0o4TuIRdKF0xtQtxaKzTkw6TnG15AAAAB26hipkA1lnxFJAU29u4sJTUuIP5Ygeat4Up1XrcYcVRQYnxkNWeAHufu+3avPG2MdXYOM9VcY1tv0JezpLc4lwN9hYq5eLHo3CWnYgw66K9jEZr944XDS1EhrBkxYa5iDDvkpzmzsCOH6kxvPrxKx3AYMUkMk5XecRlNAq+dzBGR0eaqAIo6NfSdxSpmcj0JAAAAAxIA07XqzzSi6kZbvFAg5bXxorp7Gxfj/7e10Ue9qNrQ9JHjLEVVT7Mf4ajn5/L/1dN4tyDO+UXM/5Pvqs3bGIw==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -359,10 +359,10 @@
                 <SSIS:Property SSIS:Name="Name">Package1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">14</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">145</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{A84E14B1-8008-4349-9761-8E76AB1FA49A}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{F05BA7C6-0712-4185-8D5B-AF334906C7D7}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
@@ -396,6 +396,36 @@
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Value">C:\Users\Jantar\uni-data-warehouse\lab05\sql\grouped\1_delete.sql</SSIS:Property>
+                    <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                  </SSIS:Properties>
+                </SSIS:Parameter>
+                <SSIS:Parameter SSIS:Name="CM.1_delete.sql 1.ConnectByProxy">
+                  <SSIS:Properties>
+                    <SSIS:Property SSIS:Name="ID">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="CreationName">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="Description">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">false</SSIS:Property>
+                    <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
+                  </SSIS:Properties>
+                </SSIS:Parameter>
+                <SSIS:Parameter SSIS:Name="CM.1_delete.sql 1.ConnectionString">
+                  <SSIS:Properties>
+                    <SSIS:Property SSIS:Name="ID">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="CreationName">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="Description">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">C:\Users\Jantar\uni-data-warehouse\lab05\sql\data_flow\1_delete.sql</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
