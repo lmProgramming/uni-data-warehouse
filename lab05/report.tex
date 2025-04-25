@@ -145,18 +145,18 @@ CREATE TABLE Kubs.Helper_Months (
 INSERT INTO
     Kubs.Helper_Months (MonthNum, MonthName_PL)
 VALUES
-    (1, 'Styczen'),
-    (2, 'Luty'),
-    (3, 'Marzec'),
-    (4, 'Kwiecien'),
-    (5, 'Maj'),
-    (6, 'Czerwiec'),
-    (7, 'Lipiec'),
-    (8, 'Sierpien'),
-    (9, 'Wrzesien'),
-    (10, 'Pazdziernik'),
-    (11, 'Listopad'),
-    (12, 'Grudzien');
+    (1, N'Styczeń'),
+    (2, N'Luty'),
+    (3, N'Marzec'),
+    (4, N'Kwiecień'),
+    (5, N'Maj'),
+    (6, N'Czerwiec'),
+    (7, N'Lipiec'),
+    (8, N'Sierpień'),
+    (9, N'Wrzesień'),
+    (10, N'Październik'),
+    (11, N'Listopad'),
+    (12, N'Grudzień');
 
 CREATE TABLE Kubs.Helper_Weekdays (
     WeekdayNum INT PRIMARY KEY,
@@ -222,8 +222,8 @@ SELECT
     DATEPART(quarter, sd.CalendarDate) AS Kwartal,
     DATEPART(month, sd.CalendarDate) AS Miesiac,
     ISNULL(hm.MonthName_PL, 'Unknown') AS Miesiac_slownie,
-    DATEPART(weekday, sd.CalendarDate) AS Dzien_tygodnia,
-    ISNULL(hwd.WeekdayName_PL, 'Unknown') AS Dzien_tygodnia_slownie,
+    DATEPART(weekday, sd.CalendarDate) AS Dzien_tyg,
+    ISNULL(hwd.WeekdayName_PL, 'Unknown') AS Dzien_tyg_slownie,
     DATEPART(day, sd.CalendarDate) AS Dzien_miesiaca
 FROM
     SourceDates sd
@@ -435,6 +435,11 @@ Zadanie 5 polegało na refaktoryzacji procesu ETL z zadania 4, tak aby ładowani
 W powyższym schemacie dzięki wyczyszczeniu danych przy użyciu kolejnej helper tablicy można było ujednolicić tytuły klientów.
 
 \begin{lstlisting}
+CREATE TABLE Kubs.Helper_Titles (
+    SourceTitle NVARCHAR(8) PRIMARY KEY,
+    StandardTitle NVARCHAR(8) NOT NULL
+);
+
 INSERT INTO
     Kubs.Helper_Titles (SourceTitle, StandardTitle)
 VALUES
@@ -482,18 +487,19 @@ W celu lepszego zaznajomienia się z procesem wykonano również Data Flow Taski
 
 \section{Wnioski}
 
- % Tutaj napisz swoje wnioski z laboratorium 5.
- % - Podsumuj wykonane zadania.
- % - Jakie były główne wyzwania? (np. konfiguracja DFT, logika lookupów, de-duplikacja)
- % - Porównaj podejście z Zadania 4 (tylko SQL) z podejściem z Zadania 5 (Data Flow). Jakie są zalety i wady każdego z nich w kontekście tego laboratorium? (np. czytelność, wydajność, łatwość modyfikacji, złożoność implementacji).
- % - Czy napotkałeś jakieś problemy podczas implementacji Fuzzy Grouping/Lookup (jeśli próbowałeś)?
- % - Jakie są korzyści z posiadania wymiaru czasu?
- % - Znaczenie powtarzalności procesu ETL.
- (*@\textit{W tym miejscu wpisz swoje przemyślenia i wnioski dotyczące wykonanych zadań.}@*)
+Jednym z największych plusów takiego procesu ETL jest jego powtarzalność. Nieważne, jakie błędy wyszły, pierwszym krokiem jest usunięcie wszystkich tabel i stworzenie ich jeszcze raz. Ułatwiło to pracę, testowanie i zwiększyło pewność, że proces działa za każdym razem.
 
+Wizualne Data Flow Taski faktycznie są bardziej przejrzyste i jasne od SQL, zwłaszcza dla osób mniej technicznych. Z drugiej strony, dla osoby dobrze znającej SQL kwerendy dobrze rozbite na ETL równiez mogą być czytelne i dużo szybsze do napisania - GUI SSIS wymaga dużo klikania.
 
-% Jeśli korzystałeś z zewnętrznych źródeł oprócz podanych w instrukcji, dodaj je do pliku bibliografia.bib i odwołaj się do nich w tekście za pomocą \cite{klucz_bib}
-% np. Dodatkowe informacje na temat Fuzzy Grouping można znaleźć w \cite{przyklad_online}.
+Uważam jednak, że jeszcze lepszym podejściem jest takie, które jest np. w Power Query - te taski definiuje się w języku programowania M, ale nadal jasno widać, który krok co robi dzięki jego nazwie. Kroki można tam również szybko dodawać i zmieniać dzięki GUI, a także zmieniać kolejność.
+
+W SSIS każdy proces był czasochłonny, pod względem User Experience nienajlepszy. Czasem występowały błędy, które naprawiał tylko restart Visual Studio.
+
+Fuzzy Lookup został użyty w procesie wypełniania DIM\_PRODUCT. Praktycznie ten sam produkt był definiowany parę razy dla różnych kolorów lub rozmiarów. W moim eksperymencie Fuzzy Lookup miał wyeliminować tylko różne rozmiary w nazwach i tak też się udało, dzięki użyciu threshold na poziomie 66\%. Był to tylko eksperyment, i lepiej do tego nadawałby się Fuzzy Grouping - teraz mamy wiele produktów o tej samej nazwie, ale teoretycznie są to różne wiersze w tabeli. Z drugiej strony, w tabeli są kolumny dotyczące wagi, rozmiaru i koloru produktów, przez co takie grupowanie by pozbyło się szczegółów.
+
+Stworzenie dedykowanego wymiaru czasu (DIM\_TIME) jest fundamentalnym krokiem w budowie hurtowni. Dostarcza on spójnego zestawu atrybutów (rok, kwartał, miesiąc, dzień tygodnia etc.) powiązanych z kluczem głównym (np. RRRRMMDD), co jest kluczowe dla późniejszych analiz i raportowania, umożliwiając łatwe agregowanie danych i drillowanie ich w kontekście czasowym.
+
+Podsumowując, laboratorium pokazało praktyczne aspekty tworzenia wymiaru czasu i implementacji czyszczenia danych w procesie ETL, a także naświetliło różnice w podejściach do automatyzacji tego procesu w SSIS. Podejście Data Flow oferuje większą wizualną przejrzystość kosztem większego nakładu pracy konfiguracyjnej i potencjalnych problemów z narzędziem, podczas gdy podejście oparte na SQL może być szybsze dla znających język, ale trudniejsze w utrzymaniu przy dużej złożoności.
 
 \printbibliography
 
