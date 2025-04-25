@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="62"
-  DTS:VersionGUID="{7D94EAD4-C71D-42EF-9EA9-F81D67CB57FC}">
+  DTS:VersionBuild="71"
+  DTS:VersionGUID="{FC903EEA-B4A6-42C6-A3CB-4A434996B903}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -119,6 +119,21 @@
           SQLTask:Connection="{B055A736-F943-4EC8-ABDF-63E0F2325266}"
           SQLTask:SqlStmtSourceType="FileConnection"
           SQLTask:SqlStatementSource="2_create.sql 1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{234AF136-2133-42E6-897C-8D7C0B3F9D88}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -2041,38 +2056,38 @@ FROM Sales.SalesOrderHeader</property>
                       cachedDataType="i4"
                       cachedName="Dzien_tygodnia"
                       cachedSortKeyPosition="1"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Dzien_tygodnia]" />
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_tygodnia]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Date]"
                       cachedDataType="dbTimeStamp"
                       cachedName="Date"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Date]" />
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Date]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Kwartal]"
                       cachedDataType="i4"
                       cachedName="Kwartal"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Kwartal]" />
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Kwartal]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Rok]"
                       cachedDataType="i4"
                       cachedName="Rok"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Rok]" />
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Rok]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[MonthName_PL]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="MonthName_PL"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[MonthName_PL]" />
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthName_PL]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[Dzien_miesiaca]"
                       cachedDataType="i4"
                       cachedName="Dzien_miesiaca"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Dzien_miesiaca]" />
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_miesiaca]" />
                     <inputColumn
                       refId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input].Columns[MonthNum]"
                       cachedDataType="i4"
                       cachedName="MonthNum"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[MonthNum]" />
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthNum]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -2414,251 +2429,6 @@ FROM Sales.SalesOrderHeader</property>
               </outputs>
             </component>
             <component
-              refId="Package\DIM_TIME\Sort 1"
-              componentClassID="Microsoft.Sort"
-              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
-              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
-              name="Sort 1"
-              version="1">
-              <properties>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
-                  name="EliminateDuplicates">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the maximum number of threads to use for sorting."
-                  expressionType="Notify"
-                  name="MaximumThreads">-1</property>
-              </properties>
-              <inputs>
-                <input
-                  refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input]"
-                  name="Sort Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input].Columns[Date]"
-                      cachedDataType="dbTimeStamp"
-                      cachedName="Date"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input].Columns[Kwartal]"
-                      cachedDataType="i4"
-                      cachedName="Kwartal"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input].Columns[Rok]"
-                      cachedDataType="i4"
-                      cachedName="Rok"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input].Columns[Dzien_tygodnia]"
-                      cachedDataType="i4"
-                      cachedName="Dzien_tygodnia"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">1</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input].Columns[MonthName_PL]"
-                      cachedDataType="wstr"
-                      cachedLength="20"
-                      cachedName="MonthName_PL"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input].Columns[Dzien_miesiaca]"
-                      cachedDataType="i4"
-                      cachedName="Dzien_miesiaca"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\DIM_TIME\Sort 1.Inputs[Sort Input].Columns[MonthNum]"
-                      cachedDataType="i4"
-                      cachedName="MonthNum"
-                      cachedSortKeyPosition="1"
-                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]">
-                      <properties>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the comparison options for character data."
-                          name="NewComparisonFlags">0</property>
-                        <property
-                          dataType="System.Int32"
-                          description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">0</property>
-                      </properties>
-                    </inputColumn>
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output]"
-                  isSorted="true"
-                  name="Sort Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Date]"
-                      dataType="dbTimeStamp"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Date]"
-                      name="Date">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Kwartal]"
-                      dataType="i4"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Kwartal]"
-                      name="Kwartal">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Rok]"
-                      dataType="i4"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Rok]"
-                      name="Rok">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Dzien_tygodnia]"
-                      dataType="i4"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Dzien_tygodnia]"
-                      name="Dzien_tygodnia"
-                      sortKeyPosition="1">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[MonthName_PL]"
-                      dataType="wstr"
-                      length="20"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[MonthName_PL]"
-                      name="MonthName_PL">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Dzien_miesiaca]"
-                      dataType="i4"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[Dzien_miesiaca]"
-                      name="Dzien_miesiaca">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[MonthNum]"
-                      dataType="i4"
-                      lineageId="Package\DIM_TIME\Sort 1.Outputs[Sort Output].Columns[MonthNum]"
-                      name="MonthNum">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]}</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
               refId="Package\DIM_TIME\Sort And Remove Duplicates"
               componentClassID="Microsoft.Sort"
               contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
@@ -2933,6 +2703,251 @@ FROM Sales.SalesOrderHeader</property>
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
                           name="SortColumnId">#{Package\DIM_TIME\Derived DateParts.Outputs[Derived Column Output].Columns[Dzien_miesiaca]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DIM_TIME\Sort By Weekday"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort By Weekday"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Date"
+                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Kwartal]"
+                      cachedDataType="i4"
+                      cachedName="Kwartal"
+                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Rok]"
+                      cachedDataType="i4"
+                      cachedName="Rok"
+                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Dzien_tygodnia]"
+                      cachedDataType="i4"
+                      cachedName="Dzien_tygodnia"
+                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[MonthName_PL]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="MonthName_PL"
+                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[Dzien_miesiaca]"
+                      cachedDataType="i4"
+                      cachedName="Dzien_miesiaca"
+                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input].Columns[MonthNum]"
+                      cachedDataType="i4"
+                      cachedName="MonthNum"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Date]"
+                      name="Date">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Date]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Kwartal]"
+                      dataType="i4"
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Kwartal]"
+                      name="Kwartal">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Kwartal]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Rok]"
+                      dataType="i4"
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Rok]"
+                      name="Rok">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Rok]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_tygodnia]"
+                      dataType="i4"
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_tygodnia]"
+                      name="Dzien_tygodnia"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_tygodnia]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthName_PL]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthName_PL]"
+                      name="MonthName_PL">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthName_PL]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_miesiaca]"
+                      dataType="i4"
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[Dzien_miesiaca]"
+                      name="Dzien_miesiaca">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[Dzien_miesiaca]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthNum]"
+                      dataType="i4"
+                      lineageId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output].Columns[MonthNum]"
+                      name="MonthNum">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\DIM_TIME\Merge Join.Outputs[Merge Join Output].Columns[MonthNum]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -3224,7 +3239,7 @@ FROM Sales.SalesOrderHeader</property>
               startId="Package\DIM_TIME\Derive PK_Time.Outputs[Derived Column Output]" />
             <path
               refId="Package\DIM_TIME.Paths[Merge Join Output]"
-              endId="Package\DIM_TIME\Sort 1.Inputs[Sort Input]"
+              endId="Package\DIM_TIME\Sort By Weekday.Inputs[Sort Input]"
               name="Merge Join Output"
               startId="Package\DIM_TIME\Merge Join.Outputs[Merge Join Output]" />
             <path
@@ -3276,7 +3291,7 @@ FROM Sales.SalesOrderHeader</property>
               refId="Package\DIM_TIME.Paths[Sort Output4]"
               endId="Package\DIM_TIME\Merge Join 1.Inputs[Merge Join Left Input]"
               name="Sort Output"
-              startId="Package\DIM_TIME\Sort 1.Outputs[Sort Output]" />
+              startId="Package\DIM_TIME\Sort By Weekday.Outputs[Sort Output]" />
             <path
               refId="Package\DIM_TIME.Paths[Union All Output 1]"
               endId="Package\DIM_TIME\Sort And Remove Duplicates.Inputs[Sort Input]"
@@ -3364,6 +3379,14 @@ FROM Sales.SalesOrderHeader</property>
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 4"
       DTS:To="Package\DIM_TIME" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{E6BEFC62-A023-40A7-AF55-D59A72259052}"
+      DTS:From="Package\DIM_TIME"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\References" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -3524,33 +3547,71 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="129,42"
           Id="Package\DIM_TIME"
-          TopLeft="572,358" />
+          TopLeft="578,364" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
           TopLeft="215.333333333333,324">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="421.166666666667,34"
+              EndConnector="427.166666666667,40"
               Start="0,0"
-              End="421.166666666667,26.5">
+              End="427.166666666667,32.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,9.82264665757163" />
+                    End="0,12.2619372442019" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,9.82264665757163"
-                    Point2="0,13.8226466575716"
-                    Point3="4,13.8226466575716" />
+                    Point1="0,12.2619372442019"
+                    Point2="0,16.2619372442019"
+                    Point3="4,16.2619372442019" />
                   <mssgle:LineSegment
-                    End="417.166666666667,13.8226466575716" />
+                    End="423.166666666667,16.2619372442019" />
                   <mssgle:CubicBezierSegment
-                    Point1="417.166666666667,13.8226466575716"
-                    Point2="421.166666666667,13.8226466575716"
-                    Point3="421.166666666667,17.8226466575716" />
+                    Point1="423.166666666667,16.2619372442019"
+                    Point2="427.166666666667,16.2619372442019"
+                    Point3="427.166666666667,20.2619372442019" />
                   <mssgle:LineSegment
-                    End="421.166666666667,26.5" />
+                    End="427.166666666667,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="608,246" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="642.5,406">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-90.1666666666666,100"
+              Start="0,0"
+              End="-90.1666666666666,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.3451568894952" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,55.3451568894952"
+                    Point2="0,59.3451568894952"
+                    Point3="-4,59.3451568894952" />
+                  <mssgle:LineSegment
+                    End="-86.1666666666666,59.3451568894952" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-86.1666666666666,59.3451568894952"
+                    Point2="-90.1666666666666,59.3451568894952"
+                    Point3="-90.1666666666666,63.3451568894952" />
+                  <mssgle:LineSegment
+                    End="-90.1666666666666,92.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3703,49 +3764,49 @@ FROM Sales.SalesOrderHeader</property>
     design-time-name="Package\DIM_TIME">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="166,42"
           Id="Package\DIM_TIME\Distinct OrderDate"
-          TopLeft="170,46" />
+          TopLeft="10,9.33333333333334" />
         <NodeLayout
           Size="147,42"
           Id="Package\DIM_TIME\Helper Months"
-          TopLeft="585,45" />
+          TopLeft="416.111111111111,9.44444444444446" />
         <NodeLayout
           Size="159,42"
           Id="Package\DIM_TIME\Distinct ShipDate"
-          TopLeft="379,47" />
+          TopLeft="219.000000000001,10.3333333333333" />
         <NodeLayout
           Size="121,42"
           Id="Package\DIM_TIME\Union All"
-          TopLeft="309,156" />
+          TopLeft="140.111111111111,110.444444444444" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[OLE DB Source Output]"
-          TopLeft="253,88">
+          TopLeft="93,51.3333333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="97.6666666666667,68"
+              EndConnector="88.7777777777778,59.1111111111111"
               Start="0,0"
-              End="97.6666666666667,60.5">
+              End="88.7777777777778,51.6111111111111">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,36.2675367047308" />
+                    End="0,31.0038064165307" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,36.2675367047308"
-                    Point2="0,40.2675367047308"
-                    Point3="4,40.2675367047308" />
+                    Point1="0,31.0038064165307"
+                    Point2="0,35.0038064165307"
+                    Point3="4,35.0038064165307" />
                   <mssgle:LineSegment
-                    End="93.6666666666667,40.2675367047308" />
+                    End="84.7777777777778,35.0038064165307" />
                   <mssgle:CubicBezierSegment
-                    Point1="93.6666666666667,40.2675367047308"
-                    Point2="97.6666666666667,40.2675367047308"
-                    Point3="97.6666666666667,44.2675367047308" />
+                    Point1="84.7777777777778,35.0038064165307"
+                    Point2="88.7777777777778,35.0038064165307"
+                    Point3="88.7777777777778,39.0038064165307" />
                   <mssgle:LineSegment
-                    End="97.6666666666667,60.5" />
+                    End="88.7777777777778,51.6111111111111" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3756,30 +3817,30 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[OLE DB Source Output1]"
-          TopLeft="458.5,89">
+          TopLeft="298.500000000001,52.3333333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-70.1666666666667,67"
+              EndConnector="-79.0555555555564,58.1111111111111"
               Start="0,0"
-              End="-70.1666666666667,59.5">
+              End="-79.0555555555564,50.6111111111111">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.6753670473083" />
+                    End="0,30.4116367591082" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,35.6753670473083"
-                    Point2="0,39.6753670473083"
-                    Point3="-4,39.6753670473083" />
+                    Point1="0,30.4116367591082"
+                    Point2="0,34.4116367591082"
+                    Point3="-4,34.4116367591082" />
                   <mssgle:LineSegment
-                    End="-66.1666666666667,39.6753670473083" />
+                    End="-75.0555555555564,34.4116367591082" />
                   <mssgle:CubicBezierSegment
-                    Point1="-66.1666666666667,39.6753670473083"
-                    Point2="-70.1666666666667,39.6753670473083"
-                    Point3="-70.1666666666667,43.6753670473083" />
+                    Point1="-75.0555555555564,34.4116367591082"
+                    Point2="-79.0555555555564,34.4116367591082"
+                    Point3="-79.0555555555564,38.4116367591082" />
                   <mssgle:LineSegment
-                    End="-70.1666666666667,59.5" />
+                    End="-79.0555555555564,50.6111111111111" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3791,21 +3852,21 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="213,42"
           Id="Package\DIM_TIME\Sort And Remove Duplicates"
-          TopLeft="257,245" />
+          TopLeft="91.4444444444445,180.555555555556" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Union All Output 1]"
-          TopLeft="366.5,198">
+          TopLeft="199.277777777778,152.444444444444">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,47"
+              EndConnector="0,28.1111111111111"
               Start="0,0"
-              End="0,39.5">
+              End="0,20.6111111111111">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,39.5" />
+                    End="0,20.6111111111111" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3817,33 +3878,33 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="136,42"
           Id="Package\DIM_TIME\Sort Months"
-          TopLeft="609,149" />
+          TopLeft="346.777777777778,181.222222222222" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[OLE DB Source Output2]"
-          TopLeft="658.5,87">
+          TopLeft="489.611111111111,51.4444444444445">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="18.5,62"
+              EndConnector="-74.8333333333335,129.777777777778"
               Start="0,0"
-              End="18.5,54.5">
+              End="-74.8333333333335,122.277777777778">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,27" />
+                    End="0,60.8888888888889" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,27"
-                    Point2="0,31"
-                    Point3="4,31" />
+                    Point1="0,60.8888888888889"
+                    Point2="0,64.8888888888889"
+                    Point3="-4,64.8888888888889" />
                   <mssgle:LineSegment
-                    End="14.5,31" />
+                    End="-70.8333333333335,64.8888888888889" />
                   <mssgle:CubicBezierSegment
-                    Point1="14.5,31"
-                    Point2="18.5,31"
-                    Point3="18.5,35" />
+                    Point1="-70.8333333333335,64.8888888888889"
+                    Point2="-74.8333333333335,64.8888888888889"
+                    Point3="-74.8333333333335,68.8888888888889" />
                   <mssgle:LineSegment
-                    End="18.5,54.5" />
+                    End="-74.8333333333335,122.277777777778" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3855,33 +3916,21 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="164,42"
           Id="Package\DIM_TIME\Derived DateParts"
-          TopLeft="199,328" />
+          TopLeft="113.444444444444,260.222222222223" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output]"
-          TopLeft="363.5,287">
+          TopLeft="196.694444444444,222.555555555556">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-82.5,41"
+              EndConnector="0,37.6666666666673"
               Start="0,0"
-              End="-82.5,33.5">
+              End="0,30.1666666666673">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,16.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.5"
-                    Point2="0,20.5"
-                    Point3="-4,20.5" />
-                  <mssgle:LineSegment
-                    End="-78.5,20.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-78.5,20.5"
-                    Point2="-82.5,20.5"
-                    Point3="-82.5,24.5" />
-                  <mssgle:LineSegment
-                    End="-82.5,33.5" />
+                    End="0,30.1666666666673" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3893,67 +3942,47 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="168,42"
           Id="Package\DIM_TIME\Sort By MonthNum"
-          TopLeft="292,402" />
+          TopLeft="117.555555555556,337.555555555556" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Derived Column Output]"
-          TopLeft="281,370">
+          TopLeft="198.5,302.222222222223">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="95,32"
+              EndConnector="0,35.3333333333335"
               Start="0,0"
-              End="95,24.5">
+              End="0,27.8333333333335">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,12" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,12"
-                    Point2="0,16"
-                    Point3="4,16" />
-                  <mssgle:LineSegment
-                    End="91,16" />
-                  <mssgle:CubicBezierSegment
-                    Point1="91,16"
-                    Point2="95,16"
-                    Point3="95,20" />
-                  <mssgle:LineSegment
-                    End="95,24.5" />
+                    End="0,27.8333333333335" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="39.5,21,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
           Size="130,42"
           Id="Package\DIM_TIME\Merge Join"
-          TopLeft="471,459" />
+          TopLeft="343.222222222222,341.222222222223" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output1]"
-          TopLeft="460,423">
+          TopLeft="285.555555555556,360.38888888889">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="55.6666666666666,36"
+              EndConnector="57.6666666666667,0"
               Start="0,0"
-              End="55.6666666666666,28.5">
+              End="50.1666666666667,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="51.6666666666666,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="51.6666666666666,0"
-                    Point2="55.6666666666666,0"
-                    Point3="55.6666666666666,4" />
-                  <mssgle:LineSegment
-                    End="55.6666666666666,28.5" />
+                    End="50.1666666666667,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3964,30 +3993,18 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output2]"
-          TopLeft="677,191">
+          TopLeft="411.5,223.222222222222">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-141,268"
+              EndConnector="0,118.000000000001"
               Start="0,0"
-              End="-141,260.5">
+              End="0,110.500000000001">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,130" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,130"
-                    Point2="0,134"
-                    Point3="-4,134" />
-                  <mssgle:LineSegment
-                    End="-137,134" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-137,134"
-                    Point2="-141,134"
-                    Point3="-141,138" />
-                  <mssgle:LineSegment
-                    End="-141,260.5" />
+                    End="0,110.500000000001" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3997,43 +4014,31 @@ FROM Sales.SalesOrderHeader</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="107,42"
-          Id="Package\DIM_TIME\Sort 1"
-          TopLeft="622,484" />
+          Size="159,42"
+          Id="Package\DIM_TIME\Sort By Weekday"
+          TopLeft="335.333333333334,415.111111111112" />
         <NodeLayout
           Size="161,42"
           Id="Package\DIM_TIME\Helper Weekdays"
-          TopLeft="774,45" />
+          TopLeft="587.333333333334,10.5555555555556" />
         <NodeLayout
           Size="149,42"
           Id="Package\DIM_TIME\Sort Weekdays"
-          TopLeft="832,151" />
+          TopLeft="595.333333333334,184.333333333333" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[OLE DB Source Output3]"
-          TopLeft="854.5,87">
+          TopLeft="668.833333333334,52.5555555555556">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="52,64"
+              EndConnector="0,131.777777777778"
               Start="0,0"
-              End="52,56.5">
+              End="0,124.277777777778">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,28"
-                    Point2="0,32"
-                    Point3="4,32" />
-                  <mssgle:LineSegment
-                    End="48,32" />
-                  <mssgle:CubicBezierSegment
-                    Point1="48,32"
-                    Point2="52,32"
-                    Point3="52,36" />
-                  <mssgle:LineSegment
-                    End="52,56.5" />
+                    End="0,124.277777777778" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4045,33 +4050,21 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="139,42"
           Id="Package\DIM_TIME\Merge Join 1"
-          TopLeft="774,382" />
+          TopLeft="601.777777777779,410.88888888889" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output3]"
-          TopLeft="906.5,193">
+          TopLeft="670.555555555557,226.333333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-63,189"
+              EndConnector="0,184.555555555556"
               Start="0,0"
-              End="-63,181.5">
+              End="0,177.055555555556">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,90.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,90.5"
-                    Point2="0,94.5"
-                    Point3="-4,94.5" />
-                  <mssgle:LineSegment
-                    End="-59,94.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-59,94.5"
-                    Point2="-63,94.5"
-                    Point3="-63,98.5" />
-                  <mssgle:LineSegment
-                    End="-63,181.5" />
+                    End="0,177.055555555556" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4082,24 +4075,18 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Merge Join Output]"
-          TopLeft="601,461.5">
+          TopLeft="411.527777777778,383.222222222223">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="58,22.5"
+              EndConnector="0,31.888888888889"
               Start="0,0"
-              End="58,15">
+              End="0,24.388888888889">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="54,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="54,0"
-                    Point2="58,0"
-                    Point3="58,4" />
-                  <mssgle:LineSegment
-                    End="58,15" />
+                    End="0,24.388888888889" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4110,30 +4097,18 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Sort Output4]"
-          TopLeft="692,484">
+          TopLeft="494.333333333334,434.000000000001">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="151.5,-60"
+              EndConnector="107.444444444446,0"
               Start="0,0"
-              End="151.5,-52.5">
+              End="99.9444444444455,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-20.5303867403315" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-20.5303867403315"
-                    Point2="0,-24.5303867403315"
-                    Point3="4,-24.5303867403315" />
-                  <mssgle:LineSegment
-                    End="147.5,-24.5303867403315" />
-                  <mssgle:CubicBezierSegment
-                    Point1="147.5,-24.5303867403315"
-                    Point2="151.5,-24.5303867403315"
-                    Point3="151.5,-28.5303867403315" />
-                  <mssgle:LineSegment
-                    End="151.5,-52.5" />
+                    End="99.9444444444455,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4145,37 +4120,25 @@ FROM Sales.SalesOrderHeader</property>
         <NodeLayout
           Size="171,42"
           Id="Package\DIM_TIME\OLE DB Destination"
-          TopLeft="832,577" />
+          TopLeft="587.555555555557,552.555555555556" />
         <NodeLayout
           Size="154,42"
           Id="Package\DIM_TIME\Derive PK_Time"
-          TopLeft="838,495" />
+          TopLeft="592.444444444446,481.666666666667" />
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Merge Join Output1]"
-          TopLeft="865.333333333333,424">
+          TopLeft="670.361111111112,452.88888888889">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="49.6666666666666,71"
+              EndConnector="0,28.7777777777778"
               Start="0,0"
-              End="49.6666666666666,63.5">
+              End="0,21.2777777777778">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,24.8847795163585" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,24.8847795163585"
-                    Point2="0,28.8847795163585"
-                    Point3="4,28.8847795163585" />
-                  <mssgle:LineSegment
-                    End="45.6666666666666,28.8847795163585" />
-                  <mssgle:CubicBezierSegment
-                    Point1="45.6666666666666,28.8847795163585"
-                    Point2="49.6666666666666,28.8847795163585"
-                    Point3="49.6666666666666,32.8847795163584" />
-                  <mssgle:LineSegment
-                    End="49.6666666666666,63.5" />
+                    End="0,21.2777777777778" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4186,18 +4149,18 @@ FROM Sales.SalesOrderHeader</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\DIM_TIME.Paths[Derived Column Output1]"
-          TopLeft="916.25,537">
+          TopLeft="671.250000000001,523.666666666667">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,40"
+              EndConnector="0,28.888888888889"
               Start="0,0"
-              End="0,32.5">
+              End="0,21.388888888889">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,32.5" />
+                    End="0,21.388888888889" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
