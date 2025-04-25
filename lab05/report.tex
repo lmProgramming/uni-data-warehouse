@@ -166,13 +166,13 @@ CREATE TABLE Kubs.Helper_Weekdays (
 INSERT INTO
     Kubs.Helper_Weekdays (WeekdayNum, WeekdayName_PL)
 VALUES
-    (1, 'Niedziela'),
-    (2, 'Poniedzialek'),
-    (3, 'Wtorek'),
-    (4, 'Sroda'),
-    (5, 'Czwartek'),
-    (6, 'Piatek'),
-    (7, 'Sobota');
+    (1, N'Niedziela'),
+    (2, N'Poniedziałek'),
+    (3, N'Wtorek'),
+    (4, N'Środa'),
+    (5, N'Czwartek'),
+    (6, N'Piątek'),
+    (7, N'Sobota');
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Tworzenie i wypełnianie tabeli DIM\_TIME.}, label=lst:zad2_dim_time]
@@ -237,6 +237,8 @@ FROM
     \caption{Przykładowe dane w tabeli Kubs.DIM\_TIME.}
     \label{fig:dim_time_data}
 \end{figure}
+
+Przygotowanie DIM\_TIME zostało zoptymalizowane dzięki wczesnej unii unikalnych ShipDate i OrderDate, przed procesem łączenia ich z tabelami pomocniczymi. Dzięki temu od początku operujemy na minimalnej liczbie rekordów - 1134.
 
 \section{Zadanie 3 - Elementarne czyszczenie danych}
 
@@ -495,7 +497,7 @@ Uważam jednak, że jeszcze lepszym podejściem jest takie, które jest np. w Po
 
 W SSIS każdy proces był czasochłonny, pod względem User Experience nienajlepszy. Czasem występowały błędy, które naprawiał tylko restart Visual Studio.
 
-Fuzzy Lookup został użyty w procesie wypełniania DIM\_PRODUCT. Praktycznie ten sam produkt był definiowany parę razy dla różnych kolorów lub rozmiarów. W moim eksperymencie Fuzzy Lookup miał wyeliminować tylko różne rozmiary w nazwach i tak też się udało, dzięki użyciu threshold na poziomie 66\%. Był to tylko eksperyment, i lepiej do tego nadawałby się Fuzzy Grouping - teraz mamy wiele produktów o tej samej nazwie, ale teoretycznie są to różne wiersze w tabeli. Z drugiej strony, w tabeli są kolumny dotyczące wagi, rozmiaru i koloru produktów, przez co takie grupowanie by pozbyło się szczegółów.
+Fuzzy Lookup został użyty w procesie wypełniania DIM\_PRODUCT. Praktycznie ten sam produkt był definiowany parę razy dla różnych kolorów lub rozmiarów. W moim eksperymencie Fuzzy Lookup miał wyeliminować tylko różne rozmiary w nazwach (np. "HL Road Frame - Red, 62" i "HL Road Frame - Red, 44") i tak też się udało, dzięki użyciu threshold na poziomie 66\%. Był to tylko eksperyment, i lepiej do tego nadawałby się Fuzzy Grouping - teraz mamy wiele produktów o tej samej nazwie, ale teoretycznie są to różne wiersze w tabeli. Z drugiej strony, w tabeli są kolumny dotyczące wagi, rozmiaru i koloru produktów, przez co takie grupowanie by pozbyło się szczegółów.
 
 Stworzenie dedykowanego wymiaru czasu (DIM\_TIME) jest fundamentalnym krokiem w budowie hurtowni. Dostarcza on spójnego zestawu atrybutów (rok, kwartał, miesiąc, dzień tygodnia etc.) powiązanych z kluczem głównym (np. RRRRMMDD), co jest kluczowe dla późniejszych analiz i raportowania, umożliwiając łatwe agregowanie danych i drillowanie ich w kontekście czasowym.
 
