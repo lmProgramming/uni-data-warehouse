@@ -23,11 +23,11 @@ CREATE TABLE Kubs.Helper_Weekdays (
 );
 
 CREATE TABLE Kubs.Helper_Titles (
-    SourceTitle NVARCHAR(20) PRIMARY KEY,
-    StandardTitle NVARCHAR(20) NOT NULL
+    SourceTitle NVARCHAR(8) PRIMARY KEY,
+    StandardTitle NVARCHAR(8) NOT NULL
 );
 
-CREATE TABLE Kubs.Helper_ProductNames (CleanName NVARCHAR(100) PRIMARY KEY);
+CREATE TABLE Kubs.Helper_ProductNames (CleanName NVARCHAR(50) PRIMARY KEY);
 
 -- 3_tables
 CREATE TABLE Kubs.DIM_CUSTOMER (
