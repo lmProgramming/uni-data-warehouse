@@ -31,6 +31,10 @@
       <Name>DIM PRODUCT.dim</Name>
       <FullPath>DIM PRODUCT.dim</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>DIM TIME.dim</Name>
+      <FullPath>DIM TIME.dim</FullPath>
+    </ProjectItem>
   </Dimensions>
   <DataSources>
     <ProjectItem>
