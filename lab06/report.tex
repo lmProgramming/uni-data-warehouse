@@ -255,9 +255,10 @@ Proszę przygotować partycje na dwa sposoby i znaleźć uzasadnienie dla każde
 
 \subsection{Sposób pierwszy}
 
-Wymaga to stworzenia 4 nowych tabeli o schemacie identycznym do FACT\_SALES i wypełnienie ich odpowiednimi danymi.
+Ta metoda wymagała utworzenia w bazie SQL Server osobnych tabel dla każdego roku (np. `FACT\_SALES\_2011`, `FACT\_SALES\_2012`, itd.)
+o strukturze identycznej jak oryginalna tabela faktów, a następnie wypełnienia ich danymi z odpowiednich lat.
 
-\begin{lstlisting}[caption={Tworzenie i wypełnianie tabeli DIM\_TIME.}, label=lst:zad2_dim_time]
+\begin{lstlisting}[caption={Tworzenie i wypełnianie tabeli DIM\_TIME.}]
 CREATE TABLE Kubs.FACT_SALES_2011 (
   ProductID INT FOREIGN KEY REFERENCES Kubs.DIM_PRODUCT(ProductID),
     CustomerID INT FOREIGN KEY REFERENCES Kubs.DIM_CUSTOMER(CustomerID),
@@ -389,9 +390,12 @@ Następnie należało dodać każdą z tabel do projektu, a potem do partycji w 
   \caption{Wynik}
 \end{figure}
 
+\textit{Uzasadnienie:} Lepsza izolacja danych, potencjalnie szybsze przetwarzanie partycji (odczyt z mniejszych tabel), zgodność z procesami ETL ładującymi dane rocznie, większa możliwość automatyzacji procesu, zwłaszcza dla zmieniających się danych - tak jak tutaj, dla lat.
+
 \subsection{Sposób drugi}
 
-To podejście było teoretycznie prostsze - wystarczyło zmienić kod SQL w nowo dodawanych partycjach
+W tej metodzie wszystkie dane pozostają w oryginalnej tabeli `FACT\_SALES`. Partycje tworzone są przez zdefiniowanie
+zapytania SQL (query binding) dla każdej z nich, które wybiera dane tylko dla konkretnego roku za pomocą klauzuli `WHERE`
 
 \begin{figure}[H]
   \includegraphics[width=0.6\textwidth]{images/4b_source.png}
@@ -408,8 +412,74 @@ To podejście było teoretycznie prostsze - wystarczyło zmienić kod SQL w nowo
   \caption{Wynik}
 \end{figure}
 
+\textit{Uzasadnienie:} Brak konieczności tworzenia dodatkowych tabel w bazie SQL, prostsze zarządzanie bazą danych, łatwiejsza zmiana kryteriów partycjonowania (modyfikacja zapytań).
+
 \section{Zad. 5. * Definiowanie KPI}
-\section{Wnioski}
+
+\subsection{Prosty wskaźnik KPI}
+
+Przygotować wskaźnik KPI (zakładka \textit{KPI}), która umożliwi podział klientów na dobrych i lepszych w zależności od liczby sztuk zamówionych produktów.
+
+Tworząc nowy wskaźnik należy podać jego nazwę, wybrać (przeciągnąć) miarę, na podstawie której będzie dokonany podział zbioru, wybrać odpowiedni status (np. \textit{Shapes}) i podać warunek:
+\[
+  \text{iif}([\text{Measures}].[OrderQty] < \eta, -1 \text{ /*czerwony*/}, 1 \text{ /*zielony*/})
+\]
+
+Należy uzasadnić wybór wartości progowej $\eta$.
+
+Po przeprocesowaniu kostki, należy zobrazować działanie wskaźnika dla wybranych atrybutów w raporcie w Excelu.
+
+Postanowiono przyjąć KPI dzielące klientów na 2 grupy - około top 20\% "elitarnych" klientów i całą resztę.
+
+\begin{lstlisting}[caption={Kwerenda znajdująca dane do wyliczenia KPI}]
+SELECT TOP 20 PERCENT OrderQty
+FROM Kubs.FACT_SALES
+ORDER BY OrderQty DESC;
+\end{lstlisting}
+
+Po krótkiej analizie wyników okazało się, że wartość progową $\eta$ można wyznaczyć jako 4. Tak więc kliencie, którzy kupili co najmniej 4 przedmioty, są elitarni.
+
+Wybór wartości granicznej równej 20\% wynika z konceptu \textit{„krzywej wieloryba”} (ang. \textit{whale curve}), gdzie:
+\begin{itemize}
+  \item Top 20\% klientów generuje ponad 100\% zysku,
+  \item Środkowe 60\% klientów przynosi niewielki zysk lub bilansuje się,
+  \item Najsłabsze 20\% klientów generuje straty, przez co łączny zysk netto wraca do poziomu poniżej 100\%.
+\end{itemize}
+
+Koncepcja ta pomaga zrozumieć, że niewielka część klientów odpowiada za większość rentowności firmy, co uzasadnia przyjęcie progu 20\% w konstrukcji KPI. \cite{whale_curve}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/5a.png}
+  \caption{Sposób obliczenia KPI}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/5a_analysis.png}
+  \caption{Tabela przestawna z widokiem na wartości KPI}
+\end{figure}
+
+\subsection{KPI na podstawie kalkulowanej miary}
+
+Zaproponować własną miarę w zakładce \textit{Calculation $\rightarrow$ New Calculated Member}, (np. zysk z uwzględnieniem rabatu i frachtu), na podstawie której zostanie zdefiniowany odpowiedni wskaźnik KPI. Należy przeanalizować status opracowanego wskaźnika oraz jego trend. Wynik należy zaprezentować w wybranym kontekście.
+
+Zdefiniowano własną miarę kalkulowaną `Total Discount Amount` (Całkowita Wartość Rabatu) jako różnicę między przychodem brutto (wymagało użycia dodanej wcześniej miary `Gross Revenue`) a przychodem netto (`Line Total`).
+
+Na podstawie tej miary stworzono `Discount Level KPI`, który ocenia poziom rabatu względem przychodu brutto (cel: <= .5\%, źle: > .8\%) oraz pokazuje trend porównując wartość rabatu do roku poprzedniego.
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/5b.png}
+  \caption{Sposób obliczenia KPI}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/5b_analysis.png}
+  \caption{Tabela przestawna z widokiem na wartości KPI}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/5b_analysis_2.png}
+  \caption{Tabela przestawna z widokiem na wartości KPI z trendami}
+\end{figure}
 
 \section{Wnioski}
 
