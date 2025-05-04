@@ -244,6 +244,170 @@ Do obliczenia średniej ważonej należało dodać miarę obliczającą sumę ce
 \end{figure}
 
 \section{Zad. 4. Partycje}
+
+Podzielić zawartość kostki na partycje (zakładka Partitions). Każda partycja powinna
+odzwierciedlać jeden rok. Istnieją dwa podstawowe sposoby podziału partycjonowania kostek:
+\begin{itemize}
+  \item dane do zasilania poszczególnych partycji znajdują się w osobnych tabelach
+  \item dane do zasilania poszczególnych partycji znajdują się w tej samej tabeli, zaś każda z partycji ma przypisanie zapytanie SQL, którego wynik służy do jej zasilenia.
+\end{itemize}
+Proszę przygotować partycje na dwa sposoby i znaleźć uzasadnienie dla każdej opcji.
+
+\subsection{Sposób pierwszy}
+
+Wymaga to stworzenia 4 nowych tabeli o schemacie identycznym do FACT\_SALES i wypełnienie ich odpowiednimi danymi.
+
+\begin{lstlisting}[caption={Tworzenie i wypełnianie tabeli DIM\_TIME.}, label=lst:zad2_dim_time]
+CREATE TABLE Kubs.FACT_SALES_2011 (
+  ProductID INT FOREIGN KEY REFERENCES Kubs.DIM_PRODUCT(ProductID),
+    CustomerID INT FOREIGN KEY REFERENCES Kubs.DIM_CUSTOMER(CustomerID),
+    SalesPersonID INT FOREIGN KEY REFERENCES Kubs.DIM_SALESPERSON(SalesPersonID),
+    OrderDate INT NOT NULL,
+    ShipDate INT NULL,
+    OrderQty SMALLINT NOT NULL,
+    UnitPrice MONEY NOT NULL,
+    UnitPriceDiscount DECIMAL(8, 4) NOT NULL,
+    LineTotal DECIMAL(19, 4) NOT NULL
+);
+
+CREATE TABLE Kubs.FACT_SALES_2012 (
+  ProductID INT FOREIGN KEY REFERENCES Kubs.DIM_PRODUCT(ProductID),
+    CustomerID INT FOREIGN KEY REFERENCES Kubs.DIM_CUSTOMER(CustomerID),
+    SalesPersonID INT FOREIGN KEY REFERENCES Kubs.DIM_SALESPERSON(SalesPersonID),
+    OrderDate INT NOT NULL,
+    ShipDate INT NULL,
+    OrderQty SMALLINT NOT NULL,
+    UnitPrice MONEY NOT NULL,
+    UnitPriceDiscount DECIMAL(8, 4) NOT NULL,
+    LineTotal DECIMAL(19, 4) NOT NULL
+);
+
+CREATE TABLE Kubs.FACT_SALES_2013 (
+  ProductID INT FOREIGN KEY REFERENCES Kubs.DIM_PRODUCT(ProductID),
+    CustomerID INT FOREIGN KEY REFERENCES Kubs.DIM_CUSTOMER(CustomerID),
+    SalesPersonID INT FOREIGN KEY REFERENCES Kubs.DIM_SALESPERSON(SalesPersonID),
+    OrderDate INT NOT NULL,
+    ShipDate INT NULL,
+    OrderQty SMALLINT NOT NULL,
+    UnitPrice MONEY NOT NULL,
+    UnitPriceDiscount DECIMAL(8, 4) NOT NULL,
+    LineTotal DECIMAL(19, 4) NOT NULL
+);
+
+CREATE TABLE Kubs.FACT_SALES_2014 (
+  ProductID INT FOREIGN KEY REFERENCES Kubs.DIM_PRODUCT(ProductID),
+    CustomerID INT FOREIGN KEY REFERENCES Kubs.DIM_CUSTOMER(CustomerID),
+    SalesPersonID INT FOREIGN KEY REFERENCES Kubs.DIM_SALESPERSON(SalesPersonID),
+    OrderDate INT NOT NULL,
+    ShipDate INT NULL,
+    OrderQty SMALLINT NOT NULL,
+    UnitPrice MONEY NOT NULL,
+    UnitPriceDiscount DECIMAL(8, 4) NOT NULL,
+    LineTotal DECIMAL(19, 4) NOT NULL
+);
+
+with Sales1 AS (
+  SELECT 
+    Kubs.FACT_SALES.ProductID,
+    Kubs.FACT_SALES.CustomerID,
+    Kubs.FACT_SALES.SalesPersonID,
+    Kubs.FACT_SALES.OrderDate,
+    Kubs.FACT_SALES.ShipDate,
+    Kubs.FACT_SALES.OrderQty,
+    Kubs.FACT_SALES.UnitPrice,
+    Kubs.FACT_SALES.UnitPriceDiscount,
+    Kubs.FACT_SALES.LineTotal
+  FROM Kubs.FACT_SALES
+  WHERE OrderDate >= 20110101 AND OrderDate < 20120000
+)
+INSERT INTO Kubs.FACT_SALES_2011
+
+SELECT * FROM Sales1;
+
+with Sales2 AS (
+  SELECT 
+    Kubs.FACT_SALES.ProductID,
+    Kubs.FACT_SALES.CustomerID,
+    Kubs.FACT_SALES.SalesPersonID,
+    Kubs.FACT_SALES.OrderDate,
+    Kubs.FACT_SALES.ShipDate,
+    Kubs.FACT_SALES.OrderQty,
+    Kubs.FACT_SALES.UnitPrice,
+    Kubs.FACT_SALES.UnitPriceDiscount,
+    Kubs.FACT_SALES.LineTotal
+  FROM Kubs.FACT_SALES
+  WHERE OrderDate >= 20120101 AND OrderDate < 20130000
+)
+INSERT INTO Kubs.FACT_SALES_2012
+
+SELECT * FROM Sales2;
+
+with Sales3 AS (
+  SELECT 
+    Kubs.FACT_SALES.ProductID,
+    Kubs.FACT_SALES.CustomerID,
+    Kubs.FACT_SALES.SalesPersonID,
+    Kubs.FACT_SALES.OrderDate,
+    Kubs.FACT_SALES.ShipDate,
+    Kubs.FACT_SALES.OrderQty,
+    Kubs.FACT_SALES.UnitPrice,
+    Kubs.FACT_SALES.UnitPriceDiscount,
+    Kubs.FACT_SALES.LineTotal
+  FROM Kubs.FACT_SALES
+  WHERE OrderDate >= 20130101 AND OrderDate < 20140000
+)
+INSERT INTO Kubs.FACT_SALES_2013
+
+SELECT * FROM Sales3;
+
+with Sales4 AS (
+  SELECT 
+    Kubs.FACT_SALES.ProductID,
+    Kubs.FACT_SALES.CustomerID,
+    Kubs.FACT_SALES.SalesPersonID,
+    Kubs.FACT_SALES.OrderDate,
+    Kubs.FACT_SALES.ShipDate,
+    Kubs.FACT_SALES.OrderQty,
+    Kubs.FACT_SALES.UnitPrice,
+    Kubs.FACT_SALES.UnitPriceDiscount,
+    Kubs.FACT_SALES.LineTotal
+  FROM Kubs.FACT_SALES
+  WHERE OrderDate >= 20140101
+)
+INSERT INTO Kubs.FACT_SALES_2014
+\end{lstlisting}
+
+Następnie należało dodać każdą z tabel do projektu, a potem do partycji w kostce.
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/4a.png}
+  \caption{Dodane partycje}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/4a_result.png}
+  \caption{Wynik}
+\end{figure}
+
+\subsection{Sposób drugi}
+
+To podejście było teoretycznie prostsze - wystarczyło zmienić kod SQL w nowo dodawanych partycjach
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/4b_source.png}
+  \caption{Zmieniony kod SQL w partycji - dodana klauzula WHERE ograniczająca daty}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/4b.png}
+  \caption{Dodane partycje}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/4a_result.png}
+  \caption{Wynik}
+\end{figure}
+
 \section{Zad. 5. * Definiowanie KPI}
 \section{Wnioski}
 
