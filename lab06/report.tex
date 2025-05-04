@@ -70,6 +70,82 @@
 \maketitle
 
 \section{Zad. 1. Modyfikacja wymiarów i tabeli faktów}
+
+Bazując na kostce utworzonej przy realizacji listy 4, należy:
+
+\subsection{Podpunkt a}
+
+Zmodyfikować definicję wymiarów tak, aby:
+
+\begin{enumerate}
+  \item W wymiarach CUSTOMER i SALESPERSON nie można było korzystać z atrybutów FirstName oraz LastName. W zamian dodać atrybut Names\\
+        \includegraphics[width=0.6\textwidth]{images/1a1.png}
+
+  \item W wymiarze SALESPERSON pojawiła się hierarchia Group - CountryRegionCode - Names\\
+        \includegraphics[width=0.6\textwidth]{images/1a2.png}
+
+  \item W wymiarze CUSTOMER pojawiła się hierarchia Group - CountryRegionCode - Names\\
+        \includegraphics[width=0.6\textwidth]{images/1a3.png}
+
+  \item W wymiarze PRODUCT pojawiła się hierarchia CategoryName - SubCategoryName - Name\\
+        \includegraphics[width=0.6\textwidth]{images/1a4.png}
+
+  \item W wymiarze TIME pojawiła się hierarchia Rok - Kwartał - Miesiąc - Dzień miesiąca\\
+        \includegraphics[width=0.6\textwidth]{images/1a5.png}
+\end{enumerate}
+
+\subsection{Podpunkt b}
+
+Dla każdego atrybutu kluczowego wymiaru, którego wartościami są liczby całkowite,
+zmodyfikować właściwości (Properties). Zmodyfikować parametr NameColumn, tak
+aby nazwy kolejnych elementów wymiaru nie były liczbami. (Przykładowo dla wymiaru dotyczącego Produktu można wykorzystać atrybut Name).
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/1b_salesperson.png}
+  \caption{Widok Properties dla DIM\_Salesperson}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/1b_customer.png}
+  \caption{Widok Properties dla DIM\_Customer}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/1b_product.png}
+  \caption{Widok Properties dla DIM\_Product}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/1b_time.png}
+  \caption{Widok Properties dla DIM\_Time}
+\end{figure}
+
+\subsection{Podpunkt c}
+
+Utworzyć nowe miary, które będą odzwierciedlać:
+
+\begin{itemize}
+  \item Liczbę różnych klientów (aggregatedFunction: distinct count)
+  \item Liczbę różnych produktów
+  \item Maksymalną wartość rabatu (aggregatedFunction: max)
+  \item Maksymalną liczbę zamówionych produktów
+  \item Liczbę różnych sprzedawców realizujących zamówienia
+\end{itemize}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/1c.png}
+  \caption{Miara dotycząca liczby różnych klientów}
+\end{figure}
+
+\subsection{Podpunkt d}
+
+Wdrożyć i przeprocesować kostkę.
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/1d.png}
+  \caption{Widok przeprocesowanej kostki}
+\end{figure}
+
 \section{Zad. 2. Przegląd danych i tworzenie zestawień}
 \section{Zad. 3. Miary kalkulowane}
 \section{Zad. 4. Partycje}
