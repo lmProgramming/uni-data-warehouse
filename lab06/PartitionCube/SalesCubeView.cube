@@ -999,18 +999,16 @@ VISIBLE = 1  ; </Text>
            1, 
            [Order Date].[Date Hierarchy].CurrentMember
        )
-  Then 1 -- Trend rosnący (poprawa - mniej rabatu)
+  Then 1
 
-  -- Jeśli obecny rabat jest większy niż rok temu (pogorszenie)
   When [Measures].[TotalDiscountAmount] &gt;
        ParallelPeriod(
            [Order Date].[Date Hierarchy].[Rok],
            1,
            [Order Date].[Date Hierarchy].CurrentMember
        )
-  Then -1 -- Trend spadający (pogorszenie - więcej rabatu)
+  Then -1
 
-  -- Jeśli brak danych lub bez zmian
   Else 0
 End</Trend>
       <TrendGraphic>Standard Arrow</TrendGraphic>
