@@ -1,0 +1,83 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage[backend=biber, style=numeric]{biblatex}
+
+\addbibresource{bibliografia.bib}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=flexible,
+  keepspaces=true,
+  showstringspaces=false,
+  escapeinside={(*@}{@*)},
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'{c}}}1
+           {ę}{{\k{e}}}1
+           {ł}{{\l{}}}1
+           {ń}{{\'{n}}}1
+           {ó}{{\'{o}}}1
+           {ś}{{\'{s}}}1
+           {ź}{{\'{z}}}1
+           {ż}{{\.{z}}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'{C}}}1
+           {Ę}{{\k{E}}}1
+           {Ł}{{\L{}}}1
+           {Ń}{{\'{N}}}1
+           {Ó}{{\'{O}}}1
+           {Ś}{{\'{S}}}1
+           {Ź}{{\'{Z}}}1
+           {Ż}{{\.{Z}}}1
+           {"}{{\textquotedbl}}1
+           {'}{{\textquotesingle}}1
+           {`}{{\textasciigrave}}1
+           {~}{{\textasciitilde}}1
+           {^}{{\textasciicircum}}1
+           {_}{{\textunderscore}}1
+           {|}{{\textbar}}1
+           {\{}{{\textbraceleft}}1
+           {\}}{{\textbraceright}}1
+           {[}{{[}}1
+           {]}{{]}}1,
+  language=SQL,
+  showspaces=false,
+  numbers=left,
+  numberstyle=\tiny,
+  commentstyle=\color{green!60!black},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red!80!black},
+  breaklines=true, 
+  frame=single,
+  captionpos=b 
+}
+
+\title{6. sprawozdanie z laboratorium Hurtownie Danych}
+\author{Mikołaj Kubś, 272662}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Zad. 1. Modyfikacja wymiarów i tabeli faktów}
+\section{Zad. 2. Przegląd danych i tworzenie zestawień}
+\section{Zad. 3. Miary kalkulowane}
+\section{Zad. 4. Partycje}
+\section{Zad. 5. * Definiowanie KPI}
+\section{Wnioski}
+
+\section{Wnioski}
+
+\printbibliography
+
+\end{document}
