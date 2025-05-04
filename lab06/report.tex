@@ -7,12 +7,14 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{hyperref}
 \usepackage{float}
 \usepackage{listings}
 \usepackage[backend=biber, style=numeric]{biblatex}
+\usepackage{hyperref}
 
 \addbibresource{bibliografia.bib}
+
+\graphicspath{{images/}}
 
 \lstset{
   basicstyle=\ttfamily\small,
@@ -79,19 +81,19 @@ Zmodyfikować definicję wymiarów tak, aby:
 
 \begin{enumerate}
   \item W wymiarach CUSTOMER i SALESPERSON nie można było korzystać z atrybutów FirstName oraz LastName. W zamian dodać atrybut Names\\
-        \includegraphics[width=0.6\textwidth]{images/1a1.png}
+        \includegraphics[width=0.6\textwidth]{1a1.png}
 
   \item W wymiarze SALESPERSON pojawiła się hierarchia Group - CountryRegionCode - Names\\
-        \includegraphics[width=0.6\textwidth]{images/1a2.png}
+        \includegraphics[width=0.6\textwidth]{1a2.png}
 
   \item W wymiarze CUSTOMER pojawiła się hierarchia Group - CountryRegionCode - Names\\
-        \includegraphics[width=0.6\textwidth]{images/1a3.png}
+        \includegraphics[width=0.6\textwidth]{1a3.png}
 
   \item W wymiarze PRODUCT pojawiła się hierarchia CategoryName - SubCategoryName - Name\\
-        \includegraphics[width=0.6\textwidth]{images/1a4.png}
+        \includegraphics[width=0.6\textwidth]{1a4.png}
 
   \item W wymiarze TIME pojawiła się hierarchia Rok - Kwartał - Miesiąc - Dzień miesiąca\\
-        \includegraphics[width=0.6\textwidth]{images/1a5.png}
+        \includegraphics[width=0.6\textwidth]{1a5.png}
 \end{enumerate}
 
 \subsection{Podpunkt b}
@@ -101,22 +103,26 @@ zmodyfikować właściwości (Properties). Zmodyfikować parametr NameColumn, ta
 aby nazwy kolejnych elementów wymiaru nie były liczbami. (Przykładowo dla wymiaru dotyczącego Produktu można wykorzystać atrybut Name).
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/1b_salesperson.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{1b_salesperson.png}
   \caption{Widok Properties dla DIM\_Salesperson}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/1b_customer.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{1b_customer.png}
   \caption{Widok Properties dla DIM\_Customer}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/1b_product.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{1b_product.png}
   \caption{Widok Properties dla DIM\_Product}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/1b_time.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{1b_time.png}
   \caption{Widok Properties dla DIM\_Time}
 \end{figure}
 
@@ -133,7 +139,8 @@ Utworzyć nowe miary, które będą odzwierciedlać:
 \end{itemize}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/1c.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{1c.png}
   \caption{Miara dotycząca liczby różnych klientów}
 \end{figure}
 
@@ -142,7 +149,8 @@ Utworzyć nowe miary, które będą odzwierciedlać:
 Wdrożyć i przeprocesować kostkę.
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/1d.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{1d.png}
   \caption{Widok przeprocesowanej kostki}
 \end{figure}
 
@@ -159,7 +167,8 @@ Sprawdzić, czy dane zapisane w kostce zgadzają się z danymi zapisanymi w tabe
 \end{itemize}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/2a.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{2a.png}
   \caption{Widok przykładowej kwerendy w Browser}
 \end{figure}
 
@@ -168,7 +177,8 @@ Sprawdzić, czy dane zapisane w kostce zgadzają się z danymi zapisanymi w tabe
 Przetestować możliwości przeglądarki (Browser) - operator wyboru danych (Operator), wyrażenia filtrujące dane (Filter Expression) itp.
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/2b.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{2b.png}
   \caption{Widok przykładowej kwerendy z dwoma różnymi rodzajami filtrów (Operator i Filter Expression)}
 \end{figure}
 
@@ -180,7 +190,8 @@ wyniki (proszę zapisać wnioski!)
 \subsubsection{Liczba sprzedanych rowerów w zależności od miesiąca w USA}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/bike_sales.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{bike_sales.png}
   \caption{Wykres}
 \end{figure}
 
@@ -191,7 +202,8 @@ Generalnie widać trend wzrostu aktywności kupowania w miesiącach letnich. Mim
 \subsubsection{Maksymalny rabat udzielony na produkty w latach od kategorii}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/max_discount.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{max_discount.png}
   \caption{Wykres}
 \end{figure}
 
@@ -209,7 +221,8 @@ Sklep wydaje się mieć dość chaotyczną politykę udzielania rabatów. Należ
 \subsubsection{Liczba różnych sprzedanych produktów na sprzedawcę w 3. i 4. kwartale 2013 roku}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/sales_salesperson.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{sales_salesperson.png}
   \caption{Wykres}
 \end{figure}
 
@@ -233,29 +246,34 @@ miarę pomocniczą, która pozwoli uzyskać fragment wyrażenia odpowiadającego
 ważonej.
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/3_calculations_1.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{3_calculations_1.png}
   \caption{Sposób obliczania miary ze zwykłą średnią}
 \end{figure}
 
 Do obliczenia średniej ważonej należało dodać miarę obliczającą sumę ceny jednostkowej i drugą miarę, będącą iloczynem ceny jednostkowej i liczby zamówionego produktu (LineTotal prawie to spełniał, ale miał w sobie czasem zniżkę).
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/3_sum_unit_price.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{3_sum_unit_price.png}
   \caption{Sposób obliczania miary z sumą ceny jednostkowej}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/3_gross_revenue.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{3_gross_revenue.png}
   \caption{Sposób obliczania miary zysku brutto}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/3_calculations_2.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{3_calculations_2.png}
   \caption{Sposób obliczania miary średniej ważonej}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/3_result.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{3_result.png}
   \caption{Wynik średnich dla całego zbioru danych}
 \end{figure}
 
@@ -339,8 +357,6 @@ with Sales1 AS (
 )
 INSERT INTO Kubs.FACT_SALES_2011
 
-SELECT * FROM Sales1;
-
 with Sales2 AS (
   SELECT 
     Kubs.FACT_SALES.ProductID,
@@ -357,8 +373,6 @@ with Sales2 AS (
 )
 INSERT INTO Kubs.FACT_SALES_2012
 
-SELECT * FROM Sales2;
-
 with Sales3 AS (
   SELECT 
     Kubs.FACT_SALES.ProductID,
@@ -374,8 +388,6 @@ with Sales3 AS (
   WHERE OrderDate >= 20130101 AND OrderDate < 20140000
 )
 INSERT INTO Kubs.FACT_SALES_2013
-
-SELECT * FROM Sales3;
 
 with Sales4 AS (
   SELECT 
@@ -397,12 +409,14 @@ INSERT INTO Kubs.FACT_SALES_2014
 Następnie należało dodać każdą z tabel do projektu, a potem do partycji w kostce.
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/4a.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{4a.png}
   \caption{Dodane partycje}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/4a_result.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{4a_result.png}
   \caption{Wynik}
 \end{figure}
 
@@ -414,17 +428,20 @@ W tej metodzie wszystkie dane pozostają w oryginalnej tabeli `FACT\_SALES`. Par
 zapytania SQL (query binding) dla każdej z nich, które wybiera dane tylko dla konkretnego roku za pomocą klauzuli `WHERE`
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/4b_source.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{4b_source.png}
   \caption{Zmieniony kod SQL w partycji - dodana klauzula WHERE ograniczająca daty}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/4b.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{4b.png}
   \caption{Dodane partycje}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/4a_result.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{4a_result.png}
   \caption{Wynik}
 \end{figure}
 
@@ -465,12 +482,14 @@ Wybór wartości granicznej równej 20\% wynika z konceptu \textit{„krzywej wi
 Koncepcja ta pomaga zrozumieć, że niewielka część klientów odpowiada za większość rentowności firmy, co uzasadnia przyjęcie progu 20\% w konstrukcji KPI. \cite{whale_curve}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/5a.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{5a.png}
   \caption{Sposób obliczenia KPI}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/5a_analysis.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{5a_analysis.png}
   \caption{Tabela przestawna z widokiem na wartości KPI}
 \end{figure}
 
@@ -484,17 +503,20 @@ Zdefiniowano własną miarę kalkulowaną `Total Discount Amount` (Całkowita Wa
 Na podstawie tej miary stworzono `Discount Level KPI`, który ocenia poziom rabatu względem przychodu brutto (cel: <= .5\%, źle: > .8\%) oraz pokazuje trend porównując wartość rabatu do roku poprzedniego.
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/5b.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{5b.png}
   \caption{Sposób obliczenia KPI}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/5b_analysis.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{5b_analysis.png}
   \caption{Tabela przestawna z widokiem na wartości KPI}
 \end{figure}
 
 \begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/5b_analysis_2.png}
+  \centering
+  \includegraphics[width=0.6\textwidth]{5b_analysis_2.png}
   \caption{Tabela przestawna z widokiem na wartości KPI z trendami}
 \end{figure}
 
