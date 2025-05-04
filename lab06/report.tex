@@ -206,6 +206,43 @@ wyniki (proszę zapisać wnioski!)
 \end{figure}
 
 \section{Zad. 3. Miary kalkulowane}
+
+W zakładce Calculations dodać dwie miary kalkulowane (ang. calculated members):\begin{itemize}
+  \item średnią liczbę zamówionych towarów na zamówienie
+  \item średnią ważoną liczbę towarów na zamówienie. Jako wagę należy wybrać cenę danego produktu.
+\end{itemize}
+Wskazówka: w celu utworzenia wyżej wymienionej średniej ważonej można posłużyć się nową
+kolumną zdefiniowaną w widoku źródła danych (lub w tabeli). Kolumna ta powinna definiować
+miarę pomocniczą, która pozwoli uzyskać fragment wyrażenia odpowiadającego średniej
+ważonej.
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/3_calculations_1.png}
+  \caption{Sposób obliczania miary ze zwykłą średnią}
+\end{figure}
+
+Do obliczenia średniej ważonej należało dodać miarę obliczającą sumę ceny jednostkowej i drugą miarę, będącą iloczynem ceny jednostkowej i liczby zamówionego produktu (LineTotal prawie to spełniał, ale miał w sobie czasem zniżkę).
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/3_sum_unit_price.png}
+  \caption{Sposób obliczania miary z sumą ceny jednostkowej}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/3_gross_revenue.png}
+  \caption{Sposób obliczania miary zysku brutto}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/3_calculations_2.png}
+  \caption{Sposób obliczania miary średniej ważonej}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=0.6\textwidth]{images/3_result.png}
+  \caption{Wynik średnich dla całego zbioru danych}
+\end{figure}
+
 \section{Zad. 4. Partycje}
 \section{Zad. 5. * Definiowanie KPI}
 \section{Wnioski}
