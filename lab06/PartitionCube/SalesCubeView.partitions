@@ -1,17 +1,17 @@
-﻿<Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="6a998337-7dce-4138-944e-e14ae1a50010" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+﻿<Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="80de300e-9d89-45ea-afe4-3574e4369feb" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
   <ID>SalesCubeView</ID>
   <MeasureGroups>
     <MeasureGroup>
       <ID>FACT SALES</ID>
       <Partitions>
-        <Partition dwd:design-time-name="fb952f2b-db8c-4f2a-a341-b0573f96da5e">
+        <Partition dwd:design-time-name="31069528-9873-4d03-9913-94921d69d46a">
           <ID>FACT SALES</ID>
           <Name>FACT SALES</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="36f92336-f8f4-4c95-93b7-795bc6b7708c">
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="69f1ef7e-7fc1-40a4-969f-e49bad49d3d7">
             <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
             <TableID>Kubs_FACT_SALES</TableID>
           </Source>
@@ -22,18 +22,18 @@
       </Partitions>
     </MeasureGroup>
     <MeasureGroup>
-      <ID>DIM CUSTOMER</ID>
+      <ID>FACT SALES 1</ID>
       <Partitions>
-        <Partition dwd:design-time-name="b0cf6ed8-412f-4845-9e3e-2d2fe93e2c28">
-          <ID>DIM CUSTOMER</ID>
-          <Name>DIM CUSTOMER</Name>
+        <Partition dwd:design-time-name="6606f513-32a3-49dd-aa54-107fe6fe0c02">
+          <ID>FACT SALES</ID>
+          <Name>FACT SALES</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="f7e04634-e7e6-480b-928c-92eccd216fc6">
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="439a7ff5-1c85-4394-a45a-d50db2e17b4c">
             <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
-            <TableID>Kubs_DIM_CUSTOMER</TableID>
+            <TableID>Kubs_FACT_SALES</TableID>
           </Source>
           <StorageMode>Molap</StorageMode>
           <CurrentStorageMode>Molap</CurrentStorageMode>
@@ -42,18 +42,18 @@
       </Partitions>
     </MeasureGroup>
     <MeasureGroup>
-      <ID>DIM PRODUCT</ID>
+      <ID>FACT SALES 2</ID>
       <Partitions>
-        <Partition dwd:design-time-name="4669cb03-8c9c-42d2-95cb-f353b93b9b9e">
-          <ID>DIM PRODUCT</ID>
-          <Name>DIM PRODUCT</Name>
+        <Partition dwd:design-time-name="a3d11dec-f918-48a9-ae36-7e685db8c510">
+          <ID>FACT SALES</ID>
+          <Name>FACT SALES</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="bd70cf4d-272e-4b09-ae17-48019490bfb2">
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="05aa5bc1-d434-4182-b079-0384d2681f02">
             <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
-            <TableID>Kubs_DIM_PRODUCT</TableID>
+            <TableID>Kubs_FACT_SALES</TableID>
           </Source>
           <StorageMode>Molap</StorageMode>
           <CurrentStorageMode>Molap</CurrentStorageMode>
@@ -62,18 +62,18 @@
       </Partitions>
     </MeasureGroup>
     <MeasureGroup>
-      <ID>DIM SALESPERSON</ID>
+      <ID>FACT SALES 3</ID>
       <Partitions>
-        <Partition dwd:design-time-name="1de56d32-d00a-4771-abc7-e4ecd7ca15f1">
-          <ID>DIM SALESPERSON</ID>
-          <Name>DIM SALESPERSON</Name>
+        <Partition dwd:design-time-name="e501c019-7de1-498a-8d3f-12157bdf7aff">
+          <ID>FACT SALES</ID>
+          <Name>FACT SALES</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="bbba758f-6fc6-4b36-8536-4ad2c079ace6">
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="938879d1-90c6-45c6-a9a7-ee9a912cf66b">
             <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
-            <TableID>Kubs_DIM_SALESPERSON</TableID>
+            <TableID>Kubs_FACT_SALES</TableID>
           </Source>
           <StorageMode>Molap</StorageMode>
           <CurrentStorageMode>Molap</CurrentStorageMode>
