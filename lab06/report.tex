@@ -177,33 +177,49 @@ Przetestować możliwości przeglądarki (Browser) - operator wyboru danych (Ope
 Przygotować przykładowe tabele i wykresy przestawne oraz zinterpretować uzyskane
 wyniki (proszę zapisać wnioski!)
 
-\subsubsection{Rowery}
+\subsubsection{Liczba sprzedanych rowerów w zależności od miesiąca w USA}
 
 \begin{figure}[H]
   \includegraphics[width=0.6\textwidth]{images/bike_sales.png}
   \caption{Wykres}
 \end{figure}
 
-\subsubsection{Rowery}
+Na wykres nałożone są 2 filtry - kategoria jest limitowna do rowerów, a kod regionu państwa do USA. Wykres jest posortowane po osi x, czyli związanej z miesiącami, agregując liczbę sprzedanych rowerów dla wszystkich lat naraz.
 
-\begin{figure}[H]
-  \includegraphics[width=0.6\textwidth]{images/bike_sales.png}
-  \caption{Wykres}
-\end{figure}
+Generalnie widać trend wzrostu aktywności kupowania w miesiącach letnich. Mimo to, widać również wysokie wartości dla niektórych miesięcy poza sezonem - październik, grudzień, styczeń. Być może np. grudzień jest powiązany ze wzrostem sprzedaży w związku z Bożym Narodzeniem, a październik z potencjalnymi wyprzedażami po sezonie. Marzec osiąga najwiekszą sprzedaż, zaczynając większą sprzedaż sklepu do października. Najmniejsza sprzedaż jest w lutym - raczej popularniejsze są wtedy sporty zimowe.
 
-\subsubsection{Zniżka}
+\subsubsection{Maksymalny rabat udzielony na produkty w latach od kategorii}
 
 \begin{figure}[H]
   \includegraphics[width=0.6\textwidth]{images/max_discount.png}
   \caption{Wykres}
 \end{figure}
 
-\subsubsection{Sprzedawca}
+Na wykresie widać, że najwyższe rabaty udzielane są na rowery. Wartość maksymalnego rabatu w latach 2012-2014 była najwyższa właśnie dla rowerów. Zarówno w 2012, jak i w 2014, ta wartość była bardzo wysoka, około 2 razy wyższa, niż 3. najlepszy wynik (należący do rowerów w 2013 roku). W 2014 roku był udzielony najwyższy rabat ogółem - aż 40\% zniżki dla szczęśliwego klienta.
+Ale w 2011, rabaty udzielane dla rowerów były niskie, podobnie jak dla innych kategorii.
+
+Akcesoria - wartość maksymalnego rabatu powoli rosła, z bardzo niskiego poziomu w 2011 do 4. najwyższego ogółem w 2013. Potem w 2014 znowu spadł do niskiego poziomu.
+
+Ubrania - były najbardziej przeceniane w 2011 roku. Były przeceniane na podobnym poziomie w 2012, ale wtedy to rowery je prześcignęły. W 2013 urosły, utrzymując jeden z najwyższych poziomów również w 2014.
+
+Kompnenty - bardzo niskie maksymalne rabaty, zerowe w 2011. W 2012 i 2013 podobne, ale najniższe w zestawieniach, w 2014 znowu spadek do bardzo niskiego poziomu.
+
+Sklep wydaje się mieć dość chaotyczną politykę udzielania rabatów. Należałoby ją lepiej uściślić. Oczywiście, każda kategoria powinna mieć osobną politykę.
+
+\subsubsection{Liczba różnych sprzedanych produktów na sprzedawcę w 3. i 4. kwartale 2013 roku}
 
 \begin{figure}[H]
   \includegraphics[width=0.6\textwidth]{images/sales_salesperson.png}
   \caption{Wykres}
 \end{figure}
+
+Wykres został arbitralnie ograniczony do 3. i 4. kwartału 2013 roku - mogło by być tak, że menadżer analizuje sytuację w poprzednim roku, czekając na nadejście 3. i 4. kwartału w 2014 roku w bazie danych.
+
+Sprzedawcy utrzymują dość podobny poziom sprzedaży różnych produktów. Bardzo wielu osiąga wysoki poziom ~ 160, zwłaszcza w Europie i w Północnej Ameryce. W rejonie pacyfiku poziom jest niższy, podobny do najniższego poziomu w poprzednich grupach - osiągniętego przez Lindę Mitchell.
+
+Aż 3 sprzedawców nie jest przypisanych do regionu - osiągają oni jedne z niższych wyników sprzedaży różnych produktów.
+
+Wszystkim sprzedawcom osiągającym słabsze wyniki należy przyjrzeć się w celu ewentualnych szkoleń. Jeśli z innych analiz, np. analizy rynku, w którym pracują, ogólnej sprzedaży itd. wyszły również słabe wyniki, byliby to kandydaci do potencjalnych redukcji. Nalezy również koniecznie przypisać sprzedawców bez regionów do regionów - ułatwi to analizę.
 
 \section{Zad. 3. Miary kalkulowane}
 
