@@ -453,6 +453,17 @@
             </Source>
           </Source>
         </Measure>
+        <Measure dwd:design-time-name="405bd2e4-18eb-468b-b197-f77e57ead1f0">
+          <ID>Unit Price</ID>
+          <Name>Sum Unit Price</Name>
+          <Source dwd:design-time-name="fea6497b-05e9-494a-86db-ed2a95022cfb">
+            <DataType>Double</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="d568aac4-4509-40de-ba09-9b251c9b2be0">
+              <TableID>Kubs_FACT_SALES</TableID>
+              <ColumnID>UnitPrice</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
       </Measures>
       <StorageMode>Molap</StorageMode>
       <ProcessingMode>Regular</ProcessingMode>
@@ -929,9 +940,18 @@ The CALCULATE command controls the aggregation of leaf cells in the cube.
 If the CALCULATE command is deleted or modified, the data within the cube is affected.
 You should edit this command only if you manually specify how the cube is aggregated.
 */
-CALCULATE; 
-CREATE MEMBER CURRENTCUBE.[Measures].AvgUnitPriceDiscount
- AS [Measures].[Unit Price Discount] / [Measures].[Fact Sales Row Count], 
+CALCULATE;  
+CREATE MEMBER CURRENTCUBE.[Measures].AverageOrderQty
+ AS Divide ( 
+    [Measures].[Order Qty],
+    [Measures].[FACT SALES Count]
+), 
+VISIBLE = 1; 
+CREATE MEMBER CURRENTCUBE.[Measures].WeightedAverageOrderQty
+ AS Divide(
+    [Measures].[Line Total],
+    [Measures].[Sum Unit Price]
+), 
 VISIBLE = 1  ; </Text>
         </Command>
       </Commands>
