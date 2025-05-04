@@ -1,37 +1,122 @@
-﻿<Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="80de300e-9d89-45ea-afe4-3574e4369feb" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+﻿<Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="93620c40-f204-483f-ae20-fda873f5da80" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
   <ID>SalesCubeView</ID>
   <MeasureGroups>
     <MeasureGroup>
       <ID>FACT SALES</ID>
       <Partitions>
-        <Partition dwd:design-time-name="31069528-9873-4d03-9913-94921d69d46a">
+        <Partition dwd:design-time-name="c04b8d9a-07c3-492d-8bcc-5cac83bf020b">
           <ID>FACT SALES</ID>
-          <Name>FACT SALES</Name>
+          <Name>FACT SALES 1</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="69f1ef7e-7fc1-40a4-969f-e49bad49d3d7">
-            <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
-            <TableID>Kubs_FACT_SALES</TableID>
+          <Source xsi:type="QueryBinding" dwd:design-time-name="5ec40a77-9c80-45f6-929e-e2783290aaca">
+            <DataSourceID>AdventureWorks2014</DataSourceID>
+            <QueryDefinition>SELECT [Kubs].[FACT_SALES].[ProductID],[Kubs].[FACT_SALES].[CustomerID],[Kubs].[FACT_SALES].[SalesPersonID],[Kubs].[FACT_SALES].[OrderDate],[Kubs].[FACT_SALES].[ShipDate],[Kubs].[FACT_SALES].[OrderQty],[Kubs].[FACT_SALES].[UnitPrice],[Kubs].[FACT_SALES].[UnitPriceDiscount],[Kubs].[FACT_SALES].[LineTotal]
+FROM [Kubs].[FACT_SALES]
+WHERE OrderDate &gt;= 20110101 AND OrderDate &lt; 20120000</QueryDefinition>
           </Source>
           <StorageMode>Molap</StorageMode>
           <CurrentStorageMode>Molap</CurrentStorageMode>
           <ProcessingMode>Regular</ProcessingMode>
+          <ProactiveCaching dwd:design-time-name="16b02034-0ea4-4d90-90cc-215e85458e78">
+            <SilenceInterval>-PT1S</SilenceInterval>
+            <Latency>-PT1S</Latency>
+            <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+            <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+            <AggregationStorage>MolapOnly</AggregationStorage>
+            <Source xsi:type="ProactiveCachingInheritedBinding" dwd:design-time-name="aebfa294-f338-49a3-9048-f62034e34d9a">
+              <NotificationTechnique>Server</NotificationTechnique>
+            </Source>
+          </ProactiveCaching>
+          <EstimatedRows>5716</EstimatedRows>
+        </Partition>
+        <Partition dwd:design-time-name="fe6aa50e-dd37-4632-b092-1a9af91747f0">
+          <ID>FACT SALES 2</ID>
+          <Name>FACT SALES 2</Name>
+          <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+          <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+          <Annotations>
+            <Annotation>
+              <Name>AggregationPercent</Name>
+              <Value></Value>
+            </Annotation>
+          </Annotations>
+          <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+          <State>Unprocessed</State>
+          <Source xsi:type="QueryBinding" dwd:design-time-name="84024ee5-c227-4168-bc8f-d985fe10e3bb">
+            <DataSourceID>AdventureWorks2014</DataSourceID>
+            <QueryDefinition>SELECT [Kubs].[FACT_SALES].[ProductID],[Kubs].[FACT_SALES].[CustomerID],[Kubs].[FACT_SALES].[SalesPersonID],[Kubs].[FACT_SALES].[OrderDate],[Kubs].[FACT_SALES].[ShipDate],[Kubs].[FACT_SALES].[OrderQty],[Kubs].[FACT_SALES].[UnitPrice],[Kubs].[FACT_SALES].[UnitPriceDiscount],[Kubs].[FACT_SALES].[LineTotal]
+FROM [Kubs].[FACT_SALES]
+WHERE OrderDate &gt;= 20120101 AND OrderDate &lt; 20130000</QueryDefinition>
+          </Source>
+          <StorageMode>Molap</StorageMode>
+          <CurrentStorageMode>Molap</CurrentStorageMode>
+          <ProcessingMode>Regular</ProcessingMode>
+          <EstimatedRows>21698</EstimatedRows>
+        </Partition>
+        <Partition dwd:design-time-name="98d68fcf-cf02-46cc-8f5b-1ea986f5004c">
+          <ID>FACT SALES 3</ID>
+          <Name>FACT SALES 3</Name>
+          <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+          <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+          <Annotations>
+            <Annotation>
+              <Name>AggregationPercent</Name>
+              <Value></Value>
+            </Annotation>
+          </Annotations>
+          <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+          <State>Unprocessed</State>
+          <Source xsi:type="QueryBinding" dwd:design-time-name="0ebfb837-34cb-46e7-bea0-79a2900ce61e">
+            <DataSourceID>AdventureWorks2014</DataSourceID>
+            <QueryDefinition>SELECT [Kubs].[FACT_SALES].[ProductID],[Kubs].[FACT_SALES].[CustomerID],[Kubs].[FACT_SALES].[SalesPersonID],[Kubs].[FACT_SALES].[OrderDate],[Kubs].[FACT_SALES].[ShipDate],[Kubs].[FACT_SALES].[OrderQty],[Kubs].[FACT_SALES].[UnitPrice],[Kubs].[FACT_SALES].[UnitPriceDiscount],[Kubs].[FACT_SALES].[LineTotal]
+FROM [Kubs].[FACT_SALES]
+WHERE OrderDate &gt;= 20130101 AND OrderDate &lt; 20140000</QueryDefinition>
+          </Source>
+          <StorageMode>Molap</StorageMode>
+          <CurrentStorageMode>Molap</CurrentStorageMode>
+          <ProcessingMode>Regular</ProcessingMode>
+          <EstimatedRows>56573</EstimatedRows>
+        </Partition>
+        <Partition dwd:design-time-name="c0d506f9-0878-4a96-975f-7b81ca676612">
+          <ID>FACT SALES 4</ID>
+          <Name>FACT SALES 4</Name>
+          <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+          <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+          <Annotations>
+            <Annotation>
+              <Name>AggregationPercent</Name>
+              <Value></Value>
+            </Annotation>
+          </Annotations>
+          <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+          <State>Unprocessed</State>
+          <Source xsi:type="QueryBinding" dwd:design-time-name="5de764d6-5fbc-4355-9251-20248255c5e7">
+            <DataSourceID>AdventureWorks2014</DataSourceID>
+            <QueryDefinition>SELECT [Kubs].[FACT_SALES].[ProductID],[Kubs].[FACT_SALES].[CustomerID],[Kubs].[FACT_SALES].[SalesPersonID],[Kubs].[FACT_SALES].[OrderDate],[Kubs].[FACT_SALES].[ShipDate],[Kubs].[FACT_SALES].[OrderQty],[Kubs].[FACT_SALES].[UnitPrice],[Kubs].[FACT_SALES].[UnitPriceDiscount],[Kubs].[FACT_SALES].[LineTotal]
+FROM [Kubs].[FACT_SALES]
+WHERE OrderDate &gt;= 20140000</QueryDefinition>
+          </Source>
+          <StorageMode>Molap</StorageMode>
+          <CurrentStorageMode>Molap</CurrentStorageMode>
+          <ProcessingMode>Regular</ProcessingMode>
+          <EstimatedRows>37339</EstimatedRows>
         </Partition>
       </Partitions>
     </MeasureGroup>
     <MeasureGroup>
       <ID>FACT SALES 1</ID>
       <Partitions>
-        <Partition dwd:design-time-name="6606f513-32a3-49dd-aa54-107fe6fe0c02">
+        <Partition dwd:design-time-name="9367a85d-88d5-4140-a653-87d233dc7db8">
           <ID>FACT SALES</ID>
           <Name>FACT SALES</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="439a7ff5-1c85-4394-a45a-d50db2e17b4c">
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="83a6497b-ab0b-44e2-aa5f-18346c1b18fd">
             <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
             <TableID>Kubs_FACT_SALES</TableID>
           </Source>
@@ -44,14 +129,14 @@
     <MeasureGroup>
       <ID>FACT SALES 2</ID>
       <Partitions>
-        <Partition dwd:design-time-name="a3d11dec-f918-48a9-ae36-7e685db8c510">
+        <Partition dwd:design-time-name="fa8f582b-54b6-4d07-808b-b31b04a7e946">
           <ID>FACT SALES</ID>
           <Name>FACT SALES</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="05aa5bc1-d434-4182-b079-0384d2681f02">
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="40ecf6b0-5908-49cc-89a1-7fd9a60da00f">
             <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
             <TableID>Kubs_FACT_SALES</TableID>
           </Source>
@@ -64,14 +149,14 @@
     <MeasureGroup>
       <ID>FACT SALES 3</ID>
       <Partitions>
-        <Partition dwd:design-time-name="e501c019-7de1-498a-8d3f-12157bdf7aff">
+        <Partition dwd:design-time-name="25577eb7-1eab-450a-84e8-f2adb6c19528">
           <ID>FACT SALES</ID>
           <Name>FACT SALES</Name>
           <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
           <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
           <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
           <State>Unprocessed</State>
-          <Source xsi:type="DsvTableBinding" dwd:design-time-name="938879d1-90c6-45c6-a9a7-ee9a912cf66b">
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="4237cb72-e76a-409e-b036-c848d7a7feff">
             <DataSourceViewID>Adventure Works2014View</DataSourceViewID>
             <TableID>Kubs_FACT_SALES</TableID>
           </Source>
