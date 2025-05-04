@@ -135,6 +135,13 @@
           </Source>
         </KeyColumn>
       </KeyColumns>
+      <NameColumn dwd:design-time-name="b6e21e05-6db2-49e7-bd3d-6ec1d2906876">
+        <DataType>WChar</DataType>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="38bc9294-c014-4d15-bd96-95d0028ceb88">
+          <TableID>Kubs_DIM_TIME</TableID>
+          <ColumnID>FullDate</ColumnID>
+        </Source>
+      </NameColumn>
       <AttributeRelationships>
         <AttributeRelationship dwd:design-time-name="b3adc440-6502-4e7f-9726-606c9a8b8b66">
           <AttributeID>Full Date</AttributeID>

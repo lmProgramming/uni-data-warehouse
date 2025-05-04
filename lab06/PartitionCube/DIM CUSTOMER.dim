@@ -127,6 +127,14 @@
           </Source>
         </KeyColumn>
       </KeyColumns>
+      <NameColumn dwd:design-time-name="96f8e870-2ee0-4aa5-ab88-9535675b2ca3">
+        <DataType>WChar</DataType>
+        <DataSize>101</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="71099a07-9f8d-4f29-8804-99bfdea6168f">
+          <TableID>Kubs_DIM_CUSTOMER</TableID>
+          <ColumnID>Names</ColumnID>
+        </Source>
+      </NameColumn>
       <AttributeRelationships>
         <AttributeRelationship dwd:design-time-name="d62f049c-2e95-4f51-82e4-46e97e22cc11">
           <AttributeID>City</AttributeID>

@@ -127,6 +127,14 @@
           </Source>
         </KeyColumn>
       </KeyColumns>
+      <NameColumn dwd:design-time-name="87ab194f-6b9f-4a57-bc50-2720dbbaa6a1">
+        <DataType>WChar</DataType>
+        <DataSize>50</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="afc3250c-7022-4adb-8535-cb6ccfd7f6f9">
+          <TableID>Kubs_DIM_PRODUCT</TableID>
+          <ColumnID>Name</ColumnID>
+        </Source>
+      </NameColumn>
       <AttributeRelationships>
         <AttributeRelationship dwd:design-time-name="99e701f1-4a74-4711-b5fa-4732bab40ec4">
           <AttributeID>Name</AttributeID>
