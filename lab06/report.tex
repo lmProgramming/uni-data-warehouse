@@ -199,11 +199,11 @@ Na wykres nałożone są 2 filtry - kategoria jest limitowna do rowerów, a kod 
 
 Generalnie widać trend wzrostu aktywności kupowania w miesiącach letnich. Mimo to, widać również wysokie wartości dla niektórych miesięcy poza sezonem - październik, grudzień, styczeń. Być może np. grudzień jest powiązany ze wzrostem sprzedaży w związku z Bożym Narodzeniem, a październik z potencjalnymi wyprzedażami po sezonie. Marzec osiąga najwiekszą sprzedaż, zaczynając większą sprzedaż sklepu do października. Najmniejsza sprzedaż jest w lutym - raczej popularniejsze są wtedy sporty zimowe.
 
-\subsubsection{Maksymalny rabat udzielony na produkty w latach od kategorii}
+\subsubsection{Maksymalny rabat udzielony na produkty w latach od kategorii i jego wpływ na średnią ważoną sprzedaży}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{max_discount.png}
+  \includegraphics[width=0.6\textwidth]{max_discounts.png}
   \caption{Wykres}
 \end{figure}
 
@@ -217,6 +217,22 @@ Ubrania - były najbardziej przeceniane w 2011 roku. Były przeceniane na podobn
 Kompnenty - bardzo niskie maksymalne rabaty, zerowe w 2011. W 2012 i 2013 podobne, ale najniższe w zestawieniach, w 2014 znowu spadek do bardzo niskiego poziomu.
 
 Sklep wydaje się mieć dość chaotyczną politykę udzielania rabatów. Należałoby ją lepiej uściślić. Oczywiście, każda kategoria powinna mieć osobną politykę.
+
+Aby przeanalizować wpływ wysokości rabatu na sprzedaż, należy posłużyć się kolejnym wykresem.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{weighted_sales.png}
+  \caption{Wykres}
+\end{figure}
+
+Analiza samej średniej ważonej byłaby ciekawa, ale skupiono się na sprawdzeniu relacji między maksymalnym rabatem a średnią ważoną.
+
+Nie widać bezpośredniej relacji między średnią ważoną, a najwyższym rabatem. Często zdarza się, że np. dla rowerów w 2014 roku rabat jest najwyższy, ale średnia ważona sprzedaży jest najniższa od 2012 roku.
+
+Trzeba pamiętać, że każda kategoria może mieć inne statystyki średniej ważonej - naturalne jest to, że klienci kupują akcesoria w większej liczbie niż rowery. Należy więc w sposób ograniczony porównywać różne kategorie między sobą.
+
+Ostatecznie nie stwierdzono zależności między maksymalnym rabatem, a średnią ważoną. Następnym krokiem analizy byłoby sprawdzenie średniego rabatu, gdyż on może zawierać dużo więcej informacji - może w końcu zdarzyć się tak, że maksymalny rabat nie ma silnego powiązania ze średnim rabatem.
 
 \subsubsection{Liczba różnych sprzedanych produktów na sprzedawcę w 3. i 4. kwartale 2013 roku}
 
