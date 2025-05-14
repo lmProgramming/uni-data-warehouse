@@ -1,0 +1,305 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{listings}
+\usepackage[backend=biber, style=numeric]{biblatex}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{array}
+
+\addbibresource{bibliografia.bib}
+
+\graphicspath{{images/}}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=flexible,
+  keepspaces=true,
+  showstringspaces=false,
+  escapeinside={(*@}{@*)},
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'{c}}}1
+           {ę}{{\k{e}}}1
+           {ł}{{\l{}}}1
+           {ń}{{\'{n}}}1
+           {ó}{{\'{o}}}1
+           {ś}{{\'{s}}}1
+           {ź}{{\'{z}}}1
+           {ż}{{\.{z}}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'{C}}}1
+           {Ę}{{\k{E}}}1
+           {Ł}{{\L{}}}1
+           {Ń}{{\'{N}}}1
+           {Ó}{{\'{O}}}1
+           {Ś}{{\'{S}}}1
+           {Ź}{{\'{Z}}}1
+           {Ż}{{\.{Z}}}1
+           {"}{{\textquotedbl}}1
+           {'}{{\textquotesingle}}1
+           {`}{{\textasciigrave}}1
+           {~}{{\textasciitilde}}1
+           {^}{{\textasciicircum}}1
+           {_}{{\textunderscore}}1
+           {|}{{\textbar}}1
+           {\{}{{\textbraceleft}}1
+           {\}}{{\textbraceright}}1
+           {[}{{[}}1
+           {]}{{]}}1,
+  language=SQL,
+  showspaces=false,
+  numbers=left,
+  numberstyle=\tiny,
+  commentstyle=\color{green!60!black},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red!80!black},
+  breaklines=true,
+  frame=single,
+  captionpos=b
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={Analiza wyników kierowców Formuły 1},
+    pdfpagemode=FullScreen,
+}
+
+\title{Projekt hurtowni danych do analizy wyników i czynników wpływających na osiągnięcia kierowców Formuły 1 w latach 1950-2023}
+\author{Mikołaj Kubś, 272662}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Wprowadzenie do projektu}
+Proces tworzenia hurtowni danych powinien być poprzedzony zrozumieniem „potrzeb biznesu” oraz rzeczywistości (dziedziny problemowej) reprezentowanej przez dostępne zasoby danych. Realizacja poniższego zadania ma uzmysłowić występujące problemy w określonym (wybranym) wycinku rzeczywistości, a następnie umożliwić zidentyfikowanie (określenie) potrzeb, celu i możliwości analiz biznesowych, by wspierać procesy decyzyjne (podejmowanie właściwych decyzji biznesowych).
+
+Projekt końcowy powinien zawierać przynajmniej jedną kostkę Analysis Services, dotyczącą danych pochodzących z co najmniej dwóch źródeł danych. Utworzona kostka powinna zawierać przynajmniej 5 wymiarów (w tym co najmniej dwa o strukturze hierarchicznej), posiadać co najmniej 3 miary (w tym min. jedną nieaddytywną), a odpowiadająca jej tabela faktów powinna posiadać co najmniej 10000 rekordów.
+
+Niniejszy dokument stanowi propozycję tematu projektu hurtowni danych zgodnie ze specyfikacją Etapu I.
+
+\section{Charakterystyka dziedziny problemowej, krótki opis obszaru analizy, problemy i potrzeby}
+
+\subsection{Dziedzina problemowa}
+Sporty motorowe, ze szczególnym uwzględnieniem Mistrzostw Świata Formuły 1, najbardziej prestiżowej serii wyścigów samochodowych na świecie.
+
+\subsection{Krótki opis obszaru analizy}
+Analiza obejmuje historyczne dane dotyczące wyników kierowców i zespołów (konstruktorów) Formuły 1, począwszy od inauguracyjnego sezonu 1950 aż do końca sezonu 2023. Badane będą zarówno indywidualne osiągnięcia, jak i dynamika zespołowa, strategie wyścigowe (np. pit-stopy), wpływ charakterystyki torów oraz, dla wybranego okresu (2018-2023), wpływ warunków atmosferycznych na przebieg i rezultaty wyścigów.
+
+\subsection{Problemy i potrzeby}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Zrozumienie czynników sukcesu:} Identyfikacja kluczowych elementów (np. pozycja startowa, niezawodność, strategia, umiejętności kierowcy, osiągi bolidu) determinujących wyniki w F1.
+  \item \textbf{Analiza trendów historycznych:} Obserwacja ewolucji sportu, okresów dominacji poszczególnych zespołów, wpływu zmian technologicznych i regulaminowych na wyniki.
+  \item \textbf{Ocena strategii:} Analiza skuteczności różnych strategii wyścigowych, takich jak liczba i timing pit-stopów, w zależności od toru i warunków.
+  \item \textbf{Ocena kierowców i zespołów:} Umożliwienie obiektywnej oceny osiągnięć kierowców, również w kontekście siły zespołu, dla którego startowali.
+  \item \textbf{Potrzeby analityczne (dla fanów, ekspertów, mediów):} Dostarczenie narzędzia do głębszego zrozumienia sportu, weryfikacji hipotez, tworzenia rankingów i porównań, które wykraczają poza proste tabele wyników.
+  \item \textbf{Wpływ czynników zewnętrznych:} Zbadanie, w jakim stopniu warunki pogodowe (temperatura, opady, wiatr) korelują z wynikami wyścigów, liczbą awarii czy "niespodziankami" na torze.
+\end{itemize}
+
+\section{Cel przedsięwzięcia (oczekiwania) oraz zakres analizy – badane aspekty}
+
+\subsection{Cel przedsięwzięcia}
+Stworzenie funkcjonalnej hurtowni danych wraz z kostką OLAP, która umożliwi wielowymiarową analizę wyników wyścigów Formuły 1. Celem jest dostarczenie narzędzia pozwalającego na identyfikację wzorców, trendów, zależności między różnymi czynnikami (charakterystyka kierowcy, zespołu, toru, strategii, pogody) a osiągnięciami sportowymi.
+
+\subsection{Oczekiwania}
+Hurtownia danych powinna pozwolić na efektywne uzyskiwanie odpowiedzi na złożone pytania analityczne, które zostaną przedstawione w punkcie \ref{sec:zestawienia}. Oczekuje się, że model danych będzie intuicyjny dla użytkownika końcowego i pozwoli na elastyczne drążenie danych (drill-down, roll-up) oraz ich krojenie i kostkowanie (slice and dice).
+
+\subsection{Zakres analizy – badane aspekty}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Wyniki:} Pozycje startowe i końcowe, zdobyte punkty, czasy wyścigów, czasy okrążeń (w tym najszybsze), status ukończenia wyścigu.
+  \item \textbf{Kierowcy:} Dane demograficzne (narodowość, data urodzenia \(\rightarrow\) wiek), historia startów, przynależność zespołowa.
+  \item \textbf{Zespoły (Konstruktorzy):} Narodowość, historia startów, sumaryczne wyniki.
+  \item \textbf{Wyścigi (Events):} Sezon, runda, konkretny wyścig (Grand Prix), data.
+  \item \textbf{Tory:} Charakterystyka toru (nazwa, lokalizacja, kraj).
+  \item \textbf{Strategia:} Liczba i dane dotyczące pit-stopów.
+  \item \textbf{Warunki pogodowe (dla lat 2018-2023):} Temperatura powietrza i toru, wilgotność, opady, siła wiatru.
+  \item \textbf{Regulacje (pośrednio):} Analiza zmian w wynikach/strategiach na przestrzeni lat może wskazywać na wpływ zmian regulaminowych (choć samych regulacji nie modelujemy jako wymiaru).
+\end{itemize}
+
+\section{Źródła danych (lokalizacja, format, dostępność), wstępna analiza źródeł danych}
+\label{sec:zrodla_danych}
+
+\begin{longtable}{|p{0.03\linewidth}|p{0.25\linewidth}|p{0.08\linewidth}|p{0.1\linewidth}|p{0.1\linewidth}|p{0.3\linewidth}|}
+  \caption{Zestawienie źródeł danych} \label{tab:zrodla_danych}                                                                                                                                                                                                                                                       \\
+  \hline
+  \textbf{Lp.} & \textbf{Plik/Zbiór Danych}                        & \textbf{Typ/Format} & \textbf{Liczba rekordów (szac.)} & \textbf{Rozmiar [MB] (szac.)} & \textbf{Opis / Lokalizacja}                                                                                                                             \\
+  \hline
+  \endfirsthead
+  \multicolumn{6}{c}%
+  {{\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                                                                                                                                \\
+  \hline
+  \textbf{Lp.} & \textbf{Plik/Zbiór Danych}                        & \textbf{Typ/Format} & \textbf{Liczba rekordów (szac.)} & \textbf{Rozmiar [MB] (szac.)} & \textbf{Opis / Lokalizacja}                                                                                                                             \\
+  \hline
+  \endhead
+  \hline \multicolumn{6}{|r|}{{Ciąg dalszy na następnej stronie}}                                                                                                                                                                                                                                                     \\
+  \endfoot
+  \hline
+  \endlastfoot
+
+  1.           & \textbf{Formula 1 World Championship (1950-2023)} & CSV                 &                                  &                               & Zbiór 14 plików CSV. \newline \tiny{\url{https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020} (dane aktualizowane do 2023)} \\
+  \hline
+               & \texttt{circuits.csv}                             & CSV                 & 79                               & < 0.1                         & Info o torach (ID, nazwa, kraj).                                                                                                                        \\
+               & \texttt{constructor\_results.csv}                 & CSV                 & 12626                            & 0.5                           & Wyniki konstruktorów (punkty).                                                                                                                          \\
+               & \texttt{constructor\_standings.csv}               & CSV                 & 13392                            & 0.6                           & Pozycja konstruktorów po wyścigu.                                                                                                                       \\
+               & \texttt{constructors.csv}                         & CSV                 & 215                              & < 0.1                         & Info o konstruktorach (ID, nazwa).                                                                                                                      \\
+               & \texttt{driver\_standings.csv}                    & CSV                 & 34864                            & 1.5                           & Pozycja kierowców po wyścigu.                                                                                                                           \\
+               & \texttt{drivers.csv}                              & CSV                 & 862                              & < 0.1                         & Info o kierowcach (ID, nazwisko).                                                                                                                       \\
+               & \texttt{lap\_times.csv}                           & CSV                 & 589k                             & 25                            & Czasy okrążeń.                                                                                                                                          \\
+               & \texttt{pit\_stops.csv}                           & CSV                 & 11372                            & 0.5                           & Dane o pit-stopach.                                                                                                                                     \\
+               & \texttt{qualifying.csv}                           & CSV                 & 10551                            & 0.5                           & Wyniki kwalifikacji.                                                                                                                                    \\
+               & \texttt{races.csv}                                & CSV                 & 1144                             & 0.1                           & Dane o wyścigach (ID, rok, tor).                                                                                                                        \\
+               & \texttt{results.csv}                              & CSV                 & 26760                            & 1.5                           & Szczegółowe wyniki kierowców.                                                                                                                           \\
+               & \texttt{seasons.csv}                              & CSV                 & 76                               & < 0.1                         & Info o sezonach.                                                                                                                                        \\
+               & \texttt{sprint\_results.csv}                      & CSV                 & 360                              & < 0.1                         & Wyniki sprintów.                                                                                                                                        \\
+               & \texttt{status.csv}                               & CSV                 & 140                              & < 0.1                         & Opis statusu zakończenia.                                                                                                                               \\
+  \hline
+  2.           & \textbf{F1 Weather Dataset (2018-2023)}           & CSV                 &                                  &                               & Dane pogodowe. \newline \tiny{\url{https://www.kaggle.com/datasets/quantumkaze/f1-weather-dataset-2018-2023}}                                           \\
+  \hline
+               & \texttt{weather.csv}                              & CSV                 & 478                              & < 0.1                         & Szczegółowe dane pogodowe.                                                                                                                              \\
+  \hline
+\end{longtable}
+
+\textbf{Uwaga:} Liczba rekordów dla \texttt{weather.csv} jest niewielka, ale dotyczy sesji (nie tylko wyścigów), więc po agregacji do poziomu wyścigu będzie mniej unikalnych wpisów pogodowych per wyścig. Całkowity rozmiar plików CSV: ok. 30-35 MB.
+
+\subsection{Wstępna analiza źródeł}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Pierwsze źródło (F1 World Championship):} Jest bardzo obszerne i szczegółowe. Kluczowe pliki dla budowy hurtowni to \texttt{results.csv} (dla faktów), \texttt{races.csv}, \texttt{drivers.csv}, \texttt{constructors.csv}, \texttt{circuits.csv}, \texttt{status.csv} (dla wymiarów). Pliki \texttt{lap\_times.csv} i \texttt{pit\_stops.csv} dostarczają dodatkowych miar lub atrybutów. Dane są dobrze zidentyfikowane przez klucze (np. \texttt{raceId}, \texttt{driverId}).
+  \item \textbf{Drugie źródło (F1 Weather Dataset):} Zawiera dane pogodowe, które wzbogacą analizę dla nowszych sezonów. Kluczowe będzie połączenie tych danych z głównym zbiorem poprzez \texttt{season}, \texttt{round} i \texttt{circuit\_id}. \texttt{circuit\_id} w tym zbiorze jest tekstowe (np. "bahrain"), podczas gdy w \texttt{circuits.csv} mamy numeryczny \texttt{circuitId} oraz tekstowy \texttt{circuitRef}. Należy zapewnić spójne mapowanie (prawdopodobnie przez \texttt{circuitRef}).
+\end{itemize}
+
+\section{Min. 10 wielowymiarowych zestawień}
+\label{sec:zestawienia}
+Poniżej przedstawiono przykładowe wielowymiarowe zestawienia, które będzie można utworzyć po wdrożeniu kostki OLAP:
+\begin{enumerate}[label=\arabic*., wide, labelwidth=!, labelindent=0pt]
+  \item \textbf{Wpływ pozycji startowej na wynik:} Średnia pozycja na mecie i procent zwycięstw dla każdej pozycji startowej (grid), z możliwością filtrowania wg toru/sezonu.
+  \item \textbf{Stabilność kierowców:} Średnie punkty na wyścig, liczba miejsc na podium i zwycięstw na sezon dla wybranych kierowców na przestrzeni ich kariery.
+  \item \textbf{"Gwiazdy w słabych zespołach":} Identyfikacja kierowców, którzy regularnie zdobywali punkty lub wysokie pozycje dla zespołów z końca stawki.
+  \item \textbf{Ewolucja strategii pit-stopów:} Średnia liczba pit-stopów na wyścig i ich wpływ na wynik, analizowana wg toru, sezonu i warunków pogodowych.
+  \item \textbf{Dominacja zespołów:} Procent wygranych wyścigów i zdobytych punktów przez poszczególne zespoły w sezonach.
+  \item \textbf{Trendy narodowościowe:} Liczba kierowców, zwycięzców i mistrzów świata z podziałem na narodowości, na przestrzeni dekad.
+  \item \textbf{Pogoda a niezawodność (2018-2023):} Korelacja między wysokimi/niskimi temperaturami, opadami deszczu a liczbą nieukończonych wyścigów (DNF).
+  \item \textbf{Pogoda a "niespodzianki" (2018-2023):} Analiza, czy deszczowe wyścigi częściej przynoszą nieoczekiwane wyniki.
+  \item \textbf{Pojedynki zespołowe:} Porównanie wyników kierowców startujących w tym samym zespole w danym sezonie.
+  \item \textbf{Charakterystyka torów a wyniki:} Które tory generują najwięcej/najmniej wyprzedzeń?
+  \item \textbf{Analiza DNF:} Najczęstsze przyczyny nieukończenia wyścigu (wg \texttt{Dim\_Status}) dla zespołów i sezonów.
+  \item \textbf{Wpływ wieku kierowcy:} Korelacja między wiekiem kierowcy a jego osiągnięciami.
+\end{enumerate}
+
+\section{Implementacja bazy danych (konceptualny model danych - DDL)}
+\label{sec:implementacja_db}
+Poniżej przedstawiono fragmenty skryptu SQL (Data Definition Language) tworzącego strukturę tabel wymiarów i faktów zgodnie z zaproponowanym modelem.
+
+\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Driver, label=lst:ddl_dim_driver]
+CREATE TABLE Dim_Driver (
+    DriverKey INT PRIMARY KEY,
+    DriverID_NK INT, -- Natural Key from drivers.csv
+    DriverRef VARCHAR(255),
+    Forename VARCHAR(255),
+    Surname VARCHAR(255),
+    FullName VARCHAR(511) GENERATED ALWAYS AS (Forename || ' ' || Surname) STORED,
+    DateOfBirth DATE,
+    Nationality VARCHAR(255)
+    -- Można dodać atrybuty dla SCD Type 2 np. ValidFrom, ValidTo, IsCurrent
+);
+\end{lstlisting}
+
+\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Circuit, label=lst:ddl_dim_circuit]
+CREATE TABLE Dim_Circuit (
+    CircuitKey INT PRIMARY KEY,
+    CircuitID_NK INT, -- Natural Key from circuits.csv
+    CircuitRef VARCHAR(255),
+    CircuitName VARCHAR(255),
+    Location VARCHAR(255),
+    Country VARCHAR(255),
+    Latitude DECIMAL(9,6),
+    Longitude DECIMAL(9,6)
+);
+\end{lstlisting}
+
+\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Time, label=lst:ddl_dim_time]
+CREATE TABLE Dim_Time (
+    DateKey INT PRIMARY KEY, -- Format YYYYMMDD
+    FullDate DATE UNIQUE,
+    Year INT,
+    Quarter INT,
+    Month INT,
+    MonthName VARCHAR(50),
+    DayOfMonth INT,
+    DayOfWeekName VARCHAR(50),
+    WeekOfYear INT
+);
+\end{lstlisting}
+
+\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Fact\_DriverRaceResult, label=lst:ddl_fact_table]
+CREATE TABLE Fact_DriverRaceResult (
+    -- Klucze obce do wymiarów
+    RaceKey INT,
+    DriverKey INT,
+    ConstructorKey INT,
+    DateKey INT, -- Data wyścigu, FK do Dim_Time
+    WeatherKey INT, -- Może być NULL, FK do Dim_Weather
+    StatusKey INT, -- FK do Dim_Status
+    
+    -- Miary
+    GridPosition INT,
+    FinalPosition INT, -- Pozycja końcowa numeryczna
+    PointsScored DECIMAL(5,2),
+    RaceTimeMilliseconds BIGINT, -- Czas wyścigu w ms
+    LapsCompleted INT,
+    NumberOfPitStops INT,
+    FastestLapTimeMilliseconds BIGINT,
+    IsFastestLap BOOLEAN,
+    IsFinished BOOLEAN, -- Na podstawie StatusKey
+    RankInRace INT, -- Pozycja w ramach ukończonych kierowców
+
+    -- Klucz główny tabeli faktów
+    PRIMARY KEY (RaceKey, DriverKey), 
+    
+    -- Definicje kluczy obcych
+    FOREIGN KEY (RaceKey) REFERENCES Dim_Race(RaceKey),
+    FOREIGN KEY (DriverKey) REFERENCES Dim_Driver(DriverKey),
+    FOREIGN KEY (ConstructorKey) REFERENCES Dim_Constructor(ConstructorKey),
+    FOREIGN KEY (DateKey) REFERENCES Dim_Time(DateKey),
+    FOREIGN KEY (WeatherKey) REFERENCES Dim_Weather(WeatherKey),
+    FOREIGN KEY (StatusKey) REFERENCES Dim_Status(StatusKey)
+);
+\end{lstlisting}
+\textit{Uwaga: Pełny skrypt DDL dla wszystkich tabel zostanie przygotowany w dalszych etapach projektu.}
+
+\section{Wnioski}
+Proponowany projekt hurtowni danych dla wyników Formuły 1 w latach 1950-2023 ma na celu stworzenie kompleksowego narzędzia analitycznego. Wykorzystanie dwóch głównych źródeł danych – szczegółowych wyników historycznych oraz danych pogodowych dla ostatnich sezonów – pozwoli na przeprowadzenie wielowymiarowych analiz, które mogą odkryć interesujące wzorce, trendy i zależności.
+
+\subsection{Główne korzyści}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item Umożliwienie odpowiedzi na szeroki zakres pytań analitycznych dotyczących strategii, osiągów kierowców i zespołów oraz wpływu czynników zewnętrznych.
+  \item Dostarczenie spójnego i zintegrowanego zbioru danych, ułatwiającego analizy porównawcze na przestrzeni lat.
+  \item Wizualizacja i eksploracja danych F1 w sposób bardziej zaawansowany niż standardowe tabele wyników.
+\end{itemize}
+
+\subsection{Potencjalne wyzwania}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Integracja danych:} Zapewnienie poprawnego mapowania identyfikatorów torów między dwoma źródłami danych.
+  \item \textbf{Jakość danych:} Obsługa brakujących wartości (NULL) oraz transformacja danych tekstowych (np. czasy, pozycje) do spójnych formatów numerycznych.
+  \item \textbf{Zakres danych pogodowych:} Ograniczenie analiz pogodowych do lat 2018-2023.
+  \item \textbf{Interpretacja historyczna:} Uwzględnienie zmian w regulaminach F1 (np. systemy punktacji) przy interpretacji wyników z różnych epok.
+\end{itemize}
+
+Projekt spełnia podstawowe wymagania dotyczące liczby źródeł danych, planowanej liczby wymiarów (7 zdefiniowanych, co najmniej 5 będzie w finalnej kostce), miar oraz przewidywanej dużej liczby rekordów w tabeli faktów (ponad 26 000 na podstawie \texttt{results.csv}). Zaproponowana struktura hurtowni danych stanowi solidną podstawę do dalszych prac implementacyjnych (ETL, budowa kostki OLAP).
+
+\printbibliography
+
+\end{document}
