@@ -6,6 +6,8 @@
 \usepackage{tikz}
 \usepackage{longtable}
 \usepackage{polski}
+\usepackage{float}
+\usepackage{graphicx}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
 
 \geometry{margin=2.5cm}
@@ -159,5 +161,30 @@ SAT_Oceny
 \section{Ocena modelu wygenerowanego przez sztuczną inteligencję}
 
 ChatGPT nie poradził sobie najgorzej i nawet stworzył diagram przedstawiający relacje. Ale popełnił oczywiście różne błędy.
+
+
+
+\begin{itemize}
+  \item Nie jest to szeroko znany fakt, ale jak poruszono na wykładzie, PESEL nie powinien nigdy być unikatowym kluczem z racji występowania niewielu duplikatów w historii jego nadawania. Zdecydowanie lepiej użyć klucza zastępczego.
+  \item Generalnie idea hubów poprawna - nie wspomniał, że huby mają klucz biznesowy i primary (często hash biznesowego czy numeru sekwencyjnego). Oczywiście trzeba byłoby być pewnym, że ID uczelniane, kod kursu czy numer indeksu są unikalne i stabilne. Każdy hub powinien mieć też datę załadowania (Load\_Date) i źródło (Record\_Source).
+  \item Generalnie linki dobrze. Jak wyżej, każdy link musi mieć datę załadowania i źródło. Mógł dodać, że kluczem linku jest hash kluczy biznesowych. LINK\_Egzamin potem jest używany przez SAT\_Oceny i jednym z kluczy jest Data\_Egzaminu, co prowadzi do tego, że nie dałoby się rozróżnić dwóch egzaminów z tego samego kursu dla tego samego studenta w tym samym dniu. Tak więc Data\_Egzaminu musi być unikalna. Kolejnym problemem jest sama data jako klucz - jest to niepoprawne, LINK musi być połączeniem między hubami. Pewnym rozwiązaniem byłoby dodanie HUB z datami - rozwiązuje to problem ich unikalności.
+  \item Satelita powinna mieć tylko jednego rodzica - SAT\_Oceny ma dwóch. Powinien więc być przyłączony do linku egzaminu. Ale ogólnie jest problem z tą satelitą - z wielu kursów ocenę ma się bez egzaminu - np. przepis czy inna zasada. Tak więc ta satelita dobrze określa ocenę z konkretnego egzaminu, ale LINK\_Student\_Kurs powinien mieć osobną satelitę z oceną finalną (która mogłaby być potem zmieniona, gdyby zaszła taka potrzeba). Data\_Wejscia, Data\_Wyjscia = Load\_Date, Load\_End\_Date => OK.
+  \item Schemat wyszedł oczywiście fatalnie. Nie ma połączenia linku LINK\_Student\_Kurs a HUB\_Kurs. Połączenia prowadzący źle. Brak link egzamin. Satelita student dane połączony z hubem i linkiem naraz. Na końcu raportu przedstawiono poprawiony diagram. Tutaj jeszcze próba wygenerowania obrazka schematu przez ChatGPT:
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=0.5\textwidth]{images/1.png}
+          \caption{Schemat wygenerowany przez sztuczną inteligencję - jeszcze gorszy}
+        \end{figure}
+  \item Potencjalne rozszerzenia: pomysł z grupą ok. Ale grupa zajęciowa powinna być połączona z kursem, a prowadzący wtedy zamiast z kursem mógłby być połączony z grupą. Grupa też nie musi być hubem - mogłaby być linkiem łączącym studentów, kurs i prowadzącego. Jeśli miałby być link grupa - sale, sala też musiałaby być hubem oczywiście (mogłaby być SAT\_Sala\_Dane - budynek, numer sali, informacje czy jest apteczka albo gaśnica).
+  \item Odpowiedzi na pytania dodatkowe chyba poprawne.
+\end{itemize}
+
+Schemat, który powinien poprawić większość błędów:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/2.png}
+  \caption{Schemat wygenerowany przez moją inteligencję}
+\end{figure}
 
 \end{document}
