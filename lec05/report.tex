@@ -20,147 +20,144 @@
 
 \section{Model wygenerowany przez sztuczną inteligencję - ChatGPT}
 
-\subsection*{Wprowadzenie}
-Model Data Vault 2.0 to podejście do budowy hurtowni danych, które:
+\subsection{Dziedzina}
+
+Uczelnia wyższa - model dotyczy danych operacyjnych związanych ze studentami, prowadzącymi oraz kursami.
+
+\subsection{Huby (klucze biznesowe)}
+
+\subsubsection*{HUB\_Student}
 \begin{itemize}
-  \item dobrze się skaluje,
-  \item umożliwia przyrostowe tworzenie systemu,
-  \item oddziela ładowanie danych od logiki biznesowej,
-  \item wspiera pełen audyt danych (insert-only),
-  \item pozwala na automatyzację dzięki szablonom.
+  \item \textbf{Student\_ID} - np. numer indeksu
+  \item Atrybuty biznesowe: brak (wszystkie zmienne w satelitach)
 \end{itemize}
 
-\subsection*{Model Skarbca Danych dla Uczelni}
-
-\subsubsection*{Huby (klucze biznesowe)}
+\subsubsection*{HUB\_Prowadzacy}
 \begin{itemize}
-  \item \textbf{Hub\_Student} – StudentID (np. numer indeksu),
-  \item \textbf{Hub\_Kurs} – KursID (np. kod kursu),
-  \item \textbf{Hub\_Profesor} – ProfesorID (np. numer pracownika).
+  \item \textbf{Prowadzacy\_ID} - np. PESEL lub ID uczelniane
+  \item Atrybuty biznesowe: brak
 \end{itemize}
 
-\subsubsection*{Linki (relacje)}
+\subsubsection*{HUB\_Kurs}
 \begin{itemize}
-  \item \textbf{Link\_Student\_Kurs} – relacja zapisów studentów na kursy,
-  \item \textbf{Link\_Kurs\_Profesor} – przypisanie profesora do kursu.
+  \item \textbf{Kurs\_ID} - np. kod kursu
+  \item Atrybuty biznesowe: brak
 \end{itemize}
 
-\subsubsection*{Satelity (atrybuty z historią zmian)}
+\subsection{Linki (relacje biznesowe)}
+
+\subsubsection*{LINK\_Student\_Kurs}
 \begin{itemize}
-  \item \textbf{Sat\_Student\_Dane} – imię, nazwisko, adres, data urodzenia, timestamp,
-  \item \textbf{Sat\_Kurs\_Dane} – nazwa kursu, opis, ECTS, timestamp,
-  \item \textbf{Sat\_Profesor\_Dane} – imię, nazwisko, tytuł, timestamp,
-  \item \textbf{Sat\_Student\_Kurs\_Status} – status zapisu (zapisany, zaliczony itp.), data zmiany.
+  \item Student\_ID
+  \item Kurs\_ID
+  \item Relacja: student zapisany na kurs
 \end{itemize}
 
-\subsection*{Sposoby modyfikacji danych}
-Data Vault opiera się na zasadzie \textbf{insert-only}:
+\subsubsection*{LINK\_Kurs\_Prowadzacy}
 \begin{itemize}
-  \item \textbf{Huby} – dane są niemodyfikowalne, tylko dodawane, jeśli pojawia się nowy klucz.
-  \item \textbf{Satelity} – każda zmiana atrybutu skutkuje dodaniem nowego rekordu z aktualną datą ważności (pełna historia zmian).
-  \item \textbf{Linki} – nowa relacja (lub zmiana statusu relacji) dodawana jest jako nowy rekord.
+  \item Kurs\_ID
+  \item Prowadzacy\_ID
+  \item Relacja: prowadzący przypisany do kursu
 \end{itemize}
 
-\subsection*{Propozycja rozszerzenia modelu}
-
-Dodajemy nowy hub: \textbf{Hub\_Wydział} – WydziałID (np. kod wydziału).
-
-\subsubsection*{Nowe linki}
+\subsubsection*{LINK\_Egzamin}
 \begin{itemize}
-  \item \textbf{Link\_Profesor\_Wydział} – relacja zatrudnienia profesora w danym wydziale.
+  \item Student\_ID
+  \item Kurs\_ID
+  \item Data\_Egzaminu
+  \item Relacja: podejście studenta do egzaminu
 \end{itemize}
 
-\subsubsection*{Nowy satelita}
+\subsection{Satelity (miary i wymiary)}
+
+\subsubsection*{SAT\_Student\_Dane}
 \begin{itemize}
-  \item \textbf{Sat\_Wydział\_Dane} – nazwa wydziału, adres, dziekan, timestamp.
+  \item Student\_ID, Imię, Nazwisko, Email
+  \item Data\_Wejscia, Data\_Wyjscia
 \end{itemize}
 
-\subsection*{Podsumowanie modelu}
+\subsubsection*{SAT\_Prowadzacy\_Dane}
+\begin{itemize}
+  \item Prowadzacy\_ID, Imię, Nazwisko, Tytuł, Email
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
 
-\begin{longtable}{|p{4.2cm}|p{7.5cm}|}
-  \hline
-  \textbf{Komponent}         & \textbf{Opis}                                                 \\
-  \hline
-  Hub\_Student               & Klucz biznesowy studenta (StudentID)                          \\
-  \hline
-  Hub\_Kurs                  & Klucz biznesowy kursu (KursID)                                \\
-  \hline
-  Hub\_Profesor              & Klucz biznesowy profesora (ProfesorID)                        \\
-  \hline
-  Hub\_Wydział               & Klucz biznesowy wydziału (WydziałID)                          \\
-  \hline
-  Link\_Student\_Kurs        & Relacja zapisania studenta na kurs                            \\
-  \hline
-  Link\_Kurs\_Profesor       & Relacja przypisania profesora do kursu                        \\
-  \hline
-  Link\_Profesor\_Wydział    & Relacja zatrudnienia profesora w wydziale                     \\
-  \hline
-  Sat\_Student\_Dane         & Dane opisowe studenta z historią (imię, nazwisko, adres itd.) \\
-  \hline
-  Sat\_Kurs\_Dane            & Dane kursu (nazwa, ECTS, opis)                                \\
-  \hline
-  Sat\_Profesor\_Dane        & Dane profesora (imię, nazwisko, tytuł naukowy)                \\
-  \hline
-  Sat\_Student\_Kurs\_Status & Status zapisu na kurs (zaliczony, przerwany itd.)             \\
-  \hline
-  Sat\_Wydział\_Dane         & Dane wydziału (nazwa, adres, dziekan)                         \\
-  \hline
-\end{longtable}
+\subsubsection*{SAT\_Kurs\_Dane}
+\begin{itemize}
+  \item Kurs\_ID, Nazwa, ECTS, Semestr
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
 
-\subsection*{Diagram modelu Data Vault dla uczelni}
+\subsubsection*{SAT\_Oceny}
+\begin{itemize}
+  \item Student\_ID, Kurs\_ID, Data\_Egzaminu
+  \item Ocena, Poprawka (boolean)
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
 
-\begin{center}
-  \begin{tikzpicture}[
-      hub/.style={rectangle, draw=blue!60, fill=blue!10, thick, minimum width=3cm, minimum height=1cm},
-      link/.style={diamond, draw=green!60, fill=green!10, thick, minimum width=2.5cm, aspect=2},
-      sat/.style={ellipse, draw=orange!80, fill=orange!10, thick, minimum width=3.5cm, minimum height=1cm},
-      >=latex,
-      node distance=1.7cm and 2.5cm
-    ]
+\newpage
 
-    % Hubs
-    \node[hub] (student) {Hub\_Student};
-    \node[hub, right=of student] (kurs) {Hub\_Kurs};
-    \node[hub, right=of kurs] (prof) {Hub\_Profesor};
-    \node[hub, below=of kurs] (wydzial) {Hub\_Wydział};
+\subsection{Schemat (opis tekstowy)}
 
-    % Links
-    \node[link, below=of student] (sl) {Link\_Student\_Kurs};
-    \node[link, below=of prof] (pl) {Link\_Kurs\_Profesor};
-    \node[link, below=of wydzial] (wl) {Link\_Profesor\_Wydział};
+\begin{verbatim}
+HUB_Student           HUB_Prowadzacy
+|                      |
+SAT_Student_Dane       SAT_Prowadzacy_Dane
+|                      |
+|                 HUB_Kurs
+|                      |
+LINK_Student_Kurs    LINK_Kurs_Prowadzacy
+|
+SAT_Oceny
 
-    % Satellites
-    \node[sat, above=of student] (ss) {Sat\_Student\_Dane};
-    \node[sat, above=of kurs] (sk) {Sat\_Kurs\_Dane};
-    \node[sat, above=of prof] (sp) {Sat\_Profesor\_Dane};
-    \node[sat, below=1.5cm of sl] (ssks) {Sat\_Student\_Kurs\_Status};
-    \node[sat, below=1.5cm of wl] (sw) {Sat\_Wydział\_Dane};
+\end{verbatim}
 
-    % Arrows from hubs to satellites
-    \draw[->] (student) -- (ss);
-    \draw[->] (kurs) -- (sk);
-    \draw[->] (prof) -- (sp);
-    \draw[->] (wydzial) -- (sw);
+\subsection{Potencjalne rozszerzenie modelu}
 
-    % Arrows from hubs to links
-    \draw[->] (student) -- (sl);
-    \draw[->] (kurs) -- (sl);
-    \draw[->] (kurs) -- (pl);
-    \draw[->] (prof) -- (pl);
-    \draw[->] (prof) -- (wl);
-    \draw[->] (wydzial) -- (wl);
+\subsubsection*{Nowy HUB: Grupa\_zajeciowa}
+\begin{itemize}
+  \item Grupa\_ID (np. ID grupy)
+\end{itemize}
 
-    % Arrows from links to satellites
-    \draw[->] (sl) -- (ssks);
+\subsubsection*{LINK\_Student\_Grupa}
+\begin{itemize}
+  \item Student\_ID, Grupa\_ID
+\end{itemize}
 
-  \end{tikzpicture}
-\end{center}
+\subsubsection*{LINK\_Prowadzacy\_Grupa}
+\begin{itemize}
+  \item Prowadzacy\_ID, Grupa\_ID
+\end{itemize}
 
-\vspace{1em}
-Diagram przedstawia strukturę skarbca danych złożoną z hubów (kluczy biznesowych), linków (relacji) oraz satelitów (danych opisowych z historią zmian).
+\subsubsection*{LINK\_Grupa\_Sala}
+\begin{itemize}
+  \item Grupa\_ID, Sala\_ID
+\end{itemize}
+
+\subsubsection*{SAT\_Grupa\_Dane}
+\begin{itemize}
+  \item Grupa\_ID, Typ\_zajec, Dzien\_tygodnia, Godzina
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
+
+\subsection{Odpowiedzi na pytania dodatkowe}
+
+\begin{itemize}
+  \item \textbf{Gdzie są przechowywane zmiany (np. nazwiska)?} \\
+        W satelitach \textit{SAT\_Student\_Dane}, \textit{SAT\_Prowadzacy\_Dane} - każda zmiana to nowy rekord z nową datą wejścia.
+
+  \item \textbf{Gdzie są informacje o ocenie z egzaminu poprawkowego?} \\
+        W \textit{SAT\_Oceny} - nowy rekord z tą samą kombinacją student-kurs, ale z nową datą i flagą \texttt{Poprawka = True}.
+
+  \item \textbf{Jak oddzielić dane wrażliwe?} \\
+        Umieścić je w osobnych satelitach (np. \textit{SAT\_Student\_Prywatne}) i zabezpieczyć dostęp na poziomie bazy.
+
+  \item \textbf{Jak obsłużyć rozszerzenie modelu o grupy?} \\
+        Dodać \textit{HUB\_Grupa\_zajeciowa} i powiązane linki - Data Vault umożliwia łatwe rozszerzanie bez naruszenia istniejącej struktury.
+\end{itemize}
 
 \section{Ocena modelu wygenerowanego przez sztuczną inteligencję}
 
-ChatGPT nie poradził sobie najgorzej i nawet stworzył diagram przedstawiający relacje. Ale popełnił różne błędy:
+ChatGPT nie poradził sobie najgorzej i nawet stworzył diagram przedstawiający relacje. Ale popełnił oczywiście różne błędy.
 
 \end{document}
