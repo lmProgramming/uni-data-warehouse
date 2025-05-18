@@ -172,8 +172,6 @@ Oczekuje się, że stworzona hurtownia danych pozwoli na efektywne i intuicyjne 
   \end{tabular}
 \end{table}
 
-Z tych plików nie wszystkie przydadzą się do ostatecznej analizy
-
 \begin{table}[H]
   \centering
   \caption{Źródło danych: Minute by Minute F1 Grand Prix Weather Data (2018-2023)}
@@ -190,7 +188,7 @@ Z tych plików nie wszystkie przydadzą się do ostatecznej analizy
   \end{tabular}
 \end{table}
 
-\textbf{Uwaga dotycząca danych pogodowych:} Dane z pliku \texttt{F1 Weather(2023-2018).csv} są zbierane minuta po minucie. Do celów hurtowni danych, te szczegółowe dane będą agregowane (np. poprzez uśrednianie wartości temperatury, wilgotności, prędkości wiatru; określenie dominującego kierunku wiatru; sumowanie/oznaczanie wystąpienia opadów) do poziomu całego wyścigu, aby móc je powiązać z tabelą faktów wyników wyścigów. Całkowity rozmiar plików CSV użytych w projekcie: ok. 22 MB.
+\textbf{Uwaga dotycząca danych pogodowych:} Dane z pliku \texttt{F1 Weather(2023-2018).csv} są zbierane minuta po minucie. Do celów hurtowni danych, te szczegółowe dane będą agregowane (np. poprzez uśrednianie wartości temperatury, wilgotności, prędkości wiatru; określenie dominującego kierunku wiatru; sumowanie/oznaczanie wystąpienia opadów) do poziomu całego wyścigu, aby móc je powiązać z tabelą faktów wyników wyścigów.
 
 \subsection{Wstępna analiza źródeł}
 \begin{itemize}[label=\textbullet, leftmargin=*]
@@ -218,13 +216,13 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{circuits.csv}} \label{tab:profil_circuits}                                                                                                        \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}         & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                   \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}         & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                   \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                  \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}         & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                   \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}         & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                   \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                      \\
@@ -242,67 +240,17 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 9.          & \tiny `url`           & \tiny URL                & \tiny Unikalne wartości               & \tiny Link. Unikalny, brak braków. Jakość wysoka. Dodatkowe info.           \\
 \end{longtable}
 
-\subsection{Plik: \texttt{constructor\_results.csv}}
-\begin{longtable}{|p{0.03\linewidth}|p{0.2\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.3\linewidth}|}
-  \caption{Profilowanie danych dla \texttt{constructor\_results.csv}} \label{tab:profil_constructor_results}                                                                                        \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}        & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}       & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                     \\
-  \hline
-  \endfirsthead
-  \multicolumn{5}{c}%
-  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                         \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}        & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}       & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                     \\
-  \hline
-  \endhead
-  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                             \\
-  \endfoot
-  \hline
-  \endlastfoot
-  \tiny 1.          & \tiny `constructorResultsId` & \tiny Numeric (Real)     & \tiny Min: 1, Max: 17129            & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.                     \\
-  \tiny 2.          & \tiny `raceId`               & \tiny Numeric (Real)     & \tiny Min: 1, Max: 1144             & \tiny Klucz obcy do `races.csv`. Brak braków. Jakość wysoka. Kluczowy.        \\
-  \tiny 3.          & \tiny `constructorId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 215              & \tiny Klucz obcy do `constructors.csv`. Brak braków. Jakość wysoka. Kluczowy. \\
-  \tiny 4.          & \tiny `points`               & \tiny Numeric (Real)     & \tiny Min: 0, Max: 66; 55.3\% Zeros & \tiny Punkty konstr. w wyścigu. Brak braków. Jakość dobra. Kluczowa miara.    \\
-  \tiny 5.          & \tiny `status`               & \tiny Categorical        & \tiny Tylko "D" (17)                & \tiny Status. **99.9\% braków!** Praktycznie bezużyteczna. Niska jakość.      \\
-\end{longtable}
-
-\subsection{Plik: \texttt{constructor\_standings.csv}}
-\begin{longtable}{|p{0.03\linewidth}|p{0.22\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.28\linewidth}|}
-  \caption{Profilowanie danych dla \texttt{constructor\_standings.csv}} \label{tab:profil_constructor_standings}                                                                            \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}          & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}        & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}          \\
-  \hline
-  \endfirsthead
-  \multicolumn{5}{c}%
-  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                 \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}          & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}        & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}          \\
-  \hline
-  \endhead
-  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                     \\
-  \endfoot
-  \hline
-  \endlastfoot
-  \tiny 1.          & \tiny `constructorStandingsId` & \tiny Numeric (Real)     & \tiny Min: 1, Max: 28982             & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.          \\
-  \tiny 2.          & \tiny `raceId`                 & \tiny Numeric (Real)     & \tiny Min: 1, Max: 1144              & \tiny Klucz obcy. Brak braków. Jakość wysoka. Kluczowy.            \\
-  \tiny 3.          & \tiny `constructorId`          & \tiny Numeric (Real)     & \tiny Min: 1, Max: 215               & \tiny Klucz obcy. Brak braków. Jakość wysoka. Kluczowy.            \\
-  \tiny 4.          & \tiny `points`                 & \tiny Numeric (Real)     & \tiny Min: 0, Max: 860; 29.3\% Zeros & \tiny Suma pkt. konstr. Brak braków. Jakość dobra. Kluczowa miara. \\
-  \tiny 5.          & \tiny `position`               & \tiny Numeric (Real)     & \tiny Min: 1, Max: 22                & \tiny Numeryczna pozycja. Brak braków. Jakość dobra. Przydatna.    \\
-  \tiny 6.          & \tiny `positionText`           & \tiny Categorical        & \tiny Tekstowa pozycja               & \tiny Tekstowa pozycja. Brak braków. Nadmiarowa. Jakość dobra.     \\
-  \tiny 7.          & \tiny `wins`                   & \tiny Numeric (Real)     & \tiny Min: 0, Max: 21; 78.0\% Zeros  & \tiny Liczba zwycięstw. Brak braków. Jakość dobra. Ważna miara.    \\
-\end{longtable}
-
 \subsection{Plik: \texttt{constructors.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{constructors.csv}} \label{tab:profil_constructors}                                                                                  \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}            \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}            \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                    \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}            \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}            \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                        \\
@@ -316,43 +264,17 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 5.          & \tiny `url`            & \tiny URL                & \tiny 175 unikalnych (z 212)  & \tiny Link. Brak braków. Niektóre URL-e powtarzalne. Jakość dobra.   \\
 \end{longtable}
 
-\subsection{Plik: \texttt{driver\_standings.csv}}
-\begin{longtable}{|p{0.03\linewidth}|p{0.2\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.3\linewidth}|}
-  \caption{Profilowanie danych dla \texttt{driver\_standings.csv}} \label{tab:profil_driver_standings}                                                                                           \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}     & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}        & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                    \\
-  \hline
-  \endfirsthead
-  \multicolumn{5}{c}%
-  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                      \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}     & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}        & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                    \\
-  \hline
-  \endhead
-  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                          \\
-  \endfoot
-  \hline
-  \endlastfoot
-  \tiny 1.          & \tiny `driverStandingsId` & \tiny Numeric (Real)     & \tiny Min: 1, Max: 73270             & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.                    \\
-  \tiny 2.          & \tiny `raceId`            & \tiny Numeric (Real)     & \tiny Min: 1, Max: 1144              & \tiny Klucz obcy. Brak braków. Jakość wysoka. Kluczowy.                      \\
-  \tiny 3.          & \tiny `driverId`          & \tiny Numeric (Real)     & \tiny Min: 1, Max: 862               & \tiny Klucz obcy. Brak braków. Jakość wysoka. Kluczowy.                      \\
-  \tiny 4.          & \tiny `points`            & \tiny Numeric (Real)     & \tiny Min: 0, Max: 575; 47.5\% Zeros & \tiny Suma pkt. kierowcy. Brak braków. Jakość dobra. Kluczowa miara.         \\
-  \tiny 5.          & \tiny `position`          & \tiny Numeric (Real)     & \tiny Min: 1, Max: 108               & \tiny Numeryczna pozycja. Brak braków. Jakość dobra. Max 108 zastanawiające. \\
-  \tiny 6.          & \tiny `positionText`      & \tiny Text               & \tiny 109 unikalnych                 & \tiny Tekstowa pozycja. Brak braków. Nadmiarowa. Jakość dobra.               \\
-  \tiny 7.          & \tiny `wins`              & \tiny Numeric (Real)     & \tiny Min: 0, Max: 19; 88.0\% Zeros  & \tiny Liczba zwycięstw. Brak braków. Jakość dobra. Ważna miara.              \\
-\end{longtable}
-
 \subsection{Plik: \texttt{drivers.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{drivers.csv}} \label{tab:profil_drivers}                                                                                   \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}    \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}    \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                           \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}    \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}    \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                               \\
@@ -374,13 +296,13 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
   \caption{Profilowanie danych dla \texttt{lap\_times.csv}} \label{tab:profil_lap_times}                                                                                                           \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                 \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                 \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                        \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                 \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                 \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                            \\
@@ -399,13 +321,13 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
   \caption{Profilowanie danych dla \texttt{pit\_stops.csv}} \label{tab:profil_pit_stops}                                                                                                       \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                             \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                             \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                    \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                             \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                             \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                        \\
@@ -421,45 +343,17 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 7.          & \tiny `milliseconds`  & \tiny Numeric (Real)     & \tiny Min: 12.9k, Max: 3M     & \tiny Czas trwania (ms). Brak braków. Jakość wysoka. Max wartość (51min) to anomalia. \\
 \end{longtable}
 
-\subsection{Plik: \texttt{qualifying.csv}}
-\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
-  \caption{Profilowanie danych dla \texttt{qualifying.csv}} \label{tab:profil_qualifying}                                                                                             \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                    \\
-  \hline
-  \endfirsthead
-  \multicolumn{5}{c}%
-  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                           \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                    \\
-  \hline
-  \endhead
-  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                               \\
-  \endfoot
-  \hline
-  \endlastfoot
-  \tiny 1.          & \tiny `qualifyId`     & \tiny Numeric (Real)     & \tiny Min: 1, Max: 10551      & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.                    \\
-  \tiny 2.          & \tiny `raceId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 1144       & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                \\
-  \tiny 3.          & \tiny `driverId`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 862        & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                \\
-  \tiny 4.          & \tiny `constructorId` & \tiny Numeric (Real)     & \tiny Min: 1, Max: 215        & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                \\
-  \tiny 5.          & \tiny `number`        & \tiny Numeric (Real)     & \tiny Min: 0, Max: 99         & \tiny Nr startowy. Brak braków. Jakość dobra.                                \\
-  \tiny 6.          & \tiny `position`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 28         & \tiny Pozycja w kwali. Brak braków. Jakość wysoka. Kluczowa miara.           \\
-  \tiny 7.          & \tiny `q1`            & \tiny DateTime           & \tiny MM:SS.mmm; Braki 1.5\%  & \tiny Czas Q1. **Błędnie jako DateTime!** Wymaga parsowania. Jakość średnia. \\
-  \tiny 8.          & \tiny `q2`            & \tiny DateTime           & \tiny MM:SS.mmm; Braki 44.3\% & \tiny Czas Q2. **Błędnie jako DateTime!** Dużo braków. Jakość średnia.       \\
-  \tiny 9.          & \tiny `q3`            & \tiny DateTime           & \tiny MM:SS.mmm; Braki 65.4\% & \tiny Czas Q3. **Błędnie jako DateTime!** B.dużo braków. Jakość średnia.     \\
-\end{longtable}
-
 \subsection{Plik: \texttt{races.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.15\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.35\linewidth}|}
   \caption{Profilowanie danych dla \texttt{races.csv}} \label{tab:profil_races}                                                                                                                                               \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}               & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                              \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}               & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                              \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                                   \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}               & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                              \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}               & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                              \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                                                       \\
@@ -481,13 +375,13 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
 \begin{longtable}{|p{0.03\linewidth}|p{0.17\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.33\linewidth}|}
   \caption{Profilowanie danych dla \texttt{results.csv}} \label{tab:profil_results}                                                                                                                                   \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}   & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}            & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                       \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}   & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}            & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                       \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                           \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}   & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}            & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                       \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}   & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}            & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                       \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                                               \\
@@ -514,52 +408,17 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 18.         & \tiny `statusId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 141                   & \tiny Klucz obcy do `status.csv`. Brak braków. Jakość wysoka. Kluczowy.                         \\
 \end{longtable}
 
-\subsection{Plik: \texttt{sprint\_results.csv}}
-\begin{longtable}{|p{0.03\linewidth}|p{0.17\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.33\linewidth}|}
-  \caption{Profilowanie danych dla \texttt{sprint\_results.csv}} \label{tab:profil_sprint_results}                                                                                                                   \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}           & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                        \\
-  \hline
-  \endfirsthead
-  \multicolumn{5}{c}%
-  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                          \\
-  \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}           & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                                        \\
-  \hline
-  \endhead
-  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                                              \\
-  \endfoot
-  \hline
-  \endlastfoot
-  \tiny 1.          & \tiny `resultId`       & \tiny Numeric (Real)     & \tiny Min: 1, Max: 360                  & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.                                        \\
-  \tiny 2.          & \tiny `raceId`         & \tiny Numeric (Real)     & \tiny Min: 1061, Max: 1143              & \tiny Klucz obcy do `races.csv`. Brak braków. Jakość wysoka.                                     \\
-  \tiny 3.          & \tiny `driverId`       & \tiny Numeric (Real)     & \tiny Min: 1, Max: 861                  & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                                    \\
-  \tiny 4.          & \tiny `constructorId`  & \tiny Numeric (Real)     & \tiny Min: 1, Max: 215                  & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                                    \\
-  \tiny 5.          & \tiny `number`         & \tiny Numeric (Real)     & \tiny Min: 1, Max: 99                   & \tiny Nr startowy. Brak braków. Jakość dobra.                                                    \\
-  \tiny 6.          & \tiny `grid`           & \tiny Numeric (Real)     & \tiny Min: 0, Max: 20; 3.1\% Zeros      & \tiny Pozycja startowa. Brak braków. Jakość wysoka.                                              \\
-  \tiny 7.          & \tiny `position`       & \tiny Numeric (Real)     & \tiny Min: 1, Max: 20; Braki 4.2\%      & \tiny Pozycja na mecie. Małe braki. Jakość dobra.                                                \\
-  \tiny 8.          & \tiny `positionText`   & \tiny Categorical        & \tiny Tekstowa; Brak braków             & \tiny Tekstowa pozycja. Jakość dobra.                                                            \\
-  \tiny 9.          & \tiny `positionOrder`  & \tiny Numeric (Real)     & \tiny Min: 1, Max: 20                   & \tiny Uporządkowana poz. Brak braków. Jakość wysoka.                                             \\
-  \tiny 10.         & \tiny `points`         & \tiny Numeric (Real)     & \tiny Min: 0, Max: 8; 64.2\% Zeros      & \tiny Punkty za sprint. Brak braków. Jakość wysoka.                                              \\
-  \tiny 11.         & \tiny `laps`           & \tiny Numeric (Real)     & \tiny Min: 0, Max: 24; 1.7\% Zeros      & \tiny Ukończone okr. Brak braków. Jakość wysoka.                                                 \\
-  \tiny 12.         & \tiny `time`           & \tiny Text               & \tiny Różne; Braki 5.6\%                & \tiny Czas ukończenia. Małe braki. Wymaga parsowania. Jakość średnia.                            \\
-  \tiny 13.         & \tiny `milliseconds`   & \tiny Numeric (Real)     & \tiny Min: 1.5M, Max: 2.1M; Braki 5.6\% & \tiny Czas (ms). Małe braki. Jakość dobra.                                                       \\
-  \tiny 14.         & \tiny `fastestLap`     & \tiny Numeric (Real)     & \tiny Min: 2, Max: 24; Braki 2.5\%      & \tiny Nr najsz. okr. Małe braki. Jakość dobra.                                                   \\
-  \tiny 15.         & \tiny `fastestLapTime` & \tiny DateTime           & \tiny MM:SS.mmm; Braki 2.5\%            & \tiny Czas najsz. okr. **Błędnie jako DateTime!** Małe braki. Wymaga parsowania. Jakość średnia. \\
-  \tiny 16.         & \tiny `statusId`       & \tiny Numeric (Real)     & \tiny Min: 1, Max: 130                  & \tiny Klucz obcy do `status.csv`. Brak braków. Jakość wysoka.                                    \\
-\end{longtable}
-
 \subsection{Plik: \texttt{status.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{status.csv}} \label{tab:profil_status}                                                                                            \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}           \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}           \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                  \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}           \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}           \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                      \\
@@ -574,13 +433,13 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
   \caption{Profilowanie danych dla \texttt{weather.csv}} \label{tab:profil_weather}                                                                                                                                                                                                         \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}                                & \tiny\textbf{Typ danych}                                                                    & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                        \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}                                & \tiny\textbf{Typ danych}                                                                    & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                        \\
   \hline
   \endfirsthead
   \multicolumn{5}{c}%
   {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                                                                                                 \\
   \hline
-  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}                                & \tiny\textbf{Typ danych}                                                                    & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi – ocena jakości danych i przydatności}                        \\
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}                                & \tiny\textbf{Typ danych}                                                                    & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                        \\
   \hline
   \endhead
   \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                                                                                                                     \\
@@ -602,9 +461,9 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
 
 \section{Definicja typów encji/klas, związków, diagram klas}
 \label{sec:definicja_encji_final}
-Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną tabelą faktów \texttt{Fact\_DriverRaceResult} oraz otaczającymi ją tabelami wymiarów.
+Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną tabelą faktów \texttt{Fact\_Result} oraz otaczającymi ją tabelami wymiarów.
 
-\subsection{Tabela Faktów: \texttt{FACT\_DriverRaceResult}}
+\subsection{Tabela Faktów: \texttt{Fact\_Result}}
 \begin{itemize}[label=\textbullet, leftmargin=*]
   \item \textbf{Opis:} Reprezentuje pojedynczy, całościowy wynik kierowcy w danym wyścigu Grand Prix. Ziarnistość tabeli to jeden rekord per kierowca per wyścig.
   \item \textbf{Klucze obce (referencje do wymiarów):}
@@ -618,62 +477,63 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
         \end{itemize}
   \item \textbf{Miary (przykładowe):}
         \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item \texttt{PointsScored} (DECIMAL) - zdobyte punkty (addytywna)
+          \item \texttt{LapsCompleted} (INT) - liczba ukończonych okrążeń (addytywna)
+          \item \texttt{NumberOfPitStops} (INT, wyliczana z \texttt{pit\_stops.csv}) - liczba pit-stopów (addytywna)
+          \item \texttt{RaceTimeMilliseconds} (BIGINT, nullable) - czas ukończenia wyścigu w milisekundach (póładdytywna)
           \item \texttt{GridPosition} (INT) - pozycja startowa (nieaddytywna)
           \item \texttt{FinalPositionOrder} (INT) - numeryczna pozycja na mecie (nieaddytywna)
           \item \texttt{PositionOrderChange} (INT) - różnica między pozycją startową a finalną (nieaddytywna)
-          \item \texttt{PointsScored} (DECIMAL) - zdobyte punkty (addytywna)
-          \item \texttt{RaceTimeMilliseconds} (BIGINT, nullable) - czas ukończenia wyścigu w milisekundach (póładdytywna)
-          \item \texttt{LapsCompleted} (INT) - liczba ukończonych okrążeń (addytywna)
-          \item \texttt{NumberOfPitStops} (INT, wyliczana z \texttt{pit\_stops.csv}) - liczba pit-stopów (addytywna)
-          \item \texttt{FastestLapTimeMilliseconds} (BIGINT, nullable) - czas najszybszego okrążenia kierowcy w wyścigu (nieaddytywna, agregowana przez MIN)
+          \item \texttt{FastestLapTimeMilliseconds} (BIGINT, nullable) - czas najszybszego okrążenia kierowcy w wyścigu (nieaddytywna)
           \item \texttt{RankFastestLap} (INT, nullable) - ranking najszybszego okrążenia kierowcy w wyścigu (nieaddytywna)
+          \item \texttt{FastestLapTopSpeed} (DECIMAL, nullable) - szyb (nieaddytywna)
         \end{itemize}
 \end{itemize}
 
 \subsection{Wymiary}
 \begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
-  \item \textbf{\texttt{DIM\_Driver}}
+  \item \textbf{\texttt{Dim\_Driver}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{DriverKey} (PK, klucz zastępczy), \texttt{DriverID\_NK} (klucz naturalny z \texttt{drivers.csv}), \texttt{DriverRef}
-          \item Atrybuty: \texttt{FirstName}, \texttt{Surname}, \texttt{FullName}, \texttt{DateOfBirth}, \texttt{Nationality}, \texttt{Continent}
+          \item Atrybuty: \texttt{FirstName}, \texttt{LastName}, \texttt{FullName}, \texttt{DateOfBirth}, \texttt{Nationality}, \texttt{Continent}
           \item Hierarchie: \texttt{Nationality \(\rightarrow\) Continent}.
         \end{itemize}
 
-  \item \textbf{\texttt{DIM\_Constructor}}
+  \item \textbf{\texttt{Dim\_Constructor}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{ConstructorKey} (PK), \texttt{ConstructorID\_NK}, \texttt{ConstructorRef}
           \item Atrybuty: \texttt{Name}, \texttt{Nationality}, \texttt{Continent}
           \item Hierarchie: \texttt{Nationality \(\rightarrow\) Continent}.
         \end{itemize}
 
-  \item \textbf{\texttt{DIM\_Race}}
+  \item \textbf{\texttt{Dim\_Race}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{RaceKey} (PK), \texttt{RaceID\_NK}
           \item Atrybuty: \texttt{YearSeason}, \texttt{RoundNumberInSeason}, \texttt{RaceNameOfficial}
           \item Hierarchie: \texttt{YearSeason \(\rightarrow\) RaceNameOfficial}.
         \end{itemize}
 
-  \item \textbf{\texttt{DIM\_Circuit}}
+  \item \textbf{\texttt{Dim\_Circuit}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{CircuitKey} (PK), \texttt{CircuitID\_NK}, \texttt{CircuitRef}
           \item Atrybuty: \texttt{CircuitName}, \texttt{LocationCity}, \texttt{CountryName}, \texttt{Latitude}, \texttt{Longitude}, \texttt{Altitude}
           \item Hierarchie: \texttt{CountryName \(\rightarrow\) LocationCity \(\rightarrow\) CircuitName}.
         \end{itemize}
 
-  \item \textbf{\texttt{DIM\_Time}}
+  \item \textbf{\texttt{Dim\_Time}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{DateKey} (PK: YYYYMMDD)
           \item Atrybuty: \texttt{FullDate} (DATE), \texttt{Year}, \texttt{Quarter}, \texttt{Month}, \texttt{MonthName}, \texttt{DayOfMonth}, \texttt{DayOfWeekName}
           \item Hierarchie: \texttt{Year \(\rightarrow\) Quarter \(\rightarrow\) Month \(\rightarrow\) DayOfMonth}
         \end{itemize}
 
-  \item \textbf{\texttt{DIM\_Weather\_Aggregated}}
+  \item \textbf{\texttt{Dim\_Weather\_Aggregated}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{WeatherKey} (PK)
           \item Atrybuty: \texttt{AvgAirTempCelsius}, \texttt{MinAirTempCelsius}, \texttt{MaxAirTempCelsius}, \texttt{AvgTrackTempCelsius}, \texttt{AvgHumidityPercent}, \texttt{DidRainOccur} (Boolean), \texttt{AvgWindSpeedKmph}, \texttt{MaxWindSpeedKmph}, \texttt{AvgWindDirection}
         \end{itemize}
 
-  \item \textbf{\texttt{DIM\_Status}} (opisuje sposób zakończenia wyścigu przez kierowcę)
+  \item \textbf{\texttt{Dim\_Status}} (opisuje sposób zakończenia wyścigu przez kierowcę)
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{StatusKey} (PK)
           \item Atrybuty: \texttt{StatusDescription} (np. "Finished", "+1 Lap", "Engine", "Collision"), \texttt{StatusCategory} (np. "Finished", "Malfunction", "Accident")
@@ -682,9 +542,7 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
 \end{enumerate}
 
 \subsection{Diagram Klas (Schemat Gwiazdy)}
-Centralna tabela faktów \texttt{Fact\_DriverRaceResult} będzie połączona z wymienionymi powyżej tabelami wymiarów.
-
-% ...existing code...
+Centralna tabela faktów \texttt{Fact\_Result} będzie połączona z wymienionymi powyżej tabelami wymiarów.
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[
@@ -692,37 +550,27 @@ Centralna tabela faktów \texttt{Fact\_DriverRaceResult} będzie połączona z w
       dim/.style={draw, rounded corners, fill=blue!10, minimum width=3.2cm, minimum height=1cm, font=\small, align=center},
       arrow/.style={-latex, thick}
     ]
-    % Centralna tabela faktów
-    \node[table] (fact) {\textbf{FACT\_DriverRaceResult}};
+    \node[table] (fact) {\textbf{Fact\_Result}};
 
-    % Wymiary wokół (bliżej środka)
-    \node[dim, above=1.5cm of fact, xshift=-2.2cm] (driver) {\textbf{DIM\_Driver}};
-    \node[dim, above=1.5cm of fact, xshift=+2.2cm] (constructor) {\textbf{DIM\_Constructor}};
-    \node[dim, left=2.8cm of fact] (race) {\textbf{DIM\_Race}};
-    \node[dim, right=2.8cm of fact] (status) {\textbf{DIM\_Status}};
-    \node[dim, below=1.5cm of fact, xshift=-3.2cm] (time) {\textbf{DIM\_Time}};
-    \node[dim, below=1.5cm of fact, xshift=+3.2cm] (weather) {\textbf{DIM\_Weather\_Aggregated}};
-    \node[dim, below=3cm of fact] (circuit) {\textbf{DIM\_Circuit}};
+    \node[dim, above=1.5cm of fact, xshift=-2.2cm] (driver) {\textbf{Dim\_Driver}};
+    \node[dim, above=1.5cm of fact, xshift=+2.2cm] (constructor) {\textbf{Dim\_Constructor}};
+    \node[dim, left=2.8cm of fact] (race) {\textbf{Dim\_Race}};
+    \node[dim, right=2.8cm of fact] (status) {\textbf{Dim\_Status}};
+    \node[dim, below=1.5cm of fact, xshift=-3.2cm] (time) {\textbf{Dim\_Time}};
+    \node[dim, below=1.5cm of fact, xshift=+3.2cm] (weather) {\textbf{Dim\_Weather\_Aggregated}};
+    \node[dim, below=3cm of fact] (circuit) {\textbf{Dim\_Circuit}};
 
-    % Strzałki
     \draw[arrow] (driver) -- (fact);
     \draw[arrow] (constructor) -- (fact);
     \draw[arrow] (race) -- (fact);
     \draw[arrow] (status) -- (fact);
     \draw[arrow] (time) -- (fact);
     \draw[arrow] (weather) -- (fact);
-    % Zmienione połączenie: Circuit do Race (nie do Fact)
     \draw[arrow] (circuit) -- (fact);
-
-    % Opisy relacji (opcjonalnie)
-    %\node[font=\tiny, left=0.1cm of fact, yshift=0.5cm] {RaceKey};
-    %\node[font=\tiny, above=0.1cm of fact, xshift=-1.2cm] {DriverKey};
-    % itd.
   \end{tikzpicture}
   \caption{Proponowany schemat gwiazdy dla hurtowni danych F1.}
   \label{fig:schemat_gwiazdy_final}
 \end{figure}
-% ...existing code...
 
 \subsection{Podział miar}
 \begin{itemize}[label=\textbullet, leftmargin=*]
@@ -753,98 +601,7 @@ Poniżej przedstawiono przykładowe wielowymiarowe zestawienia, które będzie m
 Poniżej przedstawiono fragmenty skryptu SQL (Data Definition Language) tworzącego strukturę tabel wymiarów i faktów zgodnie z zaproponowanym modelem. Składnia generowanych kolumn może zależeć od używanego systemu DBMS.
 
 \begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Driver, label=lst:ddl_dim_driver_final]
-CREATE TABLE Dim_Driver (
-    DriverKey INT PRIMARY KEY,
-    DriverID_NK INT UNIQUE, -- Natural Key from drivers.csv
-    DriverRef VARCHAR(255) UNIQUE,
-    Forename VARCHAR(255),
-    Surname VARCHAR(255),
-    FullName VARCHAR(511), -- Wypełniane w ETL lub przez DBMS (np. GENERATED COLUMN)
-    DateOfBirth DATE,
-    Nationality VARCHAR(255)
-    -- Można dodać atrybuty dla Slowly Changing Dimensions (SCD) Type 2, np. ValidFrom, ValidTo, IsCurrent
-);
 \end{lstlisting}
-
-\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Circuit, label=lst:ddl_dim_circuit_final]
-CREATE TABLE Dim_Circuit (
-    CircuitKey INT PRIMARY KEY,
-    CircuitID_NK INT UNIQUE, -- Natural Key from circuits.csv
-    CircuitRef VARCHAR(255) UNIQUE,
-    CircuitName VARCHAR(255),
-    LocationCity VARCHAR(255),
-    CountryName VARCHAR(255),
-    Latitude DECIMAL(9,6),
-    Longitude DECIMAL(9,6),
-    Altitude INT -- Może być NULL
-);
-\end{lstlisting}
-
-\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Time, label=lst:ddl_dim_time_final]
-CREATE TABLE Dim_Time (
-    DateKey INT PRIMARY KEY, -- Format np. YYYYMMDD
-    FullDateAlternateKey DATE UNIQUE,
-    Year INT,
-    Quarter INT,
-    Month INT,
-    MonthName VARCHAR(50),
-    DayOfMonth INT,
-    DayOfWeekName VARCHAR(50),
-    WeekOfYear INT
-);
-\end{lstlisting}
-
-\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Weather\_Aggregated, label=lst:ddl_dim_weather_final]
-CREATE TABLE Dim_Weather_Aggregated (
-    WeatherKey INT PRIMARY KEY,
-    Year_NK INT,
-    RoundNumber_NK INT,
-    AvgAirTempCelsius DECIMAL(4,1),
-    MinAirTempCelsius DECIMAL(4,1),
-    MaxAirTempCelsius DECIMAL(4,1),
-    AvgTrackTempCelsius DECIMAL(4,1),
-    AvgHumidityPercent DECIMAL(4,1),
-    DidRainOccur BOOLEAN,
-    AvgWindSpeedKmph DECIMAL(4,1),
-    MaxWindSpeedKmph DECIMAL(4,1),
-    -- inne zagregowane atrybuty...
-    UNIQUE (Year_NK, RoundNumber_NK) -- Zapewnia unikalność wpisu pogodowego dla danego wyścigu
-);
-\end{lstlisting}
-
-\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Fact\_DriverRaceResult, label=lst:ddl_fact_table_final]
-CREATE TABLE Fact_DriverRaceResult (
-    -- Klucze obce do wymiarów
-    RaceKey INT NOT NULL,
-    DriverKey INT NOT NULL,
-    ConstructorKey INT NOT NULL,
-    DateKey INT NOT NULL, 
-    WeatherKey INT, -- Może być NULL dla wyścigów bez danych pogodowych
-    StatusKey INT NOT NULL,
-    
-    -- Miary
-    GridPosition INT,
-    FinalPositionOrder INT, 
-    PointsScored DECIMAL(5,2),
-    RaceTimeMilliseconds BIGINT, 
-    LapsCompleted INT,
-    NumberOfPitStops INT,
-    FastestLapTimeMilliseconds BIGINT,
-    RankFastestLap INT,
-
-    -- Klucz główny tabeli faktów
-    PRIMARY KEY (RaceKey, DriverKey), 
-    
-    -- Definicje kluczy obcych
-    FOREIGN KEY (RaceKey) REFERENCES Dim_Race(RaceKey),
-    FOREIGN KEY (DriverKey) REFERENCES Dim_Driver(DriverKey),
-    FOREIGN KEY (ConstructorKey) REFERENCES Dim_Constructor(ConstructorKey),
-    FOREIGN KEY (DateKey) REFERENCES Dim_Time(DateKey),
-    FOREIGN KEY (WeatherKey) REFERENCES Dim_Weather_Aggregated(WeatherKey),
-    FOREIGN KEY (StatusKey) REFERENCES Dim_Status(StatusKey)
-);
-\end{lstlisting}
-\textit{Uwaga: Pełny skrypt DDL dla wszystkich tabel wymiarów zostanie przygotowany w dalszych etapach projektu. Należy również rozważyć dodanie indeksów dla kluczy obcych w celu optymalizacji zapytań.}
 
 \section{Wnioski}
 Proponowany projekt hurtowni danych dla wyników Formuły 1 w latach 1950-2023 ma na celu stworzenie kompleksowego narzędzia analitycznego. Wykorzystanie dwóch głównych źródeł danych - szczegółowych wyników historycznych oraz minutowych danych pogodowych (agregowanych do poziomu wyścigu) dla ostatnich sezonów - pozwoli na przeprowadzenie wielowymiarowych analiz, które mogą odkryć interesujące wzorce, trendy i zależności.
