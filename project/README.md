@@ -15,3 +15,7 @@ dane realne, defaultowe dane zastępujące nulle raczej ŹLE
 ## lab08
 
 coś tam CREATE'y
+
+## linki
+
+<https://github.com/Michal-Janulewski/Formula_1_Project>

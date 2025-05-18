@@ -1,0 +1,724 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{listings}
+\usepackage[backend=biber, style=numeric]{biblatex}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tikz}
+
+\usetikzlibrary{positioning}
+
+% \addbibresource{bibliografia.bib} % Assuming you have a bibliografia.bib file
+
+\graphicspath{{images/}}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=flexible,
+  keepspaces=true,
+  showstringspaces=false,
+  escapeinside={(*@}{@*)},
+  literate={ą}{{\k{a}}}1
+           {ć}{{\'{c}}}1
+           {ę}{{\k{e}}}1
+           {ł}{{\l{}}}1
+           {ń}{{\'{n}}}1
+           {ó}{{\'{o}}}1
+           {ś}{{\'{s}}}1
+           {ź}{{\'{z}}}1
+           {ż}{{\.{z}}}1
+           {Ą}{{\k{A}}}1
+           {Ć}{{\'{C}}}1
+           {Ę}{{\k{E}}}1
+           {Ł}{{\L{}}}1
+           {Ń}{{\'{N}}}1
+           {Ó}{{\'{O}}}1
+           {Ś}{{\'{S}}}1
+           {Ź}{{\'{Z}}}1
+           {Ż}{{\.{Z}}}1
+           {"}{{\textquotedbl}}1
+           {'}{{\textquotesingle}}1
+           {`}{{\textasciigrave}}1
+           {~}{{\textasciitilde}}1
+           {^}{{\textasciicircum}}1
+           {_}{{\textunderscore}}1
+           {|}{{\textbar}}1
+           {\{}{{\textbraceleft}}1
+           {\}}{{\textbraceright}}1
+           {[}{{[}}1
+           {]}{{]}}1,
+  language=SQL,
+  showspaces=false,
+  numbers=left,
+  numberstyle=\tiny,
+  commentstyle=\color{green!60!black},
+  keywordstyle=\color{blue},
+  stringstyle=\color{red!80!black},
+  breaklines=true,
+  frame=single,
+  captionpos=b
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdfauthor={Mikołaj Kubś},
+    pdfpagemode=FullScreen,
+}
+
+\title{Projekt hurtowni danych do analizy wyników i czynników wpływających na osiągnięcia kierowców Formuły 1 w latach 1950-2023}
+\author{Mikołaj Kubś, 272662}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Wprowadzenie do projektu}
+Proces tworzenia hurtowni danych powinien być poprzedzony zrozumieniem „potrzeb biznesu” oraz rzeczywistości (dziedziny problemowej) reprezentowanej przez dostępne zasoby danych. Realizacja poniższego zadania ma uzmysłowić występujące problemy w określonym (wybranym) wycinku rzeczywistości, a następnie umożliwić zidentyfikowanie (określenie) potrzeb, celu i możliwości analiz biznesowych, by wspierać procesy decyzyjne (podejmowanie właściwych decyzji biznesowych).
+
+Projekt końcowy powinien zawierać przynajmniej jedną kostkę Analysis Services, dotyczącą danych pochodzących z co najmniej dwóch źródeł danych (jeden zbiór danych ma być wybrany spośród przedstawionych na zajęciach laboratoryjnych, a drugi - dowolnie wybrany przez studenta).
+
+Utworzona kostka powinna:
+\begin{itemize}
+  \item zawierać przynajmniej 5 wymiarów, w tym co najmniej dwa o strukturze hierarchicznej (np. czas, miejsce, itp.);
+  \item posiadać co najmniej 3 miary, w tym min. jedną nieaddytywną;
+  \item odpowiadająca jej tabela faktów powinna posiadać co najmniej 10000 rekordów.
+\end{itemize}
+Niniejszy dokument stanowi propozycję tematu projektu hurtowni danych, opracowaną zgodnie ze specyfikacją Etapu I.
+
+\section{Charakterystyka dziedziny problemowej, krótki opis obszaru analizy, problemy i potrzeby}
+
+\subsection{Dziedzina problemowa}
+Dziedziną problemową są Mistrzostwa Świata Formuły 1 - najbardziej prestiżowa seria wyścigów samochodowych na świecie, charakteryzująca się zaawansowaną technologią, rywalizacją na najwyższym poziomie oraz bogatą historią.
+
+\subsection{Krótki opis obszaru analizy}
+Analiza obejmuje historyczne dane dotyczące wyników kierowców i zespołów (konstruktorów) Formuły 1, począwszy od inauguracyjnego sezonu 1950 aż do końca sezonu 2023. Badane będą zarówno indywidualne osiągnięcia (pozycje, punkty, czasy), jak i dynamika zespołowa, strategie wyścigowe (np. pit-stopy), wpływ charakterystyki torów oraz, dla wybranego okresu (2018-2023), wpływ warunków atmosferycznych na przebieg i rezultaty wyścigów.
+
+\subsection{Problemy i potrzeby}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Zrozumienie czynników sukcesu:} Identyfikacja kluczowych elementów (np. pozycja startowa, niezawodność bolidu, skuteczność strategii, umiejętności kierowcy, osiągi zespołu) determinujących wyniki w F1.
+  \item \textbf{Analiza trendów historycznych:} Obserwacja ewolucji sportu, okresów dominacji poszczególnych zespołów i kierowców, wpływu zmian technologicznych i regulaminowych na wyniki.
+  \item \textbf{Ocena strategii wyścigowych:} Analiza skuteczności różnych strategii (np. liczba i moment pit-stopów) w zależności od toru, warunków pogodowych i sytuacji na torze.
+  \item \textbf{Obiektywna ocena kierowców i zespołów:} Umożliwienie porównania osiągnięć kierowców, również w kontekście siły zespołu, dla którego startowali w różnych okresach.
+  \item \textbf{Potrzeby analityczne dla fanów i ekspertów:} Dostarczenie narzędzia do głębszego zrozumienia sportu, weryfikacji hipotez, tworzenia rankingów i zaawansowanych porównań wykraczających poza standardowe tabele wyników.
+  \item \textbf{Analiza wpływu czynników zewnętrznych:} Zbadanie, w jakim stopniu warunki pogodowe (temperatura, opady, wiatr) korelują z wynikami wyścigów, liczbą awarii, czy pojawianiem się nieoczekiwanych rezultatów ("niespodzianek").
+\end{itemize}
+
+\section{Cel przedsięwzięcia (oczekiwania) oraz zakres analizy - badane aspekty}
+
+\subsection{Cel przedsięwzięcia}
+Głównym celem przedsięwzięcia jest zaprojektowanie i implementacja funkcjonalnej hurtowni danych wraz z kostką OLAP, która umożliwi wielowymiarową analizę wyników wyścigów Formuły 1. Narzędzie to ma pozwolić na identyfikację wzorców, trendów oraz zależności między różnymi czynnikami (charakterystyka kierowcy, zespołu, toru, strategii, pogody) a osiągnięciami sportowymi.
+
+\subsection{Oczekiwania}
+Oczekuje się, że stworzona hurtownia danych pozwoli na efektywne i intuicyjne uzyskiwanie odpowiedzi na złożone pytania analityczne. Model danych powinien być zrozumiały dla użytkownika końcowego, umożliwiając elastyczne operacje analityczne takie jak drążenie danych (drill-down, roll-up) oraz krojenie i kostkowanie (slice and dice).
+
+\subsection{Zakres analizy - badane aspekty}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Wyniki indywidualne i zespołowe:} Pozycje startowe (grid) i końcowe, zdobyte punkty, czasy ukończenia wyścigów, czasy poszczególnych okrążeń (w tym najszybsze okrążenie), status ukończenia wyścigu (np. ukończony, DNF, zdyskwalifikowany).
+  \item \textbf{Kierowcy:} Dane demograficzne (narodowość, data urodzenia, wiek w momencie wyścigu), historia startów, przynależność zespołowa w poszczególnych wyścigach.
+  \item \textbf{Zespoły (Konstruktorzy):} Narodowość, historia startów, sumaryczne wyniki w poszczególnych wyścigach i sezonach.
+  \item \textbf{Wyścigi (Events):} Sezon (rok), numer rundy w sezonie, nazwa Grand Prix, data i godzina rozpoczęcia.
+  \item \textbf{Tory wyścigowe:} Charakterystyka toru (nazwa, lokalizacja, kraj, długość, typ).
+  \item \textbf{Strategia wyścigowa:} Liczba odbytych pit-stopów, okrążenia, na których miały miejsce, czas trwania postojów.
+  \item \textbf{Warunki pogodowe (dla lat 2018-2023):} Agregowane dane dotyczące temperatury powietrza i toru, wilgotności, ciśnienia, występowania opadów, kierunku i siły wiatru podczas wyścigu.
+  \item \textbf{Wpływ regulacji (pośrednio):} Analiza zmian w wynikach, strategiach czy dominacji zespołów na przestrzeni lat może pośrednio wskazywać na wpływ zmian regulaminowych, choć same regulacje nie będą modelowane jako bezpośredni wymiar.
+\end{itemize}
+
+\section{Źródła danych (lokalizacja, format, dostępność), wstępna analiza źródeł danych}
+\label{sec:zrodla_danych_final}
+
+\begin{table}[H]
+  \centering
+  \caption{Źródło danych: Formula 1 World Championship (1950-2023)}
+  \label{tab:zrodlo_f1_final}
+  \tiny
+  \begin{tabular}{|p{0.27\linewidth}|l|r|r|p{0.28\linewidth}|}
+    \hline
+    \textbf{Plik}                       & \textbf{Format} & \textbf{Rekordy} & \textbf{Rozmiar} & \textbf{Opis}                                                                                  \\
+    \hline
+    \multicolumn{5}{|l|}{\parbox{\dimexpr\linewidth-2\tabcolsep\relax}{\tiny\url{https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020} (dane aktualizowane do 2023)}} \\
+    \hline
+    \texttt{circuits.csv}               & CSV             & 78               & <0.1MB           & Info o torach (ID, nazwa, kraj).                                                               \\
+    \texttt{constructors.csv}           & CSV             & 212              & <0.1MB           & Info o konstr. (ID, nazwa).                                                                    \\
+    \texttt{constructor\_results.csv}   & CSV             & 12625            & 0.2MB            & Wyniki konstruktorów (punkty).                                                                 \\
+    \texttt{constructor\_standings.csv} & CSV             & 13391            & 0.3MB            & Pozycja konstr. po wyścigu.                                                                    \\
+    \texttt{drivers.csv}                & CSV             & 861              & 0.1MB            & Info o kierowcach (ID, nazwisko).                                                              \\
+    \texttt{driver\_standings.csv}      & CSV             & 34863            & 0.8MB            & Pozycja kierowców po wyścigu.                                                                  \\
+    \texttt{lap\_times.csv}             & CSV             & 589k             & 16.8MB           & Czasy okrążeń.                                                                                 \\
+    \texttt{pit\_stops.csv}             & CSV             & 11371            & 0.4MB            & Dane o pit-stopach.                                                                            \\
+    \texttt{qualifying.csv}             & CSV             & 10494            & 0.4MB            & Wyniki kwalifikacji.                                                                           \\
+    \texttt{races.csv}                  & CSV             & 1126             & 0.2MB            & Dane o wyścigach (ID, rok, tor).                                                               \\
+    \texttt{results.csv}                & CSV             & 26759            & 1.6MB            & Szczegółowe wyniki kierowców.                                                                  \\
+    \texttt{sprint\_results.csv}        & CSV             & 360              & <0.1MB           & Wyniki sprintów.                                                                               \\
+    \texttt{status.csv}                 & CSV             & 139              & <0.1MB           & Opis statusu zakończenia.                                                                      \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Źródło danych: Minute by Minute F1 Grand Prix Weather Data (2018-2023)}
+  \label{tab:zrodlo_pogoda_final}
+  \tiny
+  \begin{tabular}{|p{0.27\linewidth}|l|r|r|p{0.28\linewidth}|}
+    \hline
+    \textbf{Plik}                      & \textbf{Format} & \textbf{Rekordy} & \textbf{Rozmiar} & \textbf{Opis}                                                                                                                                                         \\
+    \hline
+    \multicolumn{5}{|l|}{\parbox{\dimexpr\linewidth-2\tabcolsep\relax}{\tiny\url{https://www.kaggle.com/datasets/quantumkaze/f1-weather-dataset-2018-2023}}}                                                                                                           \\
+    \hline
+    \texttt{F1 Weather(2023-2018).csv} & CSV             & 18214            & 1.1MB            & Minutowe dane pogodowe dla wyścigów GP F1 (2018-2023). Kolumny: Time, AirTemp, Humidity, Pressure, Rainfall, TrackTemp, WindDirection, WindSpeed, Round Number, Year. \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\textbf{Uwaga dotycząca danych pogodowych:} Dane z pliku \texttt{F1 Weather(2023-2018).csv} są zbierane minuta po minucie. Do celów hurtowni danych, te szczegółowe dane będą agregowane (np. poprzez uśrednianie wartości temperatury, wilgotności, prędkości wiatru; określenie dominującego kierunku wiatru; sumowanie/oznaczanie wystąpienia opadów) do poziomu całego wyścigu, aby móc je powiązać z tabelą faktów wyników wyścigów.
+
+\subsection{Wstępna analiza źródeł}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Pierwsze źródło (Formula 1 World Championship):} Jest to zbiór bardzo obszerny i szczegółowy, zawierający dane historyczne od 1950 roku. Kluczowe pliki dla budowy hurtowni to:
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item \texttt{results.csv}: Główne źródło dla tabeli faktów, zawierające wyniki poszczególnych kierowców w wyścigach.
+          \item \texttt{races.csv}: Dane o poszczególnych wyścigach (rok, runda, data, tor), kluczowe do łączenia z wynikami i danymi pogodowymi.
+          \item \texttt{drivers.csv}, \texttt{constructors.csv}, \texttt{circuits.csv}, \texttt{status.csv}: Podstawowe źródła dla odpowiednich wymiarów (Kierowcy, Konstruktorzy, Tory, Status Zakończenia).
+          \item \texttt{lap\_times.csv}, \texttt{pit\_stops.csv}: Dostarczają dodatkowych miar lub atrybutów, które mogą być włączone do tabeli faktów lub analizowane w bardziej szczegółowych kontekstach (np. średni czas pitstopu, najszybsze okrążenie).
+        \end{itemize}
+        Dane w tym zbiorze są generalnie dobrze zidentyfikowane przez klucze numeryczne (np. \texttt{raceId}, \texttt{driverId}, \texttt{constructorId}), co ułatwi proces łączenia tabel w procesie ETL.
+
+  \item \textbf{Drugie źródło (Minute by Minute F1 Grand Prix Weather Data):} Ten zbiór dostarcza szczegółowych, minutowych danych pogodowych dla Grand Prix Formuły 1 w latach 2018-2023. Zawiera takie informacje jak temperatura powietrza i toru, wilgotność, ciśnienie, opady, kierunek i prędkość wiatru.
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item \textbf{Kluczowe wyzwanie i podejście:} Ze względu na wysoką granulację czasową (minuta po minucie), dane te nie mogą być bezpośrednio połączone z tabelą faktów opisującą całościowy wynik kierowcy w wyścigu. Konieczna będzie \textbf{agregacja} tych danych do poziomu całego wyścigu (lub jego kluczowych faz). W procesie ETL obliczane będą wartości średnie, minimalne, maksymalne, sumaryczne (np. dla opadów) dla każdego wyścigu.
+          \item \textbf{Łączenie po agregacji:} Zagregowane dane pogodowe dla danego wyścigu zostaną połączone z głównym zbiorem danych poprzez wspólne identyfikatory: rok (\texttt{Year}) i numer rundy (\texttt{Round Number}), które są obecne w obu zbiorach (w pierwszym zbiorze w pliku \texttt{races.csv}).
+        \end{itemize}
+\end{itemize}
+
+\section{Profilowanie danych (analiza jakości danych oraz ich przydatności w projekcie)}
+\label{sec:profilowanie_danych_final}
+Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV wykorzystywanego w projekcie. Analiza opiera się na raportach wygenerowanych przez bibliotekę `ydata-profiling`. Analizowane będą tylko (najprawdopodobniej) przydatne atrybuty.
+
+\subsection{Plik: \texttt{circuits.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{circuits.csv}} \label{tab:profil_circuits}                                                                                                \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}         & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}           \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                          \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}         & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}           \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                              \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `circuitId`     & \tiny Numeric (Real)     & \tiny Min: 1, Max: 80                 & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.           \\
+  \tiny 2.          & \tiny `circuitRef`    & \tiny Text               & \tiny Unikalne wartości               & \tiny Tekstowy ID. Unikalny, brak braków. Jakość wysoka. Przydatny. \\
+  \tiny 3.          & \tiny `name`          & \tiny Text               & \tiny Unikalne wartości               & \tiny Nazwa toru. Unikalny, brak braków. Jakość wysoka. Przydatny.  \\
+  \tiny 4.          & \tiny `location`      & \tiny Text               & \tiny 75 unikalnych (z 77)            & \tiny Miasto. Brak braków. Jakość dobra. Przydatny.                 \\
+  \tiny 5.          & \tiny `country`       & \tiny Categorical        & \tiny 35 unikalnych                   & \tiny Kraj. Brak braków. Jakość dobra. Kluczowy dla wymiaru geo.    \\
+  \tiny 6.          & \tiny `lat`           & \tiny Numeric (Real)     & \tiny Min: -37.85, Max: 57.27         & \tiny Szer. geogr. Unikalna, brak braków. Jakość wysoka. Przydatna. \\
+  \tiny 7.          & \tiny `lng`           & \tiny Numeric (Real)     & \tiny Min: -118.19, Max: 144.97       & \tiny Dł. geogr. Unikalna, brak braków. Jakość wysoka. Przydatna.   \\
+  \tiny 8.          & \tiny `alt`           & \tiny Numeric (Real)     & \tiny Min: -7, Max: 2227; 2.6\% Zeros & \tiny Wysokość n.p.m. Brak braków. Jakość dobra.                    \\
+\end{longtable}
+
+\subsection{Plik: \texttt{constructors.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{constructors.csv}} \label{tab:profil_constructors}                                                                                  \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}            \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                    \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}  & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}            \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                        \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `constructorId`  & \tiny Numeric (Real)     & \tiny Min: 1, Max: 215        & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.            \\
+  \tiny 2.          & \tiny `constructorRef` & \tiny Text               & \tiny Unikalne wartości       & \tiny Tekstowy ID. Unikalny, brak braków. Jakość wysoka.             \\
+  \tiny 3.          & \tiny `name`           & \tiny Text               & \tiny Unikalne wartości       & \tiny Nazwa. Unikalny, brak braków. Jakość wysoka. Kluczowy atrybut. \\
+  \tiny 4.          & \tiny `nationality`    & \tiny Categorical        & \tiny 24 unikalne             & \tiny Narodowość. Brak braków. Jakość dobra. Ważny atrybut.          \\
+\end{longtable}
+
+\subsection{Plik: \texttt{drivers.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{drivers.csv}} \label{tab:profil_drivers}                                                                                   \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}    \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                           \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}    \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                               \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `driverId`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 862        & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.    \\
+  \tiny 2.          & \tiny `driverRef`     & \tiny Text               & \tiny Unikalne wartości       & \tiny Tekstowy ID. Unikalny, brak braków. Jakość wysoka.     \\
+  \tiny 3.          & \tiny `number`        & \tiny Numeric (Real)     & \tiny Min: 2, Max: 99         & \tiny Nr startowy. **93.1\% braków!** Niska/średnia jakość.  \\
+  \tiny 4.          & \tiny `code`          & \tiny Text               & \tiny 97 unikalnych           & \tiny Kod kierowcy. **87.9\% braków!** Niska/średnia jakość. \\
+  \tiny 5.          & \tiny `forename`      & \tiny Text               & \tiny 478 unikalnych          & \tiny Imię. Brak braków. Jakość wysoka. Kluczowy.            \\
+  \tiny 6.          & \tiny `surname`       & \tiny Text               & \tiny 802 unikalne            & \tiny Nazwisko. Brak braków. Jakość wysoka. Kluczowy.        \\
+  \tiny 7.          & \tiny `dob`           & \tiny DateTime           & \tiny Min: 1896, Max: 2005    & \tiny Data urodzenia. Brak braków. Jakość wysoka. Kluczowy.  \\
+  \tiny 8.          & \tiny `nationality`   & \tiny Categorical        & \tiny 43 unikalne             & \tiny Narodowość. Brak braków. Jakość dobra. Ważny atrybut.  \\
+\end{longtable}
+
+\subsection{Plik: \texttt{lap\_times.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{lap\_times.csv}} \label{tab:profil_lap_times}                                                                                                             \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                   \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                          \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                   \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                              \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `raceId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 1144       & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                               \\
+  \tiny 2.          & \tiny `driverId`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 862        & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                               \\
+  \tiny 3.          & \tiny `lap`           & \tiny Numeric (Real)     & \tiny Min: 1, Max: 87         & \tiny Nr okrążenia. Brak braków. Jakość wysoka.                                             \\
+  \tiny 4.          & \tiny `position`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 24         & \tiny Pozycja na okrążeniu. Brak braków. Jakość wysoka.                                     \\
+  \tiny 5.          & \tiny `time`          & \tiny Text               & \tiny np. "1:38.109"          & \tiny Czas okr. (tekst). Brak braków. Wymaga parsowania. Jakość wysoka.                     \\
+  \tiny 6.          & \tiny `milliseconds`  & \tiny Numeric (Real)     & \tiny Min: 55404, Max: 7.5M   & \tiny Czas okr. (ms). Brak braków. Jakość średnia. Kluczowa miara. Max wartość to anomalia. \\
+\end{longtable}
+
+\subsection{Plik: \texttt{pit\_stops.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{pit\_stops.csv}} \label{tab:profil_pit_stops}                                                                                                       \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                             \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                    \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                             \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                        \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `raceId`        & \tiny Numeric (Real)     & \tiny Min: 841, Max: 1144     & \tiny Klucz obcy. Brak braków. Dane od raceId > 840. Jakość wysoka.                   \\
+  \tiny 2.          & \tiny `driverId`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 862        & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                         \\
+  \tiny 3.          & \tiny `stop`          & \tiny Numeric (Real)     & \tiny Min: 1, Max: 70         & \tiny Nr pit stopu. Brak braków. Max 70 to anomalia. Jakość ok.                       \\
+  \tiny 4.          & \tiny `lap`           & \tiny Numeric (Real)     & \tiny Min: 1, Max: 78         & \tiny Okrążenie pit stopu. Brak braków. Jakość wysoka.                                \\
+  \tiny 5.          & \tiny `time`          & \tiny DateTime           & \tiny HH:MM:SS                & \tiny Godzina pit stopu z dodatkową datą. Wymaga parsowania. Dobra jakość.            \\
+  \tiny 6.          & \tiny `duration`      & \tiny Text               & \tiny np. "26.898"            & \tiny Czas trwania (tekst). Brak braków. Wymaga parsowania. Jakość dobra.             \\
+  \tiny 7.          & \tiny `milliseconds`  & \tiny Numeric (Real)     & \tiny Min: 12.9k, Max: 3M     & \tiny Czas trwania (ms). Brak braków. Jakość wysoka. Max wartość (51min) to anomalia. \\
+\end{longtable}
+
+\subsection{Plik: \texttt{races.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.15\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.35\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{races.csv}} \label{tab:profil_races}                                                                                                                                                              \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                                                           \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                                                  \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                                                           \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                                                                      \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `raceId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 1144       & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.                                                                           \\
+  \tiny 2.          & \tiny `year`          & \tiny Numeric (Real)     & \tiny Min: 1950, Max: 2024    & \tiny Rok. Brak braków. Jakość wysoka. Kluczowy.                                                                                    \\
+  \tiny 3.          & \tiny `round`         & \tiny Numeric (Real)     & \tiny Min: 1, Max: 24         & \tiny Runda. Brak braków. Jakość wysoka. Kluczowy.                                                                                  \\
+  \tiny 4.          & \tiny `circuitId`     & \tiny Numeric (Real)     & \tiny Min: 1, Max: 80         & \tiny Klucz obcy. Brak braków. Jakość wysoka. Kluczowy.                                                                             \\
+  \tiny 5.          & \tiny `name`          & \tiny Text               & \tiny 54 unikalne             & \tiny Nazwa GP. Brak braków. Jakość wysoka.                                                                                         \\
+  \tiny 6.          & \tiny `date`          & \tiny DateTime           & \tiny Min: 1950, Max: 2024    & \tiny Data wyścigu. Unikalna, brak braków. Jakość wysoka. Kluczowa.                                                                 \\
+  \tiny 7.          & \tiny `time`          & \tiny DateTime           & \tiny HH:MM:SS; Braki 65.0\%  & \tiny Godzina startu. Błędnie jako DateTime. Dużo braków - dane tylko od 2005 roku. Wymaga parsowania. Może być kluczowy do pogody. \\
+\end{longtable}
+
+\subsection{Plik: \texttt{results.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.17\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.33\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{results.csv}} \label{tab:profil_results}                                                                                                                                           \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}   & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}            & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                               \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                                   \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}   & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości}            & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                               \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                                                       \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `resultId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 26764                 & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.                                               \\
+  \tiny 2.          & \tiny `raceId`          & \tiny Numeric (Real)     & \tiny Min: 1, Max: 1144                  & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                                           \\
+  \tiny 3.          & \tiny `driverId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 862                   & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                                           \\
+  \tiny 4.          & \tiny `constructorId`   & \tiny Numeric (Real)     & \tiny Min: 1, Max: 215                   & \tiny Klucz obcy. Brak braków. Jakość wysoka.                                                           \\
+  \tiny 5.          & \tiny `number`          & \tiny Numeric (Real)     & \tiny Min: 0, Max: 208; Braki <0.1\%     & \tiny Nr startowy. Bardzo małe braki. Jakość dobra.                                                     \\
+  \tiny 6.          & \tiny `grid`            & \tiny Numeric (Real)     & \tiny Min: 0, Max: 34; 6.1\% to zera     & \tiny Pozycja startowa. Brak braków. Jakość wysoka. Kluczowa miara. Dziwnie dużo 0.                     \\
+  \tiny 7.          & \tiny `position`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 33; Braki 40.9\%      & \tiny Pozycja końcowa. Dużo braków (DNF). `positionOrder` lepsze.                                       \\
+  \tiny 9.          & \tiny `positionOrder`   & \tiny Numeric (Real)     & \tiny Min: 1, Max: 39                    & \tiny Uporządkowana pozycja. Brak braków. Jakość wysoka. Lepsza do rankingu.                            \\
+  \tiny 10.         & \tiny `points`          & \tiny Numeric (Real)     & \tiny Min: 0, Max: 50; 69.5\% to zera    & \tiny Punkty. Brak braków. Jakość wysoka. Kluczowa miara.                                               \\
+  \tiny 11.         & \tiny `laps`            & \tiny Numeric (Real)     & \tiny Min: 0, Max: 200; 9.5\% Zeros      & \tiny Ukończone okrążenia. Brak braków. Jakość wysoka. Miara.                                           \\
+  \tiny 12.         & \tiny `time`            & \tiny Text               & \tiny np. "1:30:00", "+5s"; Braki 71.3\% & \tiny Czas. Dużo braków. Wymaga parsowania. `milliseconds` lepsze. Niska jakość.                        \\
+  \tiny 13.         & \tiny `milliseconds`    & \tiny Numeric (Real)     & \tiny Min: 526, Max: 15M; Braki 71.3\%   & \tiny Czas (ms). Dużo braków. Jakość wysoka (dla niepustych). Kluczowa miara.                           \\
+  \tiny 14.         & \tiny `fastestLap`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 85; Braki 69.2\%      & \tiny Nr najszybszego okrążenia. Dużo braków. Jakość średnia.                                           \\
+  \tiny 15.         & \tiny `rank`            & \tiny Numeric (Real)     & \tiny Min: 0, Max: 24; Braki 68.2\%      & \tiny Ranking najszybszego okrażenia. Dużo braków. Jakość średnia.                                      \\
+  \tiny 16.         & \tiny `fastestLapTime`  & \tiny DateTime           & \tiny MM:SS.mmm; Braki 69.2\%            & \tiny Czas najszybszego okrążenia. Błędnie jako DateTime. Wymaga parsowania. Dużo braków. Niska jakość. \\
+  \tiny 17.         & \tiny `fastestLapSpeed` & \tiny Numeric (Real)     & \tiny Min: 89, Max: 257; Braki 69.2\%    & \tiny Prędkość najszybszego okrążenia. Dużo braków. Jakość średnia.                                     \\
+  \tiny 18.         & \tiny `statusId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 141                   & \tiny Klucz obcy do `status.csv`. Brak braków. Jakość wysoka. Kluczowy.                                 \\
+\end{longtable}
+
+\subsection{Plik: \texttt{status.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{status.csv}} \label{tab:profil_status}                                                                                            \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}           \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                  \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut} & \tiny\textbf{Typ danych} & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}           \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                      \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `statusId`      & \tiny Numeric (Real)     & \tiny Min: 1, Max: 141        & \tiny Klucz główny. Unikalny, brak braków. Jakość wysoka.           \\
+  \tiny 2.          & \tiny `status`        & \tiny Text               & \tiny Unikalne wartości       & \tiny Opis statusu. Unikalny, brak braków. Jakość wysoka. Kluczowy. \\
+\end{longtable}
+
+\subsection{Plik: \texttt{weather.csv}}
+\begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
+  \caption{Profilowanie danych dla \texttt{weather.csv}} \label{tab:profil_weather}                                                                                                                                                                                                                                           \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}                                & \tiny\textbf{Typ danych}                                                                    & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                                          \\
+  \hline
+  \endfirsthead
+  \multicolumn{5}{c}%
+  {{\tiny\bfseries \tablename\ \thetable{} -- ciąg dalszy}}                                                                                                                                                                                                                                                                   \\
+  \hline
+  \tiny\textbf{Lp.} & \tiny\textbf{Atrybut}                                & \tiny\textbf{Typ danych}                                                                    & \tiny\textbf{Zakres wartości} & \tiny\textbf{Uwagi - ocena jakości danych i przydatności}                                                          \\
+  \hline
+  \endhead
+  \hline \multicolumn{5}{|r|}{{\tiny Ciąg dalszy na następnej stronie}}                                                                                                                                                                                                                                                       \\
+  \endfoot
+  \hline
+  \endlastfoot
+  \tiny 1.          & \tiny `Time`                                         & \tiny Text                                                                                  & \tiny `timedelta`             & \tiny Czas odniesienia. Brak braków. Wymaga parsowania - trzeba usunąć "0 days" z przodu. Jakość wysoka. Kluczowy. \\
+  \tiny 2.          & \tiny `AirTemp`                                      & \tiny Numeric (Real)                                                                        & \tiny Min: 8.9, Max: 37.2     & \tiny Temperatura powietrza. Brak braków. Jakość wysoka. Kluczowa miara.                                           \\
+  \tiny 3.          & \tiny `Humidity`                                     & \tiny Numeric (Real)                                                                        & \tiny Min: 5, Max: 97.5       & \tiny Wilgotność. Brak braków. Jakość wysoka. Kluczowa miara.                                                      \\
+  \tiny 4.          & \tiny `Pressure`                                     & \tiny Numeric (Real)                                                                        & \tiny Min: 778.5, Max: 1023.5 & \tiny Ciśnienie. Brak braków. Jakość wysoka. Miara.                                                                \\
+  \tiny 5.          & \tiny `Rainfall`                                     & \tiny Boolean                                                                               & \tiny True/False              & \tiny Opady. Brak braków. Jakość wysoka. Kluczowa miara.                                                           \\
+  \tiny 6.          & \tiny `TrackTemp`                                    & \tiny Numeric (Real)                                                                        & \tiny Min: 13.8, Max: 67      & \tiny Temp. toru. Brak braków. Jakość wysoka. Kluczowa miara.                                                      \\
+  \tiny 7.          & \tiny `WindDirection`                                & \tiny Numeric (Real)                                                                        & \tiny Min: 0, Max: 359        & \tiny Kier. wiatru. Brak braków. Jakość wysoka. Miara.                                                             \\
+  \tiny 8.          & \tiny `WindSpeed`                                    & \tiny Numeric (Real)                                                                        & \tiny Min: 0, Max: 10.1       & \tiny Prędkość wiatru. Brak braków. Jakość wysoka. Kluczowa miara.                                                 \\
+  \tiny 9.          & \tiny `Round Number`                                 & \tiny Numeric (Real)                                                                        & \tiny Min: 1, Max: 22         & \tiny Nr rundy. Brak braków. Jakość wysoka. Kluczowy do łączenia.                                                  \\
+  \tiny 10.         & \tiny `Year`                                         & \tiny Numeric (Real)                                                                        & \tiny Min: 2018, Max: 2023    & \tiny Rok. Brak braków. Jakość wysoka. Kluczowy do łączenia.                                                       \\
+  \tiny             & \multicolumn{3}{l|}{\tiny \textbf{Dodatkowa uwaga:}} & \tiny Raport wskazuje 3.2\% zduplikowanych wierszy. Należy zbadać i usunąć przed agregacją.                                                                                                                                                      \\
+\end{longtable}
+
+\section{Definicja typów encji/klas, związków, diagram klas}
+\label{sec:definicja_encji_final}
+Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną tabelą faktów \texttt{Fact\_Result} oraz otaczającymi ją tabelami wymiarów.
+
+\subsection{Tabela Faktów: \texttt{Fact\_Result}}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Opis:} Reprezentuje pojedynczy, całościowy wynik kierowcy w danym wyścigu Grand Prix. Ziarnistość tabeli to jeden rekord per kierowca per wyścig.
+  \item \textbf{Klucze obce (referencje do wymiarów):}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item \texttt{RaceKey} (FK do Dim\_Race)
+          \item \texttt{DriverKey} (FK do Dim\_Driver)
+          \item \texttt{ConstructorKey} (FK do Dim\_Constructor)
+          \item \texttt{CircuitKey} (FK do Dim\_Circuit)
+          \item \texttt{DateKey} (FK do Dim\_Time - data wyścigu)
+          \item \texttt{WeatherKey} (FK do Dim\_Weather, może być NULL dla wyścigów sprzed 2018)
+          \item \texttt{StatusKey} (FK do Dim\_Status)
+        \end{itemize}
+  \item \textbf{Miary (przykładowe):}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item \texttt{PointsScored} (DECIMAL) - zdobyte punkty (addytywna)
+          \item \texttt{LapsCompleted} (INT) - liczba ukończonych okrążeń (addytywna)
+          \item \texttt{NumberOfPitStops} (INT, wyliczana z \texttt{pit\_stops.csv}) - liczba pit-stopów (addytywna)
+          \item \texttt{RaceTimeMilliseconds} (BIGINT, nullable) - czas ukończenia wyścigu w milisekundach (póładdytywna)
+          \item \texttt{GridPosition} (INT) - pozycja startowa (nieaddytywna)
+          \item \texttt{FinalPositionOrder} (INT) - numeryczna pozycja na mecie (nieaddytywna)
+          \item \texttt{PositionOrderChange} (INT) - różnica między pozycją startową a finalną (nieaddytywna)
+          \item \texttt{FastestLapTimeMilliseconds} (BIGINT, nullable) - czas najszybszego okrążenia kierowcy w wyścigu (nieaddytywna)
+          \item \texttt{RankFastestLap} (INT, nullable) - ranking najszybszego okrążenia kierowcy w wyścigu (nieaddytywna)
+          \item \texttt{FastestLapTopSpeed} (DECIMAL, nullable) - szyb (nieaddytywna)
+        \end{itemize}
+\end{itemize}
+
+\subsection{Wymiary}
+\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
+  \item \textbf{\texttt{Dim\_Driver}}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item Klucze: \texttt{DriverKey} (PK, klucz zastępczy), \texttt{DriverID\_NK} (klucz naturalny z \texttt{drivers.csv}), \texttt{DriverRef}
+          \item Atrybuty: \texttt{FirstName}, \texttt{LastName}, \texttt{FullName}, \texttt{DateOfBirth}, \texttt{Nationality}, \texttt{Continent}
+          \item Hierarchie: \texttt{Continent \(\rightarrow\) Nationality \(\rightarrow\) DriverKey}.
+        \end{itemize}
+
+  \item \textbf{\texttt{Dim\_Constructor}}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item Klucze: \texttt{ConstructorKey} (PK), \texttt{ConstructorID\_NK}, \texttt{ConstructorRef}
+          \item Atrybuty: \texttt{Name}, \texttt{Nationality}, \texttt{Continent}
+          \item Hierarchie: \texttt{Continent \(\rightarrow\) Nationality \(\rightarrow\) ConstructorKey}.
+        \end{itemize}
+
+  \item \textbf{\texttt{Dim\_Race}}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item Klucze: \texttt{RaceKey} (PK), \texttt{RaceID\_NK}
+          \item Atrybuty: \texttt{YearSeason}, \texttt{RoundNumberInSeason}, \texttt{RaceNameOfficial}
+          \item Hierarchie: \texttt{YearSeason \(\rightarrow\) RoundNumberInSeason \(\rightarrow\) RaceKey}.
+        \end{itemize}
+
+  \item \textbf{\texttt{Dim\_Circuit}}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item Klucze: \texttt{CircuitKey} (PK), \texttt{CircuitID\_NK}, \texttt{CircuitRef}
+          \item Atrybuty: \texttt{CircuitName}, \texttt{LocationCity}, \texttt{CountryName}, \texttt{Latitude}, \texttt{Longitude}, \texttt{Altitude}
+          \item Hierarchie: \texttt{CountryName \(\rightarrow\) LocationCity \(\rightarrow\) CircuitName}.
+        \end{itemize}
+
+  \item \textbf{\texttt{Dim\_Time}}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item Klucze: \texttt{DateKey} (PK: YYYYMMDD)
+          \item Atrybuty: \texttt{FullDate} (DATE), \texttt{Year}, \texttt{Quarter}, \texttt{Month}, \texttt{MonthName}, \texttt{DayOfMonth}, \texttt{DayOfWeekName}
+          \item Hierarchie: \texttt{Year \(\rightarrow\) Quarter \(\rightarrow\) Month \(\rightarrow\) DayOfMonth}
+        \end{itemize}
+
+  \item \textbf{\texttt{Dim\_Weather}}
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item Klucze: \texttt{WeatherKey} (PK)
+          \item Atrybuty: \texttt{AvgAirTempCelsius}, \texttt{MinAirTempCelsius}, \texttt{MaxAirTempCelsius}, \texttt{AvgTrackTempCelsius}, \texttt{AvgHumidityPercent}, \texttt{DidRainOccur} (Boolean), \texttt{AvgWindSpeedKmph}, \texttt{MaxWindSpeedKmph}, \texttt{AvgWindDirection}
+        \end{itemize}
+
+  \item \textbf{\texttt{Dim\_Status}} (opisuje sposób zakończenia wyścigu przez kierowcę)
+        \begin{itemize}[label=\textendash, leftmargin=1em]
+          \item Klucze: \texttt{StatusKey} (PK)
+          \item Atrybuty: \texttt{StatusDescription} (np. "Finished", "+1 Lap", "Engine", "Collision"), \texttt{StatusCategory} (np. "Finished", "Malfunction", "Accident")
+          \item Hierarchie: \texttt{StatusCategory \(\rightarrow\) StatusDescription}.
+        \end{itemize}
+\end{enumerate}
+
+\subsection{Diagram Klas (Schemat Gwiazdy)}
+Centralna tabela faktów \texttt{Fact\_Result} będzie połączona z wymienionymi powyżej tabelami wymiarów.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+      table/.style={draw, rounded corners, fill=gray!10, minimum width=3.5cm, minimum height=1.2cm, font=\small, align=center},
+      dim/.style={draw, rounded corners, fill=blue!10, minimum width=3.2cm, minimum height=1cm, font=\small, align=center},
+      arrow/.style={-latex, thick}
+    ]
+    \node[table] (fact) {\textbf{Fact\_Result}};
+
+    \node[dim, above=1.5cm of fact, xshift=-2.2cm] (driver) {\textbf{Dim\_Driver}};
+    \node[dim, above=1.5cm of fact, xshift=+2.2cm] (constructor) {\textbf{Dim\_Constructor}};
+    \node[dim, left=2.8cm of fact] (race) {\textbf{Dim\_Race}};
+    \node[dim, right=2.8cm of fact] (status) {\textbf{Dim\_Status}};
+    \node[dim, below=1.5cm of fact, xshift=-3.2cm] (time) {\textbf{Dim\_Time}};
+    \node[dim, below=1.5cm of fact, xshift=+3.2cm] (weather) {\textbf{Dim\_Weather}};
+    \node[dim, below=3cm of fact] (circuit) {\textbf{Dim\_Circuit}};
+
+    \draw[arrow] (driver) -- (fact);
+    \draw[arrow] (constructor) -- (fact);
+    \draw[arrow] (race) -- (fact);
+    \draw[arrow] (status) -- (fact);
+    \draw[arrow] (time) -- (fact);
+    \draw[arrow] (weather) -- (fact);
+    \draw[arrow] (circuit) -- (fact);
+  \end{tikzpicture}
+  \caption{Proponowany schemat gwiazdy dla hurtowni danych F1.}
+  \label{fig:schemat_gwiazdy_final}
+\end{figure}
+
+\section{Min. 10 wielowymiarowych zestawień}
+\label{sec:zestawienia}
+Poniżej przedstawiono przykładowe wielowymiarowe zestawienia, które będzie można utworzyć po wdrożeniu kostki OLAP:
+\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
+  \item \textbf{Wpływ pozycji startowej na wynik:} Średnia pozycja na mecie i procent zwycięstw dla każdej pozycji startowej (grid), z możliwością filtrowania wg toru/sezonu.
+  \item \textbf{Stabilność kierowców:} Średnie punkty na wyścig, liczba miejsc na podium i zwycięstw na sezon dla wybranych kierowców na przestrzeni ich kariery.
+  \item \textbf{"Gwiazdy w słabych zespołach":} Identyfikacja kierowców, którzy regularnie zdobywali punkty lub wysokie pozycje dla zespołów z końca stawki (np. porównanie wyników kierowcy ze średnią zespołu).
+  \item \textbf{Ewolucja strategii pit-stopów:} Średnia liczba pit-stopów na wyścig i ich wpływ na wynik, analizowana wg toru, sezonu i warunków pogodowych.
+  \item \textbf{Dominacja zespołów:} Procent wygranych wyścigów i zdobytych punktów przez poszczególne zespoły w sezonach.
+  \item \textbf{Trendy narodowościowe:} Liczba kierowców, zwycięzców i mistrzów świata z podziałem na narodowości, na przestrzeni dekad.
+  \item \textbf{Pogoda a niezawodność:} Korelacja między zagregowanymi warunkami pogodowymi (np. wysokie/niskie temperatury, opady deszczu) a liczbą nieukończonych wyścigów (DNF) z powodu awarii lub wypadków.
+  \item \textbf{Pogoda a nieoczekiwane wyniki:} Analiza, czy deszczowe lub zmienne warunki pogodowe częściej przynoszą nieoczekiwane wyniki (np. zwycięzcy spoza czołowych zespołów, kierowcy z dalszych pozycji na podium).
+  \item \textbf{Pojedynki zespołowe (team-mate battles):} Porównanie wyników (punkty, pozycje w kwalifikacjach i wyścigach) kierowców startujących w tym samym zespole w danym sezonie.
+  \item \textbf{Charakterystyka torów a wyniki:} Jak zmieniały się czasy ukończenia torów z biegiem lat? Które tory generują najwięcej/najmniej wyprzedzeń (analiza zmiany pozycji start-meta)?
+  \item \textbf{Analiza DNF (Did Not Finish):} Najczęstsze przyczyny nieukończenia wyścigu (na podstawie \texttt{Dim\_Status}) dla poszczególnych zespołów i na przestrzeni sezonów, z uwzględnieniem wpływu pogody.
+  \item \textbf{Wpływ wieku kierowcy na osiągnięcia:} Korelacja między wiekiem kierowcy a jego wynikami (np. średnia liczba punktów na sezon, częstotliwość błędów, szybkość na pojedynczym okrążeniu).
+\end{enumerate}
+
+\section{Implementacja bazy danych (konceptualny model danych - DDL)}
+\label{sec:implementacja_db_final}
+Poniżej przedstawiono skrypt SQL tworzący strukturę tabel wymiarów i faktów zgodnie z zaproponowanym modelem. Klucze obce, więzy integralności i nawet indeksy są zdefiniowane.
+
+\begin{lstlisting}[language=SQL, caption=Konceptualny DDL dla hurtowni danych F1, label=lst:ddl_full_f1_final]
+CREATE TABLE Dim_Driver (
+    DriverKey INT PRIMARY KEY,
+    DriverID_NK INT UNIQUE,             
+    DriverRef VARCHAR(255) UNIQUE,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    FullName VARCHAR(510),            
+    DateOfBirth DATE,
+    Nationality VARCHAR(255),
+    Continent VARCHAR(255)
+);
+
+CREATE TABLE Dim_Constructor (
+    ConstructorKey INT PRIMARY KEY,  
+    ConstructorID_NK INT UNIQUE,  
+    ConstructorRef VARCHAR(255) UNIQUE,
+    Name VARCHAR(255),
+    Nationality VARCHAR(255),
+    Continent VARCHAR(255)
+);
+
+CREATE TABLE Dim_Race (
+    RaceKey INT PRIMARY KEY,        
+    RaceID_NK INT UNIQUE,              
+    YearSeason INT,
+    RoundNumberInSeason INT,
+    RaceNameOfficial VARCHAR(255)
+);
+
+CREATE TABLE Dim_Circuit (
+    CircuitKey INT PRIMARY KEY,       
+    CircuitID_NK INT UNIQUE,         
+    CircuitRef VARCHAR(255) UNIQUE,
+    CircuitName VARCHAR(255),
+    LocationCity VARCHAR(255),
+    CountryName VARCHAR(255),
+    Latitude DECIMAL(9,6),
+    Longitude DECIMAL(9,6),
+    Altitude INT
+);
+
+CREATE TABLE Dim_Time (
+    DateKey INT PRIMARY KEY,          
+    FullDate DATE UNIQUE,
+    Year INT,
+    Quarter INT,
+    Month INT,
+    MonthName VARCHAR(50),
+    DayOfMonth INT,
+    DayOfWeekName VARCHAR(50),
+    WeekOfYear INT
+);
+
+CREATE TABLE Dim_Weather (
+    WeatherKey INT PRIMARY KEY,   
+    AvgAirTempCelsius DECIMAL(5,2),
+    MinAirTempCelsius DECIMAL(5,2),
+    MaxAirTempCelsius DECIMAL(5,2),
+    AvgTrackTempCelsius DECIMAL(5,2),
+    AvgHumidityPercent DECIMAL(5,2),
+    DidRainOccur BIT,               -- 0 lub 1
+    TotalRainfallMM DECIMAL(6,2),
+    AvgWindSpeedKmph DECIMAL(5,2),
+    MaxWindSpeedKmph DECIMAL(5,2),
+    DominantWindDirection VARCHAR(50),  -- Np. N, NW, S (kategoria)
+);
+
+CREATE TABLE Dim_Status (
+    StatusKey INT PRIMARY KEY,         
+    StatusID_NK INT UNIQUE,             
+    StatusDescription VARCHAR(255),
+    StatusCategory VARCHAR(100)         -- Np. Finished, Accident, Failure
+);
+
+CREATE TABLE Fact_Result (
+    RaceKey INT,
+    DriverKey INT,
+    ConstructorKey INT,
+    CircuitKey INT,                
+    DateKey INT,                     
+    WeatherKey INT NULL,            
+    StatusKey INT,
+
+    -- Miary
+    PointsScored DECIMAL(5,1),
+    LapsCompleted INT,
+    NumberOfPitStops INT NULL,
+    RaceTimeMilliseconds BIGINT NULL,
+    GridPosition INT,
+    FinalPositionOrder INT,
+    PositionOrderChange INT,            -- (GridPosition - FinalPositionOrder)
+    FastestLapTimeMilliseconds BIGINT NULL,
+    RankFastestLap INT NULL,
+    FastestLapTopSpeed DECIMAL(6,2) NULL,
+	AgeAtRace DECIMAL(5,3) NULL,
+
+    FOREIGN KEY (RaceKey) REFERENCES Dim_Race(RaceKey),
+    FOREIGN KEY (DriverKey) REFERENCES Dim_Driver(DriverKey),
+    FOREIGN KEY (ConstructorKey) REFERENCES Dim_Constructor(ConstructorKey),
+    FOREIGN KEY (CircuitKey) REFERENCES Dim_Circuit(CircuitKey),
+    FOREIGN KEY (DateKey) REFERENCES Dim_Time(DateKey),
+    FOREIGN KEY (WeatherKey) REFERENCES Dim_Weather_Aggregated(WeatherKey),
+    FOREIGN KEY (StatusKey) REFERENCES Dim_Status(StatusKey)
+);
+
+CREATE INDEX idx_fact_race ON Fact_Result(RaceKey);
+CREATE INDEX idx_fact_driver ON Fact_Result(DriverKey);
+CREATE INDEX idx_fact_constructor ON Fact_Result(ConstructorKey);
+CREATE INDEX idx_fact_date ON Fact_Result(DateKey);
+\end{lstlisting}
+
+\section{Wnioski}
+Proponowany projekt hurtowni danych dla wyników Formuły 1 w latach 1950-2023 ma na celu stworzenie kompleksowego narzędzia analitycznego. Wykorzystanie dwóch głównych źródeł danych - szczegółowych wyników historycznych oraz minutowych danych pogodowych (agregowanych do poziomu wyścigu) dla ostatnich sezonów - pozwoli na przeprowadzenie wielowymiarowych analiz, które mogą odkryć interesujące wzorce, trendy i zależności.
+
+\subsection{Główne korzyści}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item Umożliwienie odpowiedzi na szeroki zakres pytań analitycznych dotyczących strategii, osiągów kierowców i zespołów oraz wpływu czynników zewnętrznych, w tym pogody.
+  \item Dostarczenie spójnego i zintegrowanego zbioru danych, ułatwiającego analizy porównawcze na przestrzeni lat i między różnymi aspektami wyścigów.
+  \item Możliwość wizualizacji i eksploracji danych F1 w sposób bardziej zaawansowany niż standardowe tabele wyników, wspierając podejmowanie decyzji i głębsze zrozumienie sportu.
+\end{itemize}
+
+\subsection{Potencjalne wyzwania}
+\begin{itemize}[label=\textbullet, leftmargin=*]
+  \item \textbf{Agregacja i integracja danych pogodowych:} Precyzyjne zdefiniowanie logiki agregacji minutowych danych pogodowych oraz zapewnienie poprawnego określenia zakresu czasowego wyścigu dla tej agregacji.
+  \item \textbf{Jakość danych źródłowych:} Obsługa brakujących wartości (NULL), niespójności formatów (np. czasów) oraz potencjalnych wartości odstających w obu zbiorach danych.
+  \item \textbf{Zakres danych pogodowych:} Analizy wykorzystujące szczegółowe dane pogodowe będą ograniczone do sezonów 2018-2023. Można by za pomocą API pozyskać brakujące dane (poza temperaturą nawierzchni). Ciekawą alternatywą byłoby też użycie prostej estymacji temperatury nawierzchni z danych pogodowych - mało danych treningowych, ale wysoce prawdopodobne jest to, że temperature nawierzchni jest bardzo powiązana z np. temperaturą z ostatnich x godzin z coraz mniejszymi wagami, plus uwzględnienie wilgotności / deszczu.
+  \item \textbf{Interpretacja historyczna i zmiany regulaminowe:} Uwzględnienie znaczących zmian w regulaminach F1 (np. systemy punktacji, aerodynamika, specyfikacje opon) przy interpretacji wyników i trendów z różnych epok sportu.
+  \item \textbf{Obsługa stref czasowych:} Zapewnienie spójności w przetwarzaniu danych czasowych, szczególnie przy łączeniu `timedelta` z danych pogodowych z czasem startu wyścigu.
+\end{itemize}
+
+% \printbibliography % Uncomment if you have a bibliografia.bib file
+
+\end{document}
