@@ -1,0 +1,188 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{longtable}
+\usepackage{polski}
+\usepackage{float}
+\usepackage{graphicx}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
+
+\geometry{margin=2.5cm}
+
+\title{Model skarbca danych - Uczelnia (Data Vault)}
+\author{Mikołaj Kubś 272662}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Model i opisy wygenerowane przez sztuczną inteligencję - ChatGPT, model 4o}
+
+\subsection{Dziedzina}
+
+Uczelnia wyższa - model dotyczy danych operacyjnych związanych ze studentami, prowadzącymi oraz kursami.
+
+\subsection{Huby (klucze biznesowe)}
+
+\subsubsection*{HUB\_Student}
+\begin{itemize}
+  \item \textbf{Student\_ID} - np. numer indeksu
+  \item Atrybuty biznesowe: brak (wszystkie zmienne w satelitach)
+\end{itemize}
+
+\subsubsection*{HUB\_Prowadzacy}
+\begin{itemize}
+  \item \textbf{Prowadzacy\_ID} - np. PESEL lub ID uczelniane
+  \item Atrybuty biznesowe: brak
+\end{itemize}
+
+\subsubsection*{HUB\_Kurs}
+\begin{itemize}
+  \item \textbf{Kurs\_ID} - np. kod kursu
+  \item Atrybuty biznesowe: brak
+\end{itemize}
+
+\subsection{Linki (relacje biznesowe)}
+
+\subsubsection*{LINK\_Student\_Kurs}
+\begin{itemize}
+  \item Student\_ID
+  \item Kurs\_ID
+  \item Relacja: student zapisany na kurs
+\end{itemize}
+
+\subsubsection*{LINK\_Kurs\_Prowadzacy}
+\begin{itemize}
+  \item Kurs\_ID
+  \item Prowadzacy\_ID
+  \item Relacja: prowadzący przypisany do kursu
+\end{itemize}
+
+\subsubsection*{LINK\_Egzamin}
+\begin{itemize}
+  \item Student\_ID
+  \item Kurs\_ID
+  \item Data\_Egzaminu
+  \item Relacja: podejście studenta do egzaminu
+\end{itemize}
+
+\subsection{Satelity (miary i wymiary)}
+
+\subsubsection*{SAT\_Student\_Dane}
+\begin{itemize}
+  \item Student\_ID, Imię, Nazwisko, Email
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
+
+\subsubsection*{SAT\_Prowadzacy\_Dane}
+\begin{itemize}
+  \item Prowadzacy\_ID, Imię, Nazwisko, Tytuł, Email
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
+
+\subsubsection*{SAT\_Kurs\_Dane}
+\begin{itemize}
+  \item Kurs\_ID, Nazwa, ECTS, Semestr
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
+
+\subsubsection*{SAT\_Oceny}
+\begin{itemize}
+  \item Student\_ID, Kurs\_ID, Data\_Egzaminu
+  \item Ocena, Poprawka (boolean)
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
+
+\newpage
+
+\subsection{Schemat (opis tekstowy)}
+
+\begin{verbatim}
+HUB_Student           HUB_Prowadzacy
+|                      |
+SAT_Student_Dane       SAT_Prowadzacy_Dane
+|                      |
+|                 HUB_Kurs
+|                      |
+LINK_Student_Kurs    LINK_Kurs_Prowadzacy
+|
+SAT_Oceny
+
+\end{verbatim}
+
+\subsection{Potencjalne rozszerzenie modelu}
+
+\subsubsection*{Nowy HUB: Grupa\_zajeciowa}
+\begin{itemize}
+  \item Grupa\_ID (np. ID grupy)
+\end{itemize}
+
+\subsubsection*{LINK\_Student\_Grupa}
+\begin{itemize}
+  \item Student\_ID, Grupa\_ID
+\end{itemize}
+
+\subsubsection*{LINK\_Prowadzacy\_Grupa}
+\begin{itemize}
+  \item Prowadzacy\_ID, Grupa\_ID
+\end{itemize}
+
+\subsubsection*{LINK\_Grupa\_Sala}
+\begin{itemize}
+  \item Grupa\_ID, Sala\_ID
+\end{itemize}
+
+\subsubsection*{SAT\_Grupa\_Dane}
+\begin{itemize}
+  \item Grupa\_ID, Typ\_zajec, Dzien\_tygodnia, Godzina
+  \item Data\_Wejscia, Data\_Wyjscia
+\end{itemize}
+
+\subsection{Odpowiedzi na pytania dodatkowe}
+
+\begin{itemize}
+  \item \textbf{Gdzie są przechowywane zmiany (np. nazwiska)?} \\
+        W satelitach \textit{SAT\_Student\_Dane}, \textit{SAT\_Prowadzacy\_Dane} - każda zmiana to nowy rekord z nową datą wejścia.
+
+  \item \textbf{Gdzie są informacje o ocenie z egzaminu poprawkowego?} \\
+        W \textit{SAT\_Oceny} - nowy rekord z tą samą kombinacją student-kurs, ale z nową datą i flagą \texttt{Poprawka = True}.
+
+  \item \textbf{Jak oddzielić dane wrażliwe?} \\
+        Umieścić je w osobnych satelitach (np. \textit{SAT\_Student\_Prywatne}) i zabezpieczyć dostęp na poziomie bazy.
+
+  \item \textbf{Jak obsłużyć rozszerzenie modelu o grupy?} \\
+        Dodać \textit{HUB\_Grupa\_zajeciowa} i powiązane linki - Data Vault umożliwia łatwe rozszerzanie bez naruszenia istniejącej struktury.
+\end{itemize}
+
+\section{Ocena i poprawki modelu wygenerowanego przez sztuczną inteligencję}
+
+ChatGPT nie poradził sobie najgorzej i nawet stworzył piękny diagram przedstawiający relacje. Ale popełnił oczywiście różne błędy.
+
+\begin{itemize}
+  \item Nie jest to szeroko znany fakt, ale jak poruszono na wykładzie, PESEL nie powinien nigdy być unikatowym kluczem z racji występowania niewielu duplikatów w historii jego nadawania. Zdecydowanie lepiej użyć klucza zastępczego.
+  \item Generalnie idea hubów poprawna - nie wspomniał, że huby mają klucz biznesowy i główny (często hash biznesowego czy numeru sekwencyjnego). Kluczem biznesowym może być jak najbardziej np. numer indeksu. Oczywiście trzeba byłoby być pewnym, że ID uczelniane, kod kursu czy numer indeksu są unikalne i stabilne. Każdy hub powinien mieć też datę załadowania rekordu (Load\_Date) i źródło rekordu (Record\_Source).
+  \item Generalnie linki dobrze. Jak wyżej, każdy link musi mieć datę załadowania i źródło. Mógł dodać, że kluczem linku jest (unikatowy) hash kluczy biznesowych, z którymi jest połączony (link łączy huby). LINK\_Egzamin potem jest używany przez SAT\_Oceny i jednym z kluczy jest Data\_Egzaminu, co prowadzi do tego, że nie dałoby się rozróżnić dwóch egzaminów z tego samego kursu dla tego samego studenta w tym samym dniu. Tak więc Data\_Egzaminu musi być unikalna. Kolejnym problemem jest sama data jako klucz - jest to niepoprawne, LINK musi być połączeniem między hubami. Zeby nie było niejasności, najlepiej stworzyć z egzaminu HUB z danymi, czy jest poprawką, datą i godziną.
+  \item Satelita powinna mieć tylko jednego rodzica - SAT\_Oceny ma dwóch. Powinien więc być przyłączony do linku egzaminu. Ale ogólnie jest problem z tą satelitą - z wielu kursów ocenę ma się bez egzaminu - np. przepis czy inna zasada. Tak więc ta satelita dobrze określa ocenę z konkretnego egzaminu, ale LINK\_Student\_Kurs powinien mieć osobną satelitę z oceną finalną (która mogłaby być potem zmieniona, gdyby zaszła taka potrzeba). Data\_Wejscia, Data\_Wyjscia = Load\_Date, Load\_End\_Date => OK.
+  \item Schemat wyszedł oczywiście fatalnie. Nie ma połączenia linku LINK\_Student\_Kurs a HUB\_Kurs. Połączenia prowadzący źle. Brak link egzamin. Satelita student dane połączony z hubem i linkiem naraz. Na końcu raportu przedstawiono poprawiony diagram. Tutaj jeszcze próba wygenerowania obrazka schematu przez ChatGPT:
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=0.5\textwidth]{images/1.png}
+          \caption{Schemat wygenerowany przez sztuczną inteligencję - jeszcze gorszy}
+        \end{figure}
+  \item Potencjalne rozszerzenia: pomysł z grupą ok. Ale grupa zajęciowa powinna być połączona z kursem, a prowadzący wtedy zamiast z kursem mógłby być połączony z grupą. Jeśli miałby być link grupa - sale, sala też mogłaby być hubem (mogłaby być SAT\_Sala\_Dane - budynek, numer sali, informacje czy jest apteczka albo gaśnica). Sama grupa może mieć limit miejsc, dzień tygodnia, godzinę i regularność (normalna, parzyste, nieparzyste). Dodatkowo: w aktualnych czasach zdarzają się zajęcia zdalne. Politechnika rozwiązała problem sal dla zajęć zdalnych, tworząc sztuczne "sale" wirtualne. Nie jest to najgorsze rozwiązanie, Data Vault raczej nie zezwalają na bardzo elastyczne struktury danych.
+  \item Odpowiedzi na pytania dodatkowe poprawne.
+\end{itemize}
+
+Schemat, który powinien poprawić większość błędów:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/2.png}
+  \caption{Schemat wygenerowany przez moją inteligencję}
+\end{figure}
+
+\end{document}
