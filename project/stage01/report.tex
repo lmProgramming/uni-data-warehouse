@@ -15,6 +15,9 @@
 \usepackage{longtable}
 \usepackage{array}
 \usepackage{booktabs} 
+\usepackage{tikz}
+
+\usetikzlibrary{positioning}
 
 \addbibresource{bibliografia.bib}
 
@@ -129,7 +132,7 @@ Oczekuje się, że stworzona hurtownia danych pozwoli na efektywne i intuicyjne 
 \subsection{Zakres analizy - badane aspekty}
 \begin{itemize}[label=\textbullet, leftmargin=*]
   \item \textbf{Wyniki indywidualne i zespołowe:} Pozycje startowe (grid) i końcowe, zdobyte punkty, czasy ukończenia wyścigów, czasy poszczególnych okrążeń (w tym najszybsze okrążenie), status ukończenia wyścigu (np. ukończony, DNF, zdyskwalifikowany).
-  \item \textbf{Kierowcy:} Dane demograficzne (narodowość, data urodzenia \(\rightarrow\) wiek w momencie wyścigu), historia startów, przynależność zespołowa w poszczególnych wyścigach.
+  \item \textbf{Kierowcy:} Dane demograficzne (narodowość, data urodzenia, wiek w momencie wyścigu), historia startów, przynależność zespołowa w poszczególnych wyścigach.
   \item \textbf{Zespoły (Konstruktorzy):} Narodowość, historia startów, sumaryczne wyniki w poszczególnych wyścigach i sezonach.
   \item \textbf{Wyścigi (Events):} Sezon (rok), numer rundy w sezonie, nazwa Grand Prix, data i godzina rozpoczęcia.
   \item \textbf{Tory wyścigowe:} Charakterystyka toru (nazwa, lokalizacja, kraj, długość, typ).
@@ -204,16 +207,13 @@ Z tych plików nie wszystkie przydadzą się do ostatecznej analizy
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item \textbf{Kluczowe wyzwanie i podejście:} Ze względu na wysoką granulację czasową (minuta po minucie), dane te nie mogą być bezpośrednio połączone z tabelą faktów opisującą całościowy wynik kierowcy w wyścigu. Konieczna będzie \textbf{agregacja} tych danych do poziomu całego wyścigu (lub jego kluczowych faz). W procesie ETL obliczane będą wartości średnie, minimalne, maksymalne, sumaryczne (np. dla opadów) dla każdego wyścigu.
           \item \textbf{Łączenie po agregacji:} Zagregowane dane pogodowe dla danego wyścigu zostaną połączone z głównym zbiorem danych poprzez wspólne identyfikatory: rok (\texttt{Year}) i numer rundy (\texttt{Round Number}), które są obecne w obu zbiorach (w pierwszym zbiorze w pliku \texttt{races.csv}).
-          \item \textbf{Mapowanie torów:} Chociaż dane pogodowe zawierają \texttt{Year} i \texttt{Round Number}, co powinno wystarczyć do jednoznacznej identyfikacji wyścigu, warto będzie zweryfikować spójność identyfikacji torów. Plik \texttt{races.csv} zawiera \texttt{circuitId} (numeryczny), który łączy się z \texttt{circuits.csv} (zawierającym m.in. \texttt{circuitRef} - tekstowy identyfikator toru). Jeśli dane pogodowe zawierałyby tekstowy identyfikator toru, konieczne byłoby jego mapowanie na \texttt{circuitRef} lub \texttt{circuitId} dla zapewnienia pełnej spójności i możliwości wzbogacania analiz.
         \end{itemize}
-        Ten zbiór danych znacząco wzbogaci możliwości analityczne dla nowszych sezonów, pozwalając na badanie korelacji między warunkami atmosferycznymi a wynikami czy strategiami.
 \end{itemize}
 
 \section{Profilowanie danych (analiza jakości danych oraz ich przydatności w projekcie)}
 \label{sec:profilowanie_danych_final}
 Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV wykorzystywanego w projekcie. Analiza opiera się na raportach wygenerowanych przez bibliotekę `ydata-profiling`.
 
-% --- Plik: circuits.csv ---
 \subsection{Plik: \texttt{circuits.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{circuits.csv}} \label{tab:profil_circuits}                                                                                                        \\
@@ -242,7 +242,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 9.          & \tiny `url`           & \tiny URL                & \tiny Unikalne wartości               & \tiny Link. Unikalny, brak braków. Jakość wysoka. Dodatkowe info.           \\
 \end{longtable}
 
-% --- Plik: constructor_results.csv ---
 \subsection{Plik: \texttt{constructor\_results.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.2\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{constructor\_results.csv}} \label{tab:profil_constructor_results}                                                                                        \\
@@ -267,7 +266,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 5.          & \tiny `status`               & \tiny Categorical        & \tiny Tylko "D" (17)                & \tiny Status. **99.9\% braków!** Praktycznie bezużyteczna. Niska jakość.      \\
 \end{longtable}
 
-% --- Plik: constructor_standings.csv ---
 \subsection{Plik: \texttt{constructor\_standings.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.22\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.28\linewidth}|}
   \caption{Profilowanie danych dla \texttt{constructor\_standings.csv}} \label{tab:profil_constructor_standings}                                                                            \\
@@ -294,7 +292,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 7.          & \tiny `wins`                   & \tiny Numeric (Real)     & \tiny Min: 0, Max: 21; 78.0\% Zeros  & \tiny Liczba zwycięstw. Brak braków. Jakość dobra. Ważna miara.    \\
 \end{longtable}
 
-% --- Plik: constructors.csv ---
 \subsection{Plik: \texttt{constructors.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{constructors.csv}} \label{tab:profil_constructors}                                                                                  \\
@@ -319,7 +316,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 5.          & \tiny `url`            & \tiny URL                & \tiny 175 unikalnych (z 212)  & \tiny Link. Brak braków. Niektóre URL-e powtarzalne. Jakość dobra.   \\
 \end{longtable}
 
-% --- Plik: driver_standings.csv ---
 \subsection{Plik: \texttt{driver\_standings.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.2\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{driver\_standings.csv}} \label{tab:profil_driver_standings}                                                                                           \\
@@ -346,7 +342,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 7.          & \tiny `wins`              & \tiny Numeric (Real)     & \tiny Min: 0, Max: 19; 88.0\% Zeros  & \tiny Liczba zwycięstw. Brak braków. Jakość dobra. Ważna miara.              \\
 \end{longtable}
 
-% --- Plik: drivers.csv ---
 \subsection{Plik: \texttt{drivers.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{drivers.csv}} \label{tab:profil_drivers}                                                                                   \\
@@ -375,7 +370,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 9.          & \tiny `url`           & \tiny URL                & \tiny Unikalne wartości       & \tiny Link. Unikalny, brak braków. Jakość wysoka.            \\
 \end{longtable}
 
-% --- Plik: lap_times.csv ---
 \subsection{Plik: \texttt{lap\_times.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
   \caption{Profilowanie danych dla \texttt{lap\_times.csv}} \label{tab:profil_lap_times}                                                                                                           \\
@@ -401,7 +395,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 6.          & \tiny `milliseconds`  & \tiny Numeric (Real)     & \tiny Min: 55404, Max: 7.5M   & \tiny Czas okr. (ms). Brak braków. Jakość wysoka. Kluczowa miara. Max wartość podejrzana. \\
 \end{longtable}
 
-% --- Plik: pit_stops.csv ---
 \subsection{Plik: \texttt{pit\_stops.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
   \caption{Profilowanie danych dla \texttt{pit\_stops.csv}} \label{tab:profil_pit_stops}                                                                                                       \\
@@ -428,7 +421,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 7.          & \tiny `milliseconds`  & \tiny Numeric (Real)     & \tiny Min: 12.9k, Max: 3M     & \tiny Czas trwania (ms). Brak braków. Jakość wysoka. Max wartość (51min) to anomalia. \\
 \end{longtable}
 
-% --- Plik: qualifying.csv ---
 \subsection{Plik: \texttt{qualifying.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
   \caption{Profilowanie danych dla \texttt{qualifying.csv}} \label{tab:profil_qualifying}                                                                                             \\
@@ -457,7 +449,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 9.          & \tiny `q3`            & \tiny DateTime           & \tiny MM:SS.mmm; Braki 65.4\% & \tiny Czas Q3. **Błędnie jako DateTime!** B.dużo braków. Jakość średnia.     \\
 \end{longtable}
 
-% --- Plik: races.csv ---
 \subsection{Plik: \texttt{races.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.15\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.35\linewidth}|}
   \caption{Profilowanie danych dla \texttt{races.csv}} \label{tab:profil_races}                                                                                                                                               \\
@@ -486,7 +477,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 9-18.       & \tiny `fp1\_date` do `sprint\_time` & \tiny DateTime           & \tiny Różne; Braki 92-99\%    & \tiny Daty/godziny sesji. **Błędnie czasy jako DateTime!** Ogromne braki. Niska jakość. Mniej istotne. \\
 \end{longtable}
 
-% --- Plik: results.csv ---
 \subsection{Plik: \texttt{results.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.17\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.33\linewidth}|}
   \caption{Profilowanie danych dla \texttt{results.csv}} \label{tab:profil_results}                                                                                                                                   \\
@@ -524,7 +514,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 18.         & \tiny `statusId`        & \tiny Numeric (Real)     & \tiny Min: 1, Max: 141                   & \tiny Klucz obcy do `status.csv`. Brak braków. Jakość wysoka. Kluczowy.                         \\
 \end{longtable}
 
-% --- Plik: sprint_results.csv ---
 \subsection{Plik: \texttt{sprint\_results.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.17\linewidth}|p{0.13\linewidth}|p{0.2\linewidth}|p{0.33\linewidth}|}
   \caption{Profilowanie danych dla \texttt{sprint\_results.csv}} \label{tab:profil_sprint_results}                                                                                                                   \\
@@ -560,7 +549,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 16.         & \tiny `statusId`       & \tiny Numeric (Real)     & \tiny Min: 1, Max: 130                  & \tiny Klucz obcy do `status.csv`. Brak braków. Jakość wysoka.                                    \\
 \end{longtable}
 
-% --- Plik: status.csv ---
 \subsection{Plik: \texttt{status.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.2\linewidth}|p{0.3\linewidth}|}
   \caption{Profilowanie danych dla \texttt{status.csv}} \label{tab:profil_status}                                                                                            \\
@@ -582,7 +570,6 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
   \tiny 2.          & \tiny `status`        & \tiny Text               & \tiny Unikalne wartości       & \tiny Opis statusu. Unikalny, brak braków. Jakość wysoka. Kluczowy. \\
 \end{longtable}
 
-% --- Plik: F1 Weather(2023-2018).csv ---
 \subsection{Plik: \texttt{weather.csv}}
 \begin{longtable}{|p{0.03\linewidth}|p{0.18\linewidth}|p{0.15\linewidth}|p{0.18\linewidth}|p{0.32\linewidth}|}
   \caption{Profilowanie danych dla \texttt{weather.csv}} \label{tab:profil_weather}                                                                                                                                                                                                         \\
@@ -617,7 +604,7 @@ Poniżej przedstawiono szczegółowe profilowanie danych dla każdego pliku CSV 
 \label{sec:definicja_encji_final}
 Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną tabelą faktów \texttt{Fact\_DriverRaceResult} oraz otaczającymi ją tabelami wymiarów.
 
-\subsection{Tabela Faktów: \texttt{Fact\_DriverRaceResult}}
+\subsection{Tabela Faktów: \texttt{FACT\_DriverRaceResult}}
 \begin{itemize}[label=\textbullet, leftmargin=*]
   \item \textbf{Opis:} Reprezentuje pojedynczy, całościowy wynik kierowcy w danym wyścigu Grand Prix. Ziarnistość tabeli to jeden rekord per kierowca per wyścig.
   \item \textbf{Klucze obce (referencje do wymiarów):}
@@ -633,6 +620,7 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item \texttt{GridPosition} (INT) - pozycja startowa (nieaddytywna)
           \item \texttt{FinalPositionOrder} (INT) - numeryczna pozycja na mecie (nieaddytywna)
+          \item \texttt{PositionOrderChange} (INT) - różnica między pozycją startową a finalną (nieaddytywna)
           \item \texttt{PointsScored} (DECIMAL) - zdobyte punkty (addytywna)
           \item \texttt{RaceTimeMilliseconds} (BIGINT, nullable) - czas ukończenia wyścigu w milisekundach (póładdytywna)
           \item \texttt{LapsCompleted} (INT) - liczba ukończonych okrążeń (addytywna)
@@ -643,78 +631,109 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
 \end{itemize}
 
 \subsection{Wymiary}
-\begin{enumerate}[label=\arabic*., wide, labelwidth=!, labelindent=0pt]
-  \item \textbf{\texttt{Dim\_Driver}}
+\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
+  \item \textbf{\texttt{DIM\_Driver}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{DriverKey} (PK, klucz zastępczy), \texttt{DriverID\_NK} (klucz naturalny z \texttt{drivers.csv}), \texttt{DriverRef}
-          \item Atrybuty: \texttt{Forename}, \texttt{Surname}, \texttt{FullName}, \texttt{DateOfBirth}, \texttt{AgeAtRace} (wyliczane), \texttt{Nationality}
-          \item Hierarchie: Potencjalnie: \texttt{Nationality \(\rightarrow\) Continent} (jeśli dodamy mapowanie kontynentów).
+          \item Atrybuty: \texttt{FirstName}, \texttt{Surname}, \texttt{FullName}, \texttt{DateOfBirth}, \texttt{Nationality}, \texttt{Continent}
+          \item Hierarchie: \texttt{Nationality \(\rightarrow\) Continent}.
         \end{itemize}
 
-  \item \textbf{\texttt{Dim\_Constructor}}
+  \item \textbf{\texttt{DIM\_Constructor}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{ConstructorKey} (PK), \texttt{ConstructorID\_NK}, \texttt{ConstructorRef}
-          \item Atrybuty: \texttt{Name}, \texttt{Nationality}
+          \item Atrybuty: \texttt{Name}, \texttt{Nationality}, \texttt{Continent}
+          \item Hierarchie: \texttt{Nationality \(\rightarrow\) Continent}.
         \end{itemize}
 
-  \item \textbf{\texttt{Dim\_Race}} (wydarzenie wyścigowe)
+  \item \textbf{\texttt{DIM\_Race}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{RaceKey} (PK), \texttt{RaceID\_NK}
-          \item Atrybuty: \texttt{YearSeason} (Sezon), \texttt{RoundNumberInSeason}, \texttt{RaceNameOfficial} (np. "Monaco Grand Prix")
-          \item Klucze obce: \texttt{CircuitKey} (FK do Dim\_Circuit), \texttt{DateKey} (FK do Dim\_Time - data wyścigu)
+          \item Atrybuty: \texttt{YearSeason}, \texttt{RoundNumberInSeason}, \texttt{RaceNameOfficial}
           \item Hierarchie: \texttt{YearSeason \(\rightarrow\) RaceNameOfficial}.
         \end{itemize}
 
-  \item \textbf{\texttt{Dim\_Circuit}}
+  \item \textbf{\texttt{DIM\_Circuit}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{CircuitKey} (PK), \texttt{CircuitID\_NK}, \texttt{CircuitRef}
           \item Atrybuty: \texttt{CircuitName}, \texttt{LocationCity}, \texttt{CountryName}, \texttt{Latitude}, \texttt{Longitude}, \texttt{Altitude}
           \item Hierarchie: \texttt{CountryName \(\rightarrow\) LocationCity \(\rightarrow\) CircuitName}.
         \end{itemize}
 
-  \item \textbf{\texttt{Dim\_Time}} (dla daty wyścigu)
+  \item \textbf{\texttt{DIM\_Time}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
-          \item Klucze: \texttt{DateKey} (PK, np. YYYYMMDD)
-          \item Atrybuty: \texttt{FullDateAlternateKey} (DATE), \texttt{Year}, \texttt{Quarter}, \texttt{Month}, \texttt{MonthName}, \texttt{DayOfMonth}, \texttt{DayOfWeekName}, \texttt{WeekOfYear}
-          \item Hierarchie: \texttt{Year \(\rightarrow\) Quarter \(\rightarrow\) Month \(\rightarrow\) DayOfMonth}; \texttt{Year \(\rightarrow\) WeekOfYear}.
+          \item Klucze: \texttt{DateKey} (PK: YYYYMMDD)
+          \item Atrybuty: \texttt{FullDate} (DATE), \texttt{Year}, \texttt{Quarter}, \texttt{Month}, \texttt{MonthName}, \texttt{DayOfMonth}, \texttt{DayOfWeekName}
+          \item Hierarchie: \texttt{Year \(\rightarrow\) Quarter \(\rightarrow\) Month \(\rightarrow\) DayOfMonth}
         \end{itemize}
 
-  \item \textbf{\texttt{Dim\_Weather\_Aggregated}} (zagregowane dane pogodowe dla wyścigu, dla lat 2018-2023)
+  \item \textbf{\texttt{DIM\_Weather\_Aggregated}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{WeatherKey} (PK)
-          \item Klucze naturalne powiązania: \texttt{Year\_NK}, \texttt{RoundNumber\_NK} (do łączenia z \texttt{Dim\_Race} przed załadowaniem faktów)
-          \item Atrybuty/Miary zagregowane: \texttt{AvgAirTempCelsius}, \texttt{MinAirTempCelsius}, \texttt{MaxAirTempCelsius}, \texttt{AvgTrackTempCelsius}, \texttt{AvgHumidityPercent}, \texttt{DidRainOccur} (Boolean), \texttt{AvgWindSpeedKmph}, \texttt{MaxWindSpeedKmph}, \texttt{DominantWindDirectionCategory}
+          \item Atrybuty: \texttt{AvgAirTempCelsius}, \texttt{MinAirTempCelsius}, \texttt{MaxAirTempCelsius}, \texttt{AvgTrackTempCelsius}, \texttt{AvgHumidityPercent}, \texttt{DidRainOccur} (Boolean), \texttt{AvgWindSpeedKmph}, \texttt{MaxWindSpeedKmph}, \texttt{AvgWindDirection}
         \end{itemize}
 
-  \item \textbf{\texttt{Dim\_Status}} (opisuje sposób zakończenia wyścigu przez kierowcę)
+  \item \textbf{\texttt{DIM\_Status}} (opisuje sposób zakończenia wyścigu przez kierowcę)
         \begin{itemize}[label=\textendash, leftmargin=1em]
-          \item Klucze: \texttt{StatusKey} (PK), \texttt{StatusID\_NK}
-          \item Atrybuty: \texttt{StatusDescription} (np. "Finished", "+1 Lap", "Engine", "Collision")
-          \item Hierarchie: Możliwe grupowanie statusów, np. \texttt{StatusCategory (\text{Ukończył}, \text{Awaria}, \text{Wypadek}) \(\rightarrow\) StatusDescription}.
+          \item Klucze: \texttt{StatusKey} (PK)
+          \item Atrybuty: \texttt{StatusDescription} (np. "Finished", "+1 Lap", "Engine", "Collision"), \texttt{StatusCategory} (np. "Finished", "Malfunction", "Accident")
+          \item Hierarchie: \texttt{StatusCategory \(\rightarrow\) StatusDescription}.
         \end{itemize}
 \end{enumerate}
 
 \subsection{Diagram Klas (Schemat Gwiazdy)}
 Centralna tabela faktów \texttt{Fact\_DriverRaceResult} będzie połączona z wymienionymi powyżej tabelami wymiarów.
+
+% ...existing code...
 \begin{figure}[H]
   \centering
-  % \includegraphics[width=0.9\textwidth]{images/schemat_gwiazdy.png} % Odkomentuj i wstaw swój diagram
-  \fbox{\parbox[c][10cm][c]{0.9\textwidth}{\centering Miejsce na diagram schematu gwiazdy \\ (np. obrazek .png lub kod TikZ)}}
+  \begin{tikzpicture}[
+      table/.style={draw, rounded corners, fill=gray!10, minimum width=3.5cm, minimum height=1.2cm, font=\small, align=center},
+      dim/.style={draw, rounded corners, fill=blue!10, minimum width=3.2cm, minimum height=1cm, font=\small, align=center},
+      arrow/.style={-latex, thick}
+    ]
+    % Centralna tabela faktów
+    \node[table] (fact) {\textbf{FACT\_DriverRaceResult}};
+
+    % Wymiary wokół (bliżej środka)
+    \node[dim, above=1.5cm of fact, xshift=-2.2cm] (driver) {\textbf{DIM\_Driver}};
+    \node[dim, above=1.5cm of fact, xshift=+2.2cm] (constructor) {\textbf{DIM\_Constructor}};
+    \node[dim, left=2.8cm of fact] (race) {\textbf{DIM\_Race}};
+    \node[dim, right=2.8cm of fact] (status) {\textbf{DIM\_Status}};
+    \node[dim, below=1.5cm of fact, xshift=-3.2cm] (time) {\textbf{DIM\_Time}};
+    \node[dim, below=1.5cm of fact, xshift=+3.2cm] (weather) {\textbf{DIM\_Weather\_Aggregated}};
+    \node[dim, below=3cm of fact] (circuit) {\textbf{DIM\_Circuit}};
+
+    % Strzałki
+    \draw[arrow] (driver) -- (fact);
+    \draw[arrow] (constructor) -- (fact);
+    \draw[arrow] (race) -- (fact);
+    \draw[arrow] (status) -- (fact);
+    \draw[arrow] (time) -- (fact);
+    \draw[arrow] (weather) -- (fact);
+    % Zmienione połączenie: Circuit do Race (nie do Fact)
+    \draw[arrow] (circuit) -- (fact);
+
+    % Opisy relacji (opcjonalnie)
+    %\node[font=\tiny, left=0.1cm of fact, yshift=0.5cm] {RaceKey};
+    %\node[font=\tiny, above=0.1cm of fact, xshift=-1.2cm] {DriverKey};
+    % itd.
+  \end{tikzpicture}
   \caption{Proponowany schemat gwiazdy dla hurtowni danych F1.}
   \label{fig:schemat_gwiazdy_final}
 \end{figure}
+% ...existing code...
 
 \subsection{Podział miar}
 \begin{itemize}[label=\textbullet, leftmargin=*]
-  \item \textbf{Addytywne:} \texttt{PointsScored}, \texttt{LapsCompleted}, \texttt{NumberOfPitStops}.
-  \item \textbf{Póładdytywne:} \texttt{RaceTimeMilliseconds} (addytywna w kontekście sumowania czasów segmentów dla tego samego kierowcy/wyścigu, ale nie między różnymi wyścigami/kierowcami jako prosta suma).
-  \item \textbf{Nieaddytywne:} \texttt{GridPosition}, \texttt{FinalPositionOrder}, \texttt{FastestLapTimeMilliseconds} (agregowane przez MIN), \texttt{RankFastestLap}. Wszelkie miary procentowe lub współczynniki wyliczane na podstawie innych miar również będą nieaddytywne lub póładdytywne.
+  \item \textbf{Addytywne:} \texttt{PointsScored}, \texttt{LapsCompleted}, \texttt{NumberOfPitStops}, \texttt{RaceTimeMilliseconds}
+  \item \textbf{Nieaddytywne:} \texttt{GridPosition}, \texttt{FinalPositionOrder}, \texttt{PositionOrderChange}, \texttt{FastestLapTimeMilliseconds} (agregowane przez MIN), \texttt{RankFastestLap}. Wszelkie miary procentowe lub współczynniki wyliczane na podstawie innych miar również będą nieaddytywne lub póładdytywne.
 \end{itemize}
 
 \section{Min. 10 wielowymiarowych zestawień}
 \label{sec:zestawienia}
 Poniżej przedstawiono przykładowe wielowymiarowe zestawienia, które będzie można utworzyć po wdrożeniu kostki OLAP:
-\begin{enumerate}[label=\arabic*., wide, labelwidth=!, labelindent=0pt]
+\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
   \item \textbf{Wpływ pozycji startowej na wynik:} Średnia pozycja na mecie i procent zwycięstw dla każdej pozycji startowej (grid), z możliwością filtrowania wg toru/sezonu.
   \item \textbf{Stabilność kierowców:} Średnie punkty na wyścig, liczba miejsc na podium i zwycięstw na sezon dla wybranych kierowców na przestrzeni ich kariery.
   \item \textbf{"Gwiazdy w słabych zespołach":} Identyfikacja kierowców, którzy regularnie zdobywali punkty lub wysokie pozycje dla zespołów z końca stawki (np. porównanie wyników kierowcy ze średnią zespołu).
