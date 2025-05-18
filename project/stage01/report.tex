@@ -14,21 +14,21 @@
 \usepackage{enumitem}
 \usepackage{longtable}
 \usepackage{array}
-\usepackage{booktabs} 
+\usepackage{booktabs}
 \usepackage{tikz}
 
 \usetikzlibrary{positioning}
 
-\addbibresource{bibliografia.bib}
+% \addbibresource{bibliografia.bib} % Assuming you have a bibliografia.bib file
 
-\graphicspath{{images/}} 
+\graphicspath{{images/}}
 
 \lstset{
   basicstyle=\ttfamily\small,
   columns=flexible,
   keepspaces=true,
   showstringspaces=false,
-  escapeinside={(*@}{@*)}, 
+  escapeinside={(*@}{@*)},
   literate={ą}{{\k{a}}}1
            {ć}{{\'{c}}}1
            {ę}{{\k{e}}}1
@@ -66,7 +66,7 @@
   keywordstyle=\color{blue},
   stringstyle=\color{red!80!black},
   breaklines=true,
-  frame=single, 
+  frame=single,
   captionpos=b
 }
 
@@ -75,7 +75,6 @@
     linkcolor=blue,
     filecolor=magenta,
     urlcolor=cyan,
-    pdftitle={Projekt hurtowni danych F1}, 
     pdfauthor={Mikołaj Kubś},
     pdfpagemode=FullScreen,
 }
@@ -465,8 +464,9 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
           \item \texttt{RaceKey} (FK do Dim\_Race)
           \item \texttt{DriverKey} (FK do Dim\_Driver)
           \item \texttt{ConstructorKey} (FK do Dim\_Constructor)
+          \item \texttt{CircuitKey} (FK do Dim\_Circuit)
           \item \texttt{DateKey} (FK do Dim\_Time - data wyścigu)
-          \item \texttt{WeatherKey} (FK do Dim\_Weather\_Aggregated, może być NULL dla wyścigów sprzed 2018)
+          \item \texttt{WeatherKey} (FK do Dim\_Weather, może być NULL dla wyścigów sprzed 2018)
           \item \texttt{StatusKey} (FK do Dim\_Status)
         \end{itemize}
   \item \textbf{Miary (przykładowe):}
@@ -490,21 +490,21 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{DriverKey} (PK, klucz zastępczy), \texttt{DriverID\_NK} (klucz naturalny z \texttt{drivers.csv}), \texttt{DriverRef}
           \item Atrybuty: \texttt{FirstName}, \texttt{LastName}, \texttt{FullName}, \texttt{DateOfBirth}, \texttt{Nationality}, \texttt{Continent}
-          \item Hierarchie: \texttt{Nationality \(\rightarrow\) Continent}.
+          \item Hierarchie: \texttt{Continent \(\rightarrow\) Nationality \(\rightarrow\) DriverKey}.
         \end{itemize}
 
   \item \textbf{\texttt{Dim\_Constructor}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{ConstructorKey} (PK), \texttt{ConstructorID\_NK}, \texttt{ConstructorRef}
           \item Atrybuty: \texttt{Name}, \texttt{Nationality}, \texttt{Continent}
-          \item Hierarchie: \texttt{Nationality \(\rightarrow\) Continent}.
+          \item Hierarchie: \texttt{Continent \(\rightarrow\) Nationality \(\rightarrow\) ConstructorKey}.
         \end{itemize}
 
   \item \textbf{\texttt{Dim\_Race}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{RaceKey} (PK), \texttt{RaceID\_NK}
           \item Atrybuty: \texttt{YearSeason}, \texttt{RoundNumberInSeason}, \texttt{RaceNameOfficial}
-          \item Hierarchie: \texttt{YearSeason \(\rightarrow\) RaceNameOfficial}.
+          \item Hierarchie: \texttt{YearSeason \(\rightarrow\) RoundNumberInSeason \(\rightarrow\) RaceKey}.
         \end{itemize}
 
   \item \textbf{\texttt{Dim\_Circuit}}
@@ -521,7 +521,7 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
           \item Hierarchie: \texttt{Year \(\rightarrow\) Quarter \(\rightarrow\) Month \(\rightarrow\) DayOfMonth}
         \end{itemize}
 
-  \item \textbf{\texttt{Dim\_Weather\_Aggregated}}
+  \item \textbf{\texttt{Dim\_Weather}}
         \begin{itemize}[label=\textendash, leftmargin=1em]
           \item Klucze: \texttt{WeatherKey} (PK)
           \item Atrybuty: \texttt{AvgAirTempCelsius}, \texttt{MinAirTempCelsius}, \texttt{MaxAirTempCelsius}, \texttt{AvgTrackTempCelsius}, \texttt{AvgHumidityPercent}, \texttt{DidRainOccur} (Boolean), \texttt{AvgWindSpeedKmph}, \texttt{MaxWindSpeedKmph}, \texttt{AvgWindDirection}
@@ -551,7 +551,7 @@ Centralna tabela faktów \texttt{Fact\_Result} będzie połączona z wymienionym
     \node[dim, left=2.8cm of fact] (race) {\textbf{Dim\_Race}};
     \node[dim, right=2.8cm of fact] (status) {\textbf{Dim\_Status}};
     \node[dim, below=1.5cm of fact, xshift=-3.2cm] (time) {\textbf{Dim\_Time}};
-    \node[dim, below=1.5cm of fact, xshift=+3.2cm] (weather) {\textbf{Dim\_Weather\_Aggregated}};
+    \node[dim, below=1.5cm of fact, xshift=+3.2cm] (weather) {\textbf{Dim\_Weather}};
     \node[dim, below=3cm of fact] (circuit) {\textbf{Dim\_Circuit}};
 
     \draw[arrow] (driver) -- (fact);
@@ -579,16 +579,125 @@ Poniżej przedstawiono przykładowe wielowymiarowe zestawienia, które będzie m
   \item \textbf{Pogoda a niezawodność:} Korelacja między zagregowanymi warunkami pogodowymi (np. wysokie/niskie temperatury, opady deszczu) a liczbą nieukończonych wyścigów (DNF) z powodu awarii lub wypadków.
   \item \textbf{Pogoda a nieoczekiwane wyniki:} Analiza, czy deszczowe lub zmienne warunki pogodowe częściej przynoszą nieoczekiwane wyniki (np. zwycięzcy spoza czołowych zespołów, kierowcy z dalszych pozycji na podium).
   \item \textbf{Pojedynki zespołowe (team-mate battles):} Porównanie wyników (punkty, pozycje w kwalifikacjach i wyścigach) kierowców startujących w tym samym zespole w danym sezonie.
-  \item \textbf{Charakterystyka torów a wyniki:} Jak zmieniały się czasy ukończenia torów w czasie? Które tory generują najwięcej/najmniej wyprzedzeń (analiza zmiany pozycji start-meta)?
+  \item \textbf{Charakterystyka torów a wyniki:} Jak zmieniały się czasy ukończenia torów z biegiem lat? Które tory generują najwięcej/najmniej wyprzedzeń (analiza zmiany pozycji start-meta)?
   \item \textbf{Analiza DNF (Did Not Finish):} Najczęstsze przyczyny nieukończenia wyścigu (na podstawie \texttt{Dim\_Status}) dla poszczególnych zespołów i na przestrzeni sezonów, z uwzględnieniem wpływu pogody.
   \item \textbf{Wpływ wieku kierowcy na osiągnięcia:} Korelacja między wiekiem kierowcy a jego wynikami (np. średnia liczba punktów na sezon, częstotliwość błędów, szybkość na pojedynczym okrążeniu).
 \end{enumerate}
 
 \section{Implementacja bazy danych (konceptualny model danych - DDL)}
 \label{sec:implementacja_db_final}
-Poniżej przedstawiono fragmenty skryptu SQL (Data Definition Language) tworzącego strukturę tabel wymiarów i faktów zgodnie z zaproponowanym modelem. Składnia generowanych kolumn może zależeć od używanego systemu DBMS.
+Poniżej przedstawiono skrypt SQL tworzący strukturę tabel wymiarów i faktów zgodnie z zaproponowanym modelem. Klucze obce, więzy integralności i nawet indeksy są zdefiniowane.
 
-\begin{lstlisting}[language=SQL, caption=Fragment DDL dla tabeli Dim\_Driver, label=lst:ddl_dim_driver_final]
+\begin{lstlisting}[language=SQL, caption=Konceptualny DDL dla hurtowni danych F1, label=lst:ddl_full_f1_final]
+CREATE TABLE Dim_Driver (
+    DriverKey INT PRIMARY KEY,
+    DriverID_NK INT UNIQUE,             
+    DriverRef VARCHAR(255) UNIQUE,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    FullName VARCHAR(510),            
+    DateOfBirth DATE,
+    Nationality VARCHAR(255),
+    Continent VARCHAR(255)
+);
+
+CREATE TABLE Dim_Constructor (
+    ConstructorKey INT PRIMARY KEY,  
+    ConstructorID_NK INT UNIQUE,  
+    ConstructorRef VARCHAR(255) UNIQUE,
+    Name VARCHAR(255),
+    Nationality VARCHAR(255),
+    Continent VARCHAR(255)
+);
+
+CREATE TABLE Dim_Race (
+    RaceKey INT PRIMARY KEY,        
+    RaceID_NK INT UNIQUE,              
+    YearSeason INT,
+    RoundNumberInSeason INT,
+    RaceNameOfficial VARCHAR(255)
+);
+
+CREATE TABLE Dim_Circuit (
+    CircuitKey INT PRIMARY KEY,       
+    CircuitID_NK INT UNIQUE,         
+    CircuitRef VARCHAR(255) UNIQUE,
+    CircuitName VARCHAR(255),
+    LocationCity VARCHAR(255),
+    CountryName VARCHAR(255),
+    Latitude DECIMAL(9,6),
+    Longitude DECIMAL(9,6),
+    Altitude INT
+);
+
+CREATE TABLE Dim_Time (
+    DateKey INT PRIMARY KEY,          
+    FullDate DATE UNIQUE,
+    Year INT,
+    Quarter INT,
+    Month INT,
+    MonthName VARCHAR(50),
+    DayOfMonth INT,
+    DayOfWeekName VARCHAR(50),
+    WeekOfYear INT
+);
+
+CREATE TABLE Dim_Weather (
+    WeatherKey INT PRIMARY KEY,   
+    AvgAirTempCelsius DECIMAL(5,2),
+    MinAirTempCelsius DECIMAL(5,2),
+    MaxAirTempCelsius DECIMAL(5,2),
+    AvgTrackTempCelsius DECIMAL(5,2),
+    AvgHumidityPercent DECIMAL(5,2),
+    DidRainOccur BIT,               -- 0 lub 1
+    TotalRainfallMM DECIMAL(6,2),
+    AvgWindSpeedKmph DECIMAL(5,2),
+    MaxWindSpeedKmph DECIMAL(5,2),
+    DominantWindDirection VARCHAR(50),  -- Np. N, NW, S (kategoria)
+);
+
+CREATE TABLE Dim_Status (
+    StatusKey INT PRIMARY KEY,         
+    StatusID_NK INT UNIQUE,             
+    StatusDescription VARCHAR(255),
+    StatusCategory VARCHAR(100)         -- Np. Finished, Accident, Failure
+);
+
+CREATE TABLE Fact_Result (
+    RaceKey INT,
+    DriverKey INT,
+    ConstructorKey INT,
+    CircuitKey INT,                
+    DateKey INT,                     
+    WeatherKey INT NULL,            
+    StatusKey INT,
+
+    -- Miary
+    PointsScored DECIMAL(5,1),
+    LapsCompleted INT,
+    NumberOfPitStops INT NULL,
+    RaceTimeMilliseconds BIGINT NULL,
+    GridPosition INT,
+    FinalPositionOrder INT,
+    PositionOrderChange INT,            -- (GridPosition - FinalPositionOrder)
+    FastestLapTimeMilliseconds BIGINT NULL,
+    RankFastestLap INT NULL,
+    FastestLapTopSpeed DECIMAL(6,2) NULL,
+	AgeAtRace DECIMAL(5,3) NULL,
+
+    FOREIGN KEY (RaceKey) REFERENCES Dim_Race(RaceKey),
+    FOREIGN KEY (DriverKey) REFERENCES Dim_Driver(DriverKey),
+    FOREIGN KEY (ConstructorKey) REFERENCES Dim_Constructor(ConstructorKey),
+    FOREIGN KEY (CircuitKey) REFERENCES Dim_Circuit(CircuitKey),
+    FOREIGN KEY (DateKey) REFERENCES Dim_Time(DateKey),
+    FOREIGN KEY (WeatherKey) REFERENCES Dim_Weather_Aggregated(WeatherKey),
+    FOREIGN KEY (StatusKey) REFERENCES Dim_Status(StatusKey)
+);
+
+CREATE INDEX idx_fact_race ON Fact_Result(RaceKey);
+CREATE INDEX idx_fact_driver ON Fact_Result(DriverKey);
+CREATE INDEX idx_fact_constructor ON Fact_Result(ConstructorKey);
+CREATE INDEX idx_fact_date ON Fact_Result(DateKey);
 \end{lstlisting}
 
 \section{Wnioski}
@@ -610,6 +719,6 @@ Proponowany projekt hurtowni danych dla wyników Formuły 1 w latach 1950-2023 m
   \item \textbf{Obsługa stref czasowych:} Zapewnienie spójności w przetwarzaniu danych czasowych, szczególnie przy łączeniu `timedelta` z danych pogodowych z czasem startu wyścigu.
 \end{itemize}
 
-\printbibliography
+% \printbibliography % Uncomment if you have a bibliografia.bib file
 
 \end{document}
