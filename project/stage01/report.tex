@@ -474,13 +474,15 @@ Projektowana hurtownia danych będzie oparta na schemacie gwiazdy, z centralną 
           \item \texttt{PointsScored} (DECIMAL) - zdobyte punkty (addytywna)
           \item \texttt{LapsCompleted} (INT) - liczba ukończonych okrążeń (addytywna)
           \item \texttt{NumberOfPitStops} (INT, wyliczana z \texttt{pit\_stops.csv}) - liczba pit-stopów (addytywna)
-          \item \texttt{RaceTimeMilliseconds} (BIGINT, nullable) - czas ukończenia wyścigu w milisekundach (póładdytywna)
+          \item \texttt{PitStopsTotalTimeMS} (BIGINT, wyliczana z \texttt{pit\_stops.csv}) - łączny czas pit-stopów w milisekundach (addytywna)
+          \item \texttt{RaceTimeMS} (BIGINT, nullable) - czas ukończenia wyścigu w milisekundach (póładdytywna)
           \item \texttt{GridPosition} (INT) - pozycja startowa (nieaddytywna)
           \item \texttt{FinalPositionOrder} (INT) - numeryczna pozycja na mecie (nieaddytywna)
           \item \texttt{PositionOrderChange} (INT) - różnica między pozycją startową a finalną (nieaddytywna)
-          \item \texttt{FastestLapTimeMilliseconds} (BIGINT, nullable) - czas najszybszego okrążenia kierowcy w wyścigu (nieaddytywna)
+          \item \texttt{FastestLapTimeMS} (BIGINT, nullable) - czas najszybszego okrążenia kierowcy w wyścigu (nieaddytywna)
           \item \texttt{RankFastestLap} (INT, nullable) - ranking najszybszego okrążenia kierowcy w wyścigu (nieaddytywna)
-          \item \texttt{FastestLapTopSpeed} (DECIMAL, nullable) - szyb (nieaddytywna)
+          \item \texttt{FastestLapTopSpeedMS} (BIGINT, nullable) - maksymalna szybkość podczas najszybszego okrążenia (nieaddytywna)
+          \item \texttt{AgeAtRace} (INT) - wiek kierowcy w momencie wyścigu (nieaddytywna)
         \end{itemize}
 \end{itemize}
 
@@ -570,17 +572,17 @@ Centralna tabela faktów \texttt{Fact\_Result} będzie połączona z wymienionym
 \label{sec:zestawienia}
 Poniżej przedstawiono przykładowe wielowymiarowe zestawienia, które będzie można utworzyć po wdrożeniu kostki OLAP:
 \begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
-  \item \textbf{Wpływ pozycji startowej na wynik:} Średnia pozycja na mecie i procent zwycięstw dla każdej pozycji startowej (grid), z możliwością filtrowania wg toru/sezonu.
-  \item \textbf{Stabilność kierowców:} Średnie punkty na wyścig, liczba miejsc na podium i zwycięstw na sezon dla wybranych kierowców na przestrzeni ich kariery.
+  \item \textbf{Wpływ pozycji startowej na wynik:} Średnia pozycja na mecie i procent zwycięstw dla każdej pozycji startowej (grid), z możliwością filtrowania wg toru i sezonu.
+  \item \textbf{Stabilność kierowców:} Średnie punkty na wyścig, liczba miejsc na podium i zwycięstw na sezon dla wybranych (najbardziej znanych) kierowców na przestrzeni ich kariery.
   \item \textbf{"Gwiazdy w słabych zespołach":} Identyfikacja kierowców, którzy regularnie zdobywali punkty lub wysokie pozycje dla zespołów z końca stawki (np. porównanie wyników kierowcy ze średnią zespołu).
-  \item \textbf{Ewolucja strategii pit-stopów:} Średnia liczba pit-stopów na wyścig i ich wpływ na wynik, analizowana wg toru, sezonu i warunków pogodowych.
+  \item \textbf{Ewolucja strategii pit-stopów:} Średnia liczba pit-stopów i ich łącznego czasu na wyścig i ich wpływ na wynik, analizowana wg toru, sezonu i warunków pogodowych.
   \item \textbf{Dominacja zespołów:} Procent wygranych wyścigów i zdobytych punktów przez poszczególne zespoły w sezonach.
-  \item \textbf{Trendy narodowościowe:} Liczba kierowców, zwycięzców i mistrzów świata z podziałem na narodowości, na przestrzeni dekad.
+  \item \textbf{Trendy narodowościowe:} Liczba kierowców, zwycięzców i mistrzów świata z podziałem na narodowości i kontynenty, na przestrzeni dekad.
   \item \textbf{Pogoda a niezawodność:} Korelacja między zagregowanymi warunkami pogodowymi (np. wysokie/niskie temperatury, opady deszczu) a liczbą nieukończonych wyścigów (DNF) z powodu awarii lub wypadków.
   \item \textbf{Pogoda a nieoczekiwane wyniki:} Analiza, czy deszczowe lub zmienne warunki pogodowe częściej przynoszą nieoczekiwane wyniki (np. zwycięzcy spoza czołowych zespołów, kierowcy z dalszych pozycji na podium).
-  \item \textbf{Pojedynki zespołowe (team-mate battles):} Porównanie wyników (punkty, pozycje w kwalifikacjach i wyścigach) kierowców startujących w tym samym zespole w danym sezonie.
-  \item \textbf{Charakterystyka torów a wyniki:} Jak zmieniały się czasy ukończenia torów z biegiem lat? Które tory generują najwięcej/najmniej wyprzedzeń (analiza zmiany pozycji start-meta)?
-  \item \textbf{Analiza DNF (Did Not Finish):} Najczęstsze przyczyny nieukończenia wyścigu (na podstawie \texttt{Dim\_Status}) dla poszczególnych zespołów i na przestrzeni sezonów, z uwzględnieniem wpływu pogody.
+  \item \textbf{Pojedynki zespołowe:} Porównanie wyników (punkty, pozycje w kwalifikacjach i wyścigach) kierowców startujących w tym samym zespole w danym sezonie.
+  \item \textbf{Charakterystyka torów a wyniki:} Jak zmieniały się czasy ukończenia torów z biegiem lat? Które tory generują najwięcej/najmniej zmian pozycji?
+  \item \textbf{Analiza DNF:} Najczęstsze przyczyny nieukończenia wyścigu (na podstawie \texttt{Dim\_Status}) dla poszczególnych zespołów i na przestrzeni sezonów, z uwzględnieniem wpływu pogody.
   \item \textbf{Wpływ wieku kierowcy na osiągnięcia:} Korelacja między wiekiem kierowcy a jego wynikami (np. średnia liczba punktów na sezon, częstotliwość błędów, szybkość na pojedynczym okrążeniu).
 \end{enumerate}
 
@@ -676,14 +678,15 @@ CREATE TABLE Fact_Result (
     PointsScored DECIMAL(5,1),
     LapsCompleted INT,
     NumberOfPitStops INT NULL,
-    RaceTimeMilliseconds BIGINT NULL,
+    PitStopsTotalTimeMS BIGINT NULL,
+    RaceTimeMS BIGINT NULL,
     GridPosition INT,
     FinalPositionOrder INT,
     PositionOrderChange INT,            -- (GridPosition - FinalPositionOrder)
-    FastestLapTimeMilliseconds BIGINT NULL,
+    FastestLapTimeMS BIGINT NULL,
     RankFastestLap INT NULL,
     FastestLapTopSpeed DECIMAL(6,2) NULL,
-	AgeAtRace DECIMAL(5,3) NULL,
+	  AgeAtRace DECIMAL(5,3) NULL,
 
     FOREIGN KEY (RaceKey) REFERENCES Dim_Race(RaceKey),
     FOREIGN KEY (DriverKey) REFERENCES Dim_Driver(DriverKey),
