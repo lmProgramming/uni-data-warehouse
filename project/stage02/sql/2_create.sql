@@ -53,18 +53,15 @@ CREATE TABLE Dim_Time (
 
 CREATE TABLE Dim_Weather (
     WeatherKey INT PRIMARY KEY,
-    AvgAirTempCelsius DECIMAL(5, 2),
-    MinAirTempCelsius DECIMAL(5, 2),
-    MaxAirTempCelsius DECIMAL(5, 2),
-    AvgTrackTempCelsius DECIMAL(5, 2),
-    AvgHumidityPercent DECIMAL(5, 2),
     DidRainOccur BIT,
     -- 0 lub 1
-    TotalRainfallMM DECIMAL(6, 2),
-    AvgWindSpeedKmph DECIMAL(5, 2),
-    MaxWindSpeedKmph DECIMAL(5, 2),
-    DominantWindDirection VARCHAR(50),
-    -- Np. N, NW, S (kategoria)
+    DominantWindDirection VARCHAR(50) NULL,
+    WindSpeedCategory VARCHAR(50) NULL,
+    AirTempCategory VARCHAR(50) NULL,
+    TrackTempCategory VARCHAR(50) NULL,
+    HumidityCategory VARCHAR(50) NULL,
+    PressureCategory VARCHAR(50) NULL,
+    RainfallCategory VARCHAR(50) NULL,
 );
 
 CREATE TABLE Dim_Status (
