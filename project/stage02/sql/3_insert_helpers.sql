@@ -1,8 +1,3 @@
-CREATE TABLE Helper_Months (
-    MonthNum INT PRIMARY KEY,
-    MonthName NVARCHAR(20) NOT NULL
-);
-
 INSERT INTO
     Helper_Months (MonthNum, MonthName)
 VALUES
@@ -19,11 +14,6 @@ VALUES
     (11, 'November'),
     (12, 'December');
 
-CREATE TABLE Helper_Weekdays (
-    WeekdayNum INT PRIMARY KEY,
-    WeekdayName NVARCHAR(20) NOT NULL
-);
-
 INSERT INTO
     Helper_Weekdays (WeekdayNum, WeekdayName)
 VALUES
@@ -34,11 +24,6 @@ VALUES
     (5, 'Thursday'),
     (6, 'Friday'),
     (7, 'Saturday');
-
-CREATE TABLE Helper_CountryContinents (
-    CountryName NVARCHAR(100) PRIMARY KEY,
-    Continent NVARCHAR(50) NOT NULL
-);
 
 INSERT INTO
     Helper_CountryContinents (CountryName, Continent)
@@ -99,11 +84,6 @@ VALUES
     ('Uruguay', 'South America'),
     ('Venezuela', 'South America'),
     ('Zimbabwe', 'Africa');
-
-CREATE TABLE Helper_NationalityCountries (
-    Nationality NVARCHAR(100) PRIMARY KEY,
-    CountryName NVARCHAR(100) NOT NULL
-);
 
 INSERT INTO
     Helper_NationalityCountries (Nationality, CountryName)
@@ -166,11 +146,6 @@ VALUES
     ('Ukrainian', 'Ukraine'),
     ('Uruguayan', 'Uruguay'),
     ('Venezuelan', 'Venezuela');
-
-CREATE TABLE Helper_StatusCategory (
-    StatusText NVARCHAR(255) PRIMARY KEY,
-    BroadCategory NVARCHAR(100) NOT NULL
-);
 
 INSERT INTO
     Helper_StatusCategory (StatusText, BroadCategory)

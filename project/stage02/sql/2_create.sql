@@ -22,6 +22,7 @@ CREATE TABLE Dim_Constructor (
 CREATE TABLE Dim_Race (
     RaceKey INT IDENTITY(1, 1) PRIMARY KEY,
     RaceID_NK INT UNIQUE,
+    CircuitID_NK INT,
     YearSeason INT,
     RoundNumberInSeason INT,
     RaceNameOfficial NVARCHAR(255)
@@ -49,7 +50,7 @@ CREATE TABLE Dim_Time (
 );
 
 CREATE TABLE Dim_Weather (
-    WeatherKey INT IDENTITY(1, 1) PRIMARY KEY,
+    WeatherKey INT PRIMARY KEY,
     DidRainOccur NVARCHAR(50) NULL,
     WindSpeedCategory NVARCHAR(50) NULL,
     AirTempCategory NVARCHAR(50) NULL,
@@ -100,3 +101,28 @@ CREATE INDEX idx_fact_driver ON Fact_Result(DriverKey);
 CREATE INDEX idx_fact_constructor ON Fact_Result(ConstructorKey);
 
 CREATE INDEX idx_fact_date ON Fact_Result(DateKey);
+
+CREATE TABLE Helper_Months (
+    MonthNum INT PRIMARY KEY,
+    MonthName NVARCHAR(20) NOT NULL
+);
+
+CREATE TABLE Helper_Weekdays (
+    WeekdayNum INT PRIMARY KEY,
+    WeekdayName NVARCHAR(20) NOT NULL
+);
+
+CREATE TABLE Helper_CountryContinents (
+    CountryName NVARCHAR(100) PRIMARY KEY,
+    Continent NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Helper_NationalityCountries (
+    Nationality NVARCHAR(100) PRIMARY KEY,
+    CountryName NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Helper_StatusCategory (
+    StatusText NVARCHAR(255) PRIMARY KEY,
+    BroadCategory NVARCHAR(100) NOT NULL
+);
