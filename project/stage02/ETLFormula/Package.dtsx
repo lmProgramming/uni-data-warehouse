@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="96"
-  DTS:VersionGUID="{8B8DF123-56A7-4EC0-9EC5-778759F9A926}">
+  DTS:VersionBuild="108"
+  DTS:VersionGUID="{8687CD27-9402-4A62-B4C1-37541D0D983C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -5942,46 +5942,51 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
           version="1">
           <components>
             <component
-              refId="Package\Fact_Result\Calculated Weather Key"
+              refId="Package\Fact_Result\Calculated Weather Key and Driver Age"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Calculated Weather Key"
+              name="Calculated Weather Key and Driver Age"
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Fact_Result\Calculated Weather Key.Inputs[Derived Column Input]"
+                  refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key.Inputs[Derived Column Input].Columns[YearSeason]"
+                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input].Columns[YearSeason]"
                       cachedDataType="i4"
                       cachedName="YearSeason"
                       lineageId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output].Columns[YearSeason]" />
                     <inputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key.Inputs[Derived Column Input].Columns[RoundNumberInSeason]"
+                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input].Columns[RoundNumberInSeason]"
                       cachedDataType="i4"
                       cachedName="RoundNumberInSeason"
                       lineageId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output].Columns[RoundNumberInSeason]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input].Columns[DateOfBirth]"
+                      cachedDataType="dbDate"
+                      cachedName="DateOfBirth"
+                      lineageId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output].Columns[DateOfBirth]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Output]"
+                  refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\Fact_Result\Calculated Weather Key.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Output].Columns[WeatherKey]"
+                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Output].Columns[WeatherKey]"
+                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]"
                       name="WeatherKey"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -5998,27 +6003,49 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                           name="FriendlyExpression">YearSeason * 100 + RoundNumberInSeason</property>
                       </properties>
                     </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[AgeAtRace]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[AgeAtRace]"
+                      name="AgeAtRace"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output].Columns[YearSeason]} - [YEAR](#{Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output].Columns[DateOfBirth]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">YearSeason - YEAR(DateOfBirth)</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Error Output]"
+                  refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\Fact_Result\Calculated Weather Key.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -6278,11 +6305,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[milliseconds]"
-                      dataType="wstr"
+                      dataType="i8"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].ExternalColumns[milliseconds]"
-                      length="255"
                       lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[milliseconds]"
                       name="milliseconds"
                       truncationRowDisposition="FailComponent" />
@@ -6535,6 +6561,164 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       refId="Package\Fact_Result\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Fact_Result\Lookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Dim_Weather]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Dim_Weather]) [refTable]
+where [refTable].[WeatherKey] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="WeatherKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DidRainOccur" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="WindSpeedCategory" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="AirTempCategory" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="TrackTempCategory" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="HumidityCategory" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PressureCategory" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1250</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Fact_Result\Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-2GLE46P.FormulaOne]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-2GLE46P.FormulaOne]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Fact_Result\Lookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Fact_Result\Lookup.Inputs[Lookup Input].Columns[WeatherKey]"
+                      cachedDataType="i4"
+                      cachedName="WeatherKey"
+                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">WeatherKey</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Fact_Result\Lookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Fact_Result\Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Fact_Result\Lookup.Outputs[Lookup Match Output].Columns[WeatherKeyActual]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Fact_Result\Lookup.Outputs[Lookup Match Output].Columns[WeatherKeyActual]"
+                      name="WeatherKeyActual"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">WeatherKey</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Fact_Result\Lookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Fact_Result\Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Fact_Result\Lookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Fact_Result\Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Fact_Result\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Fact_Result\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -6979,6 +7163,20 @@ where [refTable].[DriverID_NK] = ?</property>
                           dataType="System.String"
                           description="Specifies the column in the reference table from which a column is copied."
                           name="CopyFromReferenceColumn">DriverKey</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output].Columns[DateOfBirth]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output].Columns[DateOfBirth]"
+                      name="DateOfBirth"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">DateOfBirth</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -7477,17 +7675,74 @@ where [refTable].[StatusID_NK] = ?</property>
                       externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DriverKey]"
                       lineageId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output].Columns[DriverKey]" />
                     <inputColumn
-                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[WeatherKey]"
-                      cachedDataType="i4"
-                      cachedName="WeatherKey"
-                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[WeatherKey]"
-                      lineageId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Output].Columns[WeatherKey]" />
-                    <inputColumn
                       refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StatusKey]"
                       cachedDataType="i4"
                       cachedName="StatusKey"
                       externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[StatusKey]"
                       lineageId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output].Columns[StatusKey]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[WeatherKeyActual]"
+                      cachedDataType="i4"
+                      cachedName="WeatherKeyActual"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[WeatherKey]"
+                      lineageId="Package\Fact_Result\Lookup.Outputs[Lookup Match Output].Columns[WeatherKeyActual]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[fastestLapTime]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="fastestLapTime"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FastestLapTimeMilliseconds]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapTime]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[rank]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="rank"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RankFastestLap]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[rank]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[fastestLapSpeed]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="fastestLapSpeed"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FastestLapTopSpeed]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapSpeed]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[statusId]"
+                      cachedDataType="i4"
+                      cachedName="statusId"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgeAtRace]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[statusId]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[grid]"
+                      cachedDataType="r8"
+                      cachedName="grid"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GridPosition]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[grid]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[positionOrder]"
+                      cachedDataType="r8"
+                      cachedName="positionOrder"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FinalPositionOrder]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[positionOrder]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[laps]"
+                      cachedDataType="i4"
+                      cachedName="laps"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LapsCompleted]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[laps]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[points]"
+                      cachedDataType="r8"
+                      cachedName="points"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PointsScored]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[points]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[milliseconds]"
+                      cachedDataType="i8"
+                      cachedName="milliseconds"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RaceTimeMilliseconds]"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[milliseconds]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -7606,9 +7861,9 @@ where [refTable].[StatusID_NK] = ?</property>
               startId="Package\Fact_Result\Derived Column.Outputs[Derived Column Output]" />
             <path
               refId="Package\Fact_Result.Paths[Derived Column Output1]"
-              endId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              endId="Package\Fact_Result\Lookup.Inputs[Lookup Input]"
               name="Derived Column Output"
-              startId="Package\Fact_Result\Calculated Weather Key.Outputs[Derived Column Output]" />
+              startId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output]" />
             <path
               refId="Package\Fact_Result.Paths[Excel Source Output]"
               endId="Package\Fact_Result\Derived Column.Inputs[Derived Column Input]"
@@ -7636,9 +7891,14 @@ where [refTable].[StatusID_NK] = ?</property>
               startId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Fact_Result.Paths[Lookup Match Output4]"
-              endId="Package\Fact_Result\Calculated Weather Key.Inputs[Derived Column Input]"
+              endId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]"
               name="Lookup Match Output"
               startId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Fact_Result.Paths[Lookup Match Output5]"
+              endId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Fact_Result\Lookup.Outputs[Lookup Match Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -9422,39 +9682,79 @@ where [refTable].[StatusID_NK] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="191,42"
-          Id="Package\Fact_Result\Calculated Weather Key"
+          Size="265,42"
+          Id="Package\Fact_Result\Calculated Weather Key and Driver Age"
           TopLeft="345,449" />
         <NodeLayout
           Size="171,42"
           Id="Package\Fact_Result\OLE DB Destination"
           TopLeft="731,340" />
         <EdgeLayout
-          Id="Package\Fact_Result.Paths[Derived Column Output1]"
-          TopLeft="471,449">
+          Id="Package\Fact_Result.Paths[Lookup Match Output4]"
+          TopLeft="441,403">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="345.5,-67"
+              EndConnector="36.5,46"
               Start="0,0"
-              End="345.5,-59.5">
+              End="36.5,38.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-23.1339563862928" />
+                    End="0,19" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,-23.1339563862928"
-                    Point2="0,-27.1339563862928"
-                    Point3="4,-27.1339563862928" />
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
                   <mssgle:LineSegment
-                    End="341.5,-27.1339563862928" />
+                    End="32.5,23" />
                   <mssgle:CubicBezierSegment
-                    Point1="341.5,-27.1339563862928"
-                    Point2="345.5,-27.1339563862928"
-                    Point3="345.5,-31.1339563862928" />
+                    Point1="32.5,23"
+                    Point2="36.5,23"
+                    Point3="36.5,27" />
                   <mssgle:LineSegment
-                    End="345.5,-59.5" />
+                    End="36.5,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.94138671875,28,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="113,42"
+          Id="Package\Fact_Result\Lookup"
+          TopLeft="619,439" />
+        <EdgeLayout
+          Id="Package\Fact_Result.Paths[Derived Column Output1]"
+          TopLeft="477.5,491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="198,-10"
+              Start="0,0"
+              End="198,-2.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.5"
+                    Point2="0,22.5"
+                    Point3="4,22.5" />
+                  <mssgle:LineSegment
+                    End="194,22.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="194,22.5"
+                    Point2="198,22.5"
+                    Point3="198,18.5" />
+                  <mssgle:LineSegment
+                    End="198,-2.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -9464,38 +9764,38 @@ where [refTable].[StatusID_NK] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Fact_Result.Paths[Lookup Match Output4]"
-          TopLeft="441,403">
+          Id="Package\Fact_Result.Paths[Lookup Match Output5]"
+          TopLeft="675.5,439">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-31,46"
+              EndConnector="141,-57"
               Start="0,0"
-              End="-31,38.5">
+              End="141,-49.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.3707165109034" />
+                    End="0,-24.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23.3707165109034"
-                    Point2="0,27.3707165109034"
-                    Point3="-4,27.3707165109034" />
+                    Point1="0,-24.5"
+                    Point2="0,-28.5"
+                    Point3="4,-28.5" />
                   <mssgle:LineSegment
-                    End="-27,27.3707165109034" />
+                    End="137,-28.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="-27,27.3707165109034"
-                    Point2="-31,27.3707165109034"
-                    Point3="-31,31.3707165109034" />
+                    Point1="137,-28.5"
+                    Point2="141,-28.5"
+                    Point3="141,-32.5" />
                   <mssgle:LineSegment
-                    End="-31,38.5" />
+                    End="141,-49.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-63.69138671875,32.3707165109034,96.3827734375,11.609375"
+              BoundingBox="22.30861328125,-23.5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -9567,7 +9867,7 @@ where [refTable].[StatusID_NK] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -9577,7 +9877,7 @@ where [refTable].[StatusID_NK] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -9640,6 +9940,29 @@ where [refTable].[StatusID_NK] = ?</property>
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Fact_Result\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Weather]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
