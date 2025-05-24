@@ -1,22 +1,22 @@
 CREATE TABLE Dim_Driver (
     DriverKey INT PRIMARY KEY,
     DriverID_NK INT UNIQUE,
-    DriverRef VARCHAR(255) UNIQUE,
-    FirstName VARCHAR(255),
-    LastName VARCHAR(255),
-    FullName VARCHAR(510),
+    DriverRef NVARCHAR(255) UNIQUE,
+    FirstName NVARCHAR(255),
+    LastName NVARCHAR(255),
+    FullName NVARCHAR(510),
     DateOfBirth DATE,
-    Nationality VARCHAR(255),
-    Continent VARCHAR(255)
+    Nationality NVARCHAR(255),
+    Continent NVARCHAR(255)
 );
 
 CREATE TABLE Dim_Constructor (
     ConstructorKey INT PRIMARY KEY,
     ConstructorID_NK INT UNIQUE,
-    ConstructorRef VARCHAR(255) UNIQUE,
-    Name VARCHAR(255),
-    Nationality VARCHAR(255),
-    Continent VARCHAR(255)
+    ConstructorRef NVARCHAR(255) UNIQUE,
+    Name NVARCHAR(255),
+    Nationality NVARCHAR(255),
+    Continent NVARCHAR(255)
 );
 
 CREATE TABLE Dim_Race (
@@ -24,19 +24,16 @@ CREATE TABLE Dim_Race (
     RaceID_NK INT UNIQUE,
     YearSeason INT,
     RoundNumberInSeason INT,
-    RaceNameOfficial VARCHAR(255)
+    RaceNameOfficial NVARCHAR(255)
 );
 
 CREATE TABLE Dim_Circuit (
     CircuitKey INT PRIMARY KEY,
     CircuitID_NK INT UNIQUE,
-    CircuitRef VARCHAR(255) UNIQUE,
-    CircuitName VARCHAR(255),
-    LocationCity VARCHAR(255),
-    CountryName VARCHAR(255),
-    Latitude DECIMAL(9, 6),
-    Longitude DECIMAL(9, 6),
-    Altitude INT
+    CircuitRef NVARCHAR(255) UNIQUE,
+    CircuitName NVARCHAR(255),
+    LocationCity NVARCHAR(255),
+    CountryName NVARCHAR(255),
 );
 
 CREATE TABLE Dim_Time (
@@ -45,9 +42,9 @@ CREATE TABLE Dim_Time (
     Year INT,
     Quarter INT,
     Month INT,
-    MonthName VARCHAR(50),
+    MonthName NVARCHAR(50),
     DayOfMonth INT,
-    DayOfWeekName VARCHAR(50),
+    DayOfWeekName NVARCHAR(50),
     WeekOfYear INT
 );
 
@@ -55,20 +52,20 @@ CREATE TABLE Dim_Weather (
     WeatherKey INT PRIMARY KEY,
     DidRainOccur BIT,
     -- 0 lub 1
-    DominantWindDirection VARCHAR(50) NULL,
-    WindSpeedCategory VARCHAR(50) NULL,
-    AirTempCategory VARCHAR(50) NULL,
-    TrackTempCategory VARCHAR(50) NULL,
-    HumidityCategory VARCHAR(50) NULL,
-    PressureCategory VARCHAR(50) NULL,
-    RainfallCategory VARCHAR(50) NULL,
+    DominantWindDirection NVARCHAR(50) NULL,
+    WindSpeedCategory NVARCHAR(50) NULL,
+    AirTempCategory NVARCHAR(50) NULL,
+    TrackTempCategory NVARCHAR(50) NULL,
+    HumidityCategory NVARCHAR(50) NULL,
+    PressureCategory NVARCHAR(50) NULL,
+    RainfallCategory NVARCHAR(50) NULL,
 );
 
 CREATE TABLE Dim_Status (
     StatusKey INT PRIMARY KEY,
     StatusID_NK INT UNIQUE,
-    StatusDescription VARCHAR(255),
-    StatusCategory VARCHAR(100) -- Np. Finished, Accident, Failure
+    StatusDescription NVARCHAR(255),
+    StatusCategory NVARCHAR(100) -- Np. Finished, Accident, Failure
 );
 
 CREATE TABLE Fact_Result (
