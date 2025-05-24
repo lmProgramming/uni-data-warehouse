@@ -94,3 +94,7 @@ DROP TABLE IF EXISTS Dim_Status;
 DROP TABLE IF EXISTS Helper_Months;
 
 DROP TABLE IF EXISTS Helper_Weekdays;
+
+DROP TABLE IF EXISTS Helper_CountryContinents;
+
+DROP TABLE IF EXISTS Helper_NationalityCountries;
