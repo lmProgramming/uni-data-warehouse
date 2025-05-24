@@ -50,14 +50,12 @@ CREATE TABLE Dim_Time (
 
 CREATE TABLE Dim_Weather (
     WeatherKey INT IDENTITY(1, 1) PRIMARY KEY,
-    DidRainOccur BIT,
-    DominantWindDirection NVARCHAR(50) NULL,
+    DidRainOccur NVARCHAR(50) NULL,
     WindSpeedCategory NVARCHAR(50) NULL,
     AirTempCategory NVARCHAR(50) NULL,
     TrackTempCategory NVARCHAR(50) NULL,
     HumidityCategory NVARCHAR(50) NULL,
     PressureCategory NVARCHAR(50) NULL,
-    RainfallCategory NVARCHAR(50) NULL
 );
 
 CREATE TABLE Dim_Status (

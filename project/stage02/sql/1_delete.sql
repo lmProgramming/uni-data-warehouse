@@ -98,3 +98,5 @@ DROP TABLE IF EXISTS Helper_Weekdays;
 DROP TABLE IF EXISTS Helper_CountryContinents;
 
 DROP TABLE IF EXISTS Helper_NationalityCountries;
+
+DROP TABLE IF EXISTS Helper_StatusCategory;
