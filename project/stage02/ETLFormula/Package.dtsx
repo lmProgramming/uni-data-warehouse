@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="108"
-  DTS:VersionGUID="{8687CD27-9402-4A62-B4C1-37541D0D983C}">
+  DTS:VersionBuild="124"
+  DTS:VersionGUID="{F4D0414E-573D-4DA6-9AD3-0DC86A13624C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -6054,6 +6054,83 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
               </outputs>
             </component>
             <component
+              refId="Package\Fact_Result\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Fact_Result\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Fact_Result\Data Conversion.Inputs[Data Conversion Input].Columns[fastestLapSpeed]"
+                      cachedDataType="r8"
+                      cachedName="fastestLapSpeed"
+                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapSpeed]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Fact_Result\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Output].Columns[FastestLapSpeedDecimal]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Output].Columns[FastestLapSpeedDecimal]"
+                      name="FastestLapSpeedDecimal"
+                      precision="6"
+                      scale="3"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapSpeed]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Fact_Result\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Fact_Result\Derived Column"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
@@ -6305,7 +6382,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[milliseconds]"
-                      dataType="i8"
+                      dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].ExternalColumns[milliseconds]"
@@ -6344,11 +6421,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapSpeed]"
-                      dataType="wstr"
+                      dataType="r8"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].ExternalColumns[fastestLapSpeed]"
-                      length="255"
                       lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapSpeed]"
                       name="fastestLapSpeed"
                       truncationRowDisposition="FailComponent" />
@@ -7687,32 +7763,12 @@ where [refTable].[StatusID_NK] = ?</property>
                       externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[WeatherKey]"
                       lineageId="Package\Fact_Result\Lookup.Outputs[Lookup Match Output].Columns[WeatherKeyActual]" />
                     <inputColumn
-                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[fastestLapTime]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="fastestLapTime"
-                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FastestLapTimeMilliseconds]"
-                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapTime]" />
-                    <inputColumn
                       refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[rank]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="rank"
                       externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RankFastestLap]"
                       lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[rank]" />
-                    <inputColumn
-                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[fastestLapSpeed]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="fastestLapSpeed"
-                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FastestLapTopSpeed]"
-                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[fastestLapSpeed]" />
-                    <inputColumn
-                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[statusId]"
-                      cachedDataType="i4"
-                      cachedName="statusId"
-                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgeAtRace]"
-                      lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[statusId]" />
                     <inputColumn
                       refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[grid]"
                       cachedDataType="r8"
@@ -7739,10 +7795,24 @@ where [refTable].[StatusID_NK] = ?</property>
                       lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[points]" />
                     <inputColumn
                       refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[milliseconds]"
-                      cachedDataType="i8"
+                      cachedDataType="i4"
                       cachedName="milliseconds"
                       externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RaceTimeMilliseconds]"
                       lineageId="Package\Fact_Result\Excel Source.Outputs[Excel Source Output].Columns[milliseconds]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FastestLapSpeedDecimal]"
+                      cachedDataType="numeric"
+                      cachedName="FastestLapSpeedDecimal"
+                      cachedPrecision="6"
+                      cachedScale="3"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FastestLapTopSpeed]"
+                      lineageId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Output].Columns[FastestLapSpeedDecimal]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgeAtRace]"
+                      cachedDataType="i4"
+                      cachedName="AgeAtRace"
+                      externalMetadataColumnId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgeAtRace]"
+                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[AgeAtRace]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -7805,10 +7875,6 @@ where [refTable].[StatusID_NK] = ?</property>
                       dataType="i4"
                       name="PositionOrderChange" />
                     <externalMetadataColumn
-                      refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[FastestLapTimeMilliseconds]"
-                      dataType="i8"
-                      name="FastestLapTimeMilliseconds" />
-                    <externalMetadataColumn
                       refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RankFastestLap]"
                       dataType="i4"
                       name="RankFastestLap" />
@@ -7817,7 +7883,7 @@ where [refTable].[StatusID_NK] = ?</property>
                       dataType="numeric"
                       name="FastestLapTopSpeed"
                       precision="6"
-                      scale="2" />
+                      scale="3" />
                     <externalMetadataColumn
                       refId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgeAtRace]"
                       dataType="numeric"
@@ -7854,6 +7920,11 @@ where [refTable].[StatusID_NK] = ?</property>
             </component>
           </components>
           <paths>
+            <path
+              refId="Package\Fact_Result.Paths[Data Conversion Output]"
+              endId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Fact_Result\Data Conversion.Outputs[Data Conversion Output]" />
             <path
               refId="Package\Fact_Result.Paths[Derived Column Output]"
               endId="Package\Fact_Result\Lookup Race Key.Inputs[Lookup Input]"
@@ -7896,7 +7967,7 @@ where [refTable].[StatusID_NK] = ?</property>
               startId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Fact_Result.Paths[Lookup Match Output5]"
-              endId="Package\Fact_Result\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              endId="Package\Fact_Result\Data Conversion.Inputs[Data Conversion Input]"
               name="Lookup Match Output"
               startId="Package\Fact_Result\Lookup.Outputs[Lookup Match Output]" />
           </paths>
@@ -8067,7 +8138,7 @@ where [refTable].[StatusID_NK] = ?</property>
         <NodeLayout
           Size="136,42"
           Id="Package\Dim_Drivers"
-          TopLeft="341,309" />
+          TopLeft="340,307" />
         <NodeLayout
           Size="131,42"
           Id="Package\Dim_Races"
@@ -8079,7 +8150,7 @@ where [refTable].[StatusID_NK] = ?</property>
         <NodeLayout
           Size="143,42"
           Id="Package\Dim_Weather"
-          TopLeft="791,310" />
+          TopLeft="788,306" />
         <NodeLayout
           Size="133,42"
           Id="Package\Fact_Result"
@@ -8134,30 +8205,30 @@ where [refTable].[StatusID_NK] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 10]"
-          TopLeft="409,351">
+          TopLeft="408,349">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="15.5714285714286,72"
+              EndConnector="16.5714285714286,74"
               Start="0,0"
-              End="15.5714285714286,64.5">
+              End="16.5714285714286,66.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,34.5906735751295" />
+                    End="0,35.6626367299942" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,34.5906735751295"
-                    Point2="0,38.5906735751295"
-                    Point3="4,38.5906735751295" />
+                    Point1="0,35.6626367299942"
+                    Point2="0,39.6626367299942"
+                    Point3="4,39.6626367299942" />
                   <mssgle:LineSegment
-                    End="11.5714285714286,38.5906735751295" />
+                    End="12.5714285714286,39.6626367299942" />
                   <mssgle:CubicBezierSegment
-                    Point1="11.5714285714286,38.5906735751295"
-                    Point2="15.5714285714286,38.5906735751295"
-                    Point3="15.5714285714286,42.5906735751295" />
+                    Point1="12.5714285714286,39.6626367299942"
+                    Point2="16.5714285714286,39.6626367299942"
+                    Point3="16.5714285714286,43.6626367299942" />
                   <mssgle:LineSegment
-                    End="15.5714285714286,64.5" />
+                    End="16.5714285714286,66.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8236,30 +8307,30 @@ where [refTable].[StatusID_NK] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 13]"
-          TopLeft="862.5,352">
+          TopLeft="859.5,348">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-384.357142857143,71"
+              EndConnector="-381.357142857143,75"
               Start="0,0"
-              End="-384.357142857143,63.5">
+              End="-381.357142857143,67.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,49.4365400161681" />
+                    End="0,52.4470493128537" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,49.4365400161681"
-                    Point2="0,53.4365400161681"
-                    Point3="-4,53.4365400161681" />
+                    Point1="0,52.4470493128537"
+                    Point2="0,56.4470493128537"
+                    Point3="-4,56.4470493128537" />
                   <mssgle:LineSegment
-                    End="-380.357142857143,53.4365400161681" />
+                    End="-377.357142857143,56.4470493128537" />
                   <mssgle:CubicBezierSegment
-                    Point1="-380.357142857143,53.4365400161681"
-                    Point2="-384.357142857143,53.4365400161681"
-                    Point3="-384.357142857143,57.4365400161681" />
+                    Point1="-377.357142857143,56.4470493128537"
+                    Point2="-381.357142857143,56.4470493128537"
+                    Point3="-381.357142857143,60.4470493128537" />
                   <mssgle:LineSegment
-                    End="-384.357142857143,63.5" />
+                    End="-381.357142857143,67.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8342,26 +8413,26 @@ where [refTable].[StatusID_NK] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-27.9285714285714,64"
+              EndConnector="-28.9285714285714,62"
               Start="0,0"
-              End="-27.9285714285714,56.5">
+              End="-28.9285714285714,54.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.7234899328859" />
+                    End="0,24.7946308724832" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,25.7234899328859"
-                    Point2="0,29.7234899328859"
-                    Point3="-4,29.7234899328859" />
+                    Point1="0,24.7946308724832"
+                    Point2="0,28.7946308724832"
+                    Point3="-4,28.7946308724832" />
                   <mssgle:LineSegment
-                    End="-23.9285714285714,29.7234899328859" />
+                    End="-24.9285714285714,28.7946308724832" />
                   <mssgle:CubicBezierSegment
-                    Point1="-23.9285714285714,29.7234899328859"
-                    Point2="-27.9285714285714,29.7234899328859"
-                    Point3="-27.9285714285714,33.7234899328859" />
+                    Point1="-24.9285714285714,28.7946308724832"
+                    Point2="-28.9285714285714,28.7946308724832"
+                    Point3="-28.9285714285714,32.7946308724832" />
                   <mssgle:LineSegment
-                    End="-27.9285714285714,56.5" />
+                    End="-28.9285714285714,54.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8444,26 +8515,26 @@ where [refTable].[StatusID_NK] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="380.142857142857,65"
+              EndConnector="377.142857142857,61"
               Start="0,0"
-              End="380.142857142857,57.5">
+              End="377.142857142857,53.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,12.3414634146342" />
+                    End="0,11.3358348968105" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,12.3414634146342"
-                    Point2="0,16.3414634146342"
-                    Point3="4,16.3414634146342" />
+                    Point1="0,11.3358348968105"
+                    Point2="0,15.3358348968105"
+                    Point3="4,15.3358348968105" />
                   <mssgle:LineSegment
-                    End="376.142857142857,16.3414634146342" />
+                    End="373.142857142857,15.3358348968105" />
                   <mssgle:CubicBezierSegment
-                    Point1="376.142857142857,16.3414634146342"
-                    Point2="380.142857142857,16.3414634146342"
-                    Point3="380.142857142857,20.3414634146342" />
+                    Point1="373.142857142857,15.3358348968105"
+                    Point2="377.142857142857,15.3358348968105"
+                    Point3="377.142857142857,19.3358348968105" />
                   <mssgle:LineSegment
-                    End="380.142857142857,57.5" />
+                    End="377.142857142857,53.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -9490,33 +9561,85 @@ where [refTable].[StatusID_NK] = ?</property>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="166,42"
-          Id="Package\Fact_Result\Lookup Status Key"
-          TopLeft="358,361" />
-        <NodeLayout
-          Size="139,42"
-          Id="Package\Fact_Result\Excel Source"
-          TopLeft="118,43" />
+          Size="165,42"
+          Id="Package\Fact_Result\Lookup Driver Key"
+          TopLeft="353,291" />
         <NodeLayout
           Size="166,42"
           Id="Package\Fact_Result\Lookup Circuit Key"
           TopLeft="346,127" />
         <NodeLayout
-          Size="165,42"
-          Id="Package\Fact_Result\Lookup Driver Key"
-          TopLeft="353,291" />
+          Size="154,42"
+          Id="Package\Fact_Result\Derived Column"
+          TopLeft="132,208" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Fact_Result\OLE DB Destination"
+          TopLeft="731,340" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Fact_Result\Lookup Status Key"
+          TopLeft="358,361" />
         <NodeLayout
           Size="160,42"
           Id="Package\Fact_Result\Lookup Race Key"
           TopLeft="355,47" />
         <NodeLayout
+          Size="139,42"
+          Id="Package\Fact_Result\Excel Source"
+          TopLeft="118,43" />
+        <NodeLayout
+          Size="113,42"
+          Id="Package\Fact_Result\Lookup"
+          TopLeft="619,439" />
+        <NodeLayout
+          Size="265,42"
+          Id="Package\Fact_Result\Calculated Weather Key and Driver Age"
+          TopLeft="345,449" />
+        <NodeLayout
           Size="191,42"
           Id="Package\Fact_Result\Lookup Constructor Key"
           TopLeft="337,218" />
         <NodeLayout
-          Size="154,42"
-          Id="Package\Fact_Result\Derived Column"
-          TopLeft="132,208" />
+          Size="156,42"
+          Id="Package\Fact_Result\Data Conversion"
+          TopLeft="564,278" />
+        <EdgeLayout
+          Id="Package\Fact_Result.Paths[Lookup Match Output4]"
+          TopLeft="441,403">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="36.5,46"
+              Start="0,0"
+              End="36.5,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="32.5,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="32.5,23"
+                    Point2="36.5,23"
+                    Point3="36.5,27" />
+                  <mssgle:LineSegment
+                    End="36.5,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.94138671875,28,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Fact_Result.Paths[Lookup Match Output3]"
           TopLeft="438.25,333">
@@ -9648,88 +9771,6 @@ where [refTable].[StatusID_NK] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Fact_Result.Paths[Derived Column Output]"
-          TopLeft="233.333333333333,208">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="176.333333333333,-119"
-              Start="0,0"
-              End="176.333333333333,-111.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-55.5282570840589" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-55.5282570840589"
-                    Point2="0,-59.5282570840589"
-                    Point3="4,-59.5282570840589" />
-                  <mssgle:LineSegment
-                    End="172.333333333333,-59.5282570840589" />
-                  <mssgle:CubicBezierSegment
-                    Point1="172.333333333333,-59.5282570840589"
-                    Point2="176.333333333333,-59.5282570840589"
-                    Point3="176.333333333333,-63.5282570840589" />
-                  <mssgle:LineSegment
-                    End="176.333333333333,-111.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="265,42"
-          Id="Package\Fact_Result\Calculated Weather Key and Driver Age"
-          TopLeft="345,449" />
-        <NodeLayout
-          Size="171,42"
-          Id="Package\Fact_Result\OLE DB Destination"
-          TopLeft="731,340" />
-        <EdgeLayout
-          Id="Package\Fact_Result.Paths[Lookup Match Output4]"
-          TopLeft="441,403">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="36.5,46"
-              Start="0,0"
-              End="36.5,38.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,19" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,19"
-                    Point2="0,23"
-                    Point3="4,23" />
-                  <mssgle:LineSegment
-                    End="32.5,23" />
-                  <mssgle:CubicBezierSegment
-                    Point1="32.5,23"
-                    Point2="36.5,23"
-                    Point3="36.5,27" />
-                  <mssgle:LineSegment
-                    End="36.5,38.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-29.94138671875,28,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="113,42"
-          Id="Package\Fact_Result\Lookup"
-          TopLeft="619,439" />
-        <EdgeLayout
           Id="Package\Fact_Result.Paths[Derived Column Output1]"
           TopLeft="477.5,491">
           <EdgeLayout.Curve>
@@ -9764,38 +9805,100 @@ where [refTable].[StatusID_NK] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package\Fact_Result.Paths[Derived Column Output]"
+          TopLeft="233.333333333333,208">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="176.333333333333,-119"
+              Start="0,0"
+              End="176.333333333333,-111.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-55.5282570840589" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-55.5282570840589"
+                    Point2="0,-59.5282570840589"
+                    Point3="4,-59.5282570840589" />
+                  <mssgle:LineSegment
+                    End="172.333333333333,-59.5282570840589" />
+                  <mssgle:CubicBezierSegment
+                    Point1="172.333333333333,-59.5282570840589"
+                    Point2="176.333333333333,-59.5282570840589"
+                    Point3="176.333333333333,-63.5282570840589" />
+                  <mssgle:LineSegment
+                    End="176.333333333333,-111.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Fact_Result.Paths[Data Conversion Output]"
+          TopLeft="720,299">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="96.5,41"
+              Start="0,0"
+              End="96.5,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="92.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="92.5,0"
+                    Point2="96.5,0"
+                    Point3="96.5,4" />
+                  <mssgle:LineSegment
+                    End="96.5,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package\Fact_Result.Paths[Lookup Match Output5]"
           TopLeft="675.5,439">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="141,-57"
+              EndConnector="-33.5,-119"
               Start="0,0"
-              End="141,-49.5">
+              End="-33.5,-111.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-24.5" />
+                    End="0,-55.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,-24.5"
-                    Point2="0,-28.5"
-                    Point3="4,-28.5" />
+                    Point1="0,-55.5"
+                    Point2="0,-59.5"
+                    Point3="-4,-59.5" />
                   <mssgle:LineSegment
-                    End="137,-28.5" />
+                    End="-29.5,-59.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="137,-28.5"
-                    Point2="141,-28.5"
-                    Point3="141,-32.5" />
+                    Point1="-29.5,-59.5"
+                    Point2="-33.5,-59.5"
+                    Point3="-33.5,-63.5" />
                   <mssgle:LineSegment
-                    End="141,-49.5" />
+                    End="-33.5,-111.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="22.30861328125,-23.5,96.3827734375,11.609375"
+              BoundingBox="-64.94138671875,-54.5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -9803,38 +9906,25 @@ where [refTable].[StatusID_NK] = ?</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Fact_Result\Lookup Status Key">
+    design-time-name="Package\Fact_Result\Lookup Driver Key">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string">[dbo].[Dim_Status]</Value>
+          type="q3:string">[dbo].[Dim_Driver]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Fact_Result\Excel Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -9862,22 +9952,35 @@ where [refTable].[StatusID_NK] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Fact_Result\Lookup Driver Key">
+    design-time-name="Package\Fact_Result\OLE DB Destination">
     <Properties>
       <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Dim_Driver]</Value>
+        <Name>DataSourceViewID</Name>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Fact_Result\Lookup Status Key">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Status]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -9908,30 +10011,7 @@ where [refTable].[StatusID_NK] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Fact_Result\Lookup Constructor Key">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Dim_Constructor]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Fact_Result\OLE DB Destination">
+    design-time-name="Package\Fact_Result\Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -9949,7 +10029,7 @@ where [refTable].[StatusID_NK] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -9959,7 +10039,30 @@ where [refTable].[StatusID_NK] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Fact_Result\Lookup Constructor Key">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Constructor]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>

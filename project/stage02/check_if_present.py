@@ -108,7 +108,6 @@ Venezuelan
 to_check_set = set(line.strip()
                    for line in data_to_check.strip().splitlines() if line.strip())
 
-# Parse data into a set of country names (from the tuples)
 data_countries = set()
 for line in data.strip().splitlines():
     parts = line.strip().strip(',').strip('()').split("', '")
@@ -116,7 +115,6 @@ for line in data.strip().splitlines():
         country = parts[0].strip().strip("'")
         data_countries.add(country)
 
-# Check which are missing
 missing = to_check_set - data_countries
 present = to_check_set & data_countries
 
