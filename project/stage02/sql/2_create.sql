@@ -39,7 +39,7 @@ CREATE TABLE Dim_Circuit (
 );
 
 CREATE TABLE Dim_Time (
-    DateKey INT IDENTITY(1, 1) PRIMARY KEY,
+    DateKey INT PRIMARY KEY,
     FullDate DATE UNIQUE,
     Year INT,
     Quarter INT,
@@ -47,7 +47,6 @@ CREATE TABLE Dim_Time (
     MonthName NVARCHAR(50),
     DayOfMonth INT,
     DayOfWeekName NVARCHAR(50),
-    WeekOfYear INT
 );
 
 CREATE TABLE Dim_Weather (
