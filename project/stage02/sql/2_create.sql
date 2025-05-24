@@ -25,7 +25,8 @@ CREATE TABLE Dim_Race (
     CircuitID_NK INT,
     YearSeason INT,
     RoundNumberInSeason INT,
-    RaceNameOfficial NVARCHAR(255)
+    RaceNameOfficial NVARCHAR(255),
+    Date DATE,
 );
 
 CREATE TABLE Dim_Circuit (
@@ -83,14 +84,7 @@ CREATE TABLE Fact_Result (
     PositionOrderChange INT,
     RankFastestLap INT NULL,
     FastestLapTopSpeed DECIMAL(6, 3) NULL,
-    AgeAtRace INT NULL,
-    FOREIGN KEY (RaceKey) REFERENCES Dim_Race(RaceKey),
-    FOREIGN KEY (DriverKey) REFERENCES Dim_Driver(DriverKey),
-    FOREIGN KEY (ConstructorKey) REFERENCES Dim_Constructor(ConstructorKey),
-    FOREIGN KEY (CircuitKey) REFERENCES Dim_Circuit(CircuitKey),
-    FOREIGN KEY (DateKey) REFERENCES Dim_Time(DateKey),
-    FOREIGN KEY (WeatherKey) REFERENCES Dim_Weather(WeatherKey),
-    FOREIGN KEY (StatusKey) REFERENCES Dim_Status(StatusKey)
+    AgeAtRace INT NULL
 );
 
 CREATE INDEX idx_fact_race ON Fact_Result(RaceKey);
