@@ -558,9 +558,6 @@ Podczas implementacji napotkano typowe wyzwania związane z procesami ETL:
   \item \textbf{Błędy Konwersji Danych w Źródle:} Błędy typu "Text was truncated or one or more characters had no match in the target code page" pojawiające się w Excel Source wskazywały na niepoprawną konfigurację strony kodowej dla pliku źródłowego. Trzeba było zmienić ręcznie w advanced editor dla źródła typy kolumn.
 \end{itemize}
 
-\subsection{Przyrostowe Zasilanie (Planowane)}
-Nie zaimplementowano z braku czasu. Można by uruchomić dla tabeli faktów, za każdym razem usuwając wszystkie wymiary i klucze do wymiarów w fakcie, zapisanie jaki najnowszy id? w fakcie już był, a potem załadowanie wszystkich wymiarów i wierszy o id powyżej ostatniego id faktu.
-
 \section{Podsumowanie i Wnioski z Etapu ETL}
 Proces ETL został pomyślnie zaimplementowany, umożliwiając zasilenie hurtowni danych Formuły 1 przetworzonymi i zintegrowanymi danymi. Kluczowe było właściwe zarządzanie typami danych i stronami kodowymi oraz logiczne rozplanowanie transformacji, w tym agregacji i kategoryzacji danych pogodowych. Zastosowanie SSIS pozwoliło na zbudowanie modularnego i zarządzalnego przepływu danych. Rozwiązane problemy z konwersją danych podkreślają znaczenie dokładnej analizy danych źródłowych i właściwej konfiguracji narzędzi ETL.
 
