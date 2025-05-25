@@ -110,59 +110,9 @@ Struktura pakietów SSIS (przykładowa):
   \item \texttt{Load\_Dim\_Status.dtsx}
   \item \texttt{Load\_Dim\_Weather.dtsx}
   \item \texttt{Load\_Fact\_Result.dtsx}
-  \item \texttt{Master\_F1\_DWH\_Load.dtsx}
 \end{itemize}
 
-\subsection{Mapa Logiczna ETL (Uproszczona)}
-Poniżej przedstawiono uproszczoną mapę logiczną ilustrującą przepływ danych od plików źródłowych, przez transformacje, do tabel docelowych w hurtowni.
-\begin{figure}[H]
-  \centering
-  \begin{tikzpicture}[
-      node distance=1.5cm and 2.5cm,
-      source/.style={rectangle, draw, fill=blue!20, minimum height=1cm, minimum width=2.5cm, text centered},
-      transform/.style={ellipse, draw, fill=orange!20, minimum height=1cm, text centered},
-      dwh_table/.style={cylinder, shape border rotate=90, draw, fill=green!20, aspect=0.5, minimum height=1.2cm, minimum width=1cm, text centered},
-      arrow/.style={-Latex}
-    ]
-    % Sources
-    \node[source] (csv_circuits) {circuits.csv};
-    \node[source, right=of csv_circuits] (csv_races) {races.csv};
-    \node[source, right=of csv_races] (csv_results) {results.csv};
-    \node[source, right=of csv_results] (csv_weather) {weather.csv};
-
-    % Staging/Transform (Simplified)
-    \node[transform, below=of csv_circuits] (trans_circuits) {DFT: Dim\_Circuit};
-    \node[transform, below=of csv_races] (trans_races) {DFT: Dim\_Race};
-    \node[transform, below=of csv_results] (trans_results) {DFT: Fact\_Result};
-    \node[transform, below=of csv_weather] (trans_weather) {DFT: Dim\_Weather};
-
-    % DWH Tables
-    \node[dwh_table, below=of trans_circuits] (dim_circuit) {Dim\_Circuit};
-    \node[dwh_table, right=of dim_circuit] (dim_race) {Dim\_Race};
-    \node[dwh_table, right=of dim_race] (fact_result) {Fact\_Result};
-    \node[dwh_table, right=of fact_result] (dim_weather) {Dim\_Weather};
-
-    % Arrows
-    \draw[arrow] (csv_circuits) -- (trans_circuits);
-    \draw[arrow] (csv_races) -- (trans_races);
-    \draw[arrow] (csv_results) -- (trans_results);
-    \draw[arrow] (csv_weather) -- (trans_weather);
-
-    \draw[arrow] (trans_circuits) -- (dim_circuit);
-    \draw[arrow] (trans_races) -- (dim_race);
-    \draw[arrow] (trans_results) -- (fact_result);
-    \draw[arrow] (trans_weather) -- (dim_weather);
-
-    % Connections to Fact_Result (example)
-    \draw[arrow] (dim_circuit.north) .. controls +(north:1cm) and +(north:1cm) .. (fact_result.west);
-    \draw[arrow] (dim_race.north) -- (fact_result.north west);
-    \draw[arrow] (dim_weather.north) .. controls +(north:1cm) and +(north:1cm) .. (fact_result.east);
-
-  \end{tikzpicture} % <<--- THIS IS THE CRUCIAL FIX
-  \caption{Uproszczona mapa logiczna procesu ETL.}
-  \label{fig:etl_map}
-\end{figure}
-*(Uwaga: Pełna mapa logiczna powinna obejmować wszystkie źródła, kluczowe transformacje i tabele docelowe, w tym lookupy i agregacje.)*
+\subsection{Mapa Logiczna ETL}
 
 \subsection{Narzędzia}
 Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Server Integration Services (SSIS) wchodzący w skład Microsoft SQL Server. Pakiety SSIS zostały utworzone przy użyciu SQL Server Data Tools (SSDT) for Visual Studio.
@@ -170,24 +120,18 @@ Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Serv
 \section{Implementacja Procesów ETL}
 
 \subsection{Ekstrakcja Danych (Extract)}
-Dane źródłowe w formacie CSV były wczytywane przy użyciu komponentu \texttt{Flat File Source} w SSIS. Kluczowe aspekty konfiguracji tego etapu to:
+Dane źródłowe w formacie XLSX były wczytywane przy użyciu komponentu \texttt{Excel Source} w SSIS. Kluczowe aspekty konfiguracji tego etapu to:
 \begin{itemize}
-  \item Ustawienie strony kodowej na \texttt{65001 (UTF-8)} dla wszystkich plików źródłowych, aby zapewnić poprawne odczytywanie znaków specjalnych.
+  \item Poprzednia konwersja plików .csv to .xlsx za pomocą skryptu Python, aby pominąć błędy w kodowaniu.
+  \item Użycie skryptu Python do usunięcia "/N" w zbiorze danych.
   \item Poprawna identyfikacja separatorów kolumn, kwalifikatorów tekstu oraz obsługa wierszy nagłówkowych.
   \item Wstępne mapowanie typów danych na poziomie źródła, z uwzględnieniem późniejszych konwersji.
 \end{itemize}
 
 \subsection{Transformacja Danych (Transform)}
-Etap transformacji obejmował szereg operacji mających na celu oczyszczenie, integrację i przygotowanie danych do załadowania do tabel docelowych.
+Etap transformacji obejmował szereg operacji mających na celu oczyszczenie, integrację i przygotowanie danych do załadowania do tabel docelowych. Przykładowo:
 \begin{enumerate}
-  \item \textbf{Konwersja Typów Danych:} Komponent \texttt{Data Conversion} był intensywnie wykorzystywany do jawnej konwersji typów danych z plików źródłowych (często tekstowych) na typy docelowe zdefiniowane w modelu hurtowni (np. \texttt{INT}, \texttt{DATE}, \texttt{DECIMAL}, \texttt{NVARCHAR} lub \texttt{VARCHAR} z odpowiednią stroną kodową). Szczególną uwagę zwrócono na konwersję:
-        \begin{itemize}
-          \item Kolumn tekstowych (string) na \texttt{Unicode string [DT\_WSTR]} w SSIS, co odpowiada typowi \texttt{NVARCHAR} w SQL Server, w celu uniknięcia problemów z różnymi stronami kodowymi i zapewnienia obsługi znaków międzynarodowych. Alternatywnie, dla kolumn docelowych \texttt{VARCHAR}, konwersja na \texttt{string [DT\_STR]} z docelową stroną kodową (np. 1250).
-          \item Reprezentacji dat i czasów na odpowiednie typy (\texttt{DT\_DATE}, \texttt{DT\_DBTIME2}).
-          \item Wartości numerycznych.
-        \end{itemize}
-  \item \textbf{Obsługa Wartości NULL:} Wartości reprezentujące NULL w plikach CSV (np. `\\N`) były identyfikowane i konwertowane na rzeczywiste wartości \texttt{NULL} w przepływie danych przy użyciu komponentu \texttt{Derived Column}.
-  \item \textbf{Lookup'y Kluczy Zastępczych:} Podczas ładowania tabeli faktów (\texttt{Fact\_Result}), komponent \texttt{Lookup Transformation} był używany do pobierania kluczy zastępczych (surrogate keys) z wcześniej załadowanych tabel wymiarów, bazując na kluczach naturalnych (np. \texttt{driverId}, \texttt{raceId}).
+  \item \textbf{Konwersja Typów Danych:} Komponent \texttt{Data Conversion} był wykorzystany do konwersji danych.
   \item \textbf{Obliczenia Pochodne:} Komponent \texttt{Derived Column} służył do tworzenia nowych kolumn na podstawie istniejących, np.:
         \begin{itemize}
           \item Obliczenie wieku kierowcy w momencie wyścigu (\texttt{AgeAtRace}).
@@ -198,7 +142,8 @@ Etap transformacji obejmował szereg operacji mających na celu oczyszczenie, in
           \item \textbf{Dane pogodowe (\texttt{Dim\_Weather}):} Minutowe dane pogodowe z pliku \texttt{F1 Weather (2023-2018).csv} były agregowane do poziomu pojedynczego wyścigu (po \texttt{Year} i \texttt{RoundNumber}) przy użyciu komponentu \texttt{Aggregate}. Obliczano wartości średnie, minimalne, maksymalne oraz sumy (np. dla opadów).
           \item \textbf{Dane o pit-stopach:} Informacje o liczbie i łącznym czasie pit-stopów dla każdego kierowcy w wyścigu były agregowane z pliku \texttt{pit\_stops.csv} i dołączane podczas ładowania tabeli faktów (np. poprzez wcześniejszą agregację do tabeli stagingowej i lookup).
         \end{itemize}
-  \item \textbf{Kategoryzacja Danych Pogodowych:} Po agregacji, zagregowane wartości liczbowe dla danych pogodowych (np. temperatura, wilgotność, prędkość wiatru) były przekształcane na predefiniowane kategorie tekstowe (np. "Zimno", "Umiarkowanie", "Gorąco") przy użyciu wyrażeń warunkowych w komponencie \texttt{Derived Column}, zgodnie z założeniami projektu. Te kategorie zostały następnie załadowane do \texttt{Dim\_Weather}.
+  \item \textbf{Kategoryzacja Danych Pogodowych:} Po agregacji, zagregowane wartości liczbowe dla danych pogodowych (np. temperatura, wilgotność, prędkość wiatru) były przekształcane na predefiniowane kategorie tekstowe (np. "Zimno", "Umiarkowanie", "Gorąco") przy użyciu wyrażeń warunkowych w komponencie \texttt{Derived Column}, zgodnie z założeniami projektu. Te kategorie zostały następnie załadowane do \texttt{Dim\_Weather}. Transformacja odbyła się w skrypcie C#.
+  \item \textbf{Fuzzy Lookup:} Do statusów dołączono ogólną kategorię statusu np. 'Mechanical Failure', 'Race Outcome' itd.
 \end{enumerate}
 
 \subsection{Ładowanie Danych (Load)}
@@ -212,18 +157,13 @@ Przetransformowane dane były ładowane do docelowych tabel w hurtowni SQL Serve
 \subsection{Wyzwania i Rozwiązania}
 Podczas implementacji napotkano typowe wyzwania związane z procesami ETL:
 \begin{itemize}
-  \item \textbf{Niezgodność Stron Kodowych:} Początkowe problemy z konfliktem stron kodowych (np. 65001 z Flat File Source vs 1250 domyślne dla OLE DB Destination) zostały rozwiązane poprzez:
-        \begin{enumerate}
-          \item Konsekwentne ustawienie kodowania \texttt{65001 (UTF-8)} dla komponentów \texttt{Flat File Source}.
-          \item Zastosowanie komponentu \texttt{Data Conversion} do jawnej konwersji kolumn tekstowych na typ \texttt{Unicode string [DT\_WSTR]} (dla docelowych kolumn \texttt{NVARCHAR}) lub \texttt{string [DT\_STR]} z określoną docelową stroną kodową (dla kolumn \texttt{VARCHAR}).
-        \end{enumerate}
+  \item \textbf{Niezgodność Stron Kodowych:} Początkowe problemy z konfliktem stron kodowych (np. 65001 z Flat File Source vs 1250 domyślne dla OLE DB Destination) zostały rozwiązane poprzez zmianę typu plików na Excel.
   \item \textbf{Synchronizacja Metadanych:} Zmiany w strukturze przepływu danych (np. po dodaniu \texttt{Data Conversion}) wymagały odświeżenia metadanych w komponencie \texttt{OLE DB Destination} i ponownego zmapowania kolumn.
-  \item \textbf{Błędy Konwersji Danych w Źródle:} Błędy typu "Text was truncated or one or more characters had no match in the target code page" pojawiające się w \texttt{Flat File Source} wskazywały na niepoprawną konfigurację strony kodowej dla pliku źródłowego. Problem rozwiązano poprzez ustawienie strony kodowej na \texttt{65001 (UTF-8)}, co odpowiadało rzeczywistemu kodowaniu plików.
+  \item \textbf{Błędy Konwersji Danych w Źródle:} Błędy typu "Text was truncated or one or more characters had no match in the target code page" pojawiające się w \texttt{Excel Source} wskazywały na niepoprawną konfigurację strony kodowej dla pliku źródłowego. Trzeba było zmienić ręcznie w advanced editor dla źródła typy kolumn.
 \end{itemize}
 
 \subsection{Przyrostowe Zasilanie (Planowane)}
-Dla tabeli faktów \texttt{Fact\_Result} zaplanowano mechanizm przyrostowego zasilania. Polega on na przechowywaniu identyfikatora ostatnio załadowanego rekordu (np. \texttt{resultId} w tabeli kontrolnej) i ładowaniu w kolejnych uruchomieniach ETL tylko nowszych danych.
-*(Uwaga: Opisać, czy zostało to w pełni zaimplementowane, czy jest w planach na dalszy rozwój.)*
+Nie zaimplementowano z braku czasu. Można by uruchomić dla tabeli faktów, za każdym razem usuwając wszystkie wymiary i klucze do wymiarów w fakcie, zapisanie jaki najnowszy id? w fakcie już był, a potem załadowanie wszystkich wymiarów i wierszy o id powyżej ostatniego id faktu.
 
 \section{Podsumowanie i Wnioski z Etapu ETL}
 Proces ETL został pomyślnie zaimplementowany, umożliwiając zasilenie hurtowni danych Formuły 1 przetworzonymi i zintegrowanymi danymi. Kluczowe było właściwe zarządzanie typami danych i stronami kodowymi oraz logiczne rozplanowanie transformacji, w tym agregacji i kategoryzacji danych pogodowych. Zastosowanie SSIS pozwoliło na zbudowanie modularnego i zarządzalnego przepływu danych. Rozwiązane problemy z konwersją danych podkreślają znaczenie dokładnej analizy danych źródłowych i właściwej konfiguracji narzędzi ETL.

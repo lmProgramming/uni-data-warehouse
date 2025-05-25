@@ -1,10 +1,9 @@
 CREATE TABLE Dim_Driver (
     DriverKey INT IDENTITY(1, 1) PRIMARY KEY,
     DriverID_NK INT UNIQUE,
-    DriverRef NVARCHAR(255) UNIQUE,
     FirstName NVARCHAR(255),
     LastName NVARCHAR(255),
-    FullName NVARCHAR(510),
+    FullName NVARCHAR(511),
     DateOfBirth DATE,
     Nationality NVARCHAR(255),
     Continent NVARCHAR(255)
@@ -13,7 +12,6 @@ CREATE TABLE Dim_Driver (
 CREATE TABLE Dim_Constructor (
     ConstructorKey INT IDENTITY(1, 1) PRIMARY KEY,
     ConstructorID_NK INT UNIQUE,
-    ConstructorRef NVARCHAR(255) UNIQUE,
     Name NVARCHAR(255),
     Nationality NVARCHAR(255),
     Continent NVARCHAR(255)
@@ -32,7 +30,6 @@ CREATE TABLE Dim_Race (
 CREATE TABLE Dim_Circuit (
     CircuitKey INT IDENTITY(1, 1) PRIMARY KEY,
     CircuitID_NK INT UNIQUE,
-    CircuitRef NVARCHAR(255) UNIQUE,
     CircuitName NVARCHAR(255),
     LocationCity NVARCHAR(255),
     CountryName NVARCHAR(255)
