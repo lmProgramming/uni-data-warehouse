@@ -17,6 +17,10 @@
 \usepackage{array}
 \usepackage{booktabs}
 \usepackage{tikz}
+\usepackage{ragged2e} % For \RaggedRight
+
+% Define custom column type L for fixed width columns with ragged right
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 
 \usetikzlibrary{positioning, shapes.geometric, arrows.meta}
 
@@ -100,24 +104,50 @@ Niniejszy dokument stanowi raport z realizacji drugiego etapu projektu hurtowni 
 \subsection{Struktura Procesu ETL}
 Proces ETL został zorganizowany w ramach jednego projektu SSIS, zawierającego dedykowane pakiety dla ładowania poszczególnych tabel wymiarów oraz tabeli faktów. Dodatkowo, zaimplementowano pakiet główny (master package) koordynujący uruchamianie poszczególnych pakietów w odpowiedniej kolejności (najpierw wymiary, następnie fakty), aby zapewnić integralność referencyjną.
 
-Struktura pakietów SSIS (przykładowa):
+Struktura pakietów SSIS:
 \begin{itemize}
-  \item \texttt{Load\_Dim\_Circuit.dtsx}
-  \item \texttt{Load\_Dim\_Driver.dtsx}
-  \item \texttt{Load\_Dim\_Constructor.dtsx}
-  \item \texttt{Load\_Dim\_Race.dtsx}
-  \item \texttt{Load\_Dim\_Time.dtsx}
-  \item \texttt{Load\_Dim\_Status.dtsx}
-  \item \texttt{Load\_Dim\_Weather.dtsx}
-  \item \texttt{Load\_Fact\_Result.dtsx}
+  \item \texttt{\_Dim\_Circuit.dtsx}
+  \item \texttt{\_Dim\_Driver.dtsx}
+  \item \texttt{\_Dim\_Constructor.dtsx}
+  \item \texttt{\_Dim\_Race.dtsx}
+  \item \texttt{\_Dim\_Status.dtsx}
+  \item \texttt{\_Dim\_Weather.dtsx}
+  \item \texttt{\_Fact\_Result.dtsx}
+  \item \texttt{\_Dim\_Time.dtsx}
 \end{itemize}
 
 \subsection{Mapa Logiczna ETL}
 
+
+
 \subsection{Narzędzia}
-Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Server Integration Services (SSIS) wchodzący w skład Microsoft SQL Server. Pakiety SSIS zostały utworzone przy użyciu SQL Server Data Tools (SSDT) for Visual Studio.
+Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Server Integration Services (SSIS) wchodzący w skład Microsoft SQL Server. Pakiety SSIS zostały utworzone przy użyciu SQL Server Data Tools (SSDT) for Visual Studio. Dodatkowo do czyszczenia początkowych danych i zmiany formatu plików z danymi wykorzystano Python.
 
 \section{Implementacja Procesów ETL}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{etl.png}
+  \caption{Cały ETL.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{result.png}
+  \caption{ETL dla Fact\_Result.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{time.png}
+  \caption{ETL dla Dim\_Time.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{final_counts.png}
+  \caption{Liczby wierszy w wymiarach i fakcie - zgadzają się ze źródłem danych.}
+\end{figure}
 
 \subsection{Ekstrakcja Danych (Extract)}
 Dane źródłowe w formacie XLSX były wczytywane przy użyciu komponentu \texttt{Excel Source} w SSIS. Kluczowe aspekty konfiguracji tego etapu to:
@@ -142,7 +172,7 @@ Etap transformacji obejmował szereg operacji mających na celu oczyszczenie, in
           \item \textbf{Dane pogodowe (\texttt{Dim\_Weather}):} Minutowe dane pogodowe z pliku \texttt{F1 Weather (2023-2018).csv} były agregowane do poziomu pojedynczego wyścigu (po \texttt{Year} i \texttt{RoundNumber}) przy użyciu komponentu \texttt{Aggregate}. Obliczano wartości średnie, minimalne, maksymalne oraz sumy (np. dla opadów).
           \item \textbf{Dane o pit-stopach:} Informacje o liczbie i łącznym czasie pit-stopów dla każdego kierowcy w wyścigu były agregowane z pliku \texttt{pit\_stops.csv} i dołączane podczas ładowania tabeli faktów (np. poprzez wcześniejszą agregację do tabeli stagingowej i lookup).
         \end{itemize}
-  \item \textbf{Kategoryzacja Danych Pogodowych:} Po agregacji, zagregowane wartości liczbowe dla danych pogodowych (np. temperatura, wilgotność, prędkość wiatru) były przekształcane na predefiniowane kategorie tekstowe (np. "Zimno", "Umiarkowanie", "Gorąco") przy użyciu wyrażeń warunkowych w komponencie \texttt{Derived Column}, zgodnie z założeniami projektu. Te kategorie zostały następnie załadowane do \texttt{Dim\_Weather}. Transformacja odbyła się w skrypcie C#.
+  \item \textbf{Kategoryzacja Danych Pogodowych:} Po agregacji, zagregowane wartości liczbowe dla danych pogodowych (np. temperatura, wilgotność, prędkość wiatru) były przekształcane na predefiniowane kategorie tekstowe (np. "Zimno", "Umiarkowanie", "Gorąco") przy użyciu wyrażeń warunkowych w komponencie \texttt{Derived Column}, zgodnie z założeniami projektu. Te kategorie zostały następnie załadowane do \texttt{Dim\_Weather}. Transformacja odbyła się w skrypcie C\#.
   \item \textbf{Fuzzy Lookup:} Do statusów dołączono ogólną kategorię statusu np. 'Mechanical Failure', 'Race Outcome' itd.
 \end{enumerate}
 
@@ -153,6 +183,16 @@ Przetransformowane dane były ładowane do docelowych tabel w hurtowni SQL Serve
   \item Zapewniono poprawne mapowanie kolumn z przepływu danych SSIS do kolumn tabel docelowych.
   \item Kolejność ładowania (najpierw wymiary, potem fakty) była zarządzana przez pakiet główny.
 \end{itemize}
+
+\subsection{Event handler}
+
+W przypadku błędu, wszystkie dane są usuwane. Wcześniej podczas developmentu dodatkowo tabele były populowane, ponieważ wtedy występował błąd w metadanych SSIS.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{error_handler.png}
+  \caption{Error handler.}
+\end{figure}
 
 \subsection{Wyzwania i Rozwiązania}
 Podczas implementacji napotkano typowe wyzwania związane z procesami ETL:
