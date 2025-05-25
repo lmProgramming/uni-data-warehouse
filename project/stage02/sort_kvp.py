@@ -1,0 +1,123 @@
+data = """
+('American', 'USA'),
+    ('American-Italian', 'USA'),
+    ('Argentine', 'Argentina'),
+    ('Argentine-Italian', 'Argentina'),
+    ('Argentinian', 'Argentina'),
+    ('Australian', 'Australia'),
+    ('Austrian', 'Austria'),
+    ('Belgian', 'Belgium'),
+    ('Brazilian', 'Brazil'),
+    ('British', 'UK'),
+    ('Canadian', 'Canada'),
+    ('Chilean', 'Chile'),
+    ('Chinese', 'China'),
+    ('Colombian', 'Colombia'),
+    ('Czech', 'Czech Republic'),
+    ('Danish', 'Denmark'),
+    ('Dutch', 'Netherlands'),
+    ('East German', 'Germany'),
+    ('Finnish', 'Finland'),
+    ('French', 'France'),
+    ('German', 'Germany'),
+    ('Hungarian', 'Hungary'),
+    ('Indian', 'India'),
+    ('Indonesian', 'Indonesia'),
+    ('Irish', 'UK'),
+    ('Italian', 'Italy'),
+    ('Japanese', 'Japan'),
+    ('Liechtensteiner', 'Liechtenstein'),
+    ('Malaysian', 'Malaysia'),
+    ('Mexican', 'Mexico'),
+    ('Monegasque', 'Monaco'),
+    ('New Zealander', 'New Zealand'),
+    ('Polish', 'Poland'),
+    ('Portuguese', 'Portugal'),
+    ('Rhodesian', 'Zimbabwe'),
+    ('Russian', 'Russia'),
+    ('South African', 'South Africa'),
+    ('Spanish', 'Spain'),
+    ('Swedish', 'Sweden'),
+    ('Swiss', 'Switzerland'),
+    ('Thai', 'Thailand'),
+    ('Uruguayan', 'Uruguay'),
+    ('Venezuelan', 'Venezuela'),
+    ('British', 'UK'),
+    ('German', 'Germany'),
+    ('French', 'France'),
+    ('Italian', 'Italy'),
+    ('Japanese', 'Japan'),
+    ('Austrian', 'Austria'),
+    ('Indian', 'India'),
+    ('Dutch', 'Netherlands'),
+    ('Russian', 'Russia'),
+    ('Swiss', 'Switzerland'),
+    ('Irish', 'UK'),
+    ('Hong Kong', 'China'),
+    ('Brazilian', 'Brazil'),
+    ('Canadian', 'Canada'),
+    ('Mexican', 'Mexico'),
+    ('American', 'USA'),
+    ('Australian', 'Australia'),
+    ('New Zealander', 'UK'),
+    ('South African', 'South Africa'),
+    ('Rhodesian', 'South Africa'),
+    ('Belgian', 'Belgium'),
+    ('Malaysian', 'Malaysia'),
+    ('Spanish', 'Spain'),
+    ('East German', 'Germany'),
+    ('Thai', 'Thailand'),
+    ('Chinese', 'China'),
+    ('Finnish', 'Finland'),
+    ('Polish', 'Poland'),
+    ('Monegasque', 'Monaco'),
+    ('Danish', 'Denmark'),
+    ('Indonesian', 'Indonesia'),
+    ('Liechtensteiner', 'Liechtenstein'),
+    ('Czech', 'Czech Republic'),
+    ('Chilean', 'Chile'),
+    ('Colombian', 'Colombia'),
+    ('Venezuelan', 'Venezuela'),
+    ('Argentine', 'Argentina'),
+    ('Portuguese', 'Portugal'),
+    ('Swedish', 'Sweden'),
+    ('South Korean', 'Korea'),
+    ('Hungarian', 'Hungary'),
+    ('American-Italian', 'USA'),
+    ('Uruguayan', 'Uruguay'),
+    ('Serbian', 'Serbia'),
+    ('Ukrainian', 'Ukraine'),
+    ('Croatian', 'Croatia'),
+    ('Estonian', 'Estonia'),
+    ('Emirati', 'UAE'),
+    ('Saudi', 'Saudi Arabia'),
+    ('Qatari', 'Qatar'),
+    ('Azerbaijani', 'Azerbaijan'),
+    ('Maltese', 'Malta'),
+    ('Slovakian', 'Slovakia'),
+    ('Bulgarian', 'Bulgaria'),
+    ('Georgian', 'Georgia'),
+    ('Andorran', 'Andorra')
+"""
+
+# Parse lines, extract tuples
+lines = data.strip().splitlines()
+
+# Use a set to avoid duplicates
+country_continent_set = set()
+
+for line in lines:
+    # Extract country and continent by splitting line content
+    # Assumes format: ('CountryName', 'Continent'),
+    parts = line.strip().strip(',').strip('()').split("', '")
+    if len(parts) == 2:
+        country = parts[0].strip().strip("'")
+        continent = parts[1].strip().strip("'")
+        country_continent_set.add((country, continent))
+
+# Sort by country name
+sorted_list = sorted(country_continent_set, key=lambda x: x[0])
+
+# Print in the format ('Country', 'Continent'),
+for country, continent in sorted_list:
+    print(f"('{country}', '{continent}'),")
