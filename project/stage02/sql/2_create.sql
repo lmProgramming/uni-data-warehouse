@@ -5,7 +5,7 @@ CREATE TABLE Dim_Driver (
     LastName NVARCHAR(255),
     FullName NVARCHAR(511),
     DateOfBirth DATE,
-    Nationality NVARCHAR(255),
+    CountryName NVARCHAR(255),
     Continent NVARCHAR(255)
 );
 
@@ -13,7 +13,7 @@ CREATE TABLE Dim_Constructor (
     ConstructorKey INT IDENTITY(1, 1) PRIMARY KEY,
     ConstructorID_NK INT UNIQUE,
     Name NVARCHAR(255),
-    Nationality NVARCHAR(255),
+    CountryName NVARCHAR(255),
     Continent NVARCHAR(255)
 );
 
