@@ -396,15 +396,14 @@ Struktura pakietów SSIS:
   \end{longtable}
 \end{footnotesize}
 
-% --- FACT_RESULT ---
 \subsubsection{Mapowanie Atrybutów: Fact\_Result}
 \begin{footnotesize}
-  \setlength{\tabcolsep}{3pt} % Further reduce for this very wide table
+  \setlength{\tabcolsep}{3pt}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
     \caption{Mapowanie ETL dla tabeli Fact\_Result} \label{tab:map_fact_result}
     \\
     \toprule
-    \textbf{Atrybut}     & \textbf{Źródło CSV / Wymiar}   & \textbf{Kolumna}            & \textbf{Transformacje i uwagi}
+    \textbf{Atrybut}     & \textbf{Źródło CSV / Wymiar}   & \textbf{Kolumna}                 & \textbf{Transformacje i uwagi}
     \\
     \midrule
     \endfirsthead
@@ -412,7 +411,7 @@ Struktura pakietów SSIS:
     {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}
     \\
     \toprule
-    \textbf{Atrybut}     & \textbf{Źródło CSV / Wymiar}   & \textbf{Kolumna}            & \textbf{Transformacje i uwagi}
+    \textbf{Atrybut}     & \textbf{Źródło CSV / Wymiar}   & \textbf{Kolumna}                 & \textbf{Transformacje i uwagi}
     \\
     \midrule
     \endhead
@@ -424,56 +423,56 @@ Struktura pakietów SSIS:
     \bottomrule
     \endlastfoot
 
-    RaceKey              & results.xlsx, Dim\_Race        & RaceKey                     & Lookup z Dim\_Race.
+    RaceKey              & results.xlsx, Dim\_Race        & RaceKey                          & Lookup z Dim\_Race (results.raceId) -> RaceKey (i CircuitKey i Date i YearSeason i RoundNumberInSeason)
     \\
     \hline
-    DriverKey            & results.xlsx, Dim\_Driver      & DriverKey                   & Lookup z Dim\_Driver (res.driverId) -> DriverKey (SK). FK.
+    DriverKey            & results.xlsx, Dim\_Driver      & DriverKey                        & Lookup z Dim\_Driver (results.driverId) -> DriverKey (i DateOfBirth).
     \\
     \hline
-    ConstructorKey       & results.xlsx, Dim\_Constructor & ConstructorKey              & Lookup z Dim\_Constr. (res.constructorId) -> ConstrKey (SK). FK.
+    ConstructorKey       & results.xlsx, Dim\_Constructor & ConstructorKey                   & Lookup z Dim\_Constructor (results.constructorId) -> ConstructorKey.
     \\
     \hline
-    CircuitKey           & results.xlsx, Dim\_Circuit     & CircuitKey                  & Lookup z Dim\_Circuit
+    CircuitKey           & Dim\_Race                      & CircuitKey                       & Poprzednio wyliczone przy Lookup do RaceKey
     \\
     \hline
-    DateKey              & results.xlsx, Dim\_Race        & Date                        & Lookup z Dim\_Race -> FullDate. Derived Column: (YEAR(FullDate)*10000) + (MONTH(FullDate)*100) + DAY(FullDate). INT YYYYMMDD. \\
+    DateKey              & Dim\_Race                      & Date                             & Poprzednio wyliczone przy Lookup do RaceKey -> DateKey = YEAR * 10000 + MONTH * 100 + DAY.              \\
     \hline
-    WeatherKey           & {Dim\_Weather} / Dim\_Race     & races.raceId LUB races.year & Lookup z Dim\_Race -> RaceID\_NK (lub Year,Round). LkUp Dim\_Weather. Der.Col: NULL jeśli rok < 2018. FK.
+    WeatherKey           & Dim\_Race                      & YearSeason i RoundNumberInSeason & Kolumny wcześniej wyciągnięte z Dim\_Race -> WeatherKey = YearSeason * 100 + RoundNumberInSeason
     \\
     \hline
-    StatusKey            & Dim\_Status                    & results.statusId (NK)       & Lookup z Dim\_Status (res.statusId) -> StatusKey (SK). FK.
+    StatusKey            & results.xlsx, Dim\_Status      & results.statusId                 & Lookup z Dim\_Status (res.statusId) -> StatusKey (SK).
     \\
     \hline
-    PointsScored         & results.xlsx                   & points                      & Bezpośrednio.
+    PointsScored         & results.xlsx                   & points                           & Bezpośrednio.
     \\
     \hline
-    LapsCompleted        & results.xlsx                   & laps                        & Bezpośrednio.
+    LapsCompleted        & results.xlsx                   & laps                             & Bezpośrednio.
     \\
     \hline
-    NumberOfPitStops     & pit\_stops.xlsx                & raceId, driverId            & Pod-przepływ: Agg. (COUNT(stop) jako stopsCount). Merge Join (Left Outer). Der.Col: ISNULL(stopsCount) ? 0 : stopsCount.      \\
+    NumberOfPitStops     & pit\_stops.xlsx                & raceId, driverId                 & Agregacja (COUNT(stop) jako StopsCount). Merge Join (Left Outer).                                       \\
     \hline
-    RaceTimeMilliseconds & results.xlsx                   & milliseconds LUB time       & Mapa bezp. LUB Der.Col (parsuj tekst time) + DC (do DT\_I8). NULL jeśli DNF.
+    RaceTimeMilliseconds & results.xlsx                   & milliseconds                     & Bezpośrednio
     \\
     \hline
-    GridPosition         & results.xlsx                   & grid                        & Mapa bezp. + DC (do DT\_I4). Obsługa 0 dla pit lane.
+    GridPosition         & results.xlsx                   & grid                             & Bezpośrednio.
     \\
     \hline
-    FinalPositionOrder   & results.xlsx                   & positionOrder LUB position  & Mapa bezp. + DC (do DT\_I4).
+    FinalPositionOrder   & results.xlsx                   & positionOrder                    & Bezpośrednio.
     \\
     \hline
-    PositionOrderChange  & results.xlsx                   & grid, positionOrder         & Der.Col: GridPosition - FinalPositionOrder.
+    PositionOrderChange  & results.xlsx                   & grid, positionOrder              & Derived Column: grid - positionOrder.
     \\
     \hline
-    RankFastestLap       & results.xlsx                   & rank (fast lap)             & Mapa bezp. + DC (do DT\_I4). NULL jeśli brak.
+    RankFastestLap       & results.xlsx                   & rank                             & Bezpośrednio.
     \\
     \hline
-    FastestLapTopSpeed   & results.xlsx                   & fastestLapSpeed             & Mapa bezp. + DC (do DT\_DECIMAL). NULL jeśli brak.
+    FastestLapTopSpeed   & results.xlsx                   & fastestLapSpeed                  & Bezpośrednio + Data Conversion do DT\_Numeric.
     \\
     \hline
-    AgeAtRace            & Dim\_Driver, Dim\_Race         & drivers.dob, races.date     & LkUp Dim\_Driver (dob). LkUp Dim\_Race (date). Der.Col: Kalkulacja wieku. NULL jeśli dob NULL.                                \\
+    AgeAtRace            & Dim\_Driver, Dim\_Race         & drivers.DateOfBirth, races.Date  & Poprzednio wyliczone przy Lookup do Dim\_Driver i Dim\_Race -> YearSeason - YEAR(DateOfBirth)           \\
   \end{longtable}
 \end{footnotesize}
-\setlength{\tabcolsep}{6pt} % Restore default if changed
+\setlength{\tabcolsep}{6pt}
 
 \subsection{Narzędzia}
 Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Server Integration Services (SSIS) wchodzący w skład Microsoft SQL Server. Pakiety SSIS zostały utworzone przy użyciu SQL Server Data Tools

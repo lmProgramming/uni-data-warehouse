@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="201"
-  DTS:VersionGUID="{1BE55CB0-633F-442D-A85A-AE7B7DC29FEA}">
+  DTS:VersionBuild="209"
+  DTS:VersionGUID="{D7D46D9B-D5C5-44FE-A727-2B503B0C210B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -6584,7 +6584,7 @@ namespace SC_4bd8bf29a5a14f19ae58371f0845c83c.Properties {
     <msb:CodeName>SC_4bd8bf29a5a14f19ae58371f0845c83c</msb:CodeName>
     <msb:Language>msBuild</msb:Language>
     <msb:DisplayName>SC_4bd8bf29a5a14f19ae58371f0845c83c</msb:DisplayName>
-    <msb:ProjectId>{7435AF24-603E-4DE4-A7D7-07D28F1791F1}</msb:ProjectId>
+    <msb:ProjectId>{476017A8-4A13-46D7-B0EF-A1CAB211637C}</msb:ProjectId>
   </msb:PropertyGroup>
   <msb:ItemGroup>
     <msb:Project Include="SC_4bd8bf29a5a14f19ae58371f0845c83c.csproj" />
@@ -6731,7 +6731,7 @@ namespace SC_4bd8bf29a5a14f19ae58371f0845c83c.Properties {
                     <arrayElement
                       dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
-ZGUuDQ0KJAAAAAAAAABQRQAATAEDAHkfMmgAAAAAAAAAAOAAIiALATAAAB4AAAAIAAAAAAAANjwA
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAOZvM2gAAAAAAAAAAOAAIiALATAAAB4AAAAIAAAAAAAANjwA
 AAAgAAAAQAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAACAAAAAAgAAAAAAAAMAYIUAABAA
 ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAOQ7AABPAAAAAEAAAEgEAAAAAAAAAAAAAAAAAAAA
 AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -6852,7 +6852,7 @@ cwBlAHQAIAB0AG8AIABGAGEAbABzAGUALgAgAEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAg
 AHQAbwAgAHQAaABlACAAYwBvAGwAdQBtAG4AIABpAG4AcwB0AGUAYQBkAC4AAA9JAG4AcAB1AHQA
 IAAwAABxUwBDAF8ANABiAGQAOABiAGYAMgA5AGEANQBhADEANABmADEAOQBhAGUANQA4ADMANwAx
 AGYAMAA4ADQANQBjADgAMwBjAC4AUAByAG8AcABlAHIAdABpAGUAcwAuAFIAZQBzAG8AdQByAGMA
-ZQBzAAAnZtAdKPARSowGpZrU8JcyAAQgAQEIAyAAAQUgAQEREQQgAQEOBSABARFZCSADARI9HQgS
+ZQBzAAD9I0BZuRFJTIyUCeQYdGFeAAQgAQEIAyAAAQUgAQEREQQgAQEOBSABARFZCSADARI9HQgS
 QQMGEj0DBh0IBCABDQgEIAECCAQgAQgIBSACAQgcAyAAAgYgAgIOEXEFIAEdCAgGAAESdRF5BCAA
 En0GIAIBDhJ9CLd6XFYZNOCJCImEXc2AgMyRAwYSFAMGEhgDBhJFAwYSUQMGElUDBhIgBSABARIM
 AyAADQMgAAgEIAEBAgkgBAEIDhI9EkEFIAEBEkUEAAASUQQAABJVBQABARJVBAAAEiADAAABAygA
@@ -8110,35 +8110,35 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
               </outputs>
             </component>
             <component
-              refId="Package\Fact_Result\Calculated Weather Key and Driver Age"
+              refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Calculated Weather Key and Driver Age"
+              name="Calculated WeatherKey, DriverAge, DateKey"
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]"
+                  refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input].Columns[YearSeason]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[YearSeason]"
                       cachedDataType="i4"
                       cachedName="YearSeason"
                       lineageId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output].Columns[YearSeason]" />
                     <inputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input].Columns[RoundNumberInSeason]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[RoundNumberInSeason]"
                       cachedDataType="i4"
                       cachedName="RoundNumberInSeason"
                       lineageId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output].Columns[RoundNumberInSeason]" />
                     <inputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input].Columns[DateOfBirth]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[DateOfBirth]"
                       cachedDataType="dbDate"
                       cachedName="DateOfBirth"
                       lineageId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output].Columns[DateOfBirth]" />
                     <inputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input].Columns[Date]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[Date]"
                       cachedDataType="dbDate"
                       cachedName="Date"
                       lineageId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output].Columns[Date]" />
@@ -8148,18 +8148,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output]"
+                  refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[WeatherKey]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[WeatherKey]"
                       name="WeatherKey"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -8177,11 +8177,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[AgeAtRace]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[AgeAtRace]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[AgeAtRace]"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[AgeAtRace]"
                       name="AgeAtRace"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -8199,11 +8199,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[DateKey]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[DateKey]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[DateKey]"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[DateKey]"
                       name="DateKey"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -8224,23 +8224,23 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output]"
+                  refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -8742,7 +8742,7 @@ where [refTable].[CircuitID_NK] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CircuitKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CircuitID_NK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CircuitRef" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CircuitName" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationCity" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CountryName" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CircuitKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CircuitID_NK" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CircuitName" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationCity" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="CountryName" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
@@ -9607,7 +9607,7 @@ where [refTable].[WeatherKey] = ?</property>
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]};</property>
+                  name="ParameterMap">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[WeatherKey]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -9634,7 +9634,7 @@ where [refTable].[WeatherKey] = ?</property>
                       refId="Package\Fact_Result\Lookup Weather Key.Inputs[Lookup Input].Columns[WeatherKey]"
                       cachedDataType="i4"
                       cachedName="WeatherKey"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]">
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[WeatherKey]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -11719,7 +11719,7 @@ where [refTable].[WeatherKey] = ?</property>
                       refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[WeatherKey]"
                       cachedDataType="i4"
                       cachedName="WeatherKey"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]">
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[WeatherKey]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -11735,7 +11735,7 @@ where [refTable].[WeatherKey] = ?</property>
                       refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[AgeAtRace]"
                       cachedDataType="i4"
                       cachedName="AgeAtRace"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[AgeAtRace]">
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[AgeAtRace]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -11751,7 +11751,7 @@ where [refTable].[WeatherKey] = ?</property>
                       refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[DateKey]"
                       cachedDataType="i4"
                       cachedName="DateKey"
-                      lineageId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[DateKey]">
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[DateKey]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -12203,7 +12203,7 @@ where [refTable].[WeatherKey] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[WeatherKey]}</property>
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[WeatherKey]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -12216,7 +12216,7 @@ where [refTable].[WeatherKey] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[AgeAtRace]}</property>
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[AgeAtRace]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -12229,7 +12229,7 @@ where [refTable].[WeatherKey] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output].Columns[DateKey]}</property>
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[DateKey]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -12286,7 +12286,7 @@ where [refTable].[WeatherKey] = ?</property>
               refId="Package\Fact_Result.Paths[Derived Column Output1]"
               endId="Package\Fact_Result\Lookup Weather Key.Inputs[Lookup Input]"
               name="Derived Column Output"
-              startId="Package\Fact_Result\Calculated Weather Key and Driver Age.Outputs[Derived Column Output]" />
+              startId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output]" />
             <path
               refId="Package\Fact_Result.Paths[Excel Source Output]"
               endId="Package\Fact_Result\Derived Column.Inputs[Derived Column Input]"
@@ -12319,7 +12319,7 @@ where [refTable].[WeatherKey] = ?</property>
               startId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Fact_Result.Paths[Lookup Match Output4]"
-              endId="Package\Fact_Result\Calculated Weather Key and Driver Age.Inputs[Derived Column Input]"
+              endId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input]"
               name="Lookup Match Output"
               startId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output]" />
             <path
@@ -13233,7 +13233,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         <NodeLayout
           Size="163,42"
           Id="Package\Dim_Constructors"
-          TopLeft="167,244" />
+          TopLeft="167,243" />
         <NodeLayout
           Size="136,42"
           Id="Package\Dim_Drivers"
@@ -13530,26 +13530,26 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-176.285714285714,61"
+              EndConnector="-176.285714285714,60"
               Start="0,0"
-              End="-176.285714285714,53.5">
+              End="-176.285714285714,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,18.9107981220657" />
+                    End="0,18.5352112676056" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,18.9107981220657"
-                    Point2="0,22.9107981220657"
-                    Point3="-4,22.9107981220657" />
+                    Point1="0,18.5352112676056"
+                    Point2="0,22.5352112676056"
+                    Point3="-4,22.5352112676056" />
                   <mssgle:LineSegment
-                    End="-172.285714285714,22.9107981220657" />
+                    End="-172.285714285714,22.5352112676056" />
                   <mssgle:CubicBezierSegment
-                    Point1="-172.285714285714,22.9107981220657"
-                    Point2="-176.285714285714,22.9107981220657"
-                    Point3="-176.285714285714,26.9107981220657" />
+                    Point1="-172.285714285714,22.5352112676056"
+                    Point2="-176.285714285714,22.5352112676056"
+                    Point3="-176.285714285714,26.5352112676056" />
                   <mssgle:LineSegment
-                    End="-176.285714285714,53.5" />
+                    End="-176.285714285714,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -13730,30 +13730,30 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 9]"
-          TopLeft="248.5,286">
+          TopLeft="248.5,285">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="160.214285714286,74"
+              EndConnector="160.214285714286,75"
               Start="0,0"
-              End="160.214285714286,66.5">
+              End="160.214285714286,67.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,42.3308675184936" />
+                    End="0,42.9569603227976" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,42.3308675184936"
-                    Point2="0,46.3308675184936"
-                    Point3="4,46.3308675184936" />
+                    Point1="0,42.9569603227976"
+                    Point2="0,46.9569603227976"
+                    Point3="4,46.9569603227976" />
                   <mssgle:LineSegment
-                    End="156.214285714286,46.3308675184936" />
+                    End="156.214285714286,46.9569603227976" />
                   <mssgle:CubicBezierSegment
-                    Point1="156.214285714286,46.3308675184936"
-                    Point2="160.214285714286,46.3308675184936"
-                    Point3="160.214285714286,50.3308675184936" />
+                    Point1="156.214285714286,46.9569603227976"
+                    Point2="160.214285714286,46.9569603227976"
+                    Point3="160.214285714286,50.9569603227976" />
                   <mssgle:LineSegment
-                    End="160.214285714286,66.5" />
+                    End="160.214285714286,67.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -14406,7 +14406,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
     design-time-name="Package\Dim_Time">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="169,42"
           Id="Package\Dim_Time\DISTINCT DateKey"
@@ -14474,9 +14474,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14498,9 +14496,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14522,9 +14518,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14546,9 +14540,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14570,9 +14562,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14594,9 +14584,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14618,9 +14606,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14642,9 +14628,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14666,9 +14650,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14690,9 +14672,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14714,9 +14694,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -14773,11 +14751,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
     design-time-name="Package\Dim_Weather">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="178,42"
           Id="Package\Dim_Weather\Convert rainfall to int"
-          TopLeft="65,189" />
+          TopLeft="64,188" />
         <NodeLayout
           Size="185,42"
           Id="Package\Dim_Weather\Calculate Weather Key"
@@ -14821,9 +14799,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14845,33 +14821,29 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Dim_Weather.Paths[Derived Column Output]"
-          TopLeft="155.25,231">
+          TopLeft="154.75,230">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,29"
+              EndConnector="0,30"
               Start="0,0"
-              End="0,21.5">
+              End="0,22.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,21.5" />
+                    End="0,22.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14893,33 +14865,29 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Dim_Weather.Paths[Sort Output]"
-          TopLeft="152.25,158">
+          TopLeft="151.75,158">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,31"
+              EndConnector="0,30"
               Start="0,0"
-              End="0,23.5">
+              End="0,22.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23.5" />
+                    End="0,22.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -14941,9 +14909,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -14997,9 +14963,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           Id="Package\Fact_Result\Fact_Result"
           TopLeft="857,367" />
         <NodeLayout
-          Size="265,42"
-          Id="Package\Fact_Result\Calculated Weather Key and Driver Age"
-          TopLeft="265,456" />
+          Size="286,42"
+          Id="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey"
+          TopLeft="250,450" />
         <NodeLayout
           Size="113,42"
           Id="Package\Fact_Result\Results"
@@ -15087,9 +15053,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15111,33 +15075,29 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Fact_Result.Paths[Derived Column Output1]"
-          TopLeft="530,474">
+          TopLeft="536,471">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="41,0"
+              EndConnector="35,0"
               Start="0,0"
-              End="33.5,0">
+              End="27.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="33.5,0" />
+                    End="27.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15171,9 +15131,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15195,9 +15153,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15219,9 +15175,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15243,9 +15197,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15267,9 +15219,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15291,9 +15241,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15322,25 +15270,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Fact_Result.Paths[Lookup Match Output4]"
-          TopLeft="394.75,415">
+          TopLeft="392.5,415">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,41"
+              EndConnector="0,35"
               Start="0,0"
-              End="0,33.5">
+              End="0,27.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,33.5" />
+                    End="0,27.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,10.9453125,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,7.9453125,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -15520,7 +15468,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -15530,7 +15478,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -15556,7 +15504,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -15566,7 +15514,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
