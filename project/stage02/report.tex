@@ -16,7 +16,7 @@
 \usepackage{array}
 \usepackage{booktabs}
 \usepackage{tikz}
-\usepackage{ragged2e} 
+\usepackage{ragged2e}
 \usepackage{geometry}
 
 \newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
@@ -92,7 +92,7 @@
 \geometry{
   a4paper,
   left=1.5cm,
-  right=1.5cm, 
+  right=1.5cm,
   top=2.5cm,
   bottom=2.5cm
 }
@@ -109,18 +109,19 @@ Niniejszy dokument stanowi raport z realizacji drugiego etapu projektu hurtowni 
 \section{Architektura i Narzędzia Procesu ETL}
 
 \subsection{Struktura Procesu ETL}
-Proces ETL został zorganizowany w ramach jednego projektu SSIS, zawierającego dedykowane pakiety dla ładowania poszczególnych tabel wymiarów oraz tabeli faktów. Dodatkowo, zaimplementowano pakiet główny (master package) koordynujący uruchamianie poszczególnych pakietów w odpowiedniej kolejności (najpierw wymiary, następnie fakty), aby zapewnić integralność referencyjną.
+Proces ETL został zorganizowany w ramach jednego projektu SSIS, zawierającego dedykowane pakiety dla ładowania poszczególnych tabel wymiarów oraz tabeli faktów. Dodatkowo, zaimplementowano pakiet główny (master
+package) koordynujący uruchamianie poszczególnych pakietów w odpowiedniej kolejności (najpierw wymiary, następnie fakty), aby zapewnić integralność referencyjną.
 
 Struktura pakietów SSIS:
 \begin{itemize}
-  \item \texttt{\_Dim\_Circuit.dtsx}
-  \item \texttt{\_Dim\_Driver.dtsx}
-  \item \texttt{\_Dim\_Constructor.dtsx}
-  \item \texttt{\_Dim\_Race.dtsx}
-  \item \texttt{\_Dim\_Status.dtsx}
-  \item \texttt{\_Dim\_Weather.dtsx}
-  \item \texttt{\_Fact\_Result.dtsx}
-  \item \texttt{\_Dim\_Time.dtsx}
+  \item \_Dim\_Circuit.dtsx
+  \item \_Dim\_Driver.dtsx
+  \item \_Dim\_Constructor.dtsx
+  \item \_Dim\_Race.dtsx
+  \item \_Dim\_Status.dtsx
+  \item \_Dim\_Weather.dtsx
+  \item \_Fact\_Result.dtsx
+  \item \_Dim\_Time.dtsx
 \end{itemize}
 
 \subsection{Mapa Logiczna ETL}
@@ -129,39 +130,45 @@ Struktura pakietów SSIS:
 \subsubsection{Mapowanie Atrybutów: Dim\_Driver}
 \begin{footnotesize}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Dim\_Driver} \label{tab:map_dim_driver}                                                                                                                                                          \\
+    \caption{Mapowanie ETL dla tabeli Dim\_Driver} \label{tab:map_dim_driver}
+    \\
     \toprule
-    \textbf{Atrybut}      & \textbf{Źródła}                                                                     & \textbf{Kolumna źródła}                   & \textbf{Transformacje i uwagi}                                           \\
+    \textbf{Atrybut} & \textbf{Źródła}                                & \textbf{Kolumna źródła}          & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                                                                                          \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}
+    \\
     \toprule
-    \textbf{Atrybut}      & \textbf{Źródła}                                                                     & \textbf{Kolumna źródła}                   & \textbf{Transformacje i uwagi}                                           \\
+    \textbf{Atrybut} & \textbf{Źródła}                                & \textbf{Kolumna źródła}          & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                                                                           \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}
+    \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
 
-    \texttt{DriverKey}    & -                                                                                   & -                                         & SQL Server \texttt{IDENTITY(1,1)}. Klucz zastępczy.                      \\
+    DriverKey        & -                                              & -                                & SQL Server IDENTITY(1,1). Klucz zastępczy.
+    \\
     \hline
-    \texttt{DriverID\_NK} & \texttt{drivers.xlsx}                                                               & \texttt{driverId}                         & Bezpośrednio. Klucz naturalny ze źródła.                                 \\
+    DriverID\_NK     & drivers.xlsx                                   & driverId                         & Bezpośrednio. Klucz naturalny ze źródła.                                 \\
     \hline
-    \texttt{FirstName}    & \texttt{drivers.xlsx}                                                               & \texttt{forename}                         & Bezpośrednio.                                                            \\
+    FirstName        & drivers.xlsx                                   & forename                         & Bezpośrednio.                                                            \\
     \hline
-    \texttt{LastName}     & \texttt{drivers.xlsx}                                                               & \texttt{surname}                          & Bezpośrednio.                                                            \\
+    LastName         & drivers.xlsx                                   & surname                          & Bezpośrednio.                                                            \\
     \hline
-    \texttt{FullName}     & \texttt{drivers.xlsx}                                                               & \texttt{forename}, \texttt{surname}       & Derived Column: forename + " " + surname. Pełne imię i nazwisko          \\
+    FullName         & drivers.xlsx                                   & forename, surname                & Derived Column: forename + " " + surname. Pełne imię i nazwisko          \\
     \hline
-    \texttt{DateOfBirth}  & \texttt{drivers.xlsx}                                                               & \texttt{dob}                              & Bezpośrednio.                                                            \\
+    DateOfBirth      & drivers.xlsx                                   & dob                              & Bezpośrednio.                                                            \\
     \hline
-    \texttt{CountryName}  & \texttt{drivers.xlsx, Helper\_Nationality}                                          & \texttt{nationality}                      & Lookup do Helper\_NationalityCountries.                                  \\
+    CountryName      & drivers.xlsx, Helper\_Nationality              & nationality                      & Lookup do Helper\_NationalityCountries.                                  \\
     \hline
-    \texttt{Continent}    & \texttt{} \newline \texttt{Helper\_Nationality} \newline \texttt{Helper\_Continent} & \texttt{CountryName poprzednio obliczone} & Lookup do Helper\_CountryContinents z poprzednio obliczonego CountryName \\
+    Continent        & Helper\_Nationality \newline Helper\_Continent & CountryName poprzednio obliczone & Lookup do Helper\_CountryContinents z poprzednio obliczonego CountryName \\
   \end{longtable}
 \end{footnotesize}
 
@@ -169,32 +176,32 @@ Struktura pakietów SSIS:
 \subsubsection{Mapowanie Atrybutów: Dim\_Constructor}
 \begin{footnotesize}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Dim\_Constructor} \label{tab:map_dim_constructor}                                                                                                    \\
+    \caption{Mapowanie ETL dla tabeli Dim\_Constructor} \label{tab:map_dim_constructor}                                                                                       \\
     \toprule
-    \textbf{Atrybut}           & \textbf{Źródła}                                          & \textbf{Kolumna źródła}                  & \textbf{Transformacje i uwagi}                      \\
+    \textbf{Atrybut}  & \textbf{Źródła}                                               & \textbf{Kolumna źródła}         & \textbf{Transformacje i uwagi}                      \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                                              \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                                 \\
     \toprule
-    \textbf{Atrybut}           & \textbf{Źródła}                                          & \textbf{Kolumna źródła}                  & \textbf{Transformacje i uwagi}                      \\
+    \textbf{Atrybut}  & \textbf{Źródła}                                               & \textbf{Kolumna źródła}         & \textbf{Transformacje i uwagi}                      \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                               \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                  \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
-    \texttt{ConstructorKey}    & -                                                        & -                                        & SQL Server \texttt{IDENTITY(1,1)}. Klucz zastępczy. \\
+    ConstructorKey    & -                                                             & -                               & SQL Server IDENTITY(1,1). Klucz zastępczy.          \\
     \hline
-    \texttt{ConstructorID\_NK} & \texttt{constructors.xlsx}                               & \texttt{constructorId}                   & Bezpośrednio. Klucz naturalny.                      \\
+    ConstructorID\_NK & constructors.xlsx                                             & constructorId                   & Bezpośrednio. Klucz naturalny.                      \\
     \hline
-    \texttt{Name}              & \texttt{constructors.xlsx}                               & \texttt{name}                            & Bezpośrednio.                                       \\
+    Name              & constructors.xlsx                                             & name                            & Bezpośrednio.                                       \\
     \hline
-    \texttt{CountryName}       & \texttt{constructors.xlsx, Helper\_NationalityCountries} & \texttt{nationality}                     & Lookup nationality do Helper\_NationalityCountries. \\
+    CountryName       & constructors.xlsx \newline Helper\_Nationality                & nationality                     & Lookup nationality do Helper\_NationalityCountries. \\
     \hline
-    \texttt{Continent}         & {Helper\_Continent, poprzednio obliczone CountryName}    & \texttt{CountryName wcześniej obliczone} & Lookup CountryName do Helper\_CountryContinent      \\
+    Continent         & {Helper\_Continent \newline poprzednio obliczone CountryName} & CountryName wcześniej obliczone & Lookup CountryName do Helper\_CountryContinent      \\
   \end{longtable}
 \end{footnotesize}
 
@@ -202,36 +209,36 @@ Struktura pakietów SSIS:
 \subsubsection{Mapowanie Atrybutów: Dim\_Race}
 \begin{footnotesize}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Dim\_Race} \label{tab:map_dim_race}                                                              \\
+    \caption{Mapowanie ETL dla tabeli Dim\_Race} \label{tab:map_dim_race}                                        \\
     \toprule
-    \textbf{Atrybut}             & \textbf{Źródła}     & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}                      \\
+    \textbf{Atrybut}    & \textbf{Źródła} & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}             \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                          \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                    \\
     \toprule
-    \textbf{Atrybut}             & \textbf{Źródła}     & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}                      \\
+    \textbf{Atrybut}    & \textbf{Źródła} & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}             \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                           \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                     \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
-    \texttt{RaceKey}             & -                   & -                       & SQL Server \texttt{IDENTITY(1,1)}. Klucz zastępczy. \\
+    RaceKey             & -               & -                       & SQL Server IDENTITY(1,1). Klucz zastępczy. \\
     \hline
-    \texttt{RaceID\_NK}          & \texttt{races.xlsx} & \texttt{raceId}         & Bezpośrednio. Klucz naturalny.                      \\
+    RaceID\_NK          & races.xlsx      & raceId                  & Bezpośrednio. Klucz naturalny.             \\
     \hline
-    \texttt{CircuitID\_NK}       & \texttt{races.xlsx} & \texttt{circuitId}      & Bezpośrednio. NK obwodu dla tego wyścigu.           \\
+    CircuitID\_NK       & races.xlsx      & circuitId               & Bezpośrednio. NK obwodu dla tego wyścigu.  \\
     \hline
-    \texttt{YearSeason}          & \texttt{races.xlsx} & \texttt{year}           & Bezpośrednio.                                       \\
+    YearSeason          & races.xlsx      & year                    & Bezpośrednio.                              \\
     \hline
-    \texttt{RoundNumberInSeason} & \texttt{races.xlsx} & \texttt{round}          & Bezpośrednio.                                       \\
+    RoundNumberInSeason & races.xlsx      & round                   & Bezpośrednio.                              \\
     \hline
-    \texttt{RaceNameOfficial}    & \texttt{races.xlsx} & \texttt{name}           & Bezpośrednio.                                       \\
+    RaceNameOfficial    & races.xlsx      & name                    & Bezpośrednio.                              \\
     \hline
-    \texttt{Date}                & \texttt{races.xlsx} & \texttt{date}           & Bezpośrednio. Używana do \texttt{DateKey} w Fact.   \\
+    Date                & races.xlsx      & date                    & Bezpośrednio. Używana do DateKey w Fact.   \\
   \end{longtable}
 \end{footnotesize}
 
@@ -239,32 +246,32 @@ Struktura pakietów SSIS:
 \subsubsection{Mapowanie Atrybutów: Dim\_Circuit}
 \begin{footnotesize}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Dim\_Circuit} \label{tab:map_dim_circuit}                                                     \\
+    \caption{Mapowanie ETL dla tabeli Dim\_Circuit} \label{tab:map_dim_circuit}                               \\
     \toprule
-    \textbf{Atrybut}       & \textbf{Źródła}        & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}                      \\
+    \textbf{Atrybut} & \textbf{Źródła} & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}             \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                       \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                 \\
     \toprule
-    \textbf{Atrybut}       & \textbf{Źródła}        & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}                      \\
+    \textbf{Atrybut} & \textbf{Źródła} & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}             \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                        \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                  \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
-    \texttt{CircuitKey}    & -                      & -                       & SQL Server \texttt{IDENTITY(1,1)}. Klucz zastępczy. \\
+    CircuitKey       & -               & -                       & SQL Server IDENTITY(1,1). Klucz zastępczy. \\
     \hline
-    \texttt{CircuitID\_NK} & \texttt{circuits.xlsx} & \texttt{circuitId}      & Mapa bezpośrednia + DC (do INT). Klucz naturalny.   \\
+    CircuitID\_NK    & circuits.xlsx   & circuitId               & Bezpośrednio. Klucz naturalny.             \\
     \hline
-    \texttt{CircuitName}   & \texttt{circuits.xlsx} & \texttt{name}           & Mapa bezpośrednia + DC (do \texttt{DT\_WSTR}).      \\
+    CircuitName      & circuits.xlsx   & name                    & Bezpośrednio.                              \\
     \hline
-    \texttt{LocationCity}  & \texttt{circuits.xlsx} & \texttt{location}       & Mapa bezpośrednia + DC (do \texttt{DT\_WSTR}).      \\
+    LocationCity     & circuits.xlsx   & location                & Bezpośrednio.                              \\
     \hline
-    \texttt{CountryName}   & \texttt{circuits.xlsx} & \texttt{country}        & Mapa bezpośrednia + DC (do \texttt{DT\_WSTR}).      \\
+    CountryName      & circuits.xlsx   & country                 & Bezpośrednio.                              \\
   \end{longtable}
 \end{footnotesize}
 
@@ -272,38 +279,43 @@ Struktura pakietów SSIS:
 \subsubsection{Mapowanie Atrybutów: Dim\_Time}
 \begin{footnotesize}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Dim\_Time} \label{tab:map_dim_time}                                                                                                                                                                                       \\
+    \caption{Mapowanie ETL dla tabeli Dim\_Time} \label{tab:map_dim_time}
+    \\
     \toprule
-    \textbf{Atrybut}       & \textbf{Źródło / Metoda}                           & \textbf{Kolumna(y) Źródła / Logika} & \textbf{Transformacje i uwagi}                                                                                                          \\
+    \textbf{Atrybut} & \textbf{Źródła}                     & \textbf{Kolumna}             & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                                                                                                                   \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}
+    \\
     \toprule
-    \textbf{Atrybut}       & \textbf{Źródło / Metoda}                           & \textbf{Kolumna(y) Źródła / Logika} & \textbf{Transformacje i uwagi}                                                                                                          \\
+    \textbf{Atrybut} & \textbf{Źródła}                     & \textbf{Kolumna}             & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                                                                                                    \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}
+    \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
-    \texttt{DateKey}       & \texttt{races.xlsx} (distinct dates) LUB Generacja & \texttt{date} LUB iteracja          & Der. Col.: \texttt{(YEAR(FullDate) * 10000) + (MONTH(FullDate) * 100) + DAY(FullDate)}. PK, YYYYMMDD INT.                               \\
+    DateKey          & Fact\_Result                        & Distinct DateKey             & Distinct z DateKey w Fact\_Result. PK, YYYYMMDD INT.                                   \\
     \hline
-    \texttt{FullDate}      & \texttt{races.xlsx} (distinct dates) LUB Generacja & \texttt{date} LUB iteracja          & Mapa bezp. LUB generacja + DC (do \texttt{DT\_DATE}).                                                                                   \\
+    FullDate         & Dim\_Time                           & DateKey wcześniej obliczone  & Derived column: rok, miesiąc i dzień za pomocą modulo i dzielenia z DateKey.           \\
     \hline
-    \texttt{Year}          & j.w.                                               & Bazuje na \texttt{FullDate}         & Der. Col.: \texttt{YEAR(FullDate)}.                                                                                                     \\
+    Year             & Dim\_Time                           & FullDate wcześniej obliczone & Derived Column: DatePart YEAR z FullDate.                                              \\
     \hline
-    \texttt{Quarter}       & j.w.                                               & Bazuje na \texttt{FullDate}         & Der. Col.: \texttt{DATEPART("qq", FullDate)}.                                                                                           \\
+    Quarter          & Dim\_Time                           & FullDate wcześniej obliczone & Derived Column: DatePart QUARTER z FullDate.                                           \\
     \hline
-    \texttt{Month}         & j.w.                                               & Bazuje na \texttt{FullDate}         & Der. Col.: \texttt{MONTH(FullDate)}.                                                                                                    \\
+    Month            & Dim\_Time                           & FullDate wcześniej obliczone & Derived Column: DatePart MONTH z FullDate.                                             \\
     \hline
-    \texttt{MonthName}     & j.w. \newline \texttt{Helper\_Months}              & Bazuje na numerze miesiąca          & Der. Col.: \texttt{MONTH(FullDate)}; \newline LkUp na \texttt{Helper\_Months}. Polska nazwa.                                            \\
+    MonthName        & Dim\_Time \newline Helper\_Months   & Month wcześniej obliczone    & Lookup na Helper\_Months. Angielska nazwa.                                             \\
     \hline
-    \texttt{DayOfMonth}    & j.w.                                               & Bazuje na \texttt{FullDate}         & Der. Col.: \texttt{DAY(FullDate)}.                                                                                                      \\
+    DayOfMonth       & Dim\_Time                           & FullDate wcześniej obliczone & Derived Column: DatePart DAY z FullDate.                                               \\
     \hline
-    \texttt{DayOfWeekName} & j.w. \newline \texttt{Helper\_Weekdays}            & Bazuje na \texttt{FullDate}         & Der. Col.: \texttt{DATEPART("dw", FullDate)}; \newline LkUp na \texttt{Helper\_Weekdays}. Polska nazwa. Weryfikacja \texttt{DATEFIRST}. \\
+    DayOfWeekName    & Dim\_Time \newline Helper\_Weekdays & Bazuje na FullDate           & Derived Column: DatePart WEEKDAY - z tego Lookup na Helper\_Weekdays. Angielska nazwa. \\
   \end{longtable}
 \end{footnotesize}
 
@@ -311,38 +323,37 @@ Struktura pakietów SSIS:
 \subsubsection{Mapowanie Atrybutów: Dim\_Weather}
 \begin{footnotesize}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Dim\_Weather} \label{tab:map_dim_weather}                                                                                                                                             \\
+    \caption{Mapowanie ETL dla tabeli Dim\_Weather} \label{tab:map_dim_weather}                                                                                    \\
     \toprule
-    \textbf{Atrybut}                & \textbf{Źródła}                  & \textbf{Źródla}                                & \textbf{Transformacje i uwagi}                                                                    \\
+    \textbf{Atrybut}  & \textbf{Źródła} & \textbf{Źródla}   & \textbf{Transformacje i uwagi}                                                                       \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                                                                               \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                      \\
     \toprule
-    \textbf{Atrybut}                & \textbf{Źródła}                  & \textbf{Źródla}                                & \textbf{Transformacje i uwagi}                                                                    \\
+    \textbf{Atrybut}  & \textbf{Źródła} & \textbf{Źródla}   & \textbf{Transformacje i uwagi}                                                                       \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                                                                \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                       \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
-    \texttt{WeatherKey}             & -                                & -                                              & SQL Server \texttt{IDENTITY(1,1)}. Klucz zastępczy.                                               \\
+    WeatherKey        & weather.xlsx    & RoundNumber, Year & Derived Column: Year * 100 + RoundNumber.                                                            \\
     \hline
-    \texttt{DidRainOccur}           & \texttt{F1 Weather (\dots).xlsx} & \texttt{Rainfall} (np. \texttt{MAX} flagi 0/1) & Agg. \newline Der. Col. (\texttt{AggRain > 0 ? "Tak" : "Nie"}). "Tak"/"Nie".                      \\
+    DidRainOccur      & weather.xlsx    & Rainfall          & Najpierw Derived Column RainfallInt 1/0 -> Agregacja max z RainfallInt -> "Rain Occurred"/"No Rain". \\
     \hline
-    \texttt{WindSpeedCategory}      & \texttt{F1 Weather (\dots).xlsx} & \texttt{WindSpeed} (np. \texttt{AVG})          & Agg. \newline Der. Col. (Logika CASE dla kategorii: "Słaby", "Umiarkowany", "Silny").             \\
+    WindSpeedCategory & weather.xlsx    & WindSpeed         & Agregacja AVG -> logika CASE dla kategorii: "Light Breeze", "Calm"...                                \\
     \hline
-    \texttt{AirTempCategory}        & \texttt{F1 Weather (\dots).xlsx} & \texttt{AirTemp} (np. \texttt{AVG})            & Agg. \newline Der. Col. (Logika CASE dla kategorii: "Zimno", "Umiarkowanie", "Ciepło", "Gorąco"). \\
+    AirTempCategory   & weather.xlsx    & AirTemp           & Agregacja AVG -> logika CASE dla kategorii: "Cold", "Warm"...                                        \\
     \hline
-    \texttt{TrackTempCategory}      & \texttt{F1 Weather (\dots).xlsx} & \texttt{TrackTemp} (np. \texttt{AVG})          & Agg. \newline Der. Col. (Logika CASE dla kategorii).                                              \\
+    TrackTempCategory & weather.xlsx    & TrackTemp         & Agregacja AVG -> logika CASE dla kategorii: "Optimal Track", "Very Hot Track"...                     \\
     \hline
-    \texttt{HumidityCategory}       & \texttt{F1 Weather (\dots).xlsx} & \texttt{Humidity} (np. \texttt{AVG})           & Agg. \newline Der. Col. (Logika CASE dla kategorii: "Niska", "Średnia", "Wysoka").                \\
+    HumidityCategory  & weather.xlsx    & Humidity          & Agregacja AVG -> logika CASE dla kategorii: "Dry", "Humid"...                                        \\
     \hline
-    \texttt{PressureCategory}       & \texttt{F1 Weather (\dots).xlsx} & \texttt{Pressure} (np. \texttt{AVG})           & Agg. \newline Der. Col. (Logika CASE dla kategorii: "Niskie", "Normalne", "Wysokie").             \\
+    PressureCategory  & weather.xlsx    & Pressure          & Agregacja AVG -> logika CASE dla kategorii: "Very Low", "Normal"...                                  \\
     \hline
-    *(Implied)* \texttt{RaceID\_NK} & \texttt{F1 Weather (\dots).xlsx} & \texttt{Year}, \texttt{Round Number}           & Agg. (Group by). Służy do połączenia z wyścigiem w Fact. Dla 2018-2023.                           \\
   \end{longtable}
 \end{footnotesize}
 
@@ -350,30 +361,38 @@ Struktura pakietów SSIS:
 \subsubsection{Mapowanie Atrybutów: Dim\_Status}
 \begin{footnotesize}
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Dim\_Status} \label{tab:map_dim_status}                                                                                                                                                                             \\
+    \caption{Mapowanie ETL dla tabeli Dim\_Status} \label{tab:map_dim_status}
+    \\
     \toprule
-    \textbf{Atrybut}           & \textbf{Źródła}                                       & \textbf{Kolumna źródła}                  & \textbf{Transformacje i uwagi}                                                                                        \\
+    \textbf{Atrybut}  & \textbf{Źródła}                     & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                                                                                                             \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}
+    \\
     \toprule
-    \textbf{Atrybut}           & \textbf{Źródła}                                       & \textbf{Kolumna źródła}                  & \textbf{Transformacje i uwagi}                                                                                        \\
+    \textbf{Atrybut}  & \textbf{Źródła}                     & \textbf{Kolumna źródła} & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                                                                                              \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}
+    \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
-    \texttt{StatusKey}         & -                                                     & -                                        & SQL Server \texttt{IDENTITY(1,1)}. Klucz zastępczy.                                                                   \\
+    StatusKey         & -                                   & -                       & SQL Server IDENTITY(1,1). Klucz zastępczy.
+    \\
     \hline
-    \texttt{StatusID\_NK}      & \texttt{status.xlsx}                                  & \texttt{statusId}                        & Mapa bezpośrednia + DC (do INT). Klucz naturalny.                                                                     \\
+    StatusID\_NK      & status.xlsx                         & statusId                & Bezpośrednio.
+    \\
     \hline
-    \texttt{StatusDescription} & \texttt{status.xlsx}                                  & \texttt{status}                          & Mapa bezpośrednia + DC (do \texttt{DT\_WSTR}).                                                                        \\
+    StatusDescription & status.xlsx                         & status                  & Bezpośrednio.
+    \\
     \hline
-    \texttt{StatusCategory}    & \texttt{status.xlsx} \newline \texttt{Helper\_Status} & \texttt{status} (z \texttt{status.xlsx}) & LkUp na \texttt{Helper\_Status} (\texttt{status.status} -> \texttt{BroadCategory}). Kategoria np. Finished, Accident. \\
+    StatusCategory    & status.xlsx \newline Helper\_Status & status                  & Fuzzy Lookup na status w Helper\_StatusCategory -> BroadCategory. Kategoria np. Race Outcome, Mechanical Failure. \\
   \end{longtable}
 \end{footnotesize}
 
@@ -382,63 +401,83 @@ Struktura pakietów SSIS:
 \begin{footnotesize}
   \setlength{\tabcolsep}{3pt} % Further reduce for this very wide table
   \begin{longtable}{|L{3.5cm}|L{3.5cm}|L{3cm}|L{7cm}|}
-    \caption{Mapowanie ETL dla tabeli Fact\_Result} \label{tab:map_fact_result}                                                                                                                                                                                                                           \\
+    \caption{Mapowanie ETL dla tabeli Fact\_Result} \label{tab:map_fact_result}
+    \\
     \toprule
-    \textbf{Atrybut}              & \textbf{Źródło CSV / Wymiar}               & \textbf{Kolumna(y) Źródła / Logika}                       & \textbf{Transformacje i uwagi}                                                                                                                               \\
+    \textbf{Atrybut}     & \textbf{Źródło CSV / Wymiar}   & \textbf{Kolumna}            & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endfirsthead
     \multicolumn{4}{c}%
-    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}                                                                                                                                                                                                                             \\
+    {{\bfseries \tablename\ \thetable{} -- Kontynuacja z poprzedniej strony}}
+    \\
     \toprule
-    \textbf{Atrybut}              & \textbf{Źródło CSV / Wymiar}               & \textbf{Kolumna(y) Źródła / Logika}                       & \textbf{Transformacje i uwagi}                                                                                                                               \\
+    \textbf{Atrybut}     & \textbf{Źródło CSV / Wymiar}   & \textbf{Kolumna}            & \textbf{Transformacje i uwagi}
+    \\
     \midrule
     \endhead
     \midrule
-    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                                                                                                                                              \\
+    \multicolumn{4}{|r|}{{Kontynuacja na następnej stronie}}
+    \\
     \midrule
     \endfoot
     \bottomrule
     \endlastfoot
 
-    \texttt{RaceKey}              & \texttt{Dim\_Race}                         & \texttt{results.raceId} (NK)                              & LkUp \texttt{Dim\_Race} (\texttt{res.raceId}) -> \texttt{RaceKey} (SK). FK. HWM: \texttt{results.xlsx} filtrowane po \texttt{resultId}.                      \\
+    RaceKey              & results.xlsx, Dim\_Race        & RaceKey                     & Lookup z Dim\_Race.
+    \\
     \hline
-    \texttt{DriverKey}            & \texttt{Dim\_Driver}                       & \texttt{results.driverId} (NK)                            & LkUp \texttt{Dim\_Driver} (\texttt{res.driverId}) -> \texttt{DriverKey} (SK). FK.                                                                            \\
+    DriverKey            & results.xlsx, Dim\_Driver      & DriverKey                   & Lookup z Dim\_Driver (res.driverId) -> DriverKey (SK). FK.
+    \\
     \hline
-    \texttt{ConstructorKey}       & \texttt{Dim\_Constructor}                  & \texttt{results.constructorId} (NK)                       & LkUp \texttt{Dim\_Constr.} (\texttt{res.constructorId}) -> \texttt{ConstrKey} (SK). FK.                                                                      \\
+    ConstructorKey       & results.xlsx, Dim\_Constructor & ConstructorKey              & Lookup z Dim\_Constr. (res.constructorId) -> ConstrKey (SK). FK.
+    \\
     \hline
-    \texttt{CircuitKey}           & \texttt{Dim\_Circuit}                      & \texttt{races.circuitId} (NK, z LkUp \texttt{Dim\_Race})  & LkUp \texttt{Dim\_Race} -> \texttt{CircuitID\_NK}; LkUp \texttt{Dim\_Circuit} (\texttt{CircuitID\_NK}) -> \texttt{CircuitKey} (SK). FK.                      \\
+    CircuitKey           & results.xlsx, Dim\_Circuit     & CircuitKey                  & Lookup z Dim\_Circuit
+    \\
     \hline
-    \texttt{DateKey}              & \texttt{Dim\_Race} / Kalk.                 & \texttt{races.date} (FullDate, z LkUp \texttt{Dim\_Race}) & LkUp \texttt{Dim\_Race} -> \texttt{FullDate}. Der.Col: \texttt{(YEAR(FullDate)*10000) + (MONTH(FullDate)*100) + DAY(FullDate)}. INT YYYYMMDD.                \\
+    DateKey              & results.xlsx, Dim\_Race        & Date                        & Lookup z Dim\_Race -> FullDate. Derived Column: (YEAR(FullDate)*10000) + (MONTH(FullDate)*100) + DAY(FullDate). INT YYYYMMDD. \\
     \hline
-    \texttt{WeatherKey}           & \texttt{Dim\_Weather} / \texttt{Dim\_Race} & \texttt{races.raceId} LUB \texttt{races.year}             & LkUp \texttt{Dim\_Race} -> \texttt{RaceID\_NK} (lub \texttt{Year,Round}). LkUp \texttt{Dim\_Weather}. Der.Col: NULL jeśli rok < 2018. FK.                    \\
+    WeatherKey           & {Dim\_Weather} / Dim\_Race     & races.raceId LUB races.year & Lookup z Dim\_Race -> RaceID\_NK (lub Year,Round). LkUp Dim\_Weather. Der.Col: NULL jeśli rok < 2018. FK.
+    \\
     \hline
-    \texttt{StatusKey}            & \texttt{Dim\_Status}                       & \texttt{results.statusId} (NK)                            & LkUp \texttt{Dim\_Status} (\texttt{res.statusId}) -> \texttt{StatusKey} (SK). FK.                                                                            \\
+    StatusKey            & Dim\_Status                    & results.statusId (NK)       & Lookup z Dim\_Status (res.statusId) -> StatusKey (SK). FK.
+    \\
     \hline
-    \texttt{PointsScored}         & \texttt{results.xlsx}                      & \texttt{points}                                           & Mapa bezp. + DC (do \texttt{DT\_DECIMAL}).                                                                                                                   \\
+    PointsScored         & results.xlsx                   & points                      & Bezpośrednio.
+    \\
     \hline
-    \texttt{LapsCompleted}        & \texttt{results.xlsx}                      & \texttt{laps}                                             & Mapa bezp. + DC (do \texttt{DT\_I4}).                                                                                                                        \\
+    LapsCompleted        & results.xlsx                   & laps                        & Bezpośrednio.
+    \\
     \hline
-    \texttt{NumberOfPitStops}     & \texttt{pit\_stops.xlsx} (Agg.)            & \texttt{raceId}, \texttt{driverId}                        & Pod-przepływ: Agg. (\texttt{COUNT(stop)} jako \texttt{stopsCount}). \texttt{Merge Join} (Left Outer). Der.Col: \texttt{ISNULL(stopsCount) ? 0 : stopsCount}. \\
+    NumberOfPitStops     & pit\_stops.xlsx                & raceId, driverId            & Pod-przepływ: Agg. (COUNT(stop) jako stopsCount). Merge Join (Left Outer). Der.Col: ISNULL(stopsCount) ? 0 : stopsCount.      \\
     \hline
-    \texttt{RaceTimeMilliseconds} & \texttt{results.xlsx}                      & \texttt{milliseconds} LUB \texttt{time}                   & Mapa bezp. LUB Der.Col (parsuj tekst \texttt{time}) + DC (do \texttt{DT\_I8}). NULL jeśli DNF.                                                               \\
+    RaceTimeMilliseconds & results.xlsx                   & milliseconds LUB time       & Mapa bezp. LUB Der.Col (parsuj tekst time) + DC (do DT\_I8). NULL jeśli DNF.
+    \\
     \hline
-    \texttt{GridPosition}         & \texttt{results.xlsx}                      & \texttt{grid}                                             & Mapa bezp. + DC (do \texttt{DT\_I4}). Obsługa 0 dla pit lane.                                                                                                \\
+    GridPosition         & results.xlsx                   & grid                        & Mapa bezp. + DC (do DT\_I4). Obsługa 0 dla pit lane.
+    \\
     \hline
-    \texttt{FinalPositionOrder}   & \texttt{results.xlsx}                      & \texttt{positionOrder} LUB \texttt{position}              & Mapa bezp. + DC (do \texttt{DT\_I4}).                                                                                                                        \\
+    FinalPositionOrder   & results.xlsx                   & positionOrder LUB position  & Mapa bezp. + DC (do DT\_I4).
+    \\
     \hline
-    \texttt{PositionOrderChange}  & \texttt{results.xlsx}                      & \texttt{grid}, \texttt{positionOrder}                     & Der.Col: \texttt{GridPosition - FinalPositionOrder}.                                                                                                         \\
+    PositionOrderChange  & results.xlsx                   & grid, positionOrder         & Der.Col: GridPosition - FinalPositionOrder.
+    \\
     \hline
-    \texttt{RankFastestLap}       & \texttt{results.xlsx}                      & \texttt{rank} (fast lap)                                  & Mapa bezp. + DC (do \texttt{DT\_I4}). NULL jeśli brak.                                                                                                       \\
+    RankFastestLap       & results.xlsx                   & rank (fast lap)             & Mapa bezp. + DC (do DT\_I4). NULL jeśli brak.
+    \\
     \hline
-    \texttt{FastestLapTopSpeed}   & \texttt{results.xlsx}                      & \texttt{fastestLapSpeed}                                  & Mapa bezp. + DC (do \texttt{DT\_DECIMAL}). NULL jeśli brak.                                                                                                  \\
+    FastestLapTopSpeed   & results.xlsx                   & fastestLapSpeed             & Mapa bezp. + DC (do DT\_DECIMAL). NULL jeśli brak.
+    \\
     \hline
-    \texttt{AgeAtRace}            & \texttt{Dim\_Driver}, \texttt{Dim\_Race}   & \texttt{drivers.dob}, \texttt{races.date}                 & LkUp \texttt{Dim\_Driver} (\texttt{dob}). LkUp \texttt{Dim\_Race} (\texttt{date}). Der.Col: Kalkulacja wieku. NULL jeśli \texttt{dob} NULL.                  \\
+    AgeAtRace            & Dim\_Driver, Dim\_Race         & drivers.dob, races.date     & LkUp Dim\_Driver (dob). LkUp Dim\_Race (date). Der.Col: Kalkulacja wieku. NULL jeśli dob NULL.                                \\
   \end{longtable}
 \end{footnotesize}
 \setlength{\tabcolsep}{6pt} % Restore default if changed
 
 \subsection{Narzędzia}
-Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Server Integration Services (SSIS) wchodzący w skład Microsoft SQL Server. Pakiety SSIS zostały utworzone przy użyciu SQL Server Data Tools (SSDT) for Visual Studio. Dodatkowo do czyszczenia początkowych danych i zmiany formatu plików z danymi wykorzystano Python.
+Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Server Integration Services (SSIS) wchodzący w skład Microsoft SQL Server. Pakiety SSIS zostały utworzone przy użyciu SQL Server Data Tools
+(SSDT) for Visual Studio. Dodatkowo do czyszczenia początkowych danych i zmiany formatu plików z danymi wykorzystano Python.
 
 \section{Implementacja Procesów ETL}
 
@@ -467,7 +506,7 @@ Głównym narzędziem wykorzystanym do implementacji procesów ETL był SQL Serv
 \end{figure}
 
 \subsection{Ekstrakcja Danych (Extract)}
-Dane źródłowe w formacie XLSX były wczytywane przy użyciu komponentu \texttt{Excel Source} w SSIS. Kluczowe aspekty konfiguracji tego etapu to:
+Dane źródłowe w formacie XLSX były wczytywane przy użyciu komponentu Excel Source w SSIS. Kluczowe aspekty konfiguracji tego etapu to:
 \begin{itemize}
   \item Poprzednia konwersja plików .csv to .xlsx za pomocą skryptu Python, aby pominąć błędy w kodowaniu.
   \item Użycie skryptu Python do usunięcia "/N" w zbiorze danych.
@@ -478,25 +517,26 @@ Dane źródłowe w formacie XLSX były wczytywane przy użyciu komponentu \textt
 \subsection{Transformacja Danych (Transform)}
 Etap transformacji obejmował szereg operacji mających na celu oczyszczenie, integrację i przygotowanie danych do załadowania do tabel docelowych. Przykładowo:
 \begin{enumerate}
-  \item \textbf{Konwersja Typów Danych:} Komponent \texttt{Data Conversion} był wykorzystany do konwersji danych.
-  \item \textbf{Obliczenia Pochodne:} Komponent \texttt{Derived Column} służył do tworzenia nowych kolumn na podstawie istniejących, np.:
+  \item \textbf{Konwersja Typów Danych:} Komponent Data Conversion był wykorzystany do konwersji danych.
+  \item \textbf{Obliczenia Pochodne:} Komponent Derived Column służył do tworzenia nowych kolumn na podstawie istniejących, np.:
         \begin{itemize}
-          \item Obliczenie wieku kierowcy w momencie wyścigu (\texttt{AgeAtRace}).
-          \item Obliczenie zmiany pozycji (\texttt{PositionOrderChange}).
+          \item Obliczenie wieku kierowcy w momencie wyścigu (AgeAtRace).
+          \item Obliczenie zmiany pozycji (PositionOrderChange).
         \end{itemize}
   \item \textbf{Agregacja Danych:}
         \begin{itemize}
-          \item \textbf{Dane pogodowe (\texttt{Dim\_Weather}):} Minutowe dane pogodowe z pliku \texttt{weather.xlsx} były agregowane do poziomu pojedynczego wyścigu (po \texttt{Year} i \texttt{RoundNumber}) przy użyciu komponentu \texttt{Aggregate}. Obliczano wartości średnie, minimalne, maksymalne oraz sumy (np. dla opadów).
-          \item \textbf{Dane o pit-stopach:} Informacje o liczbie i łącznym czasie pit-stopów dla każdego kierowcy w wyścigu były agregowane z pliku \texttt{pit\_stops.xlsx} i dołączane podczas ładowania tabeli faktów (np. poprzez wcześniejszą agregację do tabeli stagingowej i lookup).
+          \item \textbf{Dane pogodowe (Dim\_Weather):} Minutowe dane pogodowe z pliku weather.xlsx były agregowane do poziomu pojedynczego wyścigu (po Year i RoundNumber) przy użyciu komponentu Aggregate. Obliczano wartości średnie, minimalne, maksymalne oraz sumy (np. dla opadów).
+          \item \textbf{Dane o pit-stopach:} Informacje o liczbie i łącznym czasie pit-stopów dla każdego kierowcy w wyścigu były agregowane z pliku pit\_stops.xlsx i dołączane podczas ładowania tabeli faktów (np. poprzez wcześniejszą agregację do tabeli stagingowej i lookup).
         \end{itemize}
-  \item \textbf{Kategoryzacja Danych Pogodowych:} Po agregacji, zagregowane wartości liczbowe dla danych pogodowych (np. temperatura, wilgotność, prędkość wiatru) były przekształcane na predefiniowane kategorie tekstowe (np. "Zimno", "Umiarkowanie", "Gorąco") przy użyciu wyrażeń warunkowych w komponencie \texttt{Derived Column}, zgodnie z założeniami projektu. Te kategorie zostały następnie załadowane do \texttt{Dim\_Weather}. Transformacja odbyła się w skrypcie C\#.
+  \item \textbf{Kategoryzacja Danych Pogodowych:} Po agregacji, zagregowane wartości liczbowe dla danych pogodowych (np. temperatura, wilgotność, prędkość wiatru) były przekształcane na predefiniowane kategorie
+        tekstowe (np. "Zimno", "Umiarkowanie", "Gorąco") przy użyciu wyrażeń warunkowych w komponencie Derived Column, zgodnie z założeniami projektu. Te kategorie zostały następnie załadowane do Dim\_Weather. Transformacja odbyła się w skrypcie C\#.
   \item \textbf{Fuzzy Lookup:} Do statusów dołączono ogólną kategorię statusu np. 'Mechanical Failure', 'Race Outcome' itd.
 \end{enumerate}
 
 \subsection{Ładowanie Danych (Load)}
-Przetransformowane dane były ładowane do docelowych tabel w hurtowni SQL Server przy użyciu komponentu \texttt{OLE DB Destination}.
+Przetransformowane dane były ładowane do docelowych tabel w hurtowni SQL Server przy użyciu komponentu OLE DB Destination.
 \begin{itemize}
-  \item Wykorzystano tryb szybkiego ładowania (\texttt{Table or view - fast load}).
+  \item Wykorzystano tryb szybkiego ładowania (Table or view - fast load).
   \item Zapewniono poprawne mapowanie kolumn z przepływu danych SSIS do kolumn tabel docelowych.
   \item Kolejność ładowania (najpierw wymiary, potem fakty) była zarządzana przez pakiet główny.
 \end{itemize}
@@ -515,8 +555,8 @@ W przypadku błędu, wszystkie dane są usuwane. Wcześniej podczas developmentu
 Podczas implementacji napotkano typowe wyzwania związane z procesami ETL:
 \begin{itemize}
   \item \textbf{Niezgodność Stron Kodowych:} Początkowe problemy z konfliktem stron kodowych (np. 65001 z Flat File Source vs 1250 domyślne dla OLE DB Destination) zostały rozwiązane poprzez zmianę typu plików na Excel.
-  \item \textbf{Synchronizacja Metadanych:} Zmiany w strukturze przepływu danych (np. po dodaniu \texttt{Data Conversion}) wymagały odświeżenia metadanych w komponencie \texttt{OLE DB Destination} i ponownego zmapowania kolumn.
-  \item \textbf{Błędy Konwersji Danych w Źródle:} Błędy typu "Text was truncated or one or more characters had no match in the target code page" pojawiające się w \texttt{Excel Source} wskazywały na niepoprawną konfigurację strony kodowej dla pliku źródłowego. Trzeba było zmienić ręcznie w advanced editor dla źródła typy kolumn.
+  \item \textbf{Synchronizacja Metadanych:} Zmiany w strukturze przepływu danych (np. po dodaniu Data Conversion) wymagały odświeżenia metadanych w komponencie OLE DB Destination i ponownego zmapowania kolumn.
+  \item \textbf{Błędy Konwersji Danych w Źródle:} Błędy typu "Text was truncated or one or more characters had no match in the target code page" pojawiające się w Excel Source wskazywały na niepoprawną konfigurację strony kodowej dla pliku źródłowego. Trzeba było zmienić ręcznie w advanced editor dla źródła typy kolumn.
 \end{itemize}
 
 \subsection{Przyrostowe Zasilanie (Planowane)}
