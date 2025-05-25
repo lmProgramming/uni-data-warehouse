@@ -13,9 +13,6 @@ def replace_text_in_excel(filepath, text_to_find, text_to_replace_with, backup=T
         filepath (str): The path to the Excel file.
         text_to_find (str): The text string to search for.
         text_to_replace_with (str): The text string to replace with.
-        case_sensitive (bool): If True (default), search is case-sensitive.
-                               If False, replacement is case-insensitive specific to "/N" and "/n"
-                               if text_to_find is "/N" (or its variants).
         backup (bool): If True, creates a backup of the original file.
     """
     if not os.path.exists(filepath):
