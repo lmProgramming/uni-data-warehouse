@@ -60,7 +60,7 @@ CREATE TABLE Dim_Status (
     StatusKey INT IDENTITY(1, 1) PRIMARY KEY,
     StatusID_NK INT UNIQUE,
     StatusDescription NVARCHAR(255),
-    StatusCategory NVARCHAR(100)
+    StatusCategory NVARCHAR(100) NULL
 );
 
 CREATE TABLE Fact_Result (
@@ -75,8 +75,6 @@ CREATE TABLE Fact_Result (
     LapsCompleted INT,
     NumberOfPitStops INT NULL,
     RaceTimeMilliseconds BIGINT NULL,
-    GridPosition INT,
-    FinalPositionOrder INT,
     PositionOrderChange INT,
     RankFastestLap INT NULL,
     FastestLapTopSpeed DECIMAL(6, 3) NULL,

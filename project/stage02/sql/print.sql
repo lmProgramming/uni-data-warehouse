@@ -1,0 +1,89 @@
+SELECT
+    'Dim_Driver' AS TableName,
+    COUNT(*) AS RowCount
+FROM
+    Dim_Driver
+UNION
+ALL
+SELECT
+    'Dim_Constructor',
+    COUNT(*)
+FROM
+    Dim_Constructor
+UNION
+ALL
+SELECT
+    'Dim_Race',
+    COUNT(*)
+FROM
+    Dim_Race
+UNION
+ALL
+SELECT
+    'Dim_Circuit',
+    COUNT(*)
+FROM
+    Dim_Circuit
+UNION
+ALL
+SELECT
+    'Dim_Time',
+    COUNT(*)
+FROM
+    Dim_Time
+UNION
+ALL
+SELECT
+    'Dim_Weather',
+    COUNT(*)
+FROM
+    Dim_Weather
+UNION
+ALL
+SELECT
+    'Dim_Status',
+    COUNT(*)
+FROM
+    Dim_Status
+UNION
+ALL
+SELECT
+    'Fact_Result',
+    COUNT(*)
+FROM
+    Fact_Result
+UNION
+ALL
+SELECT
+    'Helper_Months',
+    COUNT(*)
+FROM
+    Helper_Months
+UNION
+ALL
+SELECT
+    'Helper_Weekdays',
+    COUNT(*)
+FROM
+    Helper_Weekdays
+UNION
+ALL
+SELECT
+    'Helper_CountryContinents',
+    COUNT(*)
+FROM
+    Helper_CountryContinents
+UNION
+ALL
+SELECT
+    'Helper_NationalityCountries',
+    COUNT(*)
+FROM
+    Helper_NationalityCountries
+UNION
+ALL
+SELECT
+    'Helper_StatusCategory',
+    COUNT(*)
+FROM
+    Helper_StatusCategory;
