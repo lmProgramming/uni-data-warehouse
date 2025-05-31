@@ -32,7 +32,8 @@ CREATE TABLE Dim_Circuit (
     CircuitID_NK INT UNIQUE,
     CircuitName NVARCHAR(255),
     LocationCity NVARCHAR(255),
-    CountryName NVARCHAR(255)
+    CountryName NVARCHAR(255),
+    Continent NVARCHAR(255)
 );
 
 CREATE TABLE Dim_Time (
