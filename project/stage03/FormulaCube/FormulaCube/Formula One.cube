@@ -1,4 +1,4 @@
-﻿<Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="befe136f-7cbb-41ec-b4ee-9be691174800" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+﻿<Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="4582770d-0c96-4f58-9a78-edda82a292df" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
   <ID>Formula One</ID>
   <Name>Formula One</Name>
   <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
@@ -286,188 +286,188 @@
   <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
   <State>Unprocessed</State>
   <Dimensions>
-    <Dimension dwd:design-time-name="70f6915b-f1ee-41fa-9f17-718fa72d4625">
+    <Dimension dwd:design-time-name="fb571ad6-659a-4833-a0f4-d6b9621a758d">
       <ID>Dim Circuit</ID>
       <Name>Dim Circuit</Name>
       <DimensionID>Dim Circuit</DimensionID>
       <Attributes>
-        <Attribute dwd:design-time-name="90ca7923-2d81-4459-b1d6-4c529151810d">
+        <Attribute dwd:design-time-name="6aa24ba6-b140-4d0d-a8d7-fa659fdc2511">
           <AttributeID>Circuit Key</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="29a6eab6-fb42-4d6c-ad11-c028ef089ad8">
+        <Attribute dwd:design-time-name="5add630a-77bf-42bb-bee8-cd0117c2432c">
           <AttributeID>Circuit Name</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="09960c20-b3e0-4ae8-8e0a-9b78f2516d5a">
+        <Attribute dwd:design-time-name="139e2003-6004-4286-9bec-5266d7a19f1f">
           <AttributeID>Location City</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="22b7d4c7-669b-4342-9d6a-7de020b4013e">
+        <Attribute dwd:design-time-name="f9fa24be-f7f5-4c09-bb58-52de5022f8ac">
           <AttributeID>Country Name</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="550a434c-94cc-47ee-a472-b9fda92af20c">
+        <Attribute dwd:design-time-name="5930b997-ad3f-457d-99e2-bfb46f1839cc">
           <AttributeID>Continent</AttributeID>
         </Attribute>
       </Attributes>
       <Hierarchies>
-        <Hierarchy dwd:design-time-name="ae8d6832-68d5-4a05-b0d3-bd4ad5ac6e14">
+        <Hierarchy dwd:design-time-name="6367aa45-fd77-4962-8050-5a53610fee97">
           <HierarchyID>Hierarchy</HierarchyID>
         </Hierarchy>
       </Hierarchies>
     </Dimension>
-    <Dimension dwd:design-time-name="83276aa1-97a9-4f69-82f0-959fcb946bfd">
+    <Dimension dwd:design-time-name="80a5705c-ccb5-45b3-9a96-61a45b901b0f">
       <ID>Dim Weather</ID>
       <Name>Dim Weather</Name>
       <DimensionID>Dim Weather</DimensionID>
       <Attributes>
-        <Attribute dwd:design-time-name="493571b3-e655-4467-8abb-38bb6b9b0234">
+        <Attribute dwd:design-time-name="7a4a0c25-85ce-4c16-8c3d-fb494f47c68a">
           <AttributeID>Weather Key</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="87f42b86-8ded-4b19-a1a5-11b88ebd2696">
+        <Attribute dwd:design-time-name="e7608224-4c05-43ea-b91e-1c902901cecb">
           <AttributeID>Did Rain Occur</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="6e15f612-387a-4ff9-9d68-5330a09d64d4">
+        <Attribute dwd:design-time-name="2616540d-75b1-49eb-8ffc-a2deea3ad14e">
           <AttributeID>Wind Speed Category</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="9c48a293-533c-4107-b098-5e2f3847ffaf">
+        <Attribute dwd:design-time-name="41ad2dd3-27cb-4be8-9d5e-165fbcdb6cc4">
           <AttributeID>Air Temp Category</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="a3b9d8e5-5336-4f86-839a-69ae6aef1173">
+        <Attribute dwd:design-time-name="c384a547-e566-40ed-a191-8fab41dd9644">
           <AttributeID>Track Temp Category</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="6065cc3e-7571-4acd-8756-b138a578d4d0">
+        <Attribute dwd:design-time-name="d3f02683-e5c4-4c03-ae36-1a58a4423cec">
           <AttributeID>Humidity Category</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="28cd7cfb-9b01-41c3-b7ad-c59b555b326e">
+        <Attribute dwd:design-time-name="952dd5d7-3183-4637-b160-8810102bebff">
           <AttributeID>Pressure Category</AttributeID>
         </Attribute>
       </Attributes>
     </Dimension>
-    <Dimension dwd:design-time-name="d8c9fb8a-e1ce-4bd7-99ce-336d64e9a4a2">
+    <Dimension dwd:design-time-name="01b0f9ea-de28-43ca-b0ea-f95abfc85fc6">
       <ID>Dim Driver</ID>
       <Name>Dim Driver</Name>
       <DimensionID>Dim Driver</DimensionID>
       <Attributes>
-        <Attribute dwd:design-time-name="87f9a579-1dad-457f-b869-376c886c1f49">
+        <Attribute dwd:design-time-name="f209472e-0562-4650-ae87-56d4696e1698">
           <AttributeID>Driver Key</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="dc972be0-4dca-4398-9c06-aa4b01160d0f">
+        <Attribute dwd:design-time-name="f83b84d6-344b-4116-b1f8-3bc1082ab959">
           <AttributeID>Full Name</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="a6e588ec-8c04-4d57-a278-ca66bc2507e1">
+        <Attribute dwd:design-time-name="1abbbcb2-8c83-43ea-b2b5-c6f5ad9b02e0">
           <AttributeID>Country Name</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="a439d8eb-99e1-4985-a072-45ea5afe7dde">
+        <Attribute dwd:design-time-name="80eb1c58-4415-4b56-9b82-475e862da768">
           <AttributeID>Continent</AttributeID>
         </Attribute>
       </Attributes>
       <Hierarchies>
-        <Hierarchy dwd:design-time-name="2339f8b5-e0a3-4c64-9b53-6399eaf9ed66">
+        <Hierarchy dwd:design-time-name="bc4f605c-f64c-49dc-8fed-db7b14c893b6">
           <HierarchyID>Hierarchy</HierarchyID>
         </Hierarchy>
       </Hierarchies>
     </Dimension>
-    <Dimension dwd:design-time-name="b1e1a0a0-e2ff-4335-b0c3-834556309832">
+    <Dimension dwd:design-time-name="a8c4cb1a-a4ba-4497-8a03-671d8297ea23">
       <ID>Dim Time</ID>
       <Name>Dim Time</Name>
       <DimensionID>Dim Time</DimensionID>
       <Attributes>
-        <Attribute dwd:design-time-name="cf3cab61-dc92-41f5-ac7c-fe96112605ed">
+        <Attribute dwd:design-time-name="486c7b40-1d71-4660-b818-dabf7a7e5f2d">
           <AttributeID>Date Key</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="a1dcadd5-8de7-469f-bce7-4a609f175b31">
+        <Attribute dwd:design-time-name="9daac297-5cd7-496d-8baf-cecfa8883789">
           <AttributeID>Full Date</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="a891da6c-8fc8-4cd3-a421-97e3a01378b9">
+        <Attribute dwd:design-time-name="13c602ca-a632-49d7-812b-e364eff2eec1">
           <AttributeID>Year</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="66d8834e-ff27-443b-830e-112689673db4">
+        <Attribute dwd:design-time-name="a595915a-ab9f-451d-a865-01c073957a8d">
           <AttributeID>Quarter</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="b446ae5c-ee8d-4748-8b27-52c4a02e6528">
+        <Attribute dwd:design-time-name="90f25e38-f6c0-4467-852c-fd6e0875f413">
           <AttributeID>Month</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="76962851-0b8a-42f1-a556-ad0817b6ce25">
+        <Attribute dwd:design-time-name="566192de-00fb-4412-8adc-cf83b01c9a8e">
           <AttributeID>Month Name</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="bfa4a6e5-afd5-4a93-80e4-c27a0e1226f1">
+        <Attribute dwd:design-time-name="1124a0e6-b4c9-48c3-b25d-baf042cd8ba0">
           <AttributeID>Day Of Month</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="091e4412-d6f8-47fc-9782-96df2d67ee82">
+        <Attribute dwd:design-time-name="627207f6-55c0-4b5f-a00c-a7746c5ab823">
           <AttributeID>Day Of Week Name</AttributeID>
         </Attribute>
       </Attributes>
       <Hierarchies>
-        <Hierarchy dwd:design-time-name="efa09813-5288-40a6-9d82-b97b2de0ad67">
+        <Hierarchy dwd:design-time-name="4b8306c7-ed70-46ab-be5c-9c77d923e27c">
           <HierarchyID>Hierarchy</HierarchyID>
         </Hierarchy>
       </Hierarchies>
     </Dimension>
-    <Dimension dwd:design-time-name="4ffb95ee-b658-4d84-803c-d5e59d959f2f">
+    <Dimension dwd:design-time-name="42974d77-f09f-4751-98e5-69c8ec7cd1b7">
       <ID>Dim Constructor</ID>
       <Name>Dim Constructor</Name>
       <DimensionID>Dim Constructor</DimensionID>
       <Attributes>
-        <Attribute dwd:design-time-name="2f824e96-d824-4ed8-ba37-8a9564d20f5d">
+        <Attribute dwd:design-time-name="a55068df-cac4-4ab6-8eaa-575067334496">
           <AttributeID>Constructor Key</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="b2a2bc28-f9cb-4ecc-b286-9a85be09efc7">
+        <Attribute dwd:design-time-name="8e43a64c-dd64-457f-ac13-29bbece61d1f">
           <AttributeID>Name</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="c5bed46a-ed92-4407-a2b7-f8be8d669e0c">
+        <Attribute dwd:design-time-name="5d2eb42a-df5d-4c7e-92cb-feeacc9c1f2d">
           <AttributeID>Country Name</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="106aeb6a-e820-490b-bf8b-098c99d91e71">
+        <Attribute dwd:design-time-name="5d550585-1488-411e-99a7-0c15ee9fc748">
           <AttributeID>Continent</AttributeID>
         </Attribute>
       </Attributes>
       <Hierarchies>
-        <Hierarchy dwd:design-time-name="b3c793e5-d41f-4551-a80e-a3d78d7a10e8">
+        <Hierarchy dwd:design-time-name="41d67694-c191-4882-babb-a9ca771121c9">
           <HierarchyID>Hierarchy</HierarchyID>
         </Hierarchy>
       </Hierarchies>
     </Dimension>
-    <Dimension dwd:design-time-name="c25b63a0-75f0-491f-aa43-c2d8d5e2fa68">
+    <Dimension dwd:design-time-name="bf6533f7-af94-46d7-813f-a299bd5320ff">
       <ID>Dim Race</ID>
       <Name>Dim Race</Name>
       <DimensionID>Dim Race</DimensionID>
       <Attributes>
-        <Attribute dwd:design-time-name="5b35361b-c9dd-4013-aff9-6511c789f86d">
+        <Attribute dwd:design-time-name="bc44099a-a03b-4d99-93db-9b7c54478b1c">
           <AttributeID>Race Key</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="ff16c840-58b6-4944-aafd-463b6eca63bd">
+        <Attribute dwd:design-time-name="d36e18d4-9891-40a9-a6b9-454bb491e002">
           <AttributeID>Year Season</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="d117dfb3-c451-4fee-b245-23cb5e401c3d">
+        <Attribute dwd:design-time-name="fc41967b-8292-41b7-9b58-e6ba9c48a3bd">
           <AttributeID>Round Number In Season</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="592d0fef-7960-42e8-8c07-0dc284079a88">
+        <Attribute dwd:design-time-name="10f416d8-551f-4223-a4a5-97ae8c674a5a">
           <AttributeID>Race Name Official</AttributeID>
         </Attribute>
       </Attributes>
     </Dimension>
-    <Dimension dwd:design-time-name="33cfe1b7-0dfa-4b38-a7df-665a16649d4c">
+    <Dimension dwd:design-time-name="42ed7ffc-7bf2-4462-b520-fbeed6b55dd8">
       <ID>Dim Status</ID>
       <Name>Dim Status</Name>
       <DimensionID>Dim Status</DimensionID>
       <Attributes>
-        <Attribute dwd:design-time-name="9d6a524d-2b67-4394-84bc-d7d25aabc91c">
+        <Attribute dwd:design-time-name="c1dc077e-abb0-497a-b49c-8e9e91c1bcba">
           <AttributeID>Status Key</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="3702a5ed-69e5-499e-b748-399c89ff3c1c">
+        <Attribute dwd:design-time-name="7f9e334a-e4a2-48c3-9881-3f5934e4c274">
           <AttributeID>Status Description</AttributeID>
         </Attribute>
-        <Attribute dwd:design-time-name="2a3e82e0-7197-410d-bb76-4d0d6ec154ad">
+        <Attribute dwd:design-time-name="a9505802-5408-4bc2-9a69-789d2c0a16c7">
           <AttributeID>Status Category</AttributeID>
         </Attribute>
       </Attributes>
       <Hierarchies>
-        <Hierarchy dwd:design-time-name="1b496fae-173e-44ca-b8b6-bd030965b071">
+        <Hierarchy dwd:design-time-name="9403de3d-217e-45c4-8c84-e065ac554b8f">
           <HierarchyID>Hierarchy</HierarchyID>
         </Hierarchy>
       </Hierarchies>
     </Dimension>
   </Dimensions>
   <MeasureGroups>
-    <MeasureGroup dwd:design-time-name="5746a532-c89c-4d41-bb85-18e4633a4d4b">
+    <MeasureGroup dwd:design-time-name="6febcb0f-a5e0-44af-9dfd-5972bb60841a">
       <ID>Fact Result</ID>
       <Name>Fact Result</Name>
       <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
@@ -475,114 +475,114 @@
       <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
       <State>Unprocessed</State>
       <Measures>
-        <Measure dwd:design-time-name="64ecee6a-edaf-4b85-acea-1974b3ef16b5">
+        <Measure dwd:design-time-name="f7c9f023-84fa-4592-ad06-60ea98486b98">
           <ID>Points Scored</ID>
           <Name>Points Scored</Name>
-          <Source dwd:design-time-name="b783a144-f795-43fd-a3ba-7462139468cb">
+          <Source dwd:design-time-name="7e3d12db-0a9c-4110-956c-6fc5155c3ec7">
             <DataType>Double</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="4d1fa289-d237-4251-b1be-247add13f156">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="057689f7-65b9-4f62-9d70-972745e1bc88">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>PointsScored</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="a6fdd5fa-d7a8-4b59-9a3b-594c30201954">
+        <Measure dwd:design-time-name="ddfd9a83-3532-4780-b3a2-f6062dee5382">
           <ID>Laps Completed</ID>
           <Name>Laps Completed</Name>
-          <Source dwd:design-time-name="3227ea87-fc36-4ff5-ba78-b4e1dfc97afd">
+          <Source dwd:design-time-name="8b77f54d-eaeb-4c2f-a37f-e3f496b8e490">
             <DataType>Integer</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="ed96301a-3013-4bef-afe4-d96e0209cd0e">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="4234ed8d-daea-4dcd-a4c3-a5d2fec3eb66">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>LapsCompleted</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="c89eb3aa-b961-46fd-9c47-7004be25d502">
+        <Measure dwd:design-time-name="dea9b550-a29b-49fd-8aa6-8dc2b011cced">
           <ID>Number Of Pit Stops</ID>
           <Name>Number Of Pit Stops</Name>
-          <Source dwd:design-time-name="ab280f5f-8411-49e4-b206-2aa8bb85496e">
+          <Source dwd:design-time-name="d505f59b-41eb-4bde-8120-2bb81c86696f">
             <DataType>Integer</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="b0c1996a-55cf-43bb-ae04-77e5dd746353">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="9fa65dc2-5f46-4b5a-9db2-344d8edccd0e">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>NumberOfPitStops</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="c5ffce96-2787-4365-9926-c1b01bd09614">
+        <Measure dwd:design-time-name="f2b7e003-6a7e-45f8-9c7b-cbcfd895e2bb">
           <ID>Race Time Milliseconds</ID>
           <Name>Race Time Milliseconds</Name>
-          <Source dwd:design-time-name="78d002ae-3d31-45b2-a351-4da16d70a8c1">
+          <Source dwd:design-time-name="878bb032-8857-4c36-9d9c-acbb75f64f16">
             <DataType>BigInt</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="1274e7ec-e5c4-4b65-847a-45316d3cac16">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="17016e76-7de8-497b-9826-ac932bfa88e2">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>RaceTimeMilliseconds</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="dc133e10-ab40-4f6f-ad5d-9b3fe5a283e8">
+        <Measure dwd:design-time-name="26ef3b19-d65a-4e71-84c6-c55390bc292b">
           <ID>Position Order Change</ID>
           <Name>Position Order Change</Name>
-          <Source dwd:design-time-name="bb97ae59-3690-42b1-bb9f-07ec98eae588">
+          <Source dwd:design-time-name="fe279e83-5c51-4051-b86b-adf3cfd6ae35">
             <DataType>Integer</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="8ebbb68a-8421-4546-bbe1-687d4eb881d8">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="ef58b0ea-768d-49c1-882d-bf6fb175fbcf">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>PositionOrderChange</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="68da8deb-827d-43de-88ec-6e7a209fc227">
+        <Measure dwd:design-time-name="434ef52b-f4fe-4671-b2f4-f8d23eae68ec">
           <ID>Rank Fastest Lap</ID>
           <Name>Rank Fastest Lap</Name>
-          <Source dwd:design-time-name="bcc56d32-2cd3-4837-bc57-437add491d51">
+          <Source dwd:design-time-name="5e832330-7103-4726-b5ce-e81df7baa46b">
             <DataType>Integer</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="71c0cb6b-b22c-410a-b709-57c589c17828">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="337d39b5-ffbb-45c4-b3fc-da905afc74b8">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>RankFastestLap</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="d4b41e97-e30a-42ea-83ce-4afa2ccf0797">
+        <Measure dwd:design-time-name="8da8df5c-933e-4065-a3d2-06082680017d">
           <ID>Fastest Lap Top Speed</ID>
           <Name>Fastest Lap Top Speed</Name>
-          <Source dwd:design-time-name="38ad55e0-e1c3-4ff9-b114-d0eb6beaaaad">
+          <Source dwd:design-time-name="005794bb-9bbc-4f1e-b950-61df03e3f0a7">
             <DataType>Double</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="0e612de4-fc11-4bbe-a0c5-450843d44de2">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="b2fdf224-09d4-4869-971d-a63a5729479b">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>FastestLapTopSpeed</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="c551e63c-e543-4095-b3bc-03322e8013fc">
+        <Measure dwd:design-time-name="09fbbda7-b62b-4a2c-8d4b-883bf615bb88">
           <ID>Age At Race</ID>
           <Name>Age At Race</Name>
-          <Source dwd:design-time-name="d28180a4-3f3c-43f1-89c4-9cfb4c3b0a59">
+          <Source dwd:design-time-name="8b76d6ad-9d31-425a-8af1-f1e2f965c674">
             <DataType>Integer</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="a0684fe1-f9bb-4f23-a7a4-cd0e92a2bca4">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="5ade0308-3d34-4642-8f04-237dbf523a30">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>AgeAtRace</ColumnID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="1ee962e7-e3a6-4692-8488-24cf63f76237">
+        <Measure dwd:design-time-name="1ece15b6-76e8-452d-9237-4d871a6d6f67">
           <ID>Fact Result Count</ID>
           <Name>Fact Result Count</Name>
           <AggregateFunction>Count</AggregateFunction>
-          <Source dwd:design-time-name="86a7f6bb-c2c2-4a39-9a08-447e1356a004">
+          <Source dwd:design-time-name="d9c63003-4965-4c28-a47a-1ad519943e74">
             <DataType>Integer</DataType>
             <DataSize>4</DataSize>
-            <Source xsi:type="RowBinding" dwd:design-time-name="ae9c5757-9310-4bd3-b0a4-9cfe52c035c9">
+            <Source xsi:type="RowBinding" dwd:design-time-name="59fa09df-f1a3-4349-94c2-9a9fb9db2105">
               <TableID>dbo_Fact_Result</TableID>
             </Source>
           </Source>
         </Measure>
-        <Measure dwd:design-time-name="c62da2b5-3fd1-4812-8d52-c86ac354045d">
+        <Measure dwd:design-time-name="1bce668c-5220-4886-b10e-113266b22130">
           <ID>Number Of Pit Stops Count</ID>
           <Name>Number Of Pit Stops Count</Name>
           <AggregateFunction>Count</AggregateFunction>
           <DataType>Integer</DataType>
-          <Source dwd:design-time-name="d69479df-161e-4530-8981-4130c15120ec">
+          <Source dwd:design-time-name="ac477d90-0b2f-49b5-b3b8-07a31bc54fec">
             <DataType>Integer</DataType>
-            <Source xsi:type="ColumnBinding" dwd:design-time-name="bfdbbe5f-a57b-4f69-a5c3-b37fc9d92660">
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="051f133f-f834-4345-a28b-66d47c704b32">
               <TableID>dbo_Fact_Result</TableID>
               <ColumnID>NumberOfPitStops</ColumnID>
             </Source>
@@ -592,16 +592,16 @@
       <StorageMode>Molap</StorageMode>
       <ProcessingMode>Regular</ProcessingMode>
       <Dimensions>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="91e38da8-5629-4ace-8189-2300eda663c6">
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="fef885c9-c836-4f10-8fa1-e634b9496853">
           <CubeDimensionID>Dim Circuit</CubeDimensionID>
           <Attributes>
-            <Attribute dwd:design-time-name="86b35ba0-bd1b-4e3d-b279-a8b6fa82c55c">
+            <Attribute dwd:design-time-name="b26a1f7d-c002-48c4-89bb-c96db8f0dfaf">
               <AttributeID>Circuit Key</AttributeID>
               <KeyColumns>
-                <KeyColumn dwd:design-time-name="9e7af576-50b4-4da8-a1c6-9c17de9d4e37">
+                <KeyColumn dwd:design-time-name="59262a9e-2aae-4c74-abc8-deaf296492bb">
                   <DataType>Integer</DataType>
                   <NullProcessing>UnknownMember</NullProcessing>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="a77c4b60-b16a-4f0e-92ca-e9b9327bfb7a">
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="acbd036f-906e-44d5-a12b-74fe5efbc261">
                     <TableID>dbo_Fact_Result</TableID>
                     <ColumnID>CircuitKey</ColumnID>
                   </Source>
@@ -611,16 +611,16 @@
             </Attribute>
           </Attributes>
         </Dimension>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="1fdd17f8-be9a-40cd-a339-59308254fe93">
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="289b6774-5ff6-4a55-a6d0-672169a676c9">
           <CubeDimensionID>Dim Weather</CubeDimensionID>
           <Attributes>
-            <Attribute dwd:design-time-name="ef7b8107-959b-4c2d-9601-21e13189fe21">
+            <Attribute dwd:design-time-name="06d21f80-304d-42f7-beff-4f2e0a6b77e6">
               <AttributeID>Weather Key</AttributeID>
               <KeyColumns>
-                <KeyColumn dwd:design-time-name="c77f3f1d-9e38-4d0e-8647-e6754a6c6c66">
+                <KeyColumn dwd:design-time-name="c2ca2a62-66d9-465e-bece-64cec5f8457c">
                   <DataType>Integer</DataType>
                   <NullProcessing>UnknownMember</NullProcessing>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="9af59eb4-f87e-45a3-8fc7-a2e7e44ca425">
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="f64fc968-7825-4a7c-862f-8de8514f3459">
                     <TableID>dbo_Fact_Result</TableID>
                     <ColumnID>WeatherKey</ColumnID>
                   </Source>
@@ -630,16 +630,16 @@
             </Attribute>
           </Attributes>
         </Dimension>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="1074ffbf-a8ff-4d04-b56f-e9ad08762060">
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="20e712ad-d8b4-4e25-9fe9-9655bfdcecaf">
           <CubeDimensionID>Dim Driver</CubeDimensionID>
           <Attributes>
-            <Attribute dwd:design-time-name="e0241f48-3aef-417e-a8a3-b0dc649dfd38">
+            <Attribute dwd:design-time-name="a73b1160-89d3-49e0-bad0-4675ca066a3f">
               <AttributeID>Driver Key</AttributeID>
               <KeyColumns>
-                <KeyColumn dwd:design-time-name="b5c0ce7e-29fe-4e6d-98f1-9059209b7435">
+                <KeyColumn dwd:design-time-name="3dbf49f1-9453-4089-b777-9ce537c6bf14">
                   <DataType>Integer</DataType>
                   <NullProcessing>UnknownMember</NullProcessing>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="f07c4de8-c162-4274-8be9-72abaa898087">
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="4b9cc4e8-5a56-4ef3-963a-29d78f579454">
                     <TableID>dbo_Fact_Result</TableID>
                     <ColumnID>DriverKey</ColumnID>
                   </Source>
@@ -649,16 +649,16 @@
             </Attribute>
           </Attributes>
         </Dimension>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="7b16cb3b-1f95-4b2f-aa95-e023eefcd512">
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="dbc942ab-7ea3-4764-965c-50e76129f193">
           <CubeDimensionID>Dim Time</CubeDimensionID>
           <Attributes>
-            <Attribute dwd:design-time-name="d5c8d629-f560-43d5-b765-c26bc1403cd1">
+            <Attribute dwd:design-time-name="04c16bfb-3556-4987-b961-36d5a7d48036">
               <AttributeID>Date Key</AttributeID>
               <KeyColumns>
-                <KeyColumn dwd:design-time-name="5810d3fa-e899-414c-9575-1073404ac7ee">
+                <KeyColumn dwd:design-time-name="ad496da0-e364-467f-866a-0180f5b9abbd">
                   <DataType>Integer</DataType>
                   <NullProcessing>UnknownMember</NullProcessing>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="8f369839-63da-45f0-86fc-27735f3bfae6">
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="6afd4eb9-1a8c-4e9c-b0a5-9debb223aebf">
                     <TableID>dbo_Fact_Result</TableID>
                     <ColumnID>DateKey</ColumnID>
                   </Source>
@@ -668,16 +668,16 @@
             </Attribute>
           </Attributes>
         </Dimension>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="eb937c24-b1c0-40c9-b0bb-d19e84beeac4">
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="6d1bc172-e1c9-4c25-98f0-7cb632c76c9e">
           <CubeDimensionID>Dim Constructor</CubeDimensionID>
           <Attributes>
-            <Attribute dwd:design-time-name="dfd4469d-55bd-494a-b614-4f87691f469b">
+            <Attribute dwd:design-time-name="3968f49f-c4d2-4791-bd78-4080e0a16c81">
               <AttributeID>Constructor Key</AttributeID>
               <KeyColumns>
-                <KeyColumn dwd:design-time-name="e766d36f-978a-4210-b94b-8016086f86e3">
+                <KeyColumn dwd:design-time-name="dec56cab-6fd3-4e0e-a723-32ee859f28fe">
                   <DataType>Integer</DataType>
                   <NullProcessing>UnknownMember</NullProcessing>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="de8f8127-e8af-41fb-9bbe-7563644c513b">
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="079233a1-1480-43e5-9ed3-a9a7119ec7c2">
                     <TableID>dbo_Fact_Result</TableID>
                     <ColumnID>ConstructorKey</ColumnID>
                   </Source>
@@ -687,16 +687,16 @@
             </Attribute>
           </Attributes>
         </Dimension>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="315a7335-dd95-491c-a52f-60108b041c29">
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="b26e5a70-8426-4685-92a0-b65464be6ef3">
           <CubeDimensionID>Dim Race</CubeDimensionID>
           <Attributes>
-            <Attribute dwd:design-time-name="6ad6b9f1-22cd-4429-a86e-f746b008f004">
+            <Attribute dwd:design-time-name="2802c9ad-83b1-415e-a2a3-5e213ccd7d90">
               <AttributeID>Race Key</AttributeID>
               <KeyColumns>
-                <KeyColumn dwd:design-time-name="3ca7cf31-0332-47ce-b5db-cc7c9574c23c">
+                <KeyColumn dwd:design-time-name="769f3c2f-2b75-4ea1-b1a2-9bba92df051d">
                   <DataType>Integer</DataType>
                   <NullProcessing>UnknownMember</NullProcessing>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="af55a27d-71a6-4d01-a3c4-6c65023d6aa3">
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="e031ef86-9482-4935-a747-500420ab01bd">
                     <TableID>dbo_Fact_Result</TableID>
                     <ColumnID>RaceKey</ColumnID>
                   </Source>
@@ -706,16 +706,16 @@
             </Attribute>
           </Attributes>
         </Dimension>
-        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="75883704-89ad-4aa5-b405-8b8f00316195">
+        <Dimension xsi:type="RegularMeasureGroupDimension" dwd:design-time-name="76b41ec2-cb93-4600-9ec0-90ce47375bef">
           <CubeDimensionID>Dim Status</CubeDimensionID>
           <Attributes>
-            <Attribute dwd:design-time-name="81f05af3-aa53-439e-9fdf-1ae19957e96a">
+            <Attribute dwd:design-time-name="d89f316b-8692-4850-8f7e-0756669196d1">
               <AttributeID>Status Key</AttributeID>
               <KeyColumns>
-                <KeyColumn dwd:design-time-name="b3cf3434-83f5-47b4-8639-b276b4ec873a">
+                <KeyColumn dwd:design-time-name="c4e37bf9-f5ea-445c-a5be-99c74b9baa4a">
                   <DataType>Integer</DataType>
                   <NullProcessing>UnknownMember</NullProcessing>
-                  <Source xsi:type="ColumnBinding" dwd:design-time-name="dd84a0e6-8452-4765-8295-2414d206760d">
+                  <Source xsi:type="ColumnBinding" dwd:design-time-name="bdf5a4e6-4c6d-4062-9f16-cc533bb9c44e">
                     <TableID>dbo_Fact_Result</TableID>
                     <ColumnID>StatusKey</ColumnID>
                   </Source>
@@ -729,11 +729,11 @@
       <Partitions />
     </MeasureGroup>
   </MeasureGroups>
-  <Source dwd:design-time-name="244b49da-c226-4fad-9bc2-a63096845682">
+  <Source dwd:design-time-name="900ee92f-4e7c-49c2-ac0e-78a5335cdcc9">
     <DataSourceViewID>Formula One</DataSourceViewID>
   </Source>
   <MdxScripts>
-    <MdxScript dwd:design-time-name="d7fa8de1-0952-4259-a1a8-3b88cd746e82">
+    <MdxScript dwd:design-time-name="04e07634-8456-4197-befa-689e72c29ae2">
       <ID>MdxScript</ID>
       <Name>MdxScript</Name>
       <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
@@ -745,32 +745,66 @@ The CALCULATE command controls the aggregation of leaf cells in the cube.
 If the CALCULATE command is deleted or modified, the data within the cube is affected.
 You should edit this command only if you manually specify how the cube is aggregated.
 */
-CALCULATE; 
+CALCULATE;     
+CREATE MEMBER CURRENTCUBE.Measures.[Race Time Formatted]
+AS
+IIF(
+    ISEMPTY([Measures].[Race Time Milliseconds]) OR [Measures].[Race Time Milliseconds] &lt;= 0,
+    NULL,
+    Format(Fix([Measures].[Race Time Milliseconds] / 3600000), "00") + ":" +
+    Format(
+        Fix(
+            (
+                [Measures].[Race Time Milliseconds] - (3600000 * Fix([Measures].[Race Time Milliseconds] / 3600000)) -- This is Milliseconds MOD 3600000
+            ) / 60000
+        ),
+        "00"
+    ) + ":" +
+    Format(
+        Fix(
+            (
+                [Measures].[Race Time Milliseconds] - (60000 * Fix([Measures].[Race Time Milliseconds] / 60000)) -- This is Milliseconds MOD 60000
+            ) / 1000
+        ),
+        "00"
+    ) + "." +
+    Format(
+        [Measures].[Race Time Milliseconds] - (1000 * Fix([Measures].[Race Time Milliseconds] / 1000)), -- This is Milliseconds MOD 1000
+        "000"
+    )
+),
+VISIBLE = 1;    
 CREATE MEMBER CURRENTCUBE.[Measures].[Absolute Position Order Change]
  AS Abs([Measures].[Position Order Change]), 
-VISIBLE = 1  ;  
+VISIBLE = 1;       
 CREATE MEMBER CURRENTCUBE.[Measures].AveragePitStopsCount
  AS Divide ( 
     [Measures].[Number of Pit Stops],
     [Measures].[Number of Pit Stops Count]
 ), 
-VISIBLE = 1;  
+VISIBLE = 1;       
 CREATE MEMBER CURRENTCUBE.[Measures].[% Finished Races]
  AS IIF(
-    IsEmpty( ([Measures].[Fact Result Count], [Dim Status].[StatusDescription].[All]) ) -- Denominator is total races across ALL statuses
+    IsEmpty( ([Measures].[Fact Result Count], [Dim Status].[StatusDescription].[All]) )
     OR ( ([Measures].[Fact Result Count], [Dim Status].[StatusDescription].[All]) = 0 ),
     NULL,
     (
         [Measures].[Fact Result Count],
-        [Dim Status].[StatusDescription].&amp;[Finished] -- Numerator: Count of "Finished" races
+        [Dim Status].[StatusDescription].&amp;[Finished] 
     )
     /
     (
         [Measures].[Fact Result Count],
-        [Dim Status].[StatusDescription].[All] -- Denominator: Total races across ALL statuses
+        [Dim Status].[StatusDescription].[All] 
     )
 ), 
-VISIBLE = 1; </Text>
+VISIBLE = 1;    
+CREATE MEMBER CURRENTCUBE.[Measures].[Average Absolute Position Order Change]
+ AS DIVIDE(SUM([Measures].[Absolute Position Order Change]), [Measures].[Fact Result Count]), 
+VISIBLE = 1; 
+CREATE MEMBER CURRENTCUBE.[Measures].[Average Points]
+ AS DIVIDE(SUM([Measures].[Points Scored]), [Measures].[Fact Result Count]), 
+VISIBLE = 1  ; </Text>
         </Command>
       </Commands>
     </MdxScript>
