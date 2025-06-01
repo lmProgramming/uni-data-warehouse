@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="229"
-  DTS:VersionGUID="{78A66E5E-EB38-4540-8539-D6795ACD9C96}">
+  DTS:VersionBuild="231"
+  DTS:VersionGUID="{72C702B4-C4FA-49B3-B381-ED7BCCF0465D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -8825,68 +8825,73 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       cachedDataType="r8"
                       cachedName="PositionOrderChange"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[PositionOrderChange]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[PositionOrderChange]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[PositionOrderChange]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[RaceKey]"
                       cachedDataType="i4"
                       cachedName="RaceKey"
+                      cachedSortKeyPosition="1"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[RaceKey]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[RaceKey]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[RaceKey]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[CircuitKey]"
                       cachedDataType="i4"
                       cachedName="CircuitKey"
+                      cachedSortKeyPosition="2"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[CircuitKey]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[CircuitKey]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[CircuitKey]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[ConstructorKey]"
                       cachedDataType="i4"
                       cachedName="ConstructorKey"
+                      cachedSortKeyPosition="4"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[ConstructorKey]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[ConstructorKey]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[ConstructorKey]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[DriverKey]"
                       cachedDataType="i4"
                       cachedName="DriverKey"
+                      cachedSortKeyPosition="3"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[DriverKey]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DriverKey]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DriverKey]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[StatusKey]"
                       cachedDataType="i4"
                       cachedName="StatusKey"
+                      cachedSortKeyPosition="5"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[StatusKey]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[StatusKey]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[StatusKey]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[WeatherKeyActual]"
                       cachedDataType="i4"
                       cachedName="WeatherKeyActual"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[WeatherKey]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[WeatherKeyActual]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[WeatherKeyActual]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[rank]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="rank"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[RankFastestLap]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[rank]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[rank]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[laps]"
                       cachedDataType="i4"
                       cachedName="laps"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[LapsCompleted]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[laps]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[laps]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[points]"
                       cachedDataType="r8"
                       cachedName="points"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[PointsScored]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[points]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[points]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[milliseconds]"
                       cachedDataType="i4"
                       cachedName="milliseconds"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[RaceTimeMilliseconds]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[milliseconds]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[milliseconds]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[FastestLapSpeedDecimal]"
                       cachedDataType="numeric"
@@ -8894,25 +8899,37 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       cachedPrecision="6"
                       cachedScale="3"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[FastestLapTopSpeed]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[FastestLapSpeedDecimal]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[FastestLapSpeedDecimal]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[AgeAtRace]"
                       cachedDataType="i4"
                       cachedName="AgeAtRace"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[AgeAtRace]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[AgeAtRace]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[AgeAtRace]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[DateKey]"
                       cachedDataType="i4"
                       cachedName="DateKey"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DateKey]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DateKey]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[stopsCount]"
                       cachedDataType="ui8"
                       cachedName="stopsCount"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[NumberOfPitStops]"
-                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[stopsCount]" />
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[stopsCount]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[grid]"
+                      cachedDataType="r8"
+                      cachedName="grid"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[GridPosition]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[grid]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[positionOrder]"
+                      cachedDataType="r8"
+                      cachedName="positionOrder"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[FinalPositionOrder]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[positionOrder]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -8980,6 +8997,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[AgeAtRace]"
                       dataType="i4"
                       name="AgeAtRace" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[GridPosition]"
+                      dataType="i4"
+                      name="GridPosition" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[FinalPositionOrder]"
+                      dataType="i4"
+                      name="FinalPositionOrder" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -12583,6 +12608,1142 @@ where [refTable].[WeatherKey] = ?</property>
                 </output>
               </outputs>
             </component>
+            <component
+              refId="Package\Fact_Result\Sort 2"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort 2"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Fact_Result\Sort 2.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[stopsCount]"
+                      cachedDataType="ui8"
+                      cachedName="stopsCount"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[stopsCount]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[resultId]"
+                      cachedDataType="r8"
+                      cachedName="resultId"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[resultId]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[raceId]"
+                      cachedDataType="i4"
+                      cachedName="raceId"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[raceId]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[driverId]"
+                      cachedDataType="i4"
+                      cachedName="driverId"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[driverId]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[constructorId]"
+                      cachedDataType="i4"
+                      cachedName="constructorId"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[constructorId]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[number]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="number"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[number]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[grid]"
+                      cachedDataType="r8"
+                      cachedName="grid"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[grid]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[position]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="position"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[position]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[positionText]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="positionText"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[positionText]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[positionOrder]"
+                      cachedDataType="r8"
+                      cachedName="positionOrder"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[positionOrder]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[points]"
+                      cachedDataType="r8"
+                      cachedName="points"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[points]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[laps]"
+                      cachedDataType="i4"
+                      cachedName="laps"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[laps]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[time]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="time"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[time]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[milliseconds]"
+                      cachedDataType="i4"
+                      cachedName="milliseconds"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[milliseconds]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[fastestLap]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="fastestLap"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[fastestLap]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[rank]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="rank"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[rank]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[fastestLapTime]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="fastestLapTime"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[fastestLapTime]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[fastestLapSpeed]"
+                      cachedDataType="r8"
+                      cachedName="fastestLapSpeed"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[fastestLapSpeed]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[statusId]"
+                      cachedDataType="i4"
+                      cachedName="statusId"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[statusId]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[PositionOrderChange]"
+                      cachedDataType="r8"
+                      cachedName="PositionOrderChange"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[PositionOrderChange]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[RaceKey]"
+                      cachedDataType="i4"
+                      cachedName="RaceKey"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[RaceKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[CircuitID_NK]"
+                      cachedDataType="i4"
+                      cachedName="CircuitID_NK"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[CircuitID_NK]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[YearSeason]"
+                      cachedDataType="i4"
+                      cachedName="YearSeason"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[YearSeason]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[RoundNumberInSeason]"
+                      cachedDataType="i4"
+                      cachedName="RoundNumberInSeason"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[RoundNumberInSeason]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Date"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[Date]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[CircuitKey]"
+                      cachedDataType="i4"
+                      cachedName="CircuitKey"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[CircuitKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[ConstructorKey]"
+                      cachedDataType="i4"
+                      cachedName="ConstructorKey"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[ConstructorKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">4</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[DriverKey]"
+                      cachedDataType="i4"
+                      cachedName="DriverKey"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DriverKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">3</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[DateOfBirth]"
+                      cachedDataType="dbDate"
+                      cachedName="DateOfBirth"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DateOfBirth]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[StatusKey]"
+                      cachedDataType="i4"
+                      cachedName="StatusKey"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[StatusKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">5</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[WeatherKey]"
+                      cachedDataType="i4"
+                      cachedName="WeatherKey"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[WeatherKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[AgeAtRace]"
+                      cachedDataType="i4"
+                      cachedName="AgeAtRace"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[AgeAtRace]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[DateKey]"
+                      cachedDataType="i4"
+                      cachedName="DateKey"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DateKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[WeatherKeyActual]"
+                      cachedDataType="i4"
+                      cachedName="WeatherKeyActual"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[WeatherKeyActual]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[FastestLapSpeedDecimal]"
+                      cachedDataType="numeric"
+                      cachedName="FastestLapSpeedDecimal"
+                      cachedPrecision="6"
+                      cachedScale="3"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[FastestLapSpeedDecimal]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[raceId (1)]"
+                      cachedDataType="i4"
+                      cachedName="raceId (1)"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[raceId (1)]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[driverId (1)]"
+                      cachedDataType="i4"
+                      cachedName="driverId (1)"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[driverId (1)]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Fact_Result\Sort 2.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[stopsCount]"
+                      dataType="ui8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[stopsCount]"
+                      name="stopsCount">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[stopsCount]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[resultId]"
+                      dataType="r8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[resultId]"
+                      name="resultId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[resultId]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[raceId]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[raceId]"
+                      name="raceId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[raceId]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[driverId]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[driverId]"
+                      name="driverId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[driverId]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[constructorId]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[constructorId]"
+                      name="constructorId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[constructorId]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[number]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[number]"
+                      name="number">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[number]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[grid]"
+                      dataType="r8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[grid]"
+                      name="grid">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[grid]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[position]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[position]"
+                      name="position">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[position]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[positionText]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[positionText]"
+                      name="positionText">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[positionText]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[positionOrder]"
+                      dataType="r8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[positionOrder]"
+                      name="positionOrder">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[positionOrder]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[points]"
+                      dataType="r8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[points]"
+                      name="points">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[points]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[laps]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[laps]"
+                      name="laps">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[laps]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[time]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[time]"
+                      name="time">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[time]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[milliseconds]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[milliseconds]"
+                      name="milliseconds">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[milliseconds]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[fastestLap]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[fastestLap]"
+                      name="fastestLap">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[fastestLap]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[rank]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[rank]"
+                      name="rank">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[rank]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[fastestLapTime]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[fastestLapTime]"
+                      name="fastestLapTime">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[fastestLapTime]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[fastestLapSpeed]"
+                      dataType="r8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[fastestLapSpeed]"
+                      name="fastestLapSpeed">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[fastestLapSpeed]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[statusId]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[statusId]"
+                      name="statusId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[statusId]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[PositionOrderChange]"
+                      dataType="r8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[PositionOrderChange]"
+                      name="PositionOrderChange">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[PositionOrderChange]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[RaceKey]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[RaceKey]"
+                      name="RaceKey"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[RaceKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[CircuitID_NK]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[CircuitID_NK]"
+                      name="CircuitID_NK">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[CircuitID_NK]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[YearSeason]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[YearSeason]"
+                      name="YearSeason">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[YearSeason]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[RoundNumberInSeason]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[RoundNumberInSeason]"
+                      name="RoundNumberInSeason">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[RoundNumberInSeason]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[Date]"
+                      name="Date">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[Date]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[CircuitKey]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[CircuitKey]"
+                      name="CircuitKey"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[CircuitKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[ConstructorKey]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[ConstructorKey]"
+                      name="ConstructorKey"
+                      sortKeyPosition="4">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[ConstructorKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DriverKey]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DriverKey]"
+                      name="DriverKey"
+                      sortKeyPosition="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DriverKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DateOfBirth]"
+                      dataType="dbDate"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DateOfBirth]"
+                      name="DateOfBirth">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DateOfBirth]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[StatusKey]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[StatusKey]"
+                      name="StatusKey"
+                      sortKeyPosition="5">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[StatusKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[WeatherKey]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[WeatherKey]"
+                      name="WeatherKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[WeatherKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[AgeAtRace]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[AgeAtRace]"
+                      name="AgeAtRace">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[AgeAtRace]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DateKey]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[DateKey]"
+                      name="DateKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[DateKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[WeatherKeyActual]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[WeatherKeyActual]"
+                      name="WeatherKeyActual">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[WeatherKeyActual]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[FastestLapSpeedDecimal]"
+                      dataType="numeric"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[FastestLapSpeedDecimal]"
+                      name="FastestLapSpeedDecimal"
+                      precision="6"
+                      scale="3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[FastestLapSpeedDecimal]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[raceId (1)]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[raceId (1)]"
+                      name="raceId (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[raceId (1)]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[driverId (1)]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[driverId (1)]"
+                      name="driverId (1)">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[driverId (1)]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
           </components>
           <paths>
             <path
@@ -12621,38 +13782,38 @@ where [refTable].[WeatherKey] = ?</property>
               name="Excel Source Output"
               startId="Package\Fact_Result\Pit Stops.Outputs[Excel Source Output]" />
             <path
-              refId="Package\Fact_Result.Paths[Lookup Match Output]"
-              endId="Package\Fact_Result\Lookup Circuit Key.Inputs[Lookup Input]"
+              refId="Package\Fact_Result.Paths[Lookup Match Output5]"
+              endId="Package\Fact_Result\Convert data to correct type.Inputs[Data Conversion Input]"
               name="Lookup Match Output"
-              startId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Fact_Result.Paths[Lookup Match Output1]"
-              endId="Package\Fact_Result\Lookup Constructor Key.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Fact_Result\Lookup Circuit Key.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Fact_Result.Paths[Lookup Match Output2]"
-              endId="Package\Fact_Result\Lookup Driver Key.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Fact_Result\Lookup Constructor Key.Outputs[Lookup Match Output]" />
-            <path
-              refId="Package\Fact_Result.Paths[Lookup Match Output3]"
-              endId="Package\Fact_Result\Lookup Status Key.Inputs[Lookup Input]"
-              name="Lookup Match Output"
-              startId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output]" />
+              startId="Package\Fact_Result\Lookup Weather Key.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Fact_Result.Paths[Lookup Match Output4]"
               endId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input]"
               name="Lookup Match Output"
               startId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output]" />
             <path
-              refId="Package\Fact_Result.Paths[Lookup Match Output5]"
-              endId="Package\Fact_Result\Convert data to correct type.Inputs[Data Conversion Input]"
+              refId="Package\Fact_Result.Paths[Lookup Match Output3]"
+              endId="Package\Fact_Result\Lookup Status Key.Inputs[Lookup Input]"
               name="Lookup Match Output"
-              startId="Package\Fact_Result\Lookup Weather Key.Outputs[Lookup Match Output]" />
+              startId="Package\Fact_Result\Lookup Driver Key.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Fact_Result.Paths[Lookup Match Output1]"
+              endId="Package\Fact_Result\Lookup Constructor Key.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Fact_Result\Lookup Circuit Key.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Fact_Result.Paths[Lookup Match Output]"
+              endId="Package\Fact_Result\Lookup Circuit Key.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Fact_Result.Paths[Lookup Match Output2]"
+              endId="Package\Fact_Result\Lookup Driver Key.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Fact_Result\Lookup Constructor Key.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Fact_Result.Paths[Merge Join Output]"
-              endId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input]"
+              endId="Package\Fact_Result\Sort 2.Inputs[Sort Input]"
               name="Merge Join Output"
               startId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output]" />
             <path
@@ -12665,6 +13826,11 @@ where [refTable].[WeatherKey] = ?</property>
               endId="Package\Fact_Result\Calculated AgeGroup.Inputs[Derived Column Input]"
               name="Sort Output"
               startId="Package\Fact_Result\Sort 1.Outputs[Sort Output]" />
+            <path
+              refId="Package\Fact_Result.Paths[Sort Output2]"
+              endId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input]"
+              name="Sort Output"
+              startId="Package\Fact_Result\Sort 2.Outputs[Sort Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -12907,14 +14073,35 @@ where [refTable].[WeatherKey] = ?</property>
               Language="CSharp"
               ReadOnlyVariables="System::ErrorCode,System::ErrorDescription,System::SourceName,System::PackageName">
               <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_ebb5bc35991644d294bfb3d782492575")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_ebb5bc35991644d294bfb3d782492575")]
+[assembly: AssemblyCopyright("Copyright @  2025")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -13035,34 +14222,91 @@ where [refTable].[WeatherKey] = ?</property>
   </resheader>
 </root>]]></ProjectItem>
               <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_ebb5bc35991644d294bfb3d782492575.Properties.Settings.get_Default():ST_ebb5bc35991644d294bfb3d782492575.Properties.Sett" +
-    "ings")]
-
-namespace ST_ebb5bc35991644d294bfb3d782492575.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
+                Name="ST_f88cbaa55b0d411584402d1b470de201.csproj"
+                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{a2951893-ecda-48ef-a6f7-dd516ce5d978}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ST_ebb5bc35991644d294bfb3d782492575</RootNamespace>
+    <AssemblyName>ST_f88cbaa55b0d411584402d1b470de201</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptMain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
+        <Host Name="ScriptTask" GeneratedNamespace="$safeprojectname" IconIndex=""></Host>
+        <ProjectClient>
+          <HostIdentifier>SSIS_ST160</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -13219,121 +14463,43 @@ namespace ST_ebb5bc35991644d294bfb3d782492575
   </msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
-                Name="ST_f88cbaa55b0d411584402d1b470de201.csproj"
-                Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{a2951893-ecda-48ef-a6f7-dd516ce5d978}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ST_ebb5bc35991644d294bfb3d782492575</RootNamespace>
-    <AssemblyName>ST_f88cbaa55b0d411584402d1b470de201</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>
-    <TargetFrameworkProfile></TargetFrameworkProfile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>.\bin\Debug\</OutputPath>
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugSymbols>false</DebugSymbols>
-    <Optimize>true</Optimize>
-    <OutputPath>.\bin\Release\</OutputPath>
-    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.SqlServer.ManagedDTS, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="Microsoft.SqlServer.ScriptTask, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
-  </ItemGroup>
-  <ItemGroup>
-    <AppDesigner Include="Properties\" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="ScriptMain.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <!-- Include the build rules for a C# project.-->
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
-        <ProjectProperties HostName="ScriptTask" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" DebugInfoCommandLine="" DebugInfoWorkingDir="" IconImageList="" />
-        <Host Name="ScriptTask" GeneratedNamespace="$safeprojectname" IconIndex=""></Host>
-        <ProjectClient>
-          <HostIdentifier>SSIS_ST160</HostIdentifier>
-        </ProjectClient>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
-</Project>]]></ProjectItem>
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_ebb5bc35991644d294bfb3d782492575.Properties.Settings.get_Default():ST_ebb5bc35991644d294bfb3d782492575.Properties.Sett" +
+    "ings")]
+
+namespace ST_ebb5bc35991644d294bfb3d782492575.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
               <ProjectItem
-                Name="Properties\AssemblyInfo.cs"
-                Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_ebb5bc35991644d294bfb3d782492575")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_ebb5bc35991644d294bfb3d782492575")]
-[assembly: AssemblyCopyright("Copyright @  2025")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -14186,17 +15352,45 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="113,42"
-          Id="Package\Dim_Circuit\Lookup"
-          TopLeft="108,233" />
+          Size="133,42"
+          Id="Package\Dim_Circuit\Dim_Circuit"
+          TopLeft="103,306" />
         <NodeLayout
           Size="113,42"
           Id="Package\Dim_Circuit\Circuits"
           TopLeft="109,78" />
         <NodeLayout
-          Size="133,42"
-          Id="Package\Dim_Circuit\Dim_Circuit"
-          TopLeft="103,306" />
+          Size="113,42"
+          Id="Package\Dim_Circuit\Lookup"
+          TopLeft="108,233" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Dim_Circuit\Derived Column"
+          TopLeft="95,160" />
+        <EdgeLayout
+          Id="Package\Dim_Circuit.Paths[Derived Column Output]"
+          TopLeft="168.25,202">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Dim_Circuit.Paths[Lookup Match Output]"
           TopLeft="167,275">
@@ -14221,10 +15415,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="154,42"
-          Id="Package\Dim_Circuit\Derived Column"
-          TopLeft="95,160" />
         <EdgeLayout
           Id="Package\Dim_Circuit.Paths[Excel Source Output]"
           TopLeft="168.75,120">
@@ -14244,34 +15434,40 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Dim_Circuit.Paths[Derived Column Output]"
-          TopLeft="168.25,202">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,31"
-              Start="0,0"
-              End="0,23.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,23.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dim_Circuit\Dim_Circuit">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dim_Circuit\Circuits">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Dim_Circuit\Lookup">
     <Properties>
@@ -14292,32 +15488,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Dim_Circuit\Circuits">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Dim_Circuit\Dim_Circuit">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -14409,7 +15579,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -15489,7 +16661,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         <NodeLayout
           Size="133,42"
           Id="Package\Fact_Result\Fact_Result"
-          TopLeft="857,367" />
+          TopLeft="868,378" />
         <NodeLayout
           Size="191,42"
           Id="Package\Fact_Result\Lookup Constructor Key"
@@ -15521,9 +16693,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15545,9 +16715,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15569,33 +16737,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Fact_Result.Paths[Merge Join Output]"
-          TopLeft="926.75,281">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,86"
-              Start="0,0"
-              End="0,78.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,78.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15761,9 +16903,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15785,9 +16925,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15809,9 +16947,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15833,9 +16969,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15869,9 +17003,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -15893,9 +17025,55 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Fact_Result\Sort 2"
+          TopLeft="881,307" />
+        <EdgeLayout
+          Id="Package\Fact_Result.Paths[Merge Join Output]"
+          TopLeft="932.25,281">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Fact_Result.Paths[Sort Output2]"
+          TopLeft="934.5,349">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

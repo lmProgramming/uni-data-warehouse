@@ -76,6 +76,8 @@ CREATE TABLE Fact_Result (
     LapsCompleted INT,
     NumberOfPitStops INT NULL,
     RaceTimeMilliseconds BIGINT NULL,
+    GridPosition INT,
+    FinalPositionOrder INT,
     PositionOrderChange INT,
     RankFastestLap INT NULL,
     FastestLapTopSpeed DECIMAL(6, 3) NULL,

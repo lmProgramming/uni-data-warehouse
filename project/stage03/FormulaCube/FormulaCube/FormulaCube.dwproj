@@ -47,6 +47,10 @@
       <Name>Dim Status.dim</Name>
       <FullPath>Dim Status.dim</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Degenerate Details.dim</Name>
+      <FullPath>Degenerate Details.dim</FullPath>
+    </ProjectItem>
   </Dimensions>
   <DataSources>
     <ProjectItem>
