@@ -11,8 +11,8 @@
   DTS:LocaleID="1045"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="231"
-  DTS:VersionGUID="{72C702B4-C4FA-49B3-B381-ED7BCCF0465D}">
+  DTS:VersionBuild="238"
+  DTS:VersionGUID="{0793E80D-4593-4F20-88FD-E11BC9914CEE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -8480,6 +8480,27 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       cachedDataType="dbDate"
                       cachedName="Date"
                       lineageId="Package\Fact_Result\Lookup Race Key.Outputs[Lookup Match Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[positionOrder]"
+                      cachedDataType="r8"
+                      cachedName="positionOrder"
+                      lineageId="Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[positionOrder]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[StatusCategory]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="StatusCategory"
+                      lineageId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output].Columns[StatusCategory]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[grid]"
+                      cachedDataType="r8"
+                      cachedName="grid"
+                      lineageId="Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[grid]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Inputs[Derived Column Input].Columns[rank]"
+                      cachedDataType="i4"
+                      cachedName="rank"
+                      lineageId="Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[rank]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -8556,6 +8577,160 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
                           name="FriendlyExpression">YearSeason * 10000 + MONTH(Date) * 100 + DAY(Date)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsWin]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsWin]"
+                      name="IsWin"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[positionOrder]} == 1 ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">positionOrder == 1 ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFinished]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFinished]"
+                      name="IsFinished"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output].Columns[StatusCategory]} == "Race Outcome") ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(StatusCategory == "Race Outcome") ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPodium]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPodium]"
+                      name="IsPodium"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[positionOrder]} &lt;= 3 ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">positionOrder &lt;= 3 ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsDNF]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsDNF]"
+                      name="IsDNF"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output].Columns[StatusCategory]} == "Race Outcome") ? 0 : 1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(StatusCategory == "Race Outcome") ? 0 : 1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPolePosition]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPolePosition]"
+                      name="IsPolePosition"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[grid]} == 1 ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">grid == 1 ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFastestLap]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFastestLap]"
+                      name="IsFastestLap"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[rank]} == 1 ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">rank == 1 ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[PodiumFromOutsideTop10Grid]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[PodiumFromOutsideTop10Grid]"
+                      name="PodiumFromOutsideTop10Grid"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[positionOrder]} &lt;= 3 &amp;&amp; #{Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[grid]} &gt; 10) ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(positionOrder &lt;= 3 &amp;&amp; grid &gt; 10) ? 1 : 0</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -8869,8 +9044,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[WeatherKeyActual]" />
                     <inputColumn
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[rank]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
+                      cachedDataType="i4"
                       cachedName="rank"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[RankFastestLap]"
                       lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[rank]" />
@@ -8930,6 +9104,48 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       cachedName="positionOrder"
                       externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[FinalPositionOrder]"
                       lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[positionOrder]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[PodiumFromOutsideTop10Grid]"
+                      cachedDataType="i4"
+                      cachedName="PodiumFromOutsideTop10Grid"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[PodiumFromOutsideTop10Grid]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[PodiumFromOutsideTop10Grid]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[IsFastestLap]"
+                      cachedDataType="i4"
+                      cachedName="IsFastestLap"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsFastestLap]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsFastestLap]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[IsPolePosition]"
+                      cachedDataType="i4"
+                      cachedName="IsPolePosition"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsPolePosition]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsPolePosition]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[IsDNF]"
+                      cachedDataType="i4"
+                      cachedName="IsDNF"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsDNF]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsDNF]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[IsPodium]"
+                      cachedDataType="i4"
+                      cachedName="IsPodium"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsPodium]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsPodium]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[IsFinished]"
+                      cachedDataType="i4"
+                      cachedName="IsFinished"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[FinishedRace]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsFinished]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].Columns[IsWin]"
+                      cachedDataType="i4"
+                      cachedName="IsWin"
+                      externalMetadataColumnId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsWin]"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsWin]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -9005,6 +9221,34 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
                       refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[FinalPositionOrder]"
                       dataType="i4"
                       name="FinalPositionOrder" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsWin]"
+                      dataType="i4"
+                      name="IsWin" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[FinishedRace]"
+                      dataType="i4"
+                      name="FinishedRace" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsPodium]"
+                      dataType="i4"
+                      name="IsPodium" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsDNF]"
+                      dataType="i4"
+                      name="IsDNF" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsPolePosition]"
+                      dataType="i4"
+                      name="IsPolePosition" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[IsFastestLap]"
+                      dataType="i4"
+                      name="IsFastestLap" />
+                    <externalMetadataColumn
+                      refId="Package\Fact_Result\Fact_Result.Inputs[OLE DB Destination Input].ExternalColumns[PodiumFromOutsideTop10Grid]"
+                      dataType="i4"
+                      name="PodiumFromOutsideTop10Grid" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -9858,6 +10102,21 @@ where [refTable].[StatusID_NK] = ?</property>
                           name="CopyFromReferenceColumn">StatusKey</property>
                       </properties>
                     </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output].Columns[StatusCategory]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="100"
+                      lineageId="Package\Fact_Result\Lookup Status Key.Outputs[Lookup Match Output].Columns[StatusCategory]"
+                      name="StatusCategory"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">StatusCategory</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -10162,8 +10421,7 @@ where [refTable].[WeatherKey] = ?</property>
                       lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[fastestLap]" />
                     <inputColumn
                       refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[rank]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
+                      cachedDataType="i4"
                       cachedName="rank"
                       lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[rank]" />
                     <inputColumn
@@ -10264,6 +10522,47 @@ where [refTable].[WeatherKey] = ?</property>
                       cachedPrecision="6"
                       cachedScale="3"
                       lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[FastestLapSpeedDecimal]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsWin]"
+                      cachedDataType="i4"
+                      cachedName="IsWin"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsWin]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsFinished]"
+                      cachedDataType="i4"
+                      cachedName="IsFinished"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsFinished]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsDNF]"
+                      cachedDataType="i4"
+                      cachedName="IsDNF"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsDNF]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsPodium]"
+                      cachedDataType="i4"
+                      cachedName="IsPodium"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsPodium]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsPolePosition]"
+                      cachedDataType="i4"
+                      cachedName="IsPolePosition"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsPolePosition]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsFastestLap]"
+                      cachedDataType="i4"
+                      cachedName="IsFastestLap"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsFastestLap]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[PodiumFromOutsideTop10Grid]"
+                      cachedDataType="i4"
+                      cachedName="PodiumFromOutsideTop10Grid"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[PodiumFromOutsideTop10Grid]" />
+                    <inputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[AgeGroup]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="AgeGroup"
+                      lineageId="Package\Fact_Result\Calculated AgeGroup.Outputs[Derived Column Output].Columns[AgeGroup]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -10503,8 +10802,7 @@ where [refTable].[WeatherKey] = ?</property>
                     </outputColumn>
                     <outputColumn
                       refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[rank]"
-                      dataType="wstr"
-                      length="255"
+                      dataType="i4"
                       lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[rank]"
                       name="rank">
                       <properties>
@@ -10789,6 +11087,111 @@ where [refTable].[WeatherKey] = ?</property>
                           dataType="System.Int32"
                           description="The input column associated with this output column"
                           name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Right Input].Columns[driverId]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsWin]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsWin]"
+                      name="IsWin">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsWin]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFinished]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFinished]"
+                      name="IsFinished">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsFinished]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsDNF]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsDNF]"
+                      name="IsDNF">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsDNF]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPodium]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPodium]"
+                      name="IsPodium">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsPodium]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPolePosition]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPolePosition]"
+                      name="IsPolePosition">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsPolePosition]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFastestLap]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFastestLap]"
+                      name="IsFastestLap">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[IsFastestLap]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[PodiumFromOutsideTop10Grid]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[PodiumFromOutsideTop10Grid]"
+                      name="PodiumFromOutsideTop10Grid">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[PodiumFromOutsideTop10Grid]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[AgeGroup]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[AgeGroup]"
+                      name="AgeGroup">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Fact_Result\Merge Join Stop Count.Inputs[Merge Join Left Input].Columns[AgeGroup]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -11194,11 +11597,10 @@ where [refTable].[WeatherKey] = ?</property>
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[rank]"
-                      dataType="wstr"
+                      dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Fact_Result\Results.Outputs[Excel Source Output].ExternalColumns[rank]"
-                      length="255"
                       lineageId="Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[rank]"
                       name="rank"
                       truncationRowDisposition="FailComponent" />
@@ -11818,8 +12220,7 @@ where [refTable].[WeatherKey] = ?</property>
                     </inputColumn>
                     <inputColumn
                       refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[rank]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
+                      cachedDataType="i4"
                       cachedName="rank"
                       lineageId="Package\Fact_Result\Results.Outputs[Excel Source Output].Columns[rank]">
                       <properties>
@@ -12140,6 +12541,118 @@ where [refTable].[WeatherKey] = ?</property>
                           name="NewSortKeyPosition">0</property>
                       </properties>
                     </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[IsWin]"
+                      cachedDataType="i4"
+                      cachedName="IsWin"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsWin]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[IsFinished]"
+                      cachedDataType="i4"
+                      cachedName="IsFinished"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFinished]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[IsPodium]"
+                      cachedDataType="i4"
+                      cachedName="IsPodium"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPodium]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[IsDNF]"
+                      cachedDataType="i4"
+                      cachedName="IsDNF"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsDNF]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[IsPolePosition]"
+                      cachedDataType="i4"
+                      cachedName="IsPolePosition"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPolePosition]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[IsFastestLap]"
+                      cachedDataType="i4"
+                      cachedName="IsFastestLap"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFastestLap]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 1.Inputs[Sort Input].Columns[PodiumFromOutsideTop10Grid]"
+                      cachedDataType="i4"
+                      cachedName="PodiumFromOutsideTop10Grid"
+                      lineageId="Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[PodiumFromOutsideTop10Grid]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -12341,8 +12854,7 @@ where [refTable].[WeatherKey] = ?</property>
                     </outputColumn>
                     <outputColumn
                       refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[rank]"
-                      dataType="wstr"
-                      length="255"
+                      dataType="i4"
                       lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[rank]"
                       name="rank">
                       <properties>
@@ -12601,6 +13113,97 @@ where [refTable].[WeatherKey] = ?</property>
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
                           name="SortColumnId">#{Package\Fact_Result\Convert data to correct type.Outputs[Data Conversion Output].Columns[FastestLapSpeedDecimal]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsWin]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsWin]"
+                      name="IsWin">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsWin]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsFinished]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsFinished]"
+                      name="IsFinished">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFinished]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsPodium]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsPodium]"
+                      name="IsPodium">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPodium]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsDNF]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsDNF]"
+                      name="IsDNF">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsDNF]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsPolePosition]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsPolePosition]"
+                      name="IsPolePosition">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsPolePosition]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsFastestLap]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[IsFastestLap]"
+                      name="IsFastestLap">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[IsFastestLap]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[PodiumFromOutsideTop10Grid]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 1.Outputs[Sort Output].Columns[PodiumFromOutsideTop10Grid]"
+                      name="PodiumFromOutsideTop10Grid">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Calculated WeatherKey, DriverAge, DateKey.Outputs[Derived Column Output].Columns[PodiumFromOutsideTop10Grid]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -12880,8 +13483,7 @@ where [refTable].[WeatherKey] = ?</property>
                     </inputColumn>
                     <inputColumn
                       refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[rank]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
+                      cachedDataType="i4"
                       cachedName="rank"
                       lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[rank]">
                       <properties>
@@ -13234,6 +13836,135 @@ where [refTable].[WeatherKey] = ?</property>
                           name="NewSortKeyPosition">0</property>
                       </properties>
                     </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[IsWin]"
+                      cachedDataType="i4"
+                      cachedName="IsWin"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsWin]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[IsFinished]"
+                      cachedDataType="i4"
+                      cachedName="IsFinished"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFinished]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[IsDNF]"
+                      cachedDataType="i4"
+                      cachedName="IsDNF"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsDNF]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[IsPodium]"
+                      cachedDataType="i4"
+                      cachedName="IsPodium"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPodium]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[IsPolePosition]"
+                      cachedDataType="i4"
+                      cachedName="IsPolePosition"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPolePosition]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[IsFastestLap]"
+                      cachedDataType="i4"
+                      cachedName="IsFastestLap"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFastestLap]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[PodiumFromOutsideTop10Grid]"
+                      cachedDataType="i4"
+                      cachedName="PodiumFromOutsideTop10Grid"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[PodiumFromOutsideTop10Grid]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Fact_Result\Sort 2.Inputs[Sort Input].Columns[AgeGroup]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="AgeGroup"
+                      lineageId="Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[AgeGroup]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -13446,8 +14177,7 @@ where [refTable].[WeatherKey] = ?</property>
                     </outputColumn>
                     <outputColumn
                       refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[rank]"
-                      dataType="wstr"
-                      length="255"
+                      dataType="i4"
                       lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[rank]"
                       name="rank">
                       <properties>
@@ -13737,6 +14467,111 @@ where [refTable].[WeatherKey] = ?</property>
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
                           name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[driverId (1)]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsWin]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsWin]"
+                      name="IsWin">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsWin]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsFinished]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsFinished]"
+                      name="IsFinished">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFinished]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsDNF]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsDNF]"
+                      name="IsDNF">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsDNF]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsPodium]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsPodium]"
+                      name="IsPodium">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPodium]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsPolePosition]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsPolePosition]"
+                      name="IsPolePosition">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsPolePosition]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsFastestLap]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[IsFastestLap]"
+                      name="IsFastestLap">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[IsFastestLap]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[PodiumFromOutsideTop10Grid]"
+                      dataType="i4"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[PodiumFromOutsideTop10Grid]"
+                      name="PodiumFromOutsideTop10Grid">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[PodiumFromOutsideTop10Grid]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[AgeGroup]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\Fact_Result\Sort 2.Outputs[Sort Output].Columns[AgeGroup]"
+                      name="AgeGroup">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Fact_Result\Merge Join Stop Count.Outputs[Merge Join Output].Columns[AgeGroup]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -17180,7 +18015,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
