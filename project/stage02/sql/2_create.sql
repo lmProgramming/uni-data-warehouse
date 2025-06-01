@@ -32,7 +32,8 @@ CREATE TABLE Dim_Circuit (
     CircuitID_NK INT UNIQUE,
     CircuitName NVARCHAR(255),
     LocationCity NVARCHAR(255),
-    CountryName NVARCHAR(255)
+    CountryName NVARCHAR(255),
+    Continent NVARCHAR(255)
 );
 
 CREATE TABLE Dim_Time (
@@ -75,10 +76,20 @@ CREATE TABLE Fact_Result (
     LapsCompleted INT,
     NumberOfPitStops INT NULL,
     RaceTimeMilliseconds BIGINT NULL,
+    GridPosition INT,
+    FinalPositionOrder INT,
     PositionOrderChange INT,
     RankFastestLap INT NULL,
     FastestLapTopSpeed DECIMAL(6, 3) NULL,
-    AgeAtRace INT NULL
+    AgeAtRace INT NULL,
+    IsWin INT,
+    FinishedRace INT,
+    IsPodium INT,
+    IsDNF INT,
+    IsPolePosition INT,
+    IsFastestLap INT,
+    PodiumFromOutsideTop10Grid INT NULL,
+    PodiumFromInsideTop10Grid INT NULL,
 );
 
 CREATE INDEX idx_fact_race ON Fact_Result(RaceKey);
