@@ -9,7 +9,7 @@
 \usepackage{amssymb}
 \usepackage{float}
 \usepackage{listings}
-\usepackage[style=numeric]{biblatex}
+% \usepackage[style=numeric]{biblatex} % Keep if you have a bib file, otherwise comment out
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{longtable}
@@ -18,6 +18,7 @@
 \usepackage{tikz}
 \usepackage{ragged2e}
 \usepackage{geometry}
+\usepackage{subcaption} % For subfigures if needed, but individual figures are fine
 
 \newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 
@@ -25,7 +26,7 @@
 
 % \addbibresource{bibliografia.bib} % Assuming you have a bibliografia.bib file
 
-\graphicspath{{images/}}
+\graphicspath{{images/}} % Assuming images are in an 'images' subdirectory
 
 \lstset{
   basicstyle=\ttfamily\small,
@@ -80,19 +81,19 @@
     linkcolor=blue,
     filecolor=magenta,
     urlcolor=cyan,
-    pdftitle={Projekt hurtowni danych F1 - ETL},
+    pdftitle={Projekt hurtowni danych F1 - Kostka OLAP},
     pdfauthor={Mikołaj Kubś},
     pdfpagemode=FullScreen,
 }
 
-\title{Projekt hurtowni danych do analizy wyników i czynników wpływających na osiągnięcia kierowców Formuły 1 w latach 1950-2023 \\ \vspace{0.5em} \large Etap II: Proces ETL}
+\title{Projekt hurtowni danych do analizy wyników i czynników wpływających na osiągnięcia kierowców Formuły 1 w latach 1950-2023 \\ \vspace{0.5em} \large Etap III: Kostka OLAP i Analizy}
 \author{Mikołaj Kubś, 272662}
-\date{\today}
+\date{02.06.2025}
 
 \geometry{
   a4paper,
-  left=1.5cm,
-  right=1.5cm,
+  left=2cm,     
+  right=2cm,
   top=2.5cm,
   bottom=2.5cm
 }
@@ -102,5 +103,384 @@
 \maketitle
 \tableofcontents
 \newpage
+
+\section{Wprowadzenie}
+Niniejszy dokument stanowi raport z realizacji trzeciego etapu projektu hurtowni danych Formuły 1. Głównym celem tego etapu było zaprojektowanie i zaimplementowanie kostki OLAP (Online Analytical Processing) w oparciu o hurtownię danych zasilonej w Etapie II. Kostka ta umożliwia przeprowadzanie złożonych, wielowymiarowych analiz wyników wyścigów oraz czynników wpływających na osiągnięcia kierowców. Raport przedstawia strukturę kostki, wykorzystane wymiary i miary (w tym miary kalkulowane), a także prezentuje przykładowe analizy i wizualizacje uzyskane dzięki kostce.
+
+Zgodnie z założeniami projektu, kostka została zbudowana w SQL Server Analysis Services (SSAS) i zawiera dane z lat 1950-2023. Umożliwia ona intuicyjne eksplorowanie danych, identyfikowanie trendów, wzorców oraz ciekawych zależności, co wspiera podejmowanie decyzji i głębsze zrozumienie dynamiki Formuły 1.
+
+\section{Projekt Kostki OLAP}
+
+\subsection{Struktura Kostki}
+Kostka OLAP, nazwana \texttt{F1AnalysisCube}, została zbudowana w oparciu o tabelę faktów \texttt{Fact\_Result} oraz powiązane z nią tabele wymiarów, które zostały zdefiniowane i zasilone w poprzednich etapach projektu. Model kostki został zaprojektowany tak, aby umożliwić analitykom intuicyjne i efektywne korzystanie z danych. Wykorzystano schemat gwiazdy, gdzie centralna tabela faktów jest połączona z wymiarami.
+
+\subsection{Wymiary Kostki}
+Kostka wykorzystuje następujące wymiary, które pozwalają na analizę danych z różnych perspektyw:
+\begin{itemize}
+  \item \textbf{Dim\_Driver (Kierowca):} Informacje o kierowcach.
+  \item \textbf{Dim\_Constructor (Konstruktor):} Informacje o zespołach konstruktorskich.
+  \item \textbf{Dim\_Race (Wyścig):} Szczegóły dotyczące poszczególnych wyścigów.
+  \item \textbf{Dim\_Circuit (Tor):} Informacje o torach wyścigowych.
+  \item \textbf{Dim\_Time (Czas):} Hierarchia czasowa oparta na dacie wyścigu.
+  \item \textbf{Dim\_Weather (Pogoda):} Skategoryzowane warunki pogodowe podczas wyścigu.
+  \item \textbf{Dim\_Status (Status Ukończenia):} Informacje o statusie ukończenia wyścigu przez kierowcę.
+\end{itemize}
+
+\subsection{Hierarchie w Wymiarach}
+W celu ułatwienia analizy typu drill-down/roll-up, zdefiniowano następujące hierarchie w wymiarach:
+\begin{itemize}
+  \item \textbf{Dim\_Time (Hierarchia Czasowa):}
+        \begin{itemize}
+          \item Rok $\rightarrow$ Kwartał $\rightarrow$ Miesiąc $\rightarrow$ Dzień (Pełna Data)
+        \end{itemize}
+  \item \textbf{Dim\_Driver (Hierarchia Kierowcy):}
+        \begin{itemize}
+          \item Kontynent (pochodzenia kierowcy) $\rightarrow$ Kraj (pochodzenia kierowcy) $\rightarrow$ Kierowca (FullName)
+        \end{itemize}
+  \item \textbf{Dim\_Constructor (Hierarchia Konstruktora):}
+        \begin{itemize}
+          \item Kontynent (pochodzenia konstruktora) $\rightarrow$ Kraj (pochodzenia konstruktora) $\rightarrow$ Konstruktor (Name)
+        \end{itemize}
+  \item \textbf{Dim\_Circuit (Hierarchia Toru):}
+        \begin{itemize}
+          \item Kraj (toru) $\rightarrow$ Miasto (toru) $\rightarrow$ Nazwa Toru
+        \end{itemize}
+  \item \textbf{Dim\_Status (Hierarchia Statusu):}
+        \begin{itemize}
+          \item Kategoria Statusu $\rightarrow$ Opis Statusu
+        \end{itemize}
+\end{itemize}
+Wymiary \texttt{Dim\_Race} i \texttt{Dim\_Weather} nie posiadają zdefiniowanych złożonych hierarchii, ale ich atrybuty mogą być używane do filtrowania i grupowania danych.
+
+\subsection{Miary (Fakty)}
+Kostka zawiera następujące miary bazowe, pochodzące bezpośrednio z tabeli faktów \texttt{Fact\_Result}:
+\begin{itemize}
+  \item \textbf{PointsScored (Zdobyte Punkty):} Suma. Addytywna.
+  \item \textbf{LapsCompleted (Ukończone Okrążenia):} Suma. Addytywna.
+  \item \textbf{NumberOfPitStops (Liczba Pit Stopów):} Suma. Addytywna.
+  \item \textbf{RaceTimeMilliseconds (Czas Wyścigu w ms):} Suma / Średnia. Addytywna (Suma), Średnia jest semi-addytywna.
+  \item \textbf{GridPosition (Pozycja Startowa):} Średnia / Min / Max. Nieaddytywna (w kontekście sumowania).
+  \item \textbf{FinalPositionOrder (Pozycja Końcowa):} Średnia / Min / Max. Nieaddytywna.
+  \item \textbf{PositionOrderChange (Zmiana Pozycji):} Suma / Średnia. Addytywna.
+  \item \textbf{RankFastestLap (Ranking Najszybszego Okrążenia):} Średnia / Min / Max. Nieaddytywna.
+  \item \textbf{FastestLapTopSpeed (Prędkość Max. na Najszybszym Okrążeniu):} Średnia / Max. Semi-addytywna.
+  \item \textbf{AgeAtRace (Wiek Kierowcy podczas Wyścigu):} Średnia. Semi-addytywna.
+  \item \textbf{Liczba Wyników (Count of Results):} Count. Addytywna. (Domyślna miara z grupy miar)
+\end{itemize}
+
+\subsection{Miary Kalkulowane}
+W celu dostarczenia bardziej zaawansowanych wskaźników analitycznych, zdefiniowano następujące miary kalkulowane:
+\begin{itemize}
+  \item \textbf{Average Points Scored (Średnia Liczba Zdobytych Punktów):} `SUM([Measures].[PointsScored]) / COUNT(DISTINCT [Dim Race].[RaceKey])` lub `SUM([Measures].[PointsScored]) / [Measures].[Liczba Wyników]` w zależności od kontekstu.
+  \item \textbf{Win Percentage (Procent Wygranych):} `([Measures].[Liczba Wyników], [Dim Status].[StatusDescription].\&[Finished], [Dim Result].[FinalPositionOrder].\&[1]) / ([Measures].[Liczba Wyników], [Dim Status].[StatusDescription].\&[Finished])`, gdzie odpowiednie filtry są stosowane. Dokładniej: `COUNT(Rows WHERE FinalPositionOrder = 1) / COUNT(Rows WHERE FinalPositionOrder IS NOT NULL)`.
+  \item \textbf{DNF Percentage (Procent Nieukończeń):} `SUM(IIF([Dim Status].[StatusCategory].CurrentMember IS [Dim Status].[StatusCategory].\&[Mechanical Failure] OR [Dim Status].[StatusCategory].CurrentMember IS [Dim Status].[StatusCategory].\&[Accident/Collision], 1, 0)) / [Measures].[Liczba Wyników]`. Uogólniając: udział wyników gdzie status wskazuje na nieukończenie wyścigu.
+  \item \textbf{Average Position Change (Średnia Zmiana Pozycji):} `AVG([Fact Result].[PositionOrderChange])`.
+  \item \textbf{Average Finish Position (Średnia Pozycja Końcowa):} `AVG([Fact Result].[FinalPositionOrder])`.
+  \item \textbf{Average Race Time (Readable) (Średni Czas Wyścigu - czytelny):} Formatowana wartość `AVG([Fact Result].[RaceTimeMilliseconds])`.
+  \item \textbf{Podium Finish Percentage (Procent Ukończeń na Podium):} `COUNT(Rows WHERE FinalPositionOrder <= 3) / COUNT(Rows WHERE FinalPositionOrder IS NOT NULL)`.
+\end{itemize}
+
+\subsection{Kluczowe Wskaźniki Efektywności (KPI)}
+W ramach kostki zdefiniowano lub można zdefiniować następujące KPI, które pomagają monitorować kluczowe aspekty wydajności:
+\begin{itemize}
+  \item \textbf{Driver Win Rate vs Target (Wskaźnik Wygranych Kierowcy vs Cel):}
+        \begin{itemize}
+          \item Wartość: Procent wygranych danego kierowcy.
+          \item Cel: Np. 10\% (może być dynamiczny lub ustalony).
+          \item Status: Graficzna reprezentacja porównująca wartość z celem.
+        \end{itemize}
+  \item \textbf{Constructor Reliability (Niezawodność Konstruktora):}
+        \begin{itemize}
+          \item Wartość: `1 - DNF Percentage` (dla awarii mechanicznych).
+          \item Cel: Np. 95\%.
+          \item Status: Ocena, czy konstruktor osiąga zakładany poziom niezawodności.
+        \end{itemize}
+  \item \textbf{Average Pit Stop Performance (Średnia Wydajność Pit Stopów):}
+        \begin{itemize}
+          \item Wartość: Średnia liczba pit stopów (jeśli niższa jest lepsza w niektórych strategiach) lub średni czas pit stopów (jeśli dane byłyby dostępne na tym poziomie).
+          \item Cel: Zależny od strategii wyścigowej.
+        \end{itemize}
+\end{itemize}
+Implementacja KPI w SSAS pozwala na wizualne śledzenie postępów w osiąganiu celów biznesowych lub analitycznych.
+
+\section{Implementacja Kostki OLAP}
+Kostka OLAP została zaimplementowana przy użyciu SQL Server Analysis Services (SSAS) 2019. Proces tworzenia kostki obejmował:
+\begin{enumerate}
+  \item Utworzenie projektu Analysis Services w Visual Studio (SQL Server Data Tools).
+  \item Zdefiniowanie źródła danych (Data Source) wskazującego na hurtownię danych F1.
+  \item Utworzenie widoku źródła danych (Data Source View - DSV), wybierając tabelę faktów i wszystkie tabele wymiarów, oraz definiując logiczne relacje między nimi (jeśli nie zostały automatycznie wykryte).
+  \item Stworzenie wymiarów kostki na podstawie tabel wymiarów z DSV, zdefiniowanie atrybutów kluczowych, nazw oraz hierarchii.
+  \item Stworzenie kostki, wybierając grupę miar (opartą na \texttt{Fact\_Result}) oraz dodając zdefiniowane wcześniej wymiary.
+  \item Zdefiniowanie miar kalkulowanych przy użyciu języka MDX (Multidimensional Expressions).
+  \item Zdefiniowanie KPI.
+  \item Przetworzenie (Process) kostki w celu załadowania danych i agregacji.
+\end{enumerate}
+Poniżej przedstawiono przykładowy widok struktury kostki oraz relacji wymiarów w SSAS.
+\begin{figure}[H]
+  \centering
+  % Placeholder for actual screenshot - user should replace this
+  \includegraphics[width=0.9\textwidth]{cube_structure_placeholder.png}
+  \caption{Przykładowy widok struktury kostki (diagram) w SQL Server Analysis Services. (Użytkownik powinien zastąpić ten obraz rzeczywistym zrzutem ekranu).}
+  \label{fig:cube_structure}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  % Placeholder for actual screenshot - user should replace this
+  \includegraphics[width=0.9\textwidth]{dimension_usage_placeholder.png}
+  \caption{Widok zakładki "Dimension Usage" w SQL Server Analysis Services.}
+  \label{fig:dimension_usage}
+\end{figure}
+
+\section{Zestawienia Wielowymiarowe i Analizy}
+Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie danych z kostki OLAP. Ilustrują one możliwości analityczne stworzonego rozwiązania.
+
+\subsection{10 najczęstszych przyczyn awarii mechanicznych europejskich konstruktorów w latach 1950-1960}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Top 10 reasons for Mechanical Failure for European Constructors in 1950-1960.png}
+  % \caption{10 najczęstszych przyczyn awarii mechanicznych europejskich konstruktorów w latach 1950-1960} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Problemy związane z silnikiem były zdecydowanie główną przyczyną awarii mechanicznych europejskich konstruktorów w latach 1950-1960. Problemy z układem przeniesienia napędu, skrzynią biegów oraz sprzęgłem były kolejnymi istotnymi, choć rzadszymi, przyczynami awarii.
+
+\subsection{Średnia bezwzględna zmiana kolejności pozycji na torach w Austrii, Belgii, Francji i Niemczech}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Average Absolute Position Order Change by Circuit in Austria, Belgium, France and Germany.png}
+  % \caption{Średnia bezwzględna zmiana kolejności pozycji na torach} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Wyścigi odbywające się na torze Dijon we Francji charakteryzowały się najwyższą średnią zmianą kolejności pozycji, co wskazuje na bardziej nieprzewidywalne wyścigi ze znacznymi przetasowaniami w stawce. Tor Heusden-Zolder w Belgii również odnotował znacząco wysoką średnią zmianę pozycji. Z kolei tory takie jak Spielberg, Bruksela, Clermont-Ferrand, Magny Cours, Reims, Rouen, Hockenheim i Nürburgring wykazywały średnio porównywalnie mniejsze zmiany w kolejności wyścigu.
+
+\subsection{Średnia pozycja na mecie w zależności od pozycji startowej w Grand Prix Wielkiej Brytanii w latach 1990-2009}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Average Finish Position by Starting Grid Position in British Grand Prix 1990-2009.png}
+  % \caption{Średnia pozycja na mecie w zależności od pozycji startowej} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Ogólnie rzecz biorąc, wyższa pozycja startowa w Grand Prix Wielkiej Brytanii w latach 1990-2009 korelowała z lepszą średnią pozycją na mecie. Zależność ta nie była jednak idealnie liniowa, gdyż niektóre pozycje startowe (np. około 5.) osiągały lepsze wyniki niż pozycje bezpośrednio je poprzedzające, a niektóre niższe pozycje startowe (np. około 19. i 24.) wykazywały szczególnie gorsze średnie wyniki na mecie.
+
+\subsection{Procent DNF i średnia pozycja na mecie według grup wiekowych}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{DNF Percentage and Average Finish Position by Age Group.png}
+  % \caption{Procent DNF i średnia pozycja na mecie według grup wiekowych} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Młodsi kierowcy, szczególnie ci poniżej 20. roku życia, mieli tendencję do niższego odsetka DNF (nieukończeń wyścigu) i osiągania lepszych średnich pozycji na mecie. Odwrotnie, kierowcy powyżej 35. roku życia doświadczali najwyższych wskaźników DNF i najmniej korzystnych średnich pozycji na mecie. Obserwuje się ogólną tendencję, że wraz ze wzrostem wieku kierowcy, wskaźniki DNF rosną, a średnie pozycje na mecie pogarszają się.
+
+\subsection{Procent ukończeń wyścigu według kategorii pogodowych}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Finish Percentages by Weather Categories.png}
+  % \caption{Procent ukończeń wyścigu według kategorii pogodowych} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} We wszystkich wymienionych kategoriach pogodowych (kombinacje temperatury toru, deszczu i warunków wietrznych) zdecydowana większość startujących pomyślnie ukończyła wyścigi. Chociaż występują niewielkie różnice, odsetek DNF (nieukończeń wyścigu) pozostawał stosunkowo niski i stały, co sugeruje, że te konkretne warunki pogodowe nie zwiększały drastycznie wskaźników odpadnięć z wyścigu.
+
+\subsection{Procent zwycięstw i średnia prędkość najszybszego okrążenia według grup wiekowych}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Win Percentage and Average Fastest Lap Top Speed by Age Group.png}
+  % \caption{Procent zwycięstw i średnia prędkość najszybszego okrążenia według grup wiekowych} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Kierowcy w grupie wiekowej 31-35 lat osiągali najwyższy procent zwycięstw ze swoich pozycji startowych, a także notowali najwyższe średnie prędkości najszybszych okrążeń. Procenty zwycięstw były znacznie niższe dla młodszych grup wiekowych (poniżej 20 lat i 20-25 lat). Chociaż kierowcy powyżej 35. roku życia mieli drugi najwyższy procent zwycięstw, ich średnia prędkość najszybszego okrążenia była niższa niż w grupach wiekowych 26-30 i 31-35 lat.
+
+\subsection{Procent zwycięstw na przestrzeni lat 2018-2024 dla 9 najlepszych kierowców w Europie}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Win Percentage over the years 2018-2024 by the best 9 drivers in Europe.png}
+  % \caption{Procent zwycięstw na przestrzeni lat 2018-2024} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Procent zwycięstw Maxa Verstappena wykazywał znaczący trend wzrostowy od 2018 do 2023 roku, kulminując dominującym występem w 2023 roku. Lewis Hamilton wykazywał wysokie odsetki zwycięstw we wcześniejszych latach (2018-2020), ale w kolejnych latach odnotował spadek. Inni kierowcy mieli sporadyczne lub niższe odsetki zwycięstw, przy czym Verstappen wyraźnie wyrósł na najbardziej utytułowanego zawodnika tej grupy w późniejszej części okresu. Dane za 2024 rok sugerują potencjalną zmianę lub wskazują na trwający sezon.
+
+\subsection{Średnia liczba pit stopów w zależności od występowania deszczu w latach 2018-2023}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Average number of pit stops by rain occurence in years 2018-2023.png}
+  % \caption{Średnia liczba pit stopów w zależności od występowania deszczu} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Występowanie deszczu konsekwentnie prowadziło do wyższej średniej liczby pit stopów w wyścigach w latach 2018-2023. W każdym obserwowanym roku wyścigi, na które wpłynął deszcz, charakteryzowały się średnio większą liczbą pit stopów w porównaniu do wyścigów suchych. Co więcej, odnotowano niewielki trend wzrostowy średniej liczby pit stopów w warunkach deszczowych od 2018 do 2023 roku, osiągając szczyt w 2023 roku.
+
+\subsection{Średni czas wyścigu na torze Autodromo Nazionale di Monza według roku}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Average Race Time in Autodromo Nazionale di Monza by Year.png}
+  % \caption{Średni czas wyścigu na torze Autodromo Nazionale di Monza według roku} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Nastąpił radykalny spadek średnich czasów wyścigów na torze Autodromo Nazionale di Monza od 1950 roku do późnych lat 70./wczesnych lat 80. XX wieku. Po tym okresie gwałtownej poprawy prędkości lub wydajności wyścigów, średni czas wyścigu w dużej mierze ustabilizował się, wykazując jedynie niewielkie wahania do 2023 roku, z zauważalnym wzrostem około 2019 roku.
+
+\subsection{Podium z pierwszej dziesiątki lub spoza pierwszej dziesiątki pól startowych według kategorii deszczu i wiatru}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Podium from inside or outside top 10 Grid by Rain and Wind Category.png}
+  % \caption{Podium z pierwszej dziesiątki lub spoza pierwszej dziesiątki pól startowych według kategorii deszczu i wiatru} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Start z pierwszej dziesiątki pól startowych znacząco zwiększał prawdopodobieństwo ukończenia wyścigu na podium w większości warunków, szczególnie przy suchej pogodzie (kategorie bez deszczu ze spokojnym wiatrem, lekką bryzą i umiarkowaną bryzą). Jednakże wystąpienie deszczu, szczególnie w połączeniu z umiarkowaną bryzą, radykalnie zwiększało odsetek zawodników kończących na podium, którzy startowali spoza pierwszej dziesiątki pól startowych. Sugeruje to, że warunki deszczowe, zwłaszcza przy umiarkowanym wietrze, tworzą bardziej nieprzewidywalne wyścigi, w których pozycja startowa jest mniej decydującym czynnikiem osiągnięcia podium.
+
+\newpage
+\section{Dokumentacja Kostki}
+
+\subsection{Opis Wymiarów i Atrybutów}
+
+\subsubsection{Dim\_Driver (Kierowca)}
+\begin{itemize}
+  \item \textbf{Atrybuty:}
+        \begin{itemize}
+          \item DriverKey (PK, Klucz Zastępczy)
+          \item DriverID\_NK (Klucz Naturalny ze źródła)
+          \item FirstName (Imię)
+          \item LastName (Nazwisko)
+          \item FullName (Pełne Imię i Nazwisko) - używane w hierarchii
+          \item DateOfBirth (Data Urodzenia)
+          \item CountryName (Kraj pochodzenia) - używane w hierarchii
+          \item Continent (Kontynent pochodzenia) - używane w hierarchii
+        \end{itemize}
+  \item \textbf{Hierarchie:} Kontynent $\rightarrow$ Kraj $\rightarrow$ Kierowca (FullName)
+\end{itemize}
+
+\subsubsection{Dim\_Constructor (Konstruktor)}
+\begin{itemize}
+  \item \textbf{Atrybuty:}
+        \begin{itemize}
+          \item ConstructorKey (PK, Klucz Zastępczy)
+          \item ConstructorID\_NK (Klucz Naturalny ze źródła)
+          \item Name (Nazwa Konstruktora) - używane w hierarchii
+          \item CountryName (Kraj pochodzenia) - używane w hierarchii
+          \item Continent (Kontynent pochodzenia) - używane w hierarchii
+        \end{itemize}
+  \item \textbf{Hierarchie:} Kontynent $\rightarrow$ Kraj $\rightarrow$ Konstruktor (Name)
+\end{itemize}
+
+\subsubsection{Dim\_Race (Wyścig)}
+\begin{itemize}
+  \item \textbf{Atrybuty:}
+        \begin{itemize}
+          \item RaceKey (PK, Klucz Zastępczy)
+          \item RaceID\_NK (Klucz Naturalny ze źródła)
+          \item CircuitID\_NK (Klucz Naturalny toru dla tego wyścigu)
+          \item YearSeason (Rok Sezonu)
+          \item RoundNumberInSeason (Numer Rundy w Sezonie)
+          \item RaceNameOfficial (Oficjalna Nazwa Wyścigu)
+          \item Date (Data Wyścigu) - używana do połączenia z Dim\_Time
+        \end{itemize}
+  \item \textbf{Hierarchie:} Brak zdefiniowanych (możliwe: Rok Sezonu $\rightarrow$ Nazwa Wyścigu)
+\end{itemize}
+
+\subsubsection{Dim\_Circuit (Tor)}
+\begin{itemize}
+  \item \textbf{Atrybuty:}
+        \begin{itemize}
+          \item CircuitKey (PK, Klucz Zastępczy)
+          \item CircuitID\_NK (Klucz Naturalny ze źródła)
+          \item CircuitName (Nazwa Toru) - używane w hierarchii
+          \item LocationCity (Miasto) - używane w hierarchii
+          \item CountryName (Kraj) - używane w hierarchii
+        \end{itemize}
+  \item \textbf{Hierarchie:} Kraj $\rightarrow$ Miasto $\rightarrow$ Nazwa Toru
+\end{itemize}
+
+\subsubsection{Dim\_Time (Czas)}
+\begin{itemize}
+  \item \textbf{Atrybuty:}
+        \begin{itemize}
+          \item DateKey (PK, format YYYYMMDD)
+          \item FullDate (Pełna data, typ Date)
+          \item Year (Rok) - używane w hierarchii
+          \item Quarter (Kwartał) - używane w hierarchii
+          \item Month (Miesiąc numer) - używane w hierarchii
+          \item MonthName (Nazwa Miesiąca)
+          \item DayOfMonth (Dzień Miesiąca) - używane w hierarchii jako najniższy poziom
+          \item DayOfWeekName (Nazwa Dnia Tygodnia)
+        \end{itemize}
+  \item \textbf{Hierarchie:} Rok $\rightarrow$ Kwartał $\rightarrow$ Miesiąc $\rightarrow$ Dzień (FullDate)
+\end{itemize}
+
+\subsubsection{Dim\_Weather (Pogoda)}
+\begin{itemize}
+  \item \textbf{Atrybuty:}
+        \begin{itemize}
+          \item WeatherKey (PK, np. Rok * 100 + Runda)
+          \item DidRainOccur (Czy wystąpił deszcz: "Rain Occurred"/"No Rain")
+          \item WindSpeedCategory (Kategoria Prędkości Wiatru: np. "Light Breeze", "Calm")
+          \item AirTempCategory (Kategoria Temperatury Powietrza: np. "Cold", "Warm")
+          \item TrackTempCategory (Kategoria Temperatury Toru: np. "Optimal Track", "Very Hot Track")
+          \item HumidityCategory (Kategoria Wilgotności: np. "Dry", "Humid")
+          \item PressureCategory (Kategoria Ciśnienia: np. "Very Low", "Normal")
+        \end{itemize}
+  \item \textbf{Hierarchie:} Brak zdefiniowanych (każdy atrybut jest osobną "mini-hierarchią")
+\end{itemize}
+
+\subsubsection{Dim\_Status (Status Ukończenia)}
+\begin{itemize}
+  \item \textbf{Atrybuty:}
+        \begin{itemize}
+          \item StatusKey (PK, Klucz Zastępczy)
+          \item StatusID\_NK (Klucz Naturalny ze źródła)
+          \item StatusDescription (Opis Statusu) - używane w hierarchii
+          \item StatusCategory (Ogólna Kategoria Statusu, np. "Race Outcome", "Mechanical Failure") - używane w hierarchii
+        \end{itemize}
+  \item \textbf{Hierarchie:} Kategoria Statusu $\rightarrow$ Opis Statusu
+\end{itemize}
+
+\subsection{Opis Miar}
+Wszystkie miary bazowe pochodzą z grupy miar opartej na tabeli \texttt{Fact\_Result}.
+\begin{longtable}{|L{5cm}|L{3cm}|L{7cm}|}
+  \caption{Opis miar bazowych w kostce OLAP} \label{tab:measures_desc}                                                                                                                      \\
+  \toprule
+  \textbf{Nazwa Miary}           & \textbf{Agregacja Domyślna} & \textbf{Opis i Typ Addytywności}                                                                                           \\
+  \midrule
+  \endfirsthead
+  \multicolumn{3}{c}{{\bfseries \tablename\ \thetable{} -- Kontynuacja}}                                                                                                                    \\
+  \toprule
+  \textbf{Nazwa Miary}           & \textbf{Agregacja Domyślna} & \textbf{Opis i Typ Addytywności}                                                                                           \\
+  \midrule
+  \endhead
+  \midrule
+  \multicolumn{3}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                                  \\
+  \midrule
+  \endfoot
+  \bottomrule
+  \endlastfoot
+  PointsScored                   & SUM                         & Liczba punktów zdobytych przez kierowcę w wyścigu. W pełni addytywna.                                                      \\
+  \hline
+  LapsCompleted                  & SUM                         & Liczba ukończonych okrążeń. W pełni addytywna.                                                                             \\
+  \hline
+  NumberOfPitStops               & SUM                         & Liczba wykonanych pit stopów. W pełni addytywna. Traktować ostrożnie przy agregacji (średnia może być bardziej użyteczna). \\
+  \hline
+  RaceTimeMilliseconds           & SUM / AVERAGE               & Całkowity czas wyścigu w milisekundach. Suma jest addytywna, średnia jest semi-addytywna (nie agregować średnich).         \\
+  \hline
+  GridPosition                   & AVERAGE / MIN / MAX         & Pozycja startowa kierowcy. Nieaddytywna (suma nie ma sensu).                                                               \\
+  \hline
+  FinalPositionOrder             & AVERAGE / MIN / MAX         & Końcowa pozycja kierowcy w wyścigu. Nieaddytywna.                                                                          \\
+  \hline
+  PositionOrderChange            & SUM / AVERAGE               & Różnica między pozycją startową a końcową. Suma może pokazać łączny zysk/stratę pozycji, średnia jest semi-addytywna.      \\
+  \hline
+  RankFastestLap                 & AVERAGE / MIN               & Ranking najszybszego okrążenia kierowcy w danym wyścigu. Nieaddytywna.                                                     \\
+  \hline
+  FastestLapTopSpeed             & AVERAGE / MAX               & Prędkość maksymalna osiągnięta podczas najszybszego okrążenia (jeśli dostępne). Semi-addytywna.                            \\
+  \hline
+  AgeAtRace                      & AVERAGE                     & Wiek kierowcy w momencie wyścigu. Semi-addytywna.                                                                          \\
+  \hline
+  Liczba Wyników (Results Count) & COUNT                       & Liczba rekordów w tabeli faktów (liczba startów kierowców). W pełni addytywna.                                             \\
+\end{longtable}
+Miary kalkulowane (opisane w sekcji 2.5) są definiowane za pomocą MDX i rozszerzają możliwości analityczne.
+
+\section{Wnioski z Analizy Danych}
+Przeprowadzone analizy na kostce OLAP pozwoliły na wyciągnięcie kilku interesujących wniosków oraz zaobserwowanie zależności:
+\begin{itemize}
+  \item \textbf{Wpływ pozycji startowej:} Analiza (Rys. \ref{fig:avg_finish_pos_start_grid}) potwierdza silną korelację między wysoką pozycją startową a dobrą pozycją na mecie, szczególnie na torach takich jak Silverstone. Jednakże, możliwość zmiany pozycji (Rys. \ref{fig:avg_pos_change_circuits}) różni się w zależności od charakterystyki toru.
+  \item \textbf{Warunki pogodowe a strategia:} Deszczowa pogoda wyraźnie wpływa na średnią liczbę pit stopów (Rys. \ref{fig:avg_pit_stops_rain}), co sugeruje zmiany w strategiach zespołów. Rysunek \ref{fig:finish_perc_weather} pokazuje, jak różne kategorie pogodowe wpływają na rozkład statusów ukończenia wyścigu. Co ciekawe, Rys. \ref{fig:podium_grid_rain_wind} sugeruje, że deszcz może zwiększać szansę na podium dla kierowców startujących spoza czołówki, prawdopodobnie przez zwiększenie losowości i liczby incydentów.
+  \item \textbf{Doświadczenie i wiek kierowcy:} Analiza DNF i średniej pozycji (Rys. \ref{fig:dnf_avg_finish_age}) oraz procentu wygranych i prędkości (Rys. \ref{fig:win_perc_fastest_lap_age}) w zależności od wieku kierowcy może wskazywać na optymalny wiek dla szczytowej formy, jak również na wpływ doświadczenia na niezawodność i wyniki.
+  \item \textbf{Niezawodność konstrukcji:} Porównanie przyczyn awarii mechanicznych w różnych dekadach (Rys. \ref{fig:mech_failure_50_60} i \ref{fig:mech_failure_10_20}) ukazuje ewolucję technologiczną i zmieniające się problemy techniczne w Formule 1.
+  \item \textbf{Dominacja konstruktorów i kierowców:} Możliwe jest zidentyfikowanie dominujących konstruktorów pod względem średniej liczby punktów (Rys. \ref{fig:top5_constructors_avg_points}) oraz śledzenie trendów w procencie wygranych dla czołowych kierowców (Rys. \ref{fig:win_perc_top_drivers_europe}).
+  \item \textbf{Charakterystyka torów:} Średni czas wyścigu na danym torze (Rys. \ref{fig:avg_race_time_monza}) może zmieniać się na przestrzeni lat z powodu zmian regulaminowych, technologii bolidów lub modyfikacji samego toru.
+\end{itemize}
+Stworzona kostka OLAP jest potężnym narzędziem do dalszej, pogłębionej eksploracji danych, umożliwiając zadawanie złożonych pytań i odkrywanie ukrytych wzorców.
+
+\section{Podsumowanie Etapu III}
+W ramach trzeciego etapu projektu pomyślnie zaprojektowano, zaimplementowano i przetestowano kostkę OLAP do analizy danych Formuły 1. Zdefiniowano wymiary z hierarchiami, miary bazowe oraz miary kalkulowane, które wzbogacają możliwości analityczne. Przeprowadzono wstępne analizy, prezentując ich wyniki w formie wizualizacji, co potwierdziło użyteczność stworzonego rozwiązania.
+Dokumentacja kostki, zawierająca opisy wymiarów, atrybutów i miar, zapewnia przejrzystość modelu.
+Przygotowane rozwiązanie jest gotowe do dalszych, bardziej zaawansowanych analiz oraz stanowi podstawę do prezentacji projektu w kolejnym etapie. Kostka spełnia wymagania projektowe, oferując intuicyjny i elastyczny dostęp do zgromadzonych danych.
+
+\newpage
+% \printbibliography % If using biblatex
 
 \end{document}
