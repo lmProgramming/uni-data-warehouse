@@ -83,7 +83,7 @@
     pdfpagemode=FullScreen,
 }
 
-\title{Projekt hurtowni danych do analizy wyników i czynników wpływających na osiągnięcia kierowców Formuły 1 w latach 1950-2023 \\ \vspace{0.5em} \large Etap III: Kostka OLAP i Analizy}
+\title{Projekt hurtowni danych do analizy wyników i czynników wpływających na osiągnięcia kierowców Formuły 1 w latach 1950-2024 \\ \vspace{0.5em} \large Etap III: Kostka OLAP i Analizy}
 \author{Mikołaj Kubś, 272662}
 \date{02.06.2025}
 
@@ -104,7 +104,7 @@
 \section{Wprowadzenie}
 Niniejszy dokument stanowi raport z realizacji trzeciego etapu projektu hurtowni danych Formuły 1. Głównym celem tego etapu było zaprojektowanie i zaimplementowanie kostki OLAP (Online Analytical Processing) w oparciu o hurtownię danych zasilonej w Etapie II. Kostka ta umożliwia przeprowadzanie złożonych, wielowymiarowych analiz wyników wyścigów oraz czynników wpływających na osiągnięcia kierowców. Raport przedstawia strukturę kostki, wykorzystane wymiary i miary (w tym miary kalkulowane), a także prezentuje przykładowe analizy i wizualizacje uzyskane dzięki kostce.
 
-Zgodnie z założeniami projektu, kostka została zbudowana w SQL Server Analysis Services (SSAS) i zawiera dane z lat 1950-2023. Umożliwia ona intuicyjne eksplorowanie danych, identyfikowanie trendów, wzorców oraz ciekawych zależności, co wspiera podejmowanie decyzji i głębsze zrozumienie dynamiki Formuły 1. Analizy pogody mogą dotyczyć tylko lat 2018-2023 z racji takiej właśnie dostępności danych.
+Zgodnie z założeniami projektu, kostka została zbudowana w SQL Server Analysis Services (SSAS) i zawiera dane z lat 1950-2024. Umożliwia ona intuicyjne eksplorowanie danych, identyfikowanie trendów, wzorców oraz ciekawych zależności, co wspiera podejmowanie decyzji i głębsze zrozumienie dynamiki Formuły 1. Analizy pogody mogą dotyczyć tylko lat 2018-2023 z racji takiej właśnie dostępności danych.
 
 \section{Projekt Kostki OLAP}
 
@@ -290,7 +290,7 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
           \item CountryName (Kraj pochodzenia) - używane w hierarchii
           \item Continent (Kontynent pochodzenia) - używane w hierarchii
         \end{itemize}
-  \item \textbf{Hierarchie:} Kontynent $\rightarrow$ Kraj $\rightarrow$ Kierowca (FullName)
+  \item \textbf{Hierarchie:} Kontynent $\rightarrow$ Kraj
 \end{itemize}
 
 \subsubsection{Dim\_Constructor (Konstruktor)}
@@ -303,7 +303,7 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
           \item CountryName (Kraj pochodzenia) - używane w hierarchii
           \item Continent (Kontynent pochodzenia) - używane w hierarchii
         \end{itemize}
-  \item \textbf{Hierarchie:} Kontynent $\rightarrow$ Kraj $\rightarrow$ Konstruktor (Name)
+  \item \textbf{Hierarchie:} Kontynent $\rightarrow$ Kraj
 \end{itemize}
 
 \subsubsection{Dim\_Race (Wyścig)}
@@ -330,8 +330,9 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
           \item CircuitName (Nazwa Toru) - używane w hierarchii
           \item LocationCity (Miasto) - używane w hierarchii
           \item CountryName (Kraj) - używane w hierarchii
+          \item Continent (Kontynent) - używane w hierarchii
         \end{itemize}
-  \item \textbf{Hierarchie:} Kraj $\rightarrow$ Miasto $\rightarrow$ Nazwa Toru
+  \item \textbf{Hierarchie:} Kontynent $\rightarrow$ Kraj $\rightarrow$ Miasto $\rightarrow$ Nazwa Toru
 \end{itemize}
 
 \subsubsection{Dim\_Time (Czas)}
@@ -391,7 +392,6 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
   \item \textbf{Position Order Change:} Zmiana pozycji (pozycja startowa - pozycja końcowa).
   \item \textbf{Rank Fastest Lap:} Ranking najszybszego okrążenia kierowcy w danym wyścigu.
   \item \textbf{Fastest Lap Top Speed:} Prędkość maksymalna osiągnięta podczas najszybszego okrążenia.
-  \item \textbf{Age At Race:} Średni wiek kierowcy w momencie wyścigu.
   \item \textbf{Is Win:} Suma flag (0/1) wskazujących na zwycięstwo.
   \item \textbf{Finished Race:} Suma flag (0/1) wskazujących na ukończenie wyścigu.
   \item \textbf{Is Podium:} Suma flag (0/1) wskazujących na miejsce na podium.
@@ -412,11 +412,12 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
   \item \textbf{Average Points:} Średnia liczba zdobytych punktów na start.
   \item \textbf{Number of Wins:} Całkowita liczba zwycięstw. Jawne zdefiniowanie sumy miary bazowej \texttt{IsWin}.
   \item \textbf{Average Finish Position:} Średnia pozycja na mecie dla kierowców, którzy ukończyli wyścig.
-  \item \textbf{Win Percentage from Grid:} Procent wygranych spośród wszystkich ukończonych wyścigów.
+  \item \textbf{Win Percentage from Grid:} Procent wygranych spośród wszystkich rozpoczętych wyścigów.
   \item \textbf{Finish Percentage:} Procent ukończonych wyścigów spośród wszystkich startów.
   \item \textbf{DNF Percentage:} Procent nieukończonych wyścigów (DNF) spośród wszystkich startów.
   \item \textbf{Average Fastest Lap Top Speed:} Średnia maksymalna prędkość na najszybszym okrążeniu (dla tych, którzy je odnotowali).
   \item \textbf{Average Race Time in Minutes:} Średni czas wyścigu w minutach.
+  \item \textbf{Age At Race:} Średni wiek kierowcy w momencie wyścigu.
 \end{enumerate}
 
 \section{Wnioski z analizy danych}
