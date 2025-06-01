@@ -8,7 +8,7 @@
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
       <Value>
         <dds xmlns="">
-          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="39" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-8255" scrolltop="617" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="75" x="25135" y="17145" backcolor="2039583" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="39" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-8506" scrolltop="1978" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="75" x="25135" y="15240" backcolor="2039583" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
             <font>
               <ddsxmlobjectstreamwrapper binary="01ee0000900144420100065461686f6d61" />
             </font>
@@ -264,11 +264,11 @@
     </Annotation>
     <Annotation>
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
-      <Value>-8255</Value>
+      <Value>-8506</Value>
     </Annotation>
     <Annotation>
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
-      <Value>617</Value>
+      <Value>1978</Value>
     </Annotation>
     <Annotation>
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
@@ -610,6 +610,94 @@
             </Source>
           </Source>
         </Measure>
+        <Measure dwd:design-time-name="90708af5-92f8-4c4d-acee-9cc74ab7713b">
+          <ID>Is Win</ID>
+          <Name>Is Win</Name>
+          <Source dwd:design-time-name="049f5561-8536-4b95-86e7-d966b87949ef">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="d511c32c-19d0-4ac0-8a72-f516946b0136">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>IsWin</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
+        <Measure dwd:design-time-name="ebe03a62-2c9c-4741-a9e2-993cf70486ed">
+          <ID>Finished Race</ID>
+          <Name>Finished Race</Name>
+          <Source dwd:design-time-name="f28b990d-e020-40a3-b924-022d50d31b8b">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="18ebfb80-2974-4380-b6f5-a4fc69ec0878">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>FinishedRace</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
+        <Measure dwd:design-time-name="7f679e5f-e114-4abf-8402-538891634f90">
+          <ID>Is Podium</ID>
+          <Name>Is Podium</Name>
+          <Source dwd:design-time-name="1a02638e-e85a-437b-a35b-cd874200c694">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="2c75ffbb-cca9-4e8a-881e-b7649cdd42ca">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>IsPodium</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
+        <Measure dwd:design-time-name="71f13d9b-5c3f-40d1-ba50-5ff1076aca22">
+          <ID>Is DNF</ID>
+          <Name>Is DNF</Name>
+          <Source dwd:design-time-name="3d85884f-05fd-4661-a141-ab6924400340">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="0c0a9972-164f-4c6d-91df-80beab4f213e">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>IsDNF</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
+        <Measure dwd:design-time-name="bbda9739-56e6-45ee-b02e-3e6776b7e18c">
+          <ID>Is Pole Position</ID>
+          <Name>Is Pole Position</Name>
+          <Source dwd:design-time-name="f5cf08f1-5d5b-4433-b89b-521308f94060">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="08d04c87-0b12-43a5-988e-6d40c006f8ec">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>IsPolePosition</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
+        <Measure dwd:design-time-name="4b60881a-eb37-45c9-a99e-ba37c2e94d54">
+          <ID>Is Fastest Lap</ID>
+          <Name>Is Fastest Lap</Name>
+          <Source dwd:design-time-name="66a80a73-2ede-4336-9d2b-6adac5567eb5">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="7c10af55-1019-4be7-abd7-ef3b6e07d9b8">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>IsFastestLap</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
+        <Measure dwd:design-time-name="61c95662-1f25-4b80-b7fc-751c82bfd272">
+          <ID>Podium From Outside Top10 Grid</ID>
+          <Name>Podium From Outside Top10 Grid</Name>
+          <Source dwd:design-time-name="93171a74-859f-48b7-a39e-913e75261b36">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="d98e47df-f22f-4920-b4e0-502005ef662a">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>PodiumFromOutsideTop10Grid</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
+        <Measure dwd:design-time-name="504d6c52-41fc-4426-8d53-7db886bc4149">
+          <ID>Final Position Order</ID>
+          <Name>Final Position Order</Name>
+          <Source dwd:design-time-name="941e4eab-5b3d-45c4-923e-2b52d123703a">
+            <DataType>Integer</DataType>
+            <Source xsi:type="ColumnBinding" dwd:design-time-name="94eab099-7582-4437-b201-d61f5e681b8b">
+              <TableID>dbo_Fact_Result</TableID>
+              <ColumnID>FinalPositionOrder</ColumnID>
+            </Source>
+          </Source>
+        </Measure>
       </Measures>
       <StorageMode>Molap</StorageMode>
       <ProcessingMode>Regular</ProcessingMode>
@@ -830,15 +918,22 @@ VISIBLE = 1;
 CREATE MEMBER CURRENTCUBE.[Measures].[Average Points]
  AS DIVIDE(SUM([Measures].[Points Scored]), [Measures].[Fact Result Count]), 
 VISIBLE = 1  ;
-CREATE MEMBER CURRENTCUBE.Measures.[Number of Wins] AS
-SUM(
-    EXISTING [Dim_Race].[RaceKey].Members,
-    IIF(
-        [Measures].[Final Position Order] = 1,
-        1,
-        0
-    )
-), VISIBLE = 1;</Text>
+CREATE MEMBER CURRENTCUBE.Measures.[Number of Wins]
+AS SUM([Measures].[IsWin]), -- Assuming IsWin is a measure from the IsWin column in Fact_Result
+VISIBLE = 1;
+CREATE MEMBER CURRENTCUBE.Measures.[Average Finish Position]
+AS DIVIDE(SUM([Measures].[Final Position Order]), [Measures].[Finished Race]),
+-- Assumes [Measures].[Final Position Order] is the sum of FinalPositionOrder from Fact_Result
+VISIBLE = 1;
+CREATE MEMBER CURRENTCUBE.Measures.[Win Percentage from Grid]
+AS IIF([Measures].[Finished Race] = 0, NULL, DIVIDE([Measures].[Is Win], [Measures].[Finished Race])),
+FORMAT_STRING = "Percent", VISIBLE = 1;
+CREATE MEMBER CURRENTCUBE.Measures.[Finish Percentage]
+AS IIF([Measures].[Fact Result Count] = 0, NULL, DIVIDE([Measures].[Finished Race], [Measures].[Fact Result Count])),
+FORMAT_STRING = "Percent", VISIBLE = 1;
+CREATE MEMBER CURRENTCUBE.Measures.[DNF Percentage]
+AS IIF([Measures].[Fact Result Count] = 0, NULL, DIVIDE([Measures].[Is DNF], [Measures].[Fact Result Count])),
+FORMAT_STRING = "Percent", VISIBLE = 1;</Text>
         </Command>
       </Commands>
     </MdxScript>
