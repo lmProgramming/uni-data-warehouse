@@ -88,7 +88,8 @@ CREATE TABLE Fact_Result (
     IsDNF INT,
     IsPolePosition INT,
     IsFastestLap INT,
-    PodiumFromOutsideTop10Grid INT NULL
+    PodiumFromOutsideTop10Grid INT NULL,
+    PodiumFromInsideTop10Grid INT NULL,
 );
 
 CREATE INDEX idx_fact_race ON Fact_Result(RaceKey);
