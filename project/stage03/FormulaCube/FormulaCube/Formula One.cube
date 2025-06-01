@@ -992,4 +992,61 @@ VISIBLE = 1;
       </Commands>
     </MdxScript>
   </MdxScripts>
+  <Kpis>
+    <Kpi dwd:design-time-name="62b3be63-ddad-4d7a-8879-ea763727327d">
+      <ID>KPI</ID>
+      <Name>Constructor Reliability KPI</Name>
+      <Value>1 - [Measures].[DNF Percentage]</Value>
+      <Goal>0.8</Goal>
+      <Status>CASE
+    WHEN IsEmpty(KpiValue("Constructor Reliability KPI")) THEN 0
+    WHEN KpiValue("Constructor Reliability KPI") &gt;= KpiGoal("Constructor Reliability KPI")
+        THEN 1
+    WHEN KpiValue("Constructor Reliability KPI") &gt;= (KpiGoal("Constructor Reliability KPI") * 0.9)
+        THEN 0
+    ELSE -1
+END</Status>
+      <Trend>IIF(
+    IsEmpty(KpiValue("Constructor Reliability KPI")) OR
+    IsEmpty(
+        (
+            ParallelPeriod(
+                [Dim Time].[Time Hierarchy].[Year],  -- &lt;&lt; SPECIFY THE LEVEL HERE (e.g., Year)
+                1,
+                [Dim Time].[Time Hierarchy].CurrentMember
+            ),
+            KpiValue("Constructor Reliability KPI")
+        )
+    ),
+    0, -- Neutral if current or previous period's KPI value is missing/empty
+    CASE
+        WHEN KpiValue("Constructor Reliability KPI") &gt;
+             (
+                ParallelPeriod(
+                    [Dim Time].[Time Hierarchy].[Year], -- &lt;&lt; Ensure this matches the level above
+                    1,
+                    [Dim Time].[Time Hierarchy].CurrentMember
+                ),
+                KpiValue("Constructor Reliability KPI")
+             )
+        THEN 1  -- Improving
+
+        WHEN KpiValue("Constructor Reliability KPI") &lt;
+             (
+                ParallelPeriod(
+                    [Dim Time].[Time Hierarchy].[Year], -- &lt;&lt; Ensure this matches the level above
+                    1,
+                    [Dim Time].[Time Hierarchy].CurrentMember
+                ),
+                KpiValue("Constructor Reliability KPI")
+             )
+        THEN -1 -- Worsening
+
+        ELSE 0  -- Stable (Values are equal, or one of them was empty and caught by the outer IIF)
+    END
+)</Trend>
+      <TrendGraphic>Standard Arrow</TrendGraphic>
+      <StatusGraphic>Gauge - Ascending</StatusGraphic>
+    </Kpi>
+  </Kpis>
 </Cube>

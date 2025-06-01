@@ -181,27 +181,19 @@ W celu dostarczenia bardziej zaawansowanych wskaźników analitycznych, zdefinio
 \end{itemize}
 
 \subsection{Kluczowe Wskaźniki Efektywności (KPI)}
-W ramach kostki zdefiniowano lub można zdefiniować następujące KPI, które pomagają monitorować kluczowe aspekty wydajności:
+W ramach kostki zdefiniowano \textbf{Constructor Reliability (Niezawodność Konstruktora):}
 \begin{itemize}
-  \item \textbf{Driver Win Rate vs Target (Wskaźnik Wygranych Kierowcy vs Cel):}
-        \begin{itemize}
-          \item Wartość: Procent wygranych danego kierowcy.
-          \item Cel: Np. 10\% (może być dynamiczny lub ustalony).
-          \item Status: Graficzna reprezentacja porównująca wartość z celem.
-        \end{itemize}
-  \item \textbf{Constructor Reliability (Niezawodność Konstruktora):}
-        \begin{itemize}
-          \item Wartość: `1 - DNF Percentage` (dla awarii mechanicznych).
-          \item Cel: Np. 95\%.
-          \item Status: Ocena, czy konstruktor osiąga zakładany poziom niezawodności.
-        \end{itemize}
-  \item \textbf{Average Pit Stop Performance (Średnia Wydajność Pit Stopów):}
-        \begin{itemize}
-          \item Wartość: Średnia liczba pit stopów (jeśli niższa jest lepsza w niektórych strategiach) lub średni czas pit stopów (jeśli dane byłyby dostępne na tym poziomie).
-          \item Cel: Zależny od strategii wyścigowej.
-        \end{itemize}
+  \item Wartość: `1 - DNF Percentage` (dla awarii mechanicznych).
+  \item Cel: Np. 95\%.
+  \item Status: Ocena, czy konstruktor osiąga zakładany poziom niezawodności.
 \end{itemize}
 Implementacja KPI w SSAS pozwala na wizualne śledzenie postępów w osiąganiu celów biznesowych lub analitycznych.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{kpi.png}
+  \caption{Przykładowy widok struktury kostki (diagram) w SQL Server Analysis Services. (Użytkownik powinien zastąpić ten obraz rzeczywistym zrzutem ekranu).}
+\end{figure}
 
 \section{Implementacja Kostki OLAP}
 Kostka OLAP została zaimplementowana przy użyciu SQL Server Analysis Services (SSAS) 2019. Proces tworzenia kostki obejmował:
@@ -218,7 +210,6 @@ Kostka OLAP została zaimplementowana przy użyciu SQL Server Analysis Services 
 Poniżej przedstawiono przykładowy widok struktury kostki oraz relacji wymiarów w SSAS.
 \begin{figure}[H]
   \centering
-  % Placeholder for actual screenshot - user should replace this
   \includegraphics[width=0.9\textwidth]{cube_structure_placeholder.png}
   \caption{Przykładowy widok struktury kostki (diagram) w SQL Server Analysis Services. (Użytkownik powinien zastąpić ten obraz rzeczywistym zrzutem ekranu).}
   \label{fig:cube_structure}
@@ -226,7 +217,6 @@ Poniżej przedstawiono przykładowy widok struktury kostki oraz relacji wymiaró
 
 \begin{figure}[H]
   \centering
-  % Placeholder for actual screenshot - user should replace this
   \includegraphics[width=0.9\textwidth]{dimension_usage_placeholder.png}
   \caption{Widok zakładki "Dimension Usage" w SQL Server Analysis Services.}
   \label{fig:dimension_usage}
@@ -242,6 +232,14 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
   % \caption{10 najczęstszych przyczyn awarii mechanicznych europejskich konstruktorów w latach 1950-1960} % Opcjonalny podpis
 \end{figure}
 \textbf{Wnioski:} Problemy związane z silnikiem były zdecydowanie główną przyczyną awarii mechanicznych europejskich konstruktorów w latach 1950-1960. Problemy z układem przeniesienia napędu, skrzynią biegów oraz sprzęgłem były kolejnymi istotnymi, choć rzadszymi, przyczynami awarii.
+
+\subsection{10 najczęstszych przyczyn awarii mechanicznych europejskich konstruktorów w latach 2010-2020}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Top 10 reasons for Mechanical Failure for European Constructors in 2010-2020.png} % <<< ZAKTUALIZUJ NAZWĘ PLIKU
+  % \caption{10 najczęstszych przyczyn awarii mechanicznych europejskich konstruktorów w latach 2010-2020} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Problemy związane z silnikiem pozostały najczęstszą przyczyną awarii mechanicznych europejskich konstruktorów w latach 2010-2020. Awarie skrzyni biegów były drugą najczęstszą przyczyną. W porównaniu do okresu 1950-1960, "Jednostka napędowa" i "Hydraulika" pojawiły się jako istotne, odrębne kategorie awarii, odzwierciedlając postęp technologiczny i zmiany w konstrukcji samochodów. Problemy z hamulcami, zawieszeniem i układem elektrycznym również stanowiły znaczną część awarii mechanicznych.
 
 \subsection{Średnia bezwzględna zmiana kolejności pozycji na torach w Austrii, Belgii, Francji i Niemczech}
 \begin{figure}[H]
@@ -274,6 +272,14 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
   % \caption{Procent ukończeń wyścigu według kategorii pogodowych} % Opcjonalny podpis
 \end{figure}
 \textbf{Wnioski:} We wszystkich wymienionych kategoriach pogodowych (kombinacje temperatury toru, deszczu i warunków wietrznych) zdecydowana większość startujących pomyślnie ukończyła wyścigi. Chociaż występują niewielkie różnice, odsetek DNF (nieukończeń wyścigu) pozostawał stosunkowo niski i stały, co sugeruje, że te konkretne warunki pogodowe nie zwiększały drastycznie wskaźników odpadnięć z wyścigu.
+
+\subsection{Top 5 konstruktorów według średniej liczby punktów}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Top 5 constructors by average points.png} % <<< ZAKTUALIZUJ NAZWĘ PLIKU
+  % \caption{Top 5 konstruktorów według średniej liczby punktów} % Opcjonalny podpis
+\end{figure}
+\textbf{Wnioski:} Mercedes był wiodącym konstruktorem pod względem średniej liczby punktów, wyprzedzając Red Bulla, a następnie Ferrari. McLaren i Lotus F1 zajęły odpowiednio czwarte i piąte miejsce, ale ze znaczącą stratą średniej liczby punktów w porównaniu do czołowej trójki.
 
 \subsection{Procent zwycięstw i średnia prędkość najszybszego okrążenia według grup wiekowych}
 \begin{figure}[H]
@@ -466,12 +472,12 @@ Miary kalkulowane (opisane w sekcji 2.5) są definiowane za pomocą MDX i rozsze
 \section{Wnioski z Analizy Danych}
 Przeprowadzone analizy na kostce OLAP pozwoliły na wyciągnięcie kilku interesujących wniosków oraz zaobserwowanie zależności:
 \begin{itemize}
-  \item \textbf{Wpływ pozycji startowej:} Analiza (Rys. \ref{fig:avg_finish_pos_start_grid}) potwierdza silną korelację między wysoką pozycją startową a dobrą pozycją na mecie, szczególnie na torach takich jak Silverstone. Jednakże, możliwość zmiany pozycji (Rys. \ref{fig:avg_pos_change_circuits}) różni się w zależności od charakterystyki toru.
-  \item \textbf{Warunki pogodowe a strategia:} Deszczowa pogoda wyraźnie wpływa na średnią liczbę pit stopów (Rys. \ref{fig:avg_pit_stops_rain}), co sugeruje zmiany w strategiach zespołów. Rysunek \ref{fig:finish_perc_weather} pokazuje, jak różne kategorie pogodowe wpływają na rozkład statusów ukończenia wyścigu. Co ciekawe, Rys. \ref{fig:podium_grid_rain_wind} sugeruje, że deszcz może zwiększać szansę na podium dla kierowców startujących spoza czołówki, prawdopodobnie przez zwiększenie losowości i liczby incydentów.
-  \item \textbf{Doświadczenie i wiek kierowcy:} Analiza DNF i średniej pozycji (Rys. \ref{fig:dnf_avg_finish_age}) oraz procentu wygranych i prędkości (Rys. \ref{fig:win_perc_fastest_lap_age}) w zależności od wieku kierowcy może wskazywać na optymalny wiek dla szczytowej formy, jak również na wpływ doświadczenia na niezawodność i wyniki.
-  \item \textbf{Niezawodność konstrukcji:} Porównanie przyczyn awarii mechanicznych w różnych dekadach (Rys. \ref{fig:mech_failure_50_60} i \ref{fig:mech_failure_10_20}) ukazuje ewolucję technologiczną i zmieniające się problemy techniczne w Formule 1.
-  \item \textbf{Dominacja konstruktorów i kierowców:} Możliwe jest zidentyfikowanie dominujących konstruktorów pod względem średniej liczby punktów (Rys. \ref{fig:top5_constructors_avg_points}) oraz śledzenie trendów w procencie wygranych dla czołowych kierowców (Rys. \ref{fig:win_perc_top_drivers_europe}).
-  \item \textbf{Charakterystyka torów:} Średni czas wyścigu na danym torze (Rys. \ref{fig:avg_race_time_monza}) może zmieniać się na przestrzeni lat z powodu zmian regulaminowych, technologii bolidów lub modyfikacji samego toru.
+  \item \textbf{Wpływ pozycji startowej:} Analiza potwierdza silną korelację między wysoką pozycją startową a dobrą pozycją na mecie, szczególnie na torach takich jak Silverstone. Jednakże, możliwość zmiany pozycji różni się w zależności od charakterystyki toru.
+  \item \textbf{Warunki pogodowe a strategia:} Deszczowa pogoda wyraźnie wpływa na średnią liczbę pit stopów, co sugeruje zmiany w strategiach zespołów. Różne kategorie pogodowe wpływają na rozkład statusów ukończenia wyścigu. Co ciekawe, deszcz może zwiększać szansę na podium dla kierowców startujących spoza czołówki, prawdopodobnie przez zwiększenie losowości i liczby incydentów.
+  \item \textbf{Doświadczenie i wiek kierowcy:} Analiza DNF i średniej pozycji oraz procentu wygranych i prędkości w zależności od wieku kierowcy może wskazywać na optymalny wiek dla szczytowej formy, jak również na wpływ doświadczenia na niezawodność i wyniki.
+  \item \textbf{Niezawodność konstrukcji:} Porównanie przyczyn awarii mechanicznych w różnych dekadach ukazuje ewolucję technologiczną i zmieniające się problemy techniczne w Formule 1.
+  \item \textbf{Dominacja konstruktorów i kierowców:} Możliwe jest zidentyfikowanie dominujących konstruktorów pod względem średniej liczby punktów oraz śledzenie trendów w procencie wygranych dla czołowych kierowców.
+  \item \textbf{Charakterystyka torów:} Średni czas wyścigu na danym torze może zmieniać się na przestrzeni lat z powodu zmian regulaminowych, technologii bolidów lub modyfikacji samego toru.
 \end{itemize}
 Stworzona kostka OLAP jest potężnym narzędziem do dalszej, pogłębionej eksploracji danych, umożliwiając zadawanie złożonych pytań i odkrywanie ukrytych wzorców.
 
@@ -479,8 +485,5 @@ Stworzona kostka OLAP jest potężnym narzędziem do dalszej, pogłębionej eksp
 W ramach trzeciego etapu projektu pomyślnie zaprojektowano, zaimplementowano i przetestowano kostkę OLAP do analizy danych Formuły 1. Zdefiniowano wymiary z hierarchiami, miary bazowe oraz miary kalkulowane, które wzbogacają możliwości analityczne. Przeprowadzono wstępne analizy, prezentując ich wyniki w formie wizualizacji, co potwierdziło użyteczność stworzonego rozwiązania.
 Dokumentacja kostki, zawierająca opisy wymiarów, atrybutów i miar, zapewnia przejrzystość modelu.
 Przygotowane rozwiązanie jest gotowe do dalszych, bardziej zaawansowanych analiz oraz stanowi podstawę do prezentacji projektu w kolejnym etapie. Kostka spełnia wymagania projektowe, oferując intuicyjny i elastyczny dostęp do zgromadzonych danych.
-
-\newpage
-% \printbibliography % If using biblatex
 
 \end{document}
