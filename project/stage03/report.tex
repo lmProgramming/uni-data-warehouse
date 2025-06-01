@@ -104,7 +104,7 @@
 \section{Wprowadzenie}
 Niniejszy dokument stanowi raport z realizacji trzeciego etapu projektu hurtowni danych Formuły 1. Głównym celem tego etapu było zaprojektowanie i zaimplementowanie kostki OLAP (Online Analytical Processing) w oparciu o hurtownię danych zasilonej w Etapie II. Kostka ta umożliwia przeprowadzanie złożonych, wielowymiarowych analiz wyników wyścigów oraz czynników wpływających na osiągnięcia kierowców. Raport przedstawia strukturę kostki, wykorzystane wymiary i miary (w tym miary kalkulowane), a także prezentuje przykładowe analizy i wizualizacje uzyskane dzięki kostce.
 
-Zgodnie z założeniami projektu, kostka została zbudowana w SQL Server Analysis Services (SSAS) i zawiera dane z lat 1950-2023. Umożliwia ona intuicyjne eksplorowanie danych, identyfikowanie trendów, wzorców oraz ciekawych zależności, co wspiera podejmowanie decyzji i głębsze zrozumienie dynamiki Formuły 1. Analizy pogody mogą dotyczyć tylko lat 2018-2023.
+Zgodnie z założeniami projektu, kostka została zbudowana w SQL Server Analysis Services (SSAS) i zawiera dane z lat 1950-2023. Umożliwia ona intuicyjne eksplorowanie danych, identyfikowanie trendów, wzorców oraz ciekawych zależności, co wspiera podejmowanie decyzji i głębsze zrozumienie dynamiki Formuły 1. Analizy pogody mogą dotyczyć tylko lat 2018-2023 z racji takiej właśnie dostępności danych.
 
 \section{Projekt Kostki OLAP}
 
@@ -122,6 +122,8 @@ Kostka wykorzystuje następujące wymiary, które pozwalają na analizę danych 
   \item \textbf{Dim\_Weather:} Skategoryzowane warunki pogodowe podczas wyścigu.
   \item \textbf{Dim\_Status:} Informacje o statusie ukończenia wyścigu przez kierowcę.
 \end{itemize}
+
+Występuje dodatkowo zdegenerowany wymiar z atrybutami dotyczącymi wieku kierowcy, pozycji startowej i końcowej.
 
 \subsection{Hierarchie w Wymiarach}
 W celu ułatwienia analizy typu drill-down/roll-up, zdefiniowano następujące hierarchie w wymiarach:
@@ -148,216 +150,23 @@ W celu ułatwienia analizy typu drill-down/roll-up, zdefiniowano następujące h
         \end{itemize}
 \end{itemize}
 
-\subsection{Miary (Fakty)}
-Kostka zawiera następujące miary bazowe, pochodzące bezpośrednio z tabeli faktów \texttt{Fact\_Result}:
-\subsection*{Miary Bazowe (Pochodzące bezpośrednio z tabeli faktów Fact\_Result)}
-\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
-  \item \textbf{Points Scored (Zdobyte Punkty):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Liczba punktów zdobytych przez kierowcę w wyścigu.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Laps Completed (Ukończone Okrążenia):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Liczba ukończonych okrążeń.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Number of Pit Stops (Liczba Pit Stopów):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM. (SSAS generuje też miarę `Number of Pit Stops Count` zliczającą wystąpienia nie-NULL).
-          \item \textit{Opis:} Sumaryczna liczba wykonanych pit stopów.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Race Time Milliseconds (Czas Wyścigu w ms):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM. (SSAS generuje też miarę `Race Time Milliseconds Count`).
-          \item \textit{Opis:} Sumaryczny czas wyścigu w milisekundach (dla tych, co ukończyli i mają zarejestrowany czas).
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Grid Position (Pozycja Startowa):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} Zwykle AVG, MIN, MAX są użyteczne.
-          \item \textit{Opis:} Pozycja startowa kierowcy.
-          \item \textit{Typ addytywności:} Nieaddytywna (suma nie ma sensu).
-        \end{itemize}
-  \item \textbf{Final Position Order (Pozycja Końcowa):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} Zwykle AVG, MIN, MAX są użyteczne.
-          \item \textit{Opis:} Końcowa pozycja kierowcy w wyścigu.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Position Order Change (Zmiana Pozycji):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Zmiana pozycji (pozycja startowa - pozycja końcowa).
-          \item \textit{Typ addytywności:} W pełni addytywna (jako suma zysków/strat pozycji).
-        \end{itemize}
-  \item \textbf{Rank Fastest Lap (Ranking Najszybszego Okrążenia):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} Zwykle AVG, MIN są użyteczne.
-          \item \textit{Opis:} Ranking najszybszego okrążenia kierowcy w danym wyścigu.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Fastest Lap Top Speed (Prędkość Max. na Najszybszym Okrążeniu):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM, AVG, MAX. (SSAS generuje też miarę `Fastest Lap Top Speed Count`).
-          \item \textit{Opis:} Prędkość maksymalna osiągnięta podczas najszybszego okrążenia.
-          \item \textit{Typ addytywności:} Suma/Średnia jest semi-addytywna.
-        \end{itemize}
-  \item \textbf{Age At Race (Wiek Kierowcy podczas Wyścigu):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} AVG.
-          \item \textit{Opis:} Średni wiek kierowcy w momencie wyścigu.
-          \item \textit{Typ addytywności:} Semi-addytywna.
-        \end{itemize}
-  \item \textbf{Is Win (Czy Wygrana):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na zwycięstwo. Używana do liczenia zwycięstw.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Finished Race (Czy Ukończył Wyścig):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na ukończenie wyścigu. Używana do liczenia ukończonych wyścigów.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Is Podium (Czy na Podium):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na miejsce na podium. Używana do liczenia miejsc na podium.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Is DNF (Czy Nie Ukończył):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na nieukończenie wyścigu (Did Not Finish). Używana do liczenia DNF.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Is Pole Position (Czy Pole Position):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na zdobycie pole position.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Is Fastest Lap (Czy Najszybsze Okrążenie):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na zdobycie najszybszego okrążenia w wyścigu.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Podium From Outside Top 10 Grid (Podium spoza Top 10 Startu):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na podium ze startu spoza TOP 10.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Podium From Inside Top 10 Grid (Podium z Top 10 Startu):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} SUM.
-          \item \textit{Opis:} Suma flag (0/1) wskazujących na podium ze startu z TOP 10.
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-  \item \textbf{Fact Result Count (Liczba Wyników):}
-        \begin{itemize}
-          \item \textit{Agregacja domyślna:} COUNT.
-          \item \textit{Opis:} Domyślna miara zliczająca liczbę rekordów w tabeli faktów (liczba startów kierowców).
-          \item \textit{Typ addytywności:} W pełni addytywna.
-        \end{itemize}
-\end{enumerate}
+\subsection{KPI}
 
-\subsection*{Miary Kalkulowane (Definiowane w MDX)}
-\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
-  \item \textbf{Race Time Formatted (Sformatowany Czas Wyścigu):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{IIF(ISEMPTY([Measures].[Race Time Milliseconds])...)} - formatowanie \texttt{[Race Time Milliseconds]} na HH:MM:SS.mmm.
-          \item \textit{Opis:} Sformatowany czas wyścigu dla czytelności.
-          \item \textit{Typ addytywności:} Nieaddytywna (tekst).
-        \end{itemize}
-  \item \textbf{Absolute Position Order Change (Bezwzględna Zmiana Pozycji):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{Abs([Measures].[Position Order Change])}.
-          \item \textit{Opis:} Bezwzględna wartość zmiany pozycji (start vs meta).
-          \item \textit{Typ addytywności:} Addytywna (jako suma bezwzględnych zmian).
-        \end{itemize}
-  \item \textbf{Average PitStops Count (Średnia Liczba Pit Stopów):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{Divide([Measures].[Number of Pit Stops], [Measures].[Number of Pit Stops Count])}.
-          \item \textit{Opis:} Średnia liczba pit stopów na występ kierowcy, który miał odnotowane pit stopy.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Average Absolute Position Order Change (Średnia Bezwzględna Zmiana Pozycji):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{DIVIDE(SUM([Measures].[Absolute Position Order Change]), [Measures].[Fact Result Count])}.
-          \item \textit{Opis:} Średnia bezwzględna zmiana pozycji na start.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Average Points (Średnia Liczba Punktów):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{DIVIDE(SUM([Measures].[Points Scored]), [Measures].[Fact Result Count])}.
-          \item \textit{Opis:} Średnia liczba zdobytych punktów na start.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Number of Wins (Liczba Zwycięstw):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{SUM([Measures].[IsWin])}.
-          \item \textit{Opis:} Całkowita liczba zwycięstw. Jawne zdefiniowanie sumy miary bazowej \texttt{IsWin}.
-          \item \textit{Typ addytywności:} Addytywna.
-        \end{itemize}
-  \item \textbf{Average Finish Position (Średnia Pozycja Końcowa):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{DIVIDE(SUM([Measures].[Final Position Order]), [Measures].[Finished Race])}.
-          \item \textit{Opis:} Średnia pozycja na mecie dla kierowców, którzy ukończyli wyścig.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Win Percentage from Grid (Procent Wygranych ze Startu):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{IIF([Measures].[Finished Race] = 0, NULL, DIVIDE([Measures].[Is Win], [Measures].[Finished Race]))}, FORMAT\_STRING = "Percent".
-          \item \textit{Opis:} Procent wygranych spośród wszystkich ukończonych wyścigów.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Finish Percentage (Procent Ukończeń):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{IIF([Measures].[Fact Result Count] = 0, NULL, DIVIDE([Measures].[Finished Race], [Measures].[Fact Result Count]))}, FORMAT\_STRING = "Percent".
-          \item \textit{Opis:} Procent ukończonych wyścigów spośród wszystkich startów.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{DNF Percentage (Procent Nieukończeń):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{IIF([Measures].[Fact Result Count] = 0, NULL, DIVIDE([Measures].[Is DNF], [Measures].[Fact Result Count]))}, FORMAT\_STRING = "Percent".
-          \item \textit{Opis:} Procent nieukończonych wyścigów (DNF) spośród wszystkich startów.
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Average Fastest Lap Top Speed (Średnia Prędkość Max. na Najszybszym Okrążeniu):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{DIVIDE([Measures].[Fastest Lap Top Speed], [Measures].[Fastest Lap Top Speed Count])}, FORMAT\_STRING = "\#,\#\#0.000".
-          \item \textit{Opis:} Średnia maksymalna prędkość na najszybszym okrążeniu (dla tych, którzy je odnotowali).
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-  \item \textbf{Average Race Time in Minutes (Średni Czas Wyścigu):}
-        \begin{itemize}
-          \item \textit{Sposób obliczenia:} \texttt{DIVIDE([Measures].[Race Time Milliseconds], [Measures].[Race Time Milliseconds Count])}, FORMAT\_STRING = "\#,\#\#0.000".
-          \item \textit{Opis:} Średni czas wyścigu (obliczany na bazie milisekund, nazwa "in Minutes" może być myląca bez dodatkowej konwersji w MDX na minuty; prezentuje średnią wartość milisekund).
-          \item \textit{Typ addytywności:} Nieaddytywna.
-        \end{itemize}
-\end{enumerate}
-
-\subsection{Kluczowe Wskaźniki Efektywności (KPI)}
 W ramach kostki zdefiniowano \textbf{Constructor Reliability (Niezawodność Konstruktora):}
+
 \begin{itemize}
-  \item Wartość: `1 - DNF Percentage` (dla awarii mechanicznych).
-  \item Cel: Np. 95\%.
-  \item Status: Ocena, czy konstruktor osiąga zakładany poziom niezawodności.
+  \item Wartość: 1 - DNF Percentage
+  \item Cel: 80\%
+  \item Status: Ocena, czy konstruktor osiąga zakładany poziom niezawodności
 \end{itemize}
-Implementacja KPI w SSAS pozwala na wizualne śledzenie postępów w osiąganiu celów biznesowych lub analitycznych.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{kpi.png}
-  \caption{Przykładowy widok struktury kostki (diagram) w SQL Server Analysis Services. (Użytkownik powinien zastąpić ten obraz rzeczywistym zrzutem ekranu).}
+  \caption{Widok KPI w latach 2000-2024.}
 \end{figure}
+
+Jak widać, kiedyś ta niezawodność nie była spełniona, natomiast przez ostatnie dwie dekady jest prawie zawsze spełniany.
 
 \section{Implementacja Kostki OLAP}
 Kostka OLAP została zaimplementowana przy użyciu SQL Server Analysis Services (SSAS) 2019. Poniżej przedstawiono przykładowy widok struktury kostki oraz relacji wymiarów w SSAS.
@@ -365,7 +174,7 @@ Kostka OLAP została zaimplementowana przy użyciu SQL Server Analysis Services 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{cube_structure_placeholder.png}
-  \caption{Przykładowy widok struktury kostki (diagram) w SQL Server Analysis Services. (Użytkownik powinien zastąpić ten obraz rzeczywistym zrzutem ekranu).}
+  \caption{Widok struktury kostki.}
   \label{fig:cube_structure}
 \end{figure}
 
@@ -391,77 +200,77 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
   \centering
   \includegraphics[width=0.8\textwidth]{Top 10 reasons for Mechanical Failure for European Constructors in 2010-2020.png}
 \end{figure}
-\textbf{Wnioski:} Problemy związane z silnikiem pozostały najczęstszą przyczyną awarii mechanicznych europejskich konstruktorów w latach 2010-2020. Awarie skrzyni biegów były drugą najczęstszą przyczyną. W porównaniu do okresu 1950-1960, "Jednostka napędowa" i "Hydraulika" pojawiły się jako istotne, odrębne kategorie awarii, odzwierciedlając postęp technologiczny i zmiany w konstrukcji samochodów. Problemy z hamulcami, zawieszeniem i układem elektrycznym również stanowiły znaczną część awarii mechanicznych.
+\textbf{Wnioski:} Problemy związane z silnikiem pozostały najczęstszą przyczyną awarii mechanicznych europejskich konstruktorów w latach 2010-2020. Awarie skrzyni biegów były drugą najczęstszą przyczyną. W porównaniu do okresu 1950-1960, "Power Unit" i "Hydraulics" pojawiły się jako istotne, odrębne kategorie awarii, odzwierciedlając postęp technologiczny i zmiany w konstrukcji samochodów. Problemy z hamulcami, zawieszeniem i układem elektrycznym również stanowiły znaczną część awarii mechanicznych.
 
 \subsection{Średnia bezwzględna zmiana kolejności pozycji na torach w Austrii, Belgii, Francji i Niemczech}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Average Absolute Position Order Change by Circuit in Austria, Belgium, France and Germany.png}
 \end{figure}
-\textbf{Wnioski:} Wyścigi odbywające się na torze Dijon we Francji charakteryzowały się najwyższą średnią zmianą kolejności pozycji, co wskazuje na bardziej nieprzewidywalne wyścigi ze znacznymi przetasowaniami w stawce. Tor Heusden-Zolder w Belgii również odnotował znacząco wysoką średnią zmianę pozycji. Z kolei tory takie jak Spielberg, Bruksela, Clermont-Ferrand, Magny Cours, Reims, Rouen, Hockenheim i Nürburgring wykazywały średnio porównywalnie mniejsze zmiany w kolejności wyścigu.
+\textbf{Wnioski:} Wyścigi odbywające się na torze Dijon we Francji charakteryzowały się najwyższą średnią zmianą kolejności pozycji, co wskazuje na bardziej nieprzewidywalne wyścigi ze znacznymi przetasowaniami w stawce. Tor Heusden-Zolder w Belgii również odnotował znacząco wysoką średnią zmianę pozycji. Z kolei tory takie jak Spielberg, Clermont-Ferrand, Magny Cours, Reims, Rouen i Nürburgring wykazywały średnio porównywalnie mniejsze zmiany w kolejności wyścigu, a najmniej zmian występuje na torze w Brukseli.
 
 \subsection{Średnia pozycja na mecie w zależności od pozycji startowej w Grand Prix Wielkiej Brytanii w latach 1990-2009}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Average Finish Position by Starting Grid Position in British Grand Prix 1990-2009.png}
 \end{figure}
-\textbf{Wnioski:} Ogólnie rzecz biorąc, wyższa pozycja startowa w Grand Prix Wielkiej Brytanii w latach 1990-2009 korelowała z lepszą średnią pozycją na mecie. Zależność ta nie była jednak idealnie liniowa, gdyż niektóre pozycje startowe (np. około 5.) osiągały lepsze wyniki niż pozycje bezpośrednio je poprzedzające, a niektóre niższe pozycje startowe (np. około 19. i 24.) wykazywały szczególnie gorsze średnie wyniki na mecie.
+\textbf{Wnioski:} Ogólnie, wyższa pozycja startowa w Grand Prix Wielkiej Brytanii w latach 1990-2009 korelowała z wyższą średnią pozycją na mecie. Zależność ta nie była jednak idealnie liniowa, gdyż niektóre pozycje startowe (np. około 5.) osiągały lepsze wyniki niż pozycje bezpośrednio je poprzedzające, a niektóre dalsze pozycje startowe (np. około 19. i 24.) wykazywały szczególnie gorsze średnie wyniki na mecie.
 
 \subsection{Procent DNF i średnia pozycja na mecie według grup wiekowych}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{DNF Percentage and Average Finish Position by Age Group.png}
 \end{figure}
-\textbf{Wnioski:} Młodsi kierowcy, szczególnie ci poniżej 20. roku życia, mieli tendencję do niższego odsetka DNF (nieukończeń wyścigu) i osiągania lepszych średnich pozycji na mecie. Odwrotnie, kierowcy powyżej 35. roku życia doświadczali najwyższych wskaźników DNF i najmniej korzystnych średnich pozycji na mecie. Obserwuje się ogólną tendencję, że wraz ze wzrostem wieku kierowcy, wskaźniki DNF rosną, a średnie pozycje na mecie pogarszają się.
-
-\subsection{Procent ukończeń wyścigu według kategorii pogodowych}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.8\textwidth]{Finish Percentages by Weather Categories.png}
-\end{figure}
-\textbf{Wnioski:} We wszystkich wymienionych kategoriach pogodowych (kombinacje temperatury toru, deszczu i warunków wietrznych) zdecydowana większość startujących pomyślnie ukończyła wyścigi. Chociaż występują niewielkie różnice, odsetek DNF (nieukończeń wyścigu) pozostawał stosunkowo niski i stały, co sugeruje, że te konkretne warunki pogodowe nie zwiększały drastycznie wskaźników odpadnięć z wyścigu.
-
-\subsection{Top 5 konstruktorów według średniej liczby punktów}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.8\textwidth]{Top 5 constructors by average points.png}
-\end{figure}
-\textbf{Wnioski:} Mercedes był wiodącym konstruktorem pod względem średniej liczby punktów, wyprzedzając Red Bulla, a następnie Ferrari. McLaren i Lotus F1 zajęły odpowiednio czwarte i piąte miejsce, ale ze znaczącą stratą średniej liczby punktów w porównaniu do czołowej trójki.
+\textbf{Wnioski:} Młodsi kierowcy, szczególnie ci poniżej 20. roku życia, mieli tendencję do niższego odsetka DNF (nieukończeń wyścigu) i osiągania lepszych średnich pozycji na mecie. Kierowcy od 26. roku życia do powyżej 35. roku życia doświadczali najwyższych wskaźników DNF i najmniej korzystnych średnich pozycji na mecie. Ogólnie jest tendencja, że wraz ze wzrostem wieku kierowcy, wskaźniki DNF rosną, a średnie pozycje na mecie pogarszają się - jest ona najbardziej prawdziwa dla 3. grup wiekowych: under 20, 20-25 i 26-30.
 
 \subsection{Procent zwycięstw i średnia prędkość najszybszego okrążenia według grup wiekowych}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Win Percentage and Average Fastest Lap Top Speed by Age Group.png}
 \end{figure}
-\textbf{Wnioski:} Kierowcy w grupie wiekowej 31-35 lat osiągali najwyższy procent zwycięstw ze swoich pozycji startowych, a także notowali najwyższe średnie prędkości najszybszych okrążeń. Procenty zwycięstw były znacznie niższe dla młodszych grup wiekowych (poniżej 20 lat i 20-25 lat). Chociaż kierowcy powyżej 35. roku życia mieli drugi najwyższy procent zwycięstw, ich średnia prędkość najszybszego okrążenia była niższa niż w grupach wiekowych 26-30 i 31-35 lat.
+\textbf{Wnioski:} Kierowcy w grupie wiekowej 31-35 lat osiągali najwyższy procent zwycięstw ze swoich pozycji startowych, a także notowali najwyższe średnie prędkości najszybszych okrążeń. Procenty zwycięstw były znacznie niższe dla młodszych grup wiekowych (poniżej 20 lat i 20-25 lat). Chociaż kierowcy powyżej 35. roku życia mieli drugą najwyższą średnią prędkość, ich procent zwycięstw był niższy niż w grupie wiekowej 26-30 lat. Jest to ciekawa różnica w porównaniu do poprzedniej analizy, gdzie najmłodsi kierowcy osiągali lepsze wyniki. Należy pamiętać, że było bardzo niewielu kierowców under 20, przez co mogło nastąpić przeszacowanie umiejętności.
+
+\subsection{Procent ukończeń wyścigu według kategorii pogodowych}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Finish Percentages by Weather Categories.png}
+\end{figure}
+\textbf{Wnioski:} We wszystkich wymienionych kategoriach pogodowych (kombinacje temperatury toru, deszczu i warunków wietrznych) zdecydowana większość startujących pomyślnie ukończyła wyścigi. Występują jednak różnice - największy procent DNF wystąpił dla najgorszych warunków pogodowych, czyli gorąca powierzchnia i deszcz. Generalnie sam deszcz lekko wpływa na zwiększenie procentu DNF. Nie wygląda na to, że gdy nie pada, temperatura track ma wielki wpływ na DNF - chociaż najmniej DNF odbyło się przy najlepszych możliwych warunkach pogodowych - brak wiatru, zimna nawierzchnia i brak deszczu.
+
+\subsection{Top 5 konstruktorów według średniej liczby punktów}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Top 5 constructors by average points.png}
+\end{figure}
+\textbf{Wnioski:} Mercedes był najlepszym konstruktorem pod względem średniej liczby punktów, wyprzedzając Red Bulla, a następnie Ferrari. McLaren i Lotus F1 zajęły odpowiednio czwarte i piąte miejsce, ale ze znaczącą niższą średnią liczbą punktów w porównaniu do pierwszej trójki.
 
 \subsection{Procent zwycięstw na przestrzeni lat 2018-2024 dla 9 najlepszych kierowców w Europie}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Win Percentage over the years 2018-2024 by the best 9 drivers in Europe.png}
 \end{figure}
-\textbf{Wnioski:} Procent zwycięstw Maxa Verstappena wykazywał znaczący trend wzrostowy od 2018 do 2023 roku, kulminując dominującym występem w 2023 roku. Lewis Hamilton wykazywał wysokie odsetki zwycięstw we wcześniejszych latach (2018-2020), ale w kolejnych latach odnotował spadek. Inni kierowcy mieli sporadyczne lub niższe odsetki zwycięstw, przy czym Verstappen wyraźnie wyrósł na najbardziej utytułowanego zawodnika tej grupy w późniejszej części okresu. Dane za 2024 rok sugerują potencjalną zmianę lub wskazują na trwający sezon.
+\textbf{Wnioski:} Procent zwycięstw Maxa Verstappena wykazywał znaczący trend wzrostowy od 2018 do 2023 roku, kulminując dominującym występem w 2023 roku. Lewis Hamilton wykazywał wysokie odsetki zwycięstw we wcześniejszych latach (2018-2020), ale w kolejnych latach odnotował spadek. Inni kierowcy mieli sporadyczne lub niższe odsetki zwycięstw, przy czym Verstappen wyraźnie wyrósł na najbardziej utytułowanego zawodnika tej grupy w późniejszej części okresu. Dane za 2024 rok pokazują bardziej wyrównane wyniki dla kierowców, poza Maxem, który co prawda był słabszy niż w 2023, ale dalej najlepszy.
 
 \subsection{Średnia liczba pit stopów w zależności od występowania deszczu w latach 2018-2023}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Average number of pit stops by rain occurence in years 2018-2023.png}
 \end{figure}
-\textbf{Wnioski:} Występowanie deszczu konsekwentnie prowadziło do wyższej średniej liczby pit stopów w wyścigach w latach 2018-2023. W każdym obserwowanym roku wyścigi, na które wpłynął deszcz, charakteryzowały się średnio większą liczbą pit stopów w porównaniu do wyścigów suchych. Co więcej, odnotowano niewielki trend wzrostowy średniej liczby pit stopów w warunkach deszczowych od 2018 do 2023 roku, osiągając szczyt w 2023 roku.
+\textbf{Wnioski:} Występowanie deszczu konsekwentnie prowadziło do wyższej średniej liczby pit stopów w wyścigach w latach 2018-2023. W każdym obserwowanym roku wyścigi, na które wpłynął deszcz, charakteryzowały się średnio większą liczbą pit stopów w porównaniu do wyścigów bez niego. Co więcej, odnotowano niewielki trend wzrostowy średniej liczby pit stopów w warunkach deszczowych od 2018 do 2023 roku, osiągając szczyt w 2023 roku. Właśnie w 2023 liczba pit stopów była zdecydowanie najwyższa, gdy padał deszcz.
 
 \subsection{Średni czas wyścigu na torze Autodromo Nazionale di Monza według roku}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Average Race Time in Autodromo Nazionale di Monza by Year.png}
 \end{figure}
-\textbf{Wnioski:} Nastąpił radykalny spadek średnich czasów wyścigów na torze Autodromo Nazionale di Monza od 1950 roku do późnych lat 70./wczesnych lat 80. XX wieku. Po tym okresie gwałtownej poprawy prędkości lub wydajności wyścigów, średni czas wyścigu w dużej mierze ustabilizował się, wykazując jedynie niewielkie wahania do 2023 roku, z zauważalnym wzrostem około 2019 roku.
+\textbf{Wnioski:} Nastąpił radykalny spadek średnich czasów wyścigów na torze Autodromo Nazionale di Monza od 1950 roku do późnych lat 70. Po tym okresie gwałtownej poprawy prędkości lub wydajności wyścigów, średni czas wyścigu w dużej mierze ustabilizował się, wykazując jedynie niewielkie wahania do 2023 roku, z zauważalnym wzrostem w 2020 roku. Występowały też niewielkie wzrosty w 2008 i w 2000 roku. Z danych wcześniej analizowanych wynikałoby, że w 2023 roku deszcze wpłynęły mocno na pit stopy.
 
 \subsection{Podium z pierwszej dziesiątki lub spoza pierwszej dziesiątki pól startowych według kategorii deszczu i wiatru}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Podium from inside or outside top 10 Grid by Rain and Wind Category.png}
 \end{figure}
-\textbf{Wnioski:} Start z pierwszej dziesiątki pól startowych znacząco zwiększał prawdopodobieństwo ukończenia wyścigu na podium w większości warunków, szczególnie przy suchej pogodzie (kategorie bez deszczu ze spokojnym wiatrem, lekką bryzą i umiarkowaną bryzą). Jednakże wystąpienie deszczu, szczególnie w połączeniu z umiarkowaną bryzą, radykalnie zwiększało odsetek zawodników kończących na podium, którzy startowali spoza pierwszej dziesiątki pól startowych. Sugeruje to, że warunki deszczowe, zwłaszcza przy umiarkowanym wietrze, tworzą bardziej nieprzewidywalne wyścigi, w których pozycja startowa jest mniej decydującym czynnikiem osiągnięcia podium.
+\textbf{Wnioski:} Start z pierwszej dziesiątki pól startowych znacząco zwiększał prawdopodobieństwo ukończenia wyścigu na podium w większości warunków, szczególnie przy pogodzie bez silniejszego wiatru. Jednakże wystąpienie deszczu, szczególnie bez wiatru, zauważalnie zwiększało odsetek zawodników kończących na podium, którzy startowali spoza pierwszej dziesiątki pól startowych. Sugeruje to, że warunki deszczowe, zwłaszcza przy braku wiatru, tworzą bardziej nieprzewidywalne wyścigi, w których pozycja startowa jest mniej decydującym czynnikiem osiągnięcia podium. Największy procent podium spoza pierwszej dziesiątki występował jednak wtedy, kiedy wiatr był dość silny.
 
 \newpage
 \section{Dokumentacja Kostki}
@@ -568,60 +377,62 @@ Poniżej zaprezentowano zestawienia i wizualizacje wygenerowane na podstawie dan
   \item \textbf{Hierarchie:} Kategoria Statusu $\rightarrow$ Opis Statusu
 \end{itemize}
 
-\subsection{Opis Miar}
-Wszystkie miary bazowe pochodzą z grupy miar opartej na tabeli \texttt{Fact\_Result}.
-\begin{longtable}{|L{5cm}|L{3cm}|L{7cm}|}
-  \caption{Opis miar bazowych w kostce OLAP} \label{tab:measures_desc}                                                                                                                      \\
-  \toprule
-  \textbf{Nazwa Miary}           & \textbf{Agregacja Domyślna} & \textbf{Opis i Typ Addytywności}                                                                                           \\
-  \midrule
-  \endfirsthead
-  \multicolumn{3}{c}{{\bfseries \tablename\ \thetable{} -- Kontynuacja}}                                                                                                                    \\
-  \toprule
-  \textbf{Nazwa Miary}           & \textbf{Agregacja Domyślna} & \textbf{Opis i Typ Addytywności}                                                                                           \\
-  \midrule
-  \endhead
-  \midrule
-  \multicolumn{3}{|r|}{{Kontynuacja na następnej stronie}}                                                                                                                                  \\
-  \midrule
-  \endfoot
-  \bottomrule
-  \endlastfoot
-  PointsScored                   & SUM                         & Liczba punktów zdobytych przez kierowcę w wyścigu. W pełni addytywna.                                                      \\
-  \hline
-  LapsCompleted                  & SUM                         & Liczba ukończonych okrążeń. W pełni addytywna.                                                                             \\
-  \hline
-  NumberOfPitStops               & SUM                         & Liczba wykonanych pit stopów. W pełni addytywna. Traktować ostrożnie przy agregacji (średnia może być bardziej użyteczna). \\
-  \hline
-  RaceTimeMilliseconds           & SUM / AVERAGE               & Całkowity czas wyścigu w milisekundach. Suma jest addytywna, średnia jest semi-addytywna (nie agregować średnich).         \\
-  \hline
-  GridPosition                   & AVERAGE / MIN / MAX         & Pozycja startowa kierowcy. Nieaddytywna (suma nie ma sensu).                                                               \\
-  \hline
-  FinalPositionOrder             & AVERAGE / MIN / MAX         & Końcowa pozycja kierowcy w wyścigu. Nieaddytywna.                                                                          \\
-  \hline
-  PositionOrderChange            & SUM / AVERAGE               & Różnica między pozycją startową a końcową. Suma może pokazać łączny zysk/stratę pozycji, średnia jest semi-addytywna.      \\
-  \hline
-  RankFastestLap                 & AVERAGE / MIN               & Ranking najszybszego okrążenia kierowcy w danym wyścigu. Nieaddytywna.                                                     \\
-  \hline
-  FastestLapTopSpeed             & AVERAGE / MAX               & Prędkość maksymalna osiągnięta podczas najszybszego okrążenia (jeśli dostępne). Semi-addytywna.                            \\
-  \hline
-  AgeAtRace                      & AVERAGE                     & Wiek kierowcy w momencie wyścigu. Semi-addytywna.                                                                          \\
-  \hline
-  Liczba Wyników (Results Count) & COUNT                       & Liczba rekordów w tabeli faktów (liczba startów kierowców). W pełni addytywna.                                             \\
-\end{longtable}
-Miary kalkulowane (opisane w sekcji 2.5) są definiowane za pomocą MDX i rozszerzają możliwości analityczne.
+\subsection{Miary}
 
-\section{Wnioski z Analizy Danych}
+\subsubsection*{Miary pochodzące bezpośrednio z tabeli faktów}
+
+\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
+  \item \textbf{Points Scored:} Liczba punktów zdobytych przez kierowcę w wyścigu.
+  \item \textbf{Laps Completed:} Liczba ukończonych okrążeń.
+  \item \textbf{Number of Pit Stops:} Sumaryczna liczba wykonanych pit stopów.
+  \item \textbf{Race Time Milliseconds:} Sumaryczny czas wyścigu w milisekundach (dla tych, co ukończyli i mają zarejestrowany czas).
+  \item \textbf{Grid Position:} Pozycja startowa kierowcy.
+  \item \textbf{Final Position Order:} Końcowa pozycja kierowcy w wyścigu.
+  \item \textbf{Position Order Change:} Zmiana pozycji (pozycja startowa - pozycja końcowa).
+  \item \textbf{Rank Fastest Lap:} Ranking najszybszego okrążenia kierowcy w danym wyścigu.
+  \item \textbf{Fastest Lap Top Speed:} Prędkość maksymalna osiągnięta podczas najszybszego okrążenia.
+  \item \textbf{Age At Race:} Średni wiek kierowcy w momencie wyścigu.
+  \item \textbf{Is Win:} Suma flag (0/1) wskazujących na zwycięstwo.
+  \item \textbf{Finished Race:} Suma flag (0/1) wskazujących na ukończenie wyścigu.
+  \item \textbf{Is Podium:} Suma flag (0/1) wskazujących na miejsce na podium.
+  \item \textbf{Is DNF:} Suma flag (0/1) wskazujących na nieukończenie wyścigu (Did Not Finish).
+  \item \textbf{Is Pole Position:} Suma flag (0/1) wskazujących na zdobycie pole position.
+  \item \textbf{Is Fastest Lap:} Suma flag (0/1) wskazujących na zdobycie najszybszego okrążenia.
+  \item \textbf{Podium From Outside Top 10 Grid:} Suma flag (0/1) wskazujących na podium ze startu spoza TOP 10.
+  \item \textbf{Podium From Inside Top 10 Grid:} Suma flag (0/1) wskazujących na podium ze startu z TOP 10.
+\end{enumerate}
+
+\subsubsection*{Miary kalkulowane}
+
+\begin{enumerate}[label=\arabic*., wide, labelindent=0pt]
+  \item \textbf{Race Time Formatted:} Sformatowany czas wyścigu dla czytelności.
+  \item \textbf{Absolute Position Order Change:} Bezwzględna wartość zmiany pozycji (start vs meta).
+  \item \textbf{Average PitStops Count:} Średnia liczba pit stopów na występ kierowcy, który miał odnotowane pit stopy.
+  \item \textbf{Average Absolute Position Order Change:} Średnia bezwzględna zmiana pozycji na start.
+  \item \textbf{Average Points:} Średnia liczba zdobytych punktów na start.
+  \item \textbf{Number of Wins:} Całkowita liczba zwycięstw. Jawne zdefiniowanie sumy miary bazowej \texttt{IsWin}.
+  \item \textbf{Average Finish Position:} Średnia pozycja na mecie dla kierowców, którzy ukończyli wyścig.
+  \item \textbf{Win Percentage from Grid:} Procent wygranych spośród wszystkich ukończonych wyścigów.
+  \item \textbf{Finish Percentage:} Procent ukończonych wyścigów spośród wszystkich startów.
+  \item \textbf{DNF Percentage:} Procent nieukończonych wyścigów (DNF) spośród wszystkich startów.
+  \item \textbf{Average Fastest Lap Top Speed:} Średnia maksymalna prędkość na najszybszym okrążeniu (dla tych, którzy je odnotowali).
+  \item \textbf{Average Race Time in Minutes:} Średni czas wyścigu w minutach.
+\end{enumerate}
+
+\section{Wnioski z analizy danych}
+
 Przeprowadzone analizy na kostce OLAP pozwoliły na wyciągnięcie kilku interesujących wniosków oraz zaobserwowanie zależności:
+
 \begin{itemize}
-  \item \textbf{Wpływ pozycji startowej:} Analiza potwierdza silną korelację między wysoką pozycją startową a dobrą pozycją na mecie, szczególnie na torach takich jak Silverstone. Jednakże, możliwość zmiany pozycji różni się w zależności od charakterystyki toru.
-  \item \textbf{Warunki pogodowe a strategia:} Deszczowa pogoda wyraźnie wpływa na średnią liczbę pit stopów, co sugeruje zmiany w strategiach zespołów. Różne kategorie pogodowe wpływają na rozkład statusów ukończenia wyścigu. Co ciekawe, deszcz może zwiększać szansę na podium dla kierowców startujących spoza czołówki, prawdopodobnie przez zwiększenie losowości i liczby incydentów.
-  \item \textbf{Doświadczenie i wiek kierowcy:} Analiza DNF i średniej pozycji oraz procentu wygranych i prędkości w zależności od wieku kierowcy może wskazywać na optymalny wiek dla szczytowej formy, jak również na wpływ doświadczenia na niezawodność i wyniki.
-  \item \textbf{Niezawodność konstrukcji:} Porównanie przyczyn awarii mechanicznych w różnych dekadach ukazuje ewolucję technologiczną i zmieniające się problemy techniczne w Formule 1.
-  \item \textbf{Dominacja konstruktorów i kierowców:} Możliwe jest zidentyfikowanie dominujących konstruktorów pod względem średniej liczby punktów oraz śledzenie trendów w procencie wygranych dla czołowych kierowców.
-  \item \textbf{Charakterystyka torów:} Średni czas wyścigu na danym torze może zmieniać się na przestrzeni lat z powodu zmian regulaminowych, technologii bolidów lub modyfikacji samego toru.
+  \item Ewolucja Awarii Mechanicznych: Silnik konsekwentnie pozostaje główną przyczyną awarii na przestrzeni dekad (1950-60 vs 2010-20). Jednak pojawienie się kategorii "Power Unit" i "Hydraulics" w nowszym okresie, obok nadal istotnych problemów ze skrzynią biegów, hamulcami czy zawieszeniem, doskonale ilustruje wzrost złożoności technologicznej współczesnych bolidów i integrację systemów hybrydowych oraz zaawansowanych systemów pomocniczych.
+  \item Nieprzewidywalność Wyścigów a Charakterystyka Toru i Pogoda: Tory takie jak Dijon czy Zolder, ze względu na swoją charakterystykę, generują bardziej dynamiczne i nieprzewidywalne wyścigi (więcej zmian pozycji). Jednocześnie, warunki deszczowe, albo silniejszy wiatr, znacząco zwiększają szansę na podium dla kierowców startujących spoza pierwszej dziesiątki.
+  \item Związek wieku kierowcy z wynikami: Młodsi kierowcy (<20 lat) mają mniej DNF i lepsze średnie pozycje, co może być efektem tego, że do F1 w tak młodym wieku trafiają wybitne talenty, często od razu do czołowych zespołów (choć mała liczebność grupy może wpływać na te dane). Jednak szczytową formę pod względem procentu zwycięstw i prędkości najszybszych okrążeń osiągają kierowcy w wieku 31-35 lat, co wskazuje na idealne połączenie doświadczenia, dojrzałości taktycznej i wciąż wysokich zdolności fizycznych. Starsze grupy wiekowe (26+) generalnie częściej nie kończą wyścigów i mają gorsze średnie pozycje.
+  \item Dominacja konstruktorów i kierowców: Analiza konstruktorów (Mercedes, Red Bull, Ferrari na czele) i procentu zwycięstw kierowców (dominacja Hamiltona, a potem Verstappena) wyraźnie pokazuje okresy dominacji poszczególnych zespołów i zawodników. Dane z 2024 sugerują potencjalne zaciśnięcie się czołówki, choć Verstappen nadal utrzymuje silną pozycję.
+  \item Wpływ deszczu na strategię: Deszcz nie tylko zwiększa ryzyko DNF i nieprzewidywalność (podium spoza TOP10), ale także konsekwentnie prowadzi do większej liczby pit stopów. Ciekawy jest trend wzrostowy liczby pit stopów w deszczu w latach 2018-2023, co może świadczyć o ewolucji strategii lub częstszych neutralizacjach w takich warunkach.
+  \item Postęp technologiczny a czasy wyścigów: Drastyczny spadek średnich czasów wyścigów na torze Monza do końca lat 70. XX wieku obrazuje skokowy postęp technologiczny w F1. Późniejsza stabilizacja czasów (z niewielkimi fluktuacjami, np. wzrost w 2020) może świadczyć o osiągnięciu pewnego plateau wydajnościowego w ramach obowiązujących regulacji, większym nacisku na bezpieczeństwo lub o tym, że sam tor nie przechodził modyfikacji znacząco skracających czas okrążenia.
 \end{itemize}
-Stworzona kostka OLAP jest potężnym narzędziem do dalszej, pogłębionej eksploracji danych, umożliwiając zadawanie złożonych pytań i odkrywanie ukrytych wzorców.
+
+Stworzona kostka OLAP jest dobrym narzędziem do dalszej, pogłębionej eksploracji danych, umożliwiając zadawanie złożonych pytań i odkrywanie ukrytych wzorców.
 
 \section{Podsumowanie Etapu III}
 W ramach trzeciego etapu projektu pomyślnie zaprojektowano, zaimplementowano i przetestowano kostkę OLAP do analizy danych Formuły 1. Zdefiniowano wymiary z hierarchiami, miary bazowe oraz miary kalkulowane, które wzbogacają możliwości analityczne. Przeprowadzono wstępne analizy, prezentując ich wyniki w formie wizualizacji, co potwierdziło użyteczność stworzonego rozwiązania.
